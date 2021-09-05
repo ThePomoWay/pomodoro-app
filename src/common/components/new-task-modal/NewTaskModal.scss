@@ -1,0 +1,61 @@
+@import "../../../styles/modal";
+
+.new-task-container {
+  grid-template-rows: 2fr 1fr 2fr 1fr 2fr;
+  gap: 10px;
+
+  width: 100%;
+  height: 100%;
+
+  .new-task-title {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    .title {
+      justify-self: left;
+    }
+
+    .priority {
+      justify-self: end;
+
+      svg {
+        position: relative;
+        top: 5px;
+      }
+    }
+  }
+
+  .labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    button {
+      justify-self: start;
+    }
+    span {
+      justify-self: end;
+    }
+  }
+
+  .new-task-description {
+    textarea {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .new-task-cta {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    .underline {
+      text-decoration: underline;
+      margin-right: 10px;
+
+      cursor: pointer;
+    }
+  }
+}
