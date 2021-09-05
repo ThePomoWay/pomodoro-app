@@ -1,4 +1,17 @@
-.wrapper {
+.container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 10fr 2fr;
+  height: 100vh;
+
+  .taskList {
+    display: grid;
+    align-items: center;
+
+    padding: 20px;
+  }
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 5fr 6fr 2fr;
 }

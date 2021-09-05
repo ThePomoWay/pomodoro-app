@@ -2,8 +2,8 @@ export const initialTaskState = {
     tasks: []
 }
 
-export let reducerActions = {
-    addTask: (state, action) => {
+export let taskReducer = {
+    createTask: (state, action) => {
         state.tasks.push(action.payload);
     },
     markTaskAsComplete: (state, action) => {

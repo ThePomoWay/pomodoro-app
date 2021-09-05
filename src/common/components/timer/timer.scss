@@ -1,25 +1,14 @@
 .timer {
-  &-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #c2185b;
-  }
+  .round {
+    width: 100px;
+    height: 100px;
 
-  &-border {
-    position: relative;
-    margin: auto;
-    margin-top: 100px;
-    height: 40px;
-    width: 40px;
-    text-align: center;
-  }
+    border-radius: 50%;
+    border: 3px solid black;
+    box-shadow: -3px 5px 15px 1px;
 
-  &-number {
-    color: white;
-    display: inline-block;
-    line-height: 40px;
+    &.border-red {
+      border-color: red;
+    }
   }
 }

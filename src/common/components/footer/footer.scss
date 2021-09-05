@@ -1,0 +1,44 @@
+@import "../../../styles/variables";
+@import "../../../styles/theme";
+
+.footer {
+  display: grid;
+  grid-template-columns: 4fr 6fr 2fr;
+  height: 100%;
+
+  background-color: white;
+  box-shadow: 10px 10px 20px;
+
+  .meeting {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: minmax(200px, auto);
+
+    justify-self: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .completed-pomos {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 55%;
+  }
+
+  .round-border {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+
+  .focus-mode {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 14px;
+    font-weight: $font-weight-400;
+  }
+}

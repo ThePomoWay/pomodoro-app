@@ -1,0 +1,16 @@
+@import "../../../styles/variables";
+@import "../../../styles/btn";
+
+.empty-state {
+  display: grid;
+
+  img {
+    width: 200px;
+    height: 200px;
+    justify-self: center;
+  }
+
+  button {
+    justify-self: center;
+  }
+}
