@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { APIService } from "../API/APIService";
+import { getTasks } from "../API/APIService";
 
-export const hydrateIDB = createAsyncThunk(
+export const getAllTasks = createAsyncThunk(
     'tasks/get',
     async () => {
-        let response = await APIService.getTasks();
+        let response = await getTasks();
         return response;
-    }
-    )
+    })
+

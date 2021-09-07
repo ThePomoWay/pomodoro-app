@@ -1,6 +1,7 @@
 export const initialGlobalState = {
     focusMode: false,
-    showAddTaskModal: false
+    showAddTaskModal: false,
+    taskToBeEdited: {}
 };
 
 export let globalReducer = {
@@ -15,5 +16,14 @@ export let globalReducer = {
     },
     disableFocusMode: (state) => {
         state.focusMode = false;
+    },
+
+    editTask: (state, action) => {
+        state.taskToBeEdited = action.payload;
+        state.showAddTaskModal = true;
+    },
+
+    clearTaskToBeEdited: (state, action) => {
+        state.taskToBeEdited = {};
     }
 }

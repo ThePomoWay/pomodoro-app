@@ -1,18 +1,48 @@
 export const initialTaskState = {
-    tasks: []
+    tasks: [],
+    status: 'idle'
 }
 
 export let taskReducer = {
-    createTask: (state, action) => {
-        state.tasks.push(action.payload);
+    pushTask: (state, action) => {
+        let i;
+        for(i=0;i < state.tasks.length; i++) {
+            if(action.payload.id === state.tasks[i].id) {
+                state.tasks[i] = action.payload;
+                break;
+            }
+        }
+        
+        if(i === state.tasks.length) {
+            state.tasks.push(action.payload);
+        }
+        
+    },
+    deleteTask: (state, action) => {
+        console.log(state.tasks);
+        state.tasks = state.tasks.filter(item => item.id !== action.payload.id);
+        console.log(state.tasks);
     },
     markTaskAsComplete: (state, action) => {
-        for(let element of state.tasks) {
-            if(element.id === action.payload) {
-                element.completed = true;
-                element.completedOn = new Date();
-                return
+        let task = getTaskFromArr(action.payload, state.tasks)
+        task.completed = true;
+        task.completedOn = new Date();
+    },
+
+    taskSelected: (state, action) => {
+        if(action.payload && action.payload.id) {
+            for(let task of state.tasks) {
+                if(action.payload.id === task.id) {
+                    task.isCurrentTask = true;
+                }
+                else {
+                    task.isCurrentTask = false;
+                }
             }
-        };
+        }
     }
 };
+
+function getTaskFromArr(task, tasks) {
+    return (tasks && tasks.filter(item => item.id === task.id)[0]) || null;
+}

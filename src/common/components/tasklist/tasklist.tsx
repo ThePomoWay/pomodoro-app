@@ -18,13 +18,17 @@ function getTasks(tasks) {
         );
     }
     return (
-    <div className="tasks">
-        {tasks.map((item, ind) => {
-            let TaskProps = {
-                key: ind,
-                task: item
-            }
-            return (<TaskItem {...TaskProps}></TaskItem>) }) }
+        <div className="task-list">
+            <span className="title">Choose the task you're going to work on.</span>
+            <div className="tasks">
+                {tasks.map((item, ind) => {
+                    let TaskProps = {
+                        key: ind,
+                        task: item
+                    }
+                    return (<TaskItem {...TaskProps}></TaskItem>) }) }
+            </div>
+            <AddNewTask></AddNewTask>
     </div>);
 }
 

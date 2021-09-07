@@ -1,0 +1,36 @@
+@import "./variables";
+
+.dropdown {
+  cursor: pointer;
+  border: 1px solid black;
+
+  list-style: none;
+
+  position: relative;
+
+  .dropdown-menu {
+    display: none;
+
+    background-color: #fff;
+    list-style: none;
+    position: absolute;
+    width: 100%;
+
+    margin: 0px;
+    padding: 10px;
+
+    &:hover {
+      display: block;
+    }
+  }
+
+  &:hover {
+    .dropdown-menu {
+      display: block;
+    }
+  }
+
+  .dropdown-item:hover {
+    background-color: #eee;
+  }
+}

@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@material-ui/core";
+
 import React, {Component} from "react";
 import "./timer.scss";
 class Timer extends Component {

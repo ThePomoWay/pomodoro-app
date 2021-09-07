@@ -8,4 +8,5 @@ export const globalSlice = createSlice({
     reducers: globalReducer
 })
 
-export const {disableFocusMode, enableFocusMode, showTaskModal, hideTaskModal} = globalSlice.actions
+
+export const {disableFocusMode, enableFocusMode, showTaskModal, hideTaskModal, editTask, clearTaskToBeEdited} = globalSlice.actions
