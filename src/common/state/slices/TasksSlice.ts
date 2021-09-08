@@ -16,10 +16,30 @@ export const updateTask = createAsyncThunk(
     'tasks/update',
     async (task, {dispatch}) => {
         dispatch(pushTask(task));
+
         let response = await updateIDBTask(task);
         return response;
     }
-)
+);
+
+export const markTaskAsCurrent = createAsyncThunk(
+    'tasks/markAsCurrent',
+    async (task: any, {getState, dispatch}) => {
+        let tasks = getState()['tasks'].tasks;
+        console.log(tasks);
+        let currentTask = tasks.filter(item => item.isCurrentTask)[0];
+        if(currentTask.id === task.id) {
+            return;
+        }
+
+        //@ts-ignore
+        dispatch(updateTask({...currentTask, isCurrentTask: false}));
+
+        //@ts-ignore
+        dispatch(updateTask({...task, isCurrentTask: true}));
+        
+    }
+);
 
 export const deleteTaskThunk = createAsyncThunk(
     'tasks/delete',
@@ -36,7 +56,7 @@ export const tasksSlice = createSlice({
     reducers: taskReducer,
     extraReducers: (builder) => {
         builder.addCase(getAllTasks.fulfilled, (state, action) => {
-            state.tasks = <any>action.payload;
+            state.tasks = action.payload as any;
         })
         .addCase(createTask.pending, (state) => {
             state.status = 'creating';

@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Task } from "../../models/Task";
 import { editTask } from "../../state/slices/GlobalSlice";
-import { deleteTaskThunk, taskSelected } from "../../state/slices/TasksSlice";
+import { deleteTaskThunk, markTaskAsCurrent } from "../../state/slices/TasksSlice";
 
 import "./task.scss";
 
@@ -12,7 +12,7 @@ export function TaskItem(props) {
     let dispatch = useDispatch();
 
     let selectCurrentTask = () => {
-        dispatch(taskSelected(task));
+        dispatch(markTaskAsCurrent(task));
     }
 
     let doEditTask = () => {

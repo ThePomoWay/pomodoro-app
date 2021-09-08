@@ -1,5 +1,5 @@
 import { generateUniqueId } from "../utils/common";
-import { Model, prop } from "../utils/ModelFactory";
+import { Model } from "../utils/ModelFactory";
 
 @Model('Task')
 export class Task {

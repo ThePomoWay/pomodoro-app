@@ -12,7 +12,7 @@ function getTasks(tasks) {
             <div className="empty-state">
                 <span className="title">Morning! Start your day and accomplish your goals for the day</span>
                 <span className="label">Add new tasks to the list and start your pomodoro !</span>
-                <img src="/empty-tasks.png" />
+                <img src="/empty-tasks.png" alt="Empty tasks"/>
                 <AddNewTask></AddNewTask>
             </div>
         );

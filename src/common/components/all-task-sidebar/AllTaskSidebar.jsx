@@ -13,7 +13,6 @@ export function AllTaskSidebar(props) {
     console.log(dates, tasksObj);
 
     let getTasks = () => {
-        let returnJsx = '';
         if(dates.length > 0){
             return (dates.map((item, ind) => (
                 <div key={ind}>

@@ -1,4 +1,3 @@
-import { resolve } from "path/posix";
 import { initIdb, taskObjectStoreName } from "./init";
 
 let db=null;

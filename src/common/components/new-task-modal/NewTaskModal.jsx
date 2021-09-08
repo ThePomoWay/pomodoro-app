@@ -1,6 +1,6 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { Flag } from "@material-ui/icons";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectModalState, selectTasks, selectTaskToBeEdited } from "../../state/selectors";
@@ -40,7 +40,7 @@ export default function AddNewTaskModal(props) {
             title,
             priority,
             description,
-            schedule
+            schedule: schedule.toString()
         }
 
         if(!tasks || !tasks.length) {

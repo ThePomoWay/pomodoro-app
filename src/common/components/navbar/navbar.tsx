@@ -6,7 +6,7 @@ export default function Navbar() {
     return (
     <div className="navbar">
         <span className="app">
-            <img src="/pomo-icon.png" /> 
+            <img src="/pomo-icon.png" alt="Pomodoro icon"/> 
             <span className="title">Pomodoro App</span>
         </span>
 
