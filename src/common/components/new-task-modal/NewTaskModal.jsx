@@ -1,4 +1,6 @@
+import DateFnsUtils from "@date-io/date-fns";
 import { Flag } from "@material-ui/icons";
+import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectModalState, selectTasks, selectTaskToBeEdited } from "../../state/selectors";
@@ -21,13 +23,14 @@ export default function AddNewTaskModal(props) {
     let [title, setTitle]                   = useState(taskToBeEdited.title || '');
     let [priority, setPriority]             = useState(taskToBeEdited.priority || 2);
     let [description, setDescription]       = useState(taskToBeEdited.description || '');
-    let [schedule, setSchedule]             = useState(taskToBeEdited.schedule || '');
+    let [schedule, setSchedule]             = useState(taskToBeEdited.schedule || new Date());
 
     useEffect(() => {
         if(taskToBeEdited.id) {
             setTitle(taskToBeEdited.title);
             setPriority(taskToBeEdited.priority);
             setDescription(taskToBeEdited.description);
+            setSchedule(taskToBeEdited.schedule);
         }
     }, [taskToBeEdited])
 
@@ -36,7 +39,8 @@ export default function AddNewTaskModal(props) {
             id: taskToBeEdited.id || generateUniqueId(),
             title,
             priority,
-            description
+            description,
+            schedule
         }
 
         if(!tasks || !tasks.length) {
@@ -87,19 +91,31 @@ export default function AddNewTaskModal(props) {
                 </div>
                 <div className="labels">
                     <button className="btn btn-simple btn-small">+ Add Tags</button>
-                    <span>Schedule: today</span>
                 </div>
                 <div className="new-task-description">
                     <textarea placeholder="description"></textarea>
                 </div>
-                <div className="estimated-pomos">
-                    <span className="label">Your Estimated Pomodoros</span>
-                    <span className="round"></span>
-                    <span className="round"></span>
-                    <span className="round"></span>
-                    <span className="round"></span>
-                    <span className="round"></span>
-                    <span>+</span>
+                <div className="grid grid-column">
+                    <div className="est-pomo-picker">
+                        <span className="label">Your Estimated Pomodoros</span>
+                        <span className="round"></span>
+                        <span className="round"></span>
+                        <span className="round"></span>
+                        <span className="round"></span>
+                        <span className="round"></span>
+                        <span>+</span>
+                    </div>
+
+                    <span className="date-time-picker">
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DateTimePicker
+                                label="Set Schedule"
+                                inputVariant="outlined"
+                                value={schedule} 
+                                onChange={setSchedule}
+                                showTodayButton/>
+                        </MuiPickersUtilsProvider>
+                    </span>
                 </div>
 
                 <div className="new-task-cta">

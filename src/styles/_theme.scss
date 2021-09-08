@@ -87,6 +87,10 @@
     justify-content: center;
     align-items: center;
   }
+
+  &-column {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .icon-green {
@@ -111,4 +115,8 @@
 
 .icon-yellow {
   color: $icon-yellow;
+}
+
+.hide {
+  display: none;
 }

@@ -9,6 +9,7 @@ export class Task {
     public priority: number;
     public description: string;
     public isCurrentTask: boolean;
+    public schedule: any;
 
     constructor(obj?: any) {
         if(!obj) {
@@ -20,5 +21,6 @@ export class Task {
         this.priority = obj.priority || 2;
         this.description = obj.description || '';
         this.isCurrentTask = !!obj.isCurrentTask;
+        this.schedule = obj.schedule || new Date();
     }
 }

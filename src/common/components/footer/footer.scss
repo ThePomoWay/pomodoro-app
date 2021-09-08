@@ -9,6 +9,8 @@
   background-color: white;
   box-shadow: 10px 10px 20px;
 
+  z-index: 1;
+
   .meeting {
     display: grid;
     grid-template-columns: 1fr 1fr;

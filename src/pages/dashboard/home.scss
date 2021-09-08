@@ -13,5 +13,31 @@
 
 .main-content {
   display: grid;
-  grid-template-columns: 5fr 6fr 2fr;
+  height: 100%;
+
+  transition: all 1s ease-in;
+
+  &.show-sidebar {
+    grid-template-columns: 5fr 5fr 3fr;
+    gap: 20px;
+  }
+
+  &.hide-sidebar {
+    grid-template-columns: 5fr 6fr 2fr;
+    gap: 20px;
+  }
+}
+
+.footer-container {
+  z-index: 1;
+}
+
+.sidebar-container {
+  overflow: hidden;
+  position: relative;
+  button {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+  }
 }
