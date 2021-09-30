@@ -1,3 +1,5 @@
+@import "../../../styles/theme";
+
 .timer {
   .round {
     width: 100px;
@@ -7,8 +9,18 @@
     border: 3px solid black;
     box-shadow: -3px 5px 15px 1px;
 
+    justify-self: center;
+
     &.border-red {
       border-color: red;
     }
+  }
+
+  &-cta {
+    margin-top: 20px;
+
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
   }
 }

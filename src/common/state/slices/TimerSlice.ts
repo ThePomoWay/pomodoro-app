@@ -7,5 +7,5 @@ export const timerSlice = createSlice({
     reducers: timerReducer
 });
 
-export const {completedPomo, decrementTimer, disableFocusMode, enableFocusMode,
+export const {completedPomo, tick,
 initiateBreak, initiatePomo, resetTimer} = timerSlice.actions;

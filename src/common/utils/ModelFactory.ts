@@ -1,5 +1,4 @@
 export function Model(value) {
-    console.log(value);
     return function(target) {
         console.log('Decorator called', target);
     }

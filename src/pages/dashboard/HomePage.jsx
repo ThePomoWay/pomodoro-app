@@ -7,6 +7,7 @@ import AddNewTaskModal from '../../common/components/new-task-modal/NewTaskModal
 import { TaskList } from '../../common/components/tasklist/tasklist';
 import Timer from '../../common/components/timer/timer';
 import { getAllTasks } from '../../common/state/async';
+import { allowOnlyOneTab } from '../../common/utils/common';
 import "./home.scss";
 
 
@@ -18,6 +19,8 @@ class HomePage extends Component {
 
     componentDidMount() {
         this.props.getAllTasks();
+
+        allowOnlyOneTab('/closetabs');
     }
 
     render(){

@@ -1,8 +1,7 @@
-import { groupByDates } from "../utils/common";
-
-
+import { getTimerString, groupByDates } from "../utils/common";
 
 export const selectPomoState = (state) => state.timer.pomoState;
+export const selectTimerString = (state) => getTimerString(state.timer.timerInSec);
 
 export const selectFocusMode = (state) => state.global.focusMode;
 export const selectModalState = (state) => state.global.showAddTaskModal;

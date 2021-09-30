@@ -4,12 +4,20 @@ import './App.css';
 import { Sidebar } from './common/components/sidebar/sidebar';
 import AboutUs from './pages/about-us/AbousUsPage';
 import AnalysisPage from './pages/analysis/Analysispage';
+import CloseTabs from './pages/close-tab/CloseTab';
 import HomePage from './pages/dashboard/HomePage';
+import OnBoarding from './pages/onboarding/Onboarding';
 
 function App() {
   return (
     <Router>
       <Switch>
+          <Route path="/onboarding">
+            <OnBoarding />
+          </Route>
+          <Route path="/closetabs">
+            <CloseTabs></CloseTabs>
+          </Route>
           <Route path="/about-us">
             <Sidebar />
             <AboutUs />
