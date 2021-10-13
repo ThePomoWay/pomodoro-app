@@ -1,5 +1,6 @@
 export const initialTaskState = {
     tasks: [],
+    currentTaskRef: {},
     status: 'idle'
 }
 
@@ -15,6 +16,10 @@ export let taskReducer = {
         
         if(i === state.tasks.length) {
             state.tasks.push(action.payload);
+        }
+
+        if(action.payload.isCurrentTask) {
+            state.currentTaskRef = action.payload;
         }
         
     },
@@ -34,6 +39,7 @@ export let taskReducer = {
             for(let task of state.tasks) {
                 if(action.payload.id === task.id) {
                     task.isCurrentTask = true;
+                    state.currentTaskRef = task;
                 }
                 else {
                     task.isCurrentTask = false;

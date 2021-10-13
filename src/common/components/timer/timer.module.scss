@@ -1,5 +1,3 @@
-@import "../../../styles/theme";
-
 .timer {
   .round {
     width: 100px;
@@ -19,8 +17,13 @@
   &-cta {
     margin-top: 20px;
 
-    grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: center;
+  }
+
+  .cta-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
   }
 }

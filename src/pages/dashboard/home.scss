@@ -14,30 +14,46 @@
 .main-content {
   display: grid;
   height: 100%;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
 
   transition: all 1s ease-in;
 
-  &.show-sidebar {
-    grid-template-columns: 5fr 5fr 3fr;
-    gap: 20px;
+  .timer {
+    grid-column: 1 / 5;
   }
 
   &.hide-sidebar {
-    grid-template-columns: 5fr 6fr 2fr;
-    gap: 20px;
+    .sidebar-container {
+      grid-column: 11 / 13;
+    }
+
+    .taskList {
+      grid-column: 5 / 11;
+    }
+  }
+  &.show-sidebar {
+    .sidebar-container {
+      grid-column: 10 / 13;
+    }
+
+    .taskList {
+      grid-column: 5 / 10;
+      transition: 1s;
+    }
+  }
+
+  .sidebar-container {
+    overflow: hidden;
+    position: relative;
+    button {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+    }
   }
 }
 
 .footer-container {
   z-index: 1;
-}
-
-.sidebar-container {
-  overflow: hidden;
-  position: relative;
-  button {
-    position: absolute;
-    top: 50px;
-    left: 50px;
-  }
 }

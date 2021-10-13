@@ -26,7 +26,6 @@ export const markTaskAsCurrent = createAsyncThunk(
     'tasks/markAsCurrent',
     async (task: any, {getState, dispatch}) => {
         let tasks = getState()['tasks'].tasks;
-        console.log(tasks);
         let currentTask = tasks.filter(item => item.isCurrentTask)[0];
         if(currentTask.id === task.id) {
             return;
@@ -57,6 +56,7 @@ export const tasksSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getAllTasks.fulfilled, (state, action) => {
             state.tasks = action.payload as any;
+            state.currentTaskRef = state.tasks.filter(item => item.isCurrentTask)[0];
         })
         .addCase(createTask.pending, (state) => {
             state.status = 'creating';

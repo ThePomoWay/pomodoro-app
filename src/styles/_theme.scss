@@ -93,6 +93,15 @@
   }
 }
 
+.flex {
+  display: flex;
+
+  &-center {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .icon-green {
   color: $icon-green;
 }

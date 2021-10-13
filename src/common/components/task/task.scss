@@ -7,6 +7,7 @@
   margin: 10px 0px;
 
   position: relative;
+  cursor: pointer;
 
   &.selected::before {
     content: "";
