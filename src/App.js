@@ -3,6 +3,7 @@ import {  BrowserRouter as Router , Switch, Route } from 'react-router-dom';
 import './App.scss';
 import { Sidebar } from './common/components/sidebar/sidebar';
 import AboutUs from './pages/about-us/AbousUsPage';
+import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
 import CloseTabs from './pages/close-tab/CloseTab';
 import HomePage from './pages/dashboard/HomePage';
@@ -22,8 +23,8 @@ function App() {
             <Sidebar />
             <AboutUs />
           </Route>
-          <Route path="/analysis">
-            <AnalysisPage />
+          <Route path="/all">
+            <AllTasks />
           </Route>
           <Route path="/">
             <HomePage />

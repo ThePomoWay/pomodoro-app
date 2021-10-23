@@ -24,10 +24,12 @@ export function createIDBTask(task) {
 
         taskObjStore.add(task);
         taskObjStore.transaction.oncomplete = function(event) {
-            console.log(event);
             resolve({
                 success: true
             });
+        }
+        taskObjStore.transaction.onerror = function(event) {
+            console.log(event);
         }
     })
 }
@@ -38,7 +40,6 @@ export function updateIDBTask(task) {
 
         taskObjStore.put(task);
         taskObjStore.transaction.oncomplete = function(event) {
-            console.log(event);
             resolve({
                 success: true
             });
@@ -50,9 +51,8 @@ export function deleteIDBTask(task) {
     return new Promise((resolve, reject) => {
         let taskObjStore = db.transaction(taskObjectStoreName, "readwrite").objectStore(taskObjectStoreName);
 
-        taskObjStore.delete(task.id);
+        taskObjStore.delete(task.fid);
         taskObjStore.transaction.oncomplete = function(event) {
-            console.log(event);
             resolve({
                 success: true
             });

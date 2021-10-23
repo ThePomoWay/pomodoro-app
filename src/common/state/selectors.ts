@@ -1,12 +1,13 @@
 import { getTimerString, groupByDates } from "../utils/common";
 
 export const selectPomoState = (state) => state.timer.pomoState;
-export const selectTimerString = (state) => getTimerString(state.timer.timerInSec);
+export const selectTimer        = (state) => state.timer.timerInSec;
 
 export const selectFocusMode = (state) => state.global.focusMode;
-export const selectModalState = (state) => state.global.showAddTaskModal;
+export const selectAddTaskBtn = (state) => state.global.showAddTaskBtn;
 export const selectTaskToBeEdited = (state) => state.global.taskToBeEdited;
 
-export const selectTasks = (state) => state.tasks.tasks;
+export const selectTodaysTasks = (state) => state.tasks.todaysTasks.map(i => state.tasks.tasks[i]);
+export const selectAllTasks = (state) => state.tasks.allTasks.map(i => state.tasks.tasks[i]);
 export const selectCurrentTask = (state) => {return state.tasks.currentTaskRef};
 export const selectTasksByDate = (state) => {return groupByDates(state.tasks.tasks);}

@@ -4,13 +4,33 @@
     height: 100px;
 
     border-radius: 50%;
-    border: 3px solid black;
+    border: 1px solid black;
     box-shadow: -3px 5px 15px 1px;
 
     justify-self: center;
 
     &.border-red {
-      border-color: red;
+      border-color: black;
+    }
+  }
+  &-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    &-item {
+      cursor: pointer;
+      min-height: 32px;
+      &:hover:not(.selected) {
+        transform: scale(1.1);
+      }
+
+      &.selected {
+        border-bottom: 1px solid gray;
+      }
     }
   }
 

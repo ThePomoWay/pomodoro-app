@@ -1,8 +1,27 @@
 import React from "react";
 import "./navbar.scss";
 import { Menu } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+let navItems = [
+    {
+        title: "Today's Tasks",
+        to: '/'
+    },
+    {
+        title: "All Tasks",
+        to: '/all'
+    },
+    {
+        title: "Your Daily Stats",
+        to: '/'
+    },
+    {
+        title: "Settings",
+        to: '/'
+    },
+];
+export default function Navbar(props) {
     return (
     <div className="navbar">
         <span className="app">
@@ -11,10 +30,7 @@ export default function Navbar() {
         </span>
 
         <div className="links">
-            <span className="link-item selected">Today's Tasks</span>
-            <span className="link-item">All Tasks</span>
-            <span className="link-item">Your Daily Stats</span>
-            <span className="link-item">Settings</span>
+            {navItems.map((item, index) => (<Link key={index} to={item.to} className={`link-item ${String(index) === props.selected ? 'selected': ''}`}>{item.title}</Link>))}
             <span className="link-item"><Menu /></span>
         </div>
     </div>)

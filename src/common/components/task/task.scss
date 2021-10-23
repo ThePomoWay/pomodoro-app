@@ -1,13 +1,56 @@
-@import "../../../styles/variables";
-
 .task {
-  padding: 10px;
+  padding: 18px;
   width: 100%;
-  border: 1px solid $icon-pink;
+  max-width: 550px;
+  border: 1px solid #d0d0d0;
+  box-sizing: border-box;
+  border-radius: 8px;
   margin: 10px 0px;
+  background-color: white;
+  min-height: 86px;
+  max-height: 86px;
+
+  cursor: pointer !important;
+
+  display: grid;
+  grid-template: repeat(2, 1fr) / repeat(12, 1fr);
 
   position: relative;
   cursor: pointer;
+
+  .checkbox {
+    grid-area: 1 / 1 / 2 / 2;
+
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 16px;
+      height: 16px;
+
+      cursor: pointer;
+    }
+  }
+
+  &-title {
+    grid-area: 1 / 2 / 2 / 11;
+    font-size: 18px;
+  }
+
+  &-actions {
+    grid-area: 1 / 11 / 3 / 13;
+  }
+
+  .second-row {
+    grid-area: 2 / 2 / 3 / 11;
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    align-items: center;
+
+    font-size: 10px;
+  }
 
   &.selected::before {
     content: "";
@@ -22,18 +65,17 @@
 
   &:hover {
     .task-actions {
-      display: block;
+      display: flex;
     }
   }
 
   &-actions {
-    display: none;
+    display: flex;
 
     transition: all 0.5s ease;
-    position: absolute;
-    right: 10px;
-    top: 5px;
-
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
 
     &-round {
@@ -44,9 +86,39 @@
         color: rgba(100, 90, 100, 0.5);
       }
 
-      &.delete {
-        color: rgba(100, 0, 0, 0.5);
+      &.more {
+        color: #7b7b7b;
       }
     }
+  }
+}
+.tilt {
+  transform: rotate(-2deg);
+}
+
+.more-options {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  min-width: 100px;
+  min-height: 100px;
+  &-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:first-child {
+      margin-right: 2px;
+    }
+  }
+
+  &:last-child {
+    border-bottom: none !important;
   }
 }

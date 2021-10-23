@@ -2,11 +2,11 @@ import { current } from "@reduxjs/toolkit";
 import React from "react"
 import { useSelector } from "react-redux"
 import { selectCurrentTask } from "../../state/selectors"
-import { TaskItem } from "../task/task";
+import TaskItem from "../task/task";
 
 export default function CurrentTask () {
     let currentTask = useSelector(selectCurrentTask);
-    if(!currentTask.title) {
+    if(!currentTask || !currentTask.title) {
         return (
             <div></div>
         );

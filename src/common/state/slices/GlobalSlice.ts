@@ -9,4 +9,4 @@ export const globalSlice = createSlice({
 })
 
 
-export const {disableFocusMode, enableFocusMode, showTaskModal, hideTaskModal, editTask, clearTaskToBeEdited} = globalSlice.actions
+export const {disableFocusMode, enableFocusMode, showAddTaskBtn, hideAddTaskBtn, editTask, clearTaskToBeEdited} = globalSlice.actions

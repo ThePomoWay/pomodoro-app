@@ -6,6 +6,7 @@
   box-sizing: border-box;
   background-color: $primary-bg;
   padding: 10px;
+  height: 100%;
 
   display: grid;
   grid-template-columns: 5fr 7fr;
@@ -42,6 +43,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    cursor: pointer;
+
+    text-decoration: none;
+    color: black;
 
     &.selected {
       border-bottom: 3px solid black;

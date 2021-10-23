@@ -1,5 +1,6 @@
 export const dbName = 'pomo-app';
 export const taskObjectStoreName = 'tasks';
+export const timerstateObjectStoreName = 'timerState';
 
 let promise = null;
 export function initIdb() {
@@ -12,9 +13,11 @@ export function initIdb() {
                 let db = event.target.result;
 
                 // Create another object store called "names" with the autoIncrement flag set as true.
-                var objStore = db.createObjectStore(taskObjectStoreName, {keyPath: 'id'});
+                let taskObjStore = db.createObjectStore(taskObjectStoreName, {keyPath: 'fid'});
+                let timerStateObjStore = db.createObjectStore(timerstateObjectStoreName, {keyPath: 'date'});
 
-                objStore.createIndex("id", "id", {unique: true});
+                taskObjStore.createIndex("fid", "fid", {unique: true});
+                timerStateObjStore.createIndex("date", "date", {unique: true});
             };
 
             request.onsuccess = function(event: any) {

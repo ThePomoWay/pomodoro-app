@@ -1,22 +1,13 @@
 export const initialTaskState = {
-    tasks: [],
-    currentTaskRef: {},
-    status: 'idle'
+    tasks: {},
+    todaysTasks: [],
+    allTasks: [],
+    currentTaskRef: {}
 }
 
 export let taskReducer = {
     pushTask: (state, action) => {
-        let i;
-        for(i=0;i < state.tasks.length; i++) {
-            if(action.payload.id === state.tasks[i].id) {
-                state.tasks[i] = action.payload;
-                break;
-            }
-        }
-        
-        if(i === state.tasks.length) {
-            state.tasks.push(action.payload);
-        }
+        state.tasks[action.payload.fid] = action.payload;
 
         if(action.payload.isCurrentTask) {
             state.currentTaskRef = action.payload;
@@ -24,31 +15,69 @@ export let taskReducer = {
         
     },
     deleteTask: (state, action) => {
-        console.log(state.tasks);
-        state.tasks = state.tasks.filter(item => item.id !== action.payload.id);
-        console.log(state.tasks);
+        delete state.tasks[action.payload.fid];
+        state.todaysTasks = state.todaysTasks.filter(item => item.fid !== action.payload.fid);
+        state.allTasks = state.allTasks.filter(item => item.fid !== action.payload.fid);
+
+        if(state.currentTaskRef.fid === action.payload.fid) {
+            state.currentTaskRef = {};
+        }
     },
     markTaskAsComplete: (state, action) => {
-        let task = getTaskFromArr(action.payload, state.tasks)
+        let task = state.tasks[action.payload.fid];
         task.completed = true;
         task.completedOn = new Date();
     },
 
     taskSelected: (state, action) => {
-        if(action.payload && action.payload.id) {
-            for(let task of state.tasks) {
-                if(action.payload.id === task.id) {
-                    task.isCurrentTask = true;
-                    state.currentTaskRef = task;
+        if(action.payload && action.payload.fid) {
+            for(let fid in state.tasks) {
+                if(action.payload.fid === fid) {
+                    state.tasks[fid].isCurrentTask = true;
+                    state.currentTaskRef = action.payload;
                 }
                 else {
-                    task.isCurrentTask = false;
+                    state.tasks[fid].isCurrentTask = false;
                 }
             }
+        }
+    },
+    rearrangeTodaysTask: (state, action) => {
+        if(action.payload.source !== action.payload.destination) {
+            let fid = state.todaysTasks.splice(action.payload.source, 1);
+            state.todaysTasks.splice(action.payload.destination, 0, fid);
+        }
+    },
+    rearrangeAllTasks: (state, action) => {
+        if(action.payload.source !== action.payload.destination) {
+            let fid = state.allTasks.splice(action.payload.source, 1);
+            state.allTasks.splice(action.payload.destination, 0, fid);
+        }
+    },
+    removeFromTodaysTasks: (state, action) => {
+        state.todaysTasks.splice(action.payload.index, 1);
+    },
+    removeFromAllTasks: (state, action) => {
+        state.allTasks.splice(action.payload.index, 1);
+    },
+    addToTodaysTasks: (state, action) => {
+        if(action.payload.index !== null) {
+            state.todaysTasks.splice(action.payload.index, 0, action.payload.item);
+        }
+        else {
+            state.todaysTasks.push(action.payload.item);
+        }
+    },
+    addToAllTasks: (state, action) => {
+        if(action.payload.index !== null) {
+            state.allTasks.splice(action.payload.index, 0, action.payload.item);
+        }
+        else {
+            state.allTasks.push(action.payload.item);
         }
     }
 };
 
 function getTaskFromArr(task, tasks) {
-    return (tasks && tasks.filter(item => item.id === task.id)[0]) || null;
+    return (tasks && tasks.filter(item => item.fid === task.fid)[0]) || null;
 }

@@ -1,6 +1,3 @@
-@import "../../../styles/variables";
-@import "../../../styles/btn";
-
 .empty-state {
   display: grid;
 
@@ -13,4 +10,9 @@
   button {
     justify-self: center;
   }
+}
+
+.task-container {
+  max-height: 350px;
+  margin-bottom: 15px;
 }

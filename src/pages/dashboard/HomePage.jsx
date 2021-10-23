@@ -1,72 +1,66 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AllTaskSidebar } from '../../common/components/all-task-sidebar/AllTaskSidebar';
 import CurrentTask from '../../common/components/current-task/currentTask';
 import Footer from '../../common/components/footer/footer';
 import Navbar from '../../common/components/navbar/navbar';
-import AddNewTaskModal from '../../common/components/new-task-modal/NewTaskModal';
-import { TaskList } from '../../common/components/tasklist/tasklist';
+import { TodaysTaskContainer } from '../../common/components/tasklist/TodaysTaskContainer';
 import Timer from '../../common/components/timer/timer';
 import { getAllTasks } from '../../common/state/async';
+import { selectPomoState } from '../../common/state/selectors';
+import { getTimerState } from '../../common/state/slices/TimerSlice';
 import { allowOnlyOneTab } from '../../common/utils/common';
 import "./home.scss";
 
 
-class HomePage extends Component {
-    state = {
-        showSidebar: false,
-        showSidebarBtn: true
-    }
+export default function Homepage(){
+        let dispatch = useDispatch();
 
-    componentDidMount() {
-        this.props.getAllTasks();
+        let [showSidebar, setShowSidebar] = useState(false);
 
-        //allowOnlyOneTab('/closetabs');
-    }
+        let pomoState = useSelector(selectPomoState);
 
-    toggleSidebar() {
-        if(this.state.showSidebar) {
-            setTimeout(() => this.setState({showSidebarBtn: !this.state.showSidebarBtn}), 500);
+        let bgColor = 'floralwhite';
+        if(pomoState.startsWith('pomo_break')) {
+            bgColor = 'lightskyblue'
         }
-        else {
-            this.setState({showSidebarBtn: !this.state.showSidebarBtn});
+        else if(pomoState.startsWith('pomo_long_break')) {
+            bgColor= 'lavendar'
         }
+        let toggleSidebar = useCallback(() => {
+            if(this.state.showSidebar) {
+                setTimeout(() => this.setState({showSidebarBtn: !this.state.showSidebarBtn}), 500);
+            }
+            else {
+                this.setState({showSidebarBtn: !this.state.showSidebarBtn});
+            }
+    
+            this.setState({showSidebar: !this.state.showSidebar});
+        })
 
-        this.setState({showSidebar: !this.state.showSidebar});
-    }
-
-    render(){
-        console.log(this.toggleSidebar);
+        useEffect(() => {
+            dispatch(getAllTasks())
+            dispatch(getTimerState())
+        }, []);
         return (
         <div className="container">
-            <Navbar></Navbar>
-            <div className={`main-content ${this.state.showSidebar ? 'show-sidebar' : 'hide-sidebar'}`}>
+            <Navbar selected="0"></Navbar>
+            <div className={`main-content ${showSidebar ? 'show-sidebar' : 'hide-sidebar'} ${bgColor}`}>
                 <div className="timer grid grid-center">
                     <Timer></Timer>
-                    <CurrentTask></CurrentTask>
+                    {/* <CurrentTask></CurrentTask> */}
                 </div>
                 <div className="taskList">
-                    <TaskList></TaskList>
+                    <TodaysTaskContainer></TodaysTaskContainer>
                 </div>
-                <div className="sidebar-container">
+                {/* <div className="sidebar-container">
                     <button onClick={this.toggleSidebar.bind(this)} className={`btn btn-simple btn-round ${this.state.showSidebarBtn ? '' : 'hide'}`}>All Tasks</button>
                     <AllTaskSidebar show={this.state.showSidebar} onClose={this.toggleSidebar.bind(this)}></AllTaskSidebar>
-                </div>
+                </div> */}
             </div>
             <div className="footer-container">
                 <Footer></Footer>
             </div>
-
-            <AddNewTaskModal></AddNewTaskModal>
         </div>
             );
     }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        getAllTasks: () => dispatch(getAllTasks())
-    }
-}
-
-export default connect((state) => { return {...state, showSidebar: false}}, mapDispatchToProps)(HomePage);

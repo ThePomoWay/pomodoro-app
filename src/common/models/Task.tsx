@@ -10,6 +10,7 @@ export class Task {
     public description: string;
     public isCurrentTask: boolean;
     public schedule: any;
+    public csec: number;
 
     constructor(obj?: any) {
         if(!obj) {
@@ -22,5 +23,6 @@ export class Task {
         this.description = obj.description || '';
         this.isCurrentTask = !!obj.isCurrentTask;
         this.schedule = obj.schedule || new Date();
+        this.csec = obj.csec || 0;
     }
 }

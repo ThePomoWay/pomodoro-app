@@ -1,5 +1,15 @@
 @import "variables";
 
+::-webkit-scrollbar {
+  width: 2px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 5px;
+}
+
 .title {
   font-size: 26px;
   font-weight: 300;
@@ -136,4 +146,31 @@
 
 .text-underline {
   text-decoration: underline;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border: 1px solid gray;
+
+  &-filled {
+    background-color: #454545;
+  }
+}
+
+.floralwhite {
+  background-color: floralwhite;
+}
+
+.lightskyblue {
+  background-color: lightskyblue;
+}
+
+.lavendar {
+  background-color: lavender;
 }
