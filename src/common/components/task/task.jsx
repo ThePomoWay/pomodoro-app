@@ -1,5 +1,5 @@
 import { Popover } from "@material-ui/core";
-import { Add, Delete, Edit, MoreHorizRounded, PlayArrow, RemoveFromQueue, TimelapseOutlined } from "@material-ui/icons";
+import { Add, Delete, Edit, MoreHorizRounded, PlayArrow, Remove, RemoveFromQueue, TimelapseOutlined } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
@@ -49,17 +49,17 @@ export default function TaskItem(props) {
     })
 
     const getFirstCTA = useCallback(() => {
-        if(props.showAddBtn) {
+        if(showAddBtn) {
             return (
                 <span className="task-actions-round add" onClick={(e) => {doAddTask(); e.stopPropagation()}}>
                 { (<Add></Add>) }
                 </span>
             )
         }
-        if(props.showRemoveBtn) {
+        if(showRemoveBtn) {
             return (
                 <span className="task-actions-round add" onClick={(e) => {doRemoveTask(); e.stopPropagation()}}>
-                { (<RemoveFromQueue></RemoveFromQueue>) }
+                { (<Remove></Remove>) }
                 </span>
             )
         }

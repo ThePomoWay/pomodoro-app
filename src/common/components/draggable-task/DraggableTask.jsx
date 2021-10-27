@@ -13,19 +13,25 @@ import TaskItem from "../task/task";
 
 export function DraggableTaskItem(props) {
     let task: Task = props.task;
+    
 
     return (
         <Draggable draggableId={props.dropId + task.fid} index={props.index}>
             {(provided, snapshot) => {
-                let inner = {ref: provided.innerRef};
                 return (
                     <div
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     >
-                        
-                            <TaskItem task={task} onClick={props.onClick}></TaskItem>
+                            <TaskItem 
+                                showAddBtn={props.showAddBtn} 
+                                showRemoveBtn={props.showRemoveBtn} 
+                                doRemoveTask={props.doRemoveTask}
+                                doAddTask={props.doAddTask}
+                                task={task} 
+                                onClick={props.onClick}>
+                            </TaskItem>
                         </div>
                 );
             }}

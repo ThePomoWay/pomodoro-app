@@ -74,6 +74,15 @@ export function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+export function getObjFromArr(arr) {
+    let returnObj = {};
+
+    for(let i in arr) {
+        returnObj[arr[i]] = 1;
+    }
+    return returnObj;
+}
+
 export function allowOnlyOneTab(redirectUrl, ogUrl) {
     let openTabs = Number(localStorage.openTabs);
     if(!openTabs) {

@@ -76,25 +76,37 @@ export let taskReducer = {
         }
     },
     removeFromTodaysTasks: (state, action) => {
-        state.todaysTasks.splice(action.payload.index, 1);
+        if(action.payload.index !== undefined) {
+            state.todaysTasks.splice(action.payload.index, 1);
+        }
+        else if(action.payload.fid) {
+            let index = findIndex(state.todaysTasks, action.payload.fid);
+            state.todaysTasks.splice(index, 1);
+        }
     },
     removeFromAllTasks: (state, action) => {
-        state.allTasks.splice(action.payload.index, 1);
+        if(action.payload.index !== undefined){
+            state.allTasks.splice(action.payload.index, 1);
+        }
+        else if(action.payload.fid) {
+            let index = findIndex(state.allTasks, action.payload.fid);
+            state.allTasks.splice(index, 1);
+        }
     },
     addToTodaysTasks: (state, action) => {
-        if(action.payload.index !== null) {
-            state.todaysTasks.splice(action.payload.index, 0, action.payload.item);
+        if(action.payload.index !== undefined) {
+            state.todaysTasks.splice(action.payload.index, 0, action.payload.fid);
         }
         else {
-            state.todaysTasks.push(action.payload.item);
+            state.todaysTasks.push(action.payload.fid);
         }
     },
     addToAllTasks: (state, action) => {
         if(action.payload.index !== null) {
-            state.allTasks.splice(action.payload.index, 0, action.payload.item);
+            state.allTasks.splice(action.payload.index, 0, action.payload.fid);
         }
         else {
-            state.allTasks.push(action.payload.item);
+            state.allTasks.push(action.payload.fid);
         }
     },
     setEditTask: (state, action) => {

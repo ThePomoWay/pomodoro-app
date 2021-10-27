@@ -51,16 +51,6 @@ export default function EditTaskContainer(props) {
     
 
     let doSaveTask = useCallback(() => {
-        if(taskToBeEdited.fid) {
-            task = {
-                ...taskToBeEdited,
-                title,
-                priority,
-                description,
-                schedule: schedule.toString(),
-                estimatedPomos
-            }
-        }
         let task = {
             fid: taskToBeEdited.fid || generateUniqueId(),
             title,
@@ -77,6 +67,18 @@ export default function EditTaskContainer(props) {
                 secID: ''
             }
         }
+        
+        if(taskToBeEdited.fid) {
+            task = {
+                ...taskToBeEdited,
+                title,
+                priority,
+                description,
+                schedule: schedule.toString(),
+                estimatedPomos
+            }
+        }
+        
 
         props.saveTask(task);
 

@@ -4,17 +4,22 @@ import DraggableTaskList from "../../common/components/draggable-task-list/Dragg
 import Navbar from "../../common/components/navbar/navbar";
 import ProjectSidebar from "../../common/components/project-sidebar/ProjectSidebar";
 import { getAllTasks } from "../../common/state/async";
-import { selectAllTasks, selectTodaysTasks } from "../../common/state/selectors";
+import { selectAllTasks, selectTodaysTaskIds, selectTodaysTasks } from "../../common/state/selectors";
 import { addToAllTasks, addToTodaysTasks, rearrangeAllTasks, rearrangeTodaysTask, removeFromAllTasks, removeFromTodaysTasks } from "../../common/state/slices/TasksSlice";
 import { todaysTasksDropId } from "../../common/utils/constants";
 
 import { DragDropContext } from "react-beautiful-dnd";
 
 import styles from "./AllTasks.module.scss";
+import PlannerDraggableList from "../../common/components/PlannerDraggableList/PlannerDraggableList";
+import { getObjFromArr } from "../../common/utils/common";
 
 export default () => {
     let alltasks = useSelector(selectAllTasks);
     let todaystasks = useSelector(selectTodaysTasks);
+
+    let todaysTaskIds = useSelector(selectTodaysTaskIds);
+    let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
 
     let dispatch = useDispatch();
 
@@ -79,7 +84,7 @@ export default () => {
                     <div className={styles['all-task-container']}>
                         <div className={styles['all-task-list']}>
                             <h2>Inbox</h2>
-                            <DraggableTaskList tasks={alltasks} dropId="id-2e" />
+                            <PlannerDraggableList todaysTasksIds={todaysTaskIdsObj} tasks={alltasks} dropId="id-2e" />
                         </div>
                     </div>
                     <div className={styles['todays-task-container']}>

@@ -8,6 +8,7 @@ export const selectAddTaskBtn = (state) => state.global.showAddTaskBtn;
 export const selectTaskToBeEdited = (state) => state.global.taskToBeEdited;
 
 export const selectTodaysTasks = (state) => state.tasks.todaysTasks.map(i => state.tasks.tasks[i]);
+export const selectTodaysTaskIds = (state) => state.tasks.todaysTasks;
 export const selectAllTasks = (state) => state.tasks.allTasks.map(i => state.tasks.tasks[i]);
 export const selectCurrentTask = (state) => {return state.tasks.tasks[state.tasks.currentTaskRef]};
 export const selectEditTask = (state) => {return state.tasks.tasks[state.tasks.editTaskRef]};

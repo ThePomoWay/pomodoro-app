@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createIDBTask, updateIDBTask, deleteIDBTask } from "../../API/indexed-db-ops/crud";
+import { getTodaysTasksFromIdb } from "../../API/indexed-db-ops/todaysTasks";
 import AuthService from "../../API/network/AuthService";
 import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/TaskApis";
 import { getAllTasks } from "../async";
@@ -85,6 +86,13 @@ export const incrementCurTaskCpomo = createAsyncThunk(
     }
 )
 
+export const getTodaysTasks = createAsyncThunk(
+    'tasks/getTodaysTasks',
+    async (_, {dispatch}) => {
+        let todaysTasks = getTodaysTasksFromIdb();
+    }
+)
+
 export const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialTaskState,
@@ -109,7 +117,7 @@ export const tasksSlice = createSlice({
 
 
 
-export const {  createTask, updateTask, markTaskAsComplete, taskSelected, 
+export const { createTask, updateTask, markTaskAsComplete, taskSelected, 
                 deleteTask, rearrangeTodaysTask, rearrangeAllTasks
                 , removeFromAllTasks, removeFromTodaysTasks,
-                 addToAllTasks, addToTodaysTasks, setEditTask} = tasksSlice.actions;
+                 addToAllTasks, addToTodaysTasks, setEditTask } = tasksSlice.actions;
