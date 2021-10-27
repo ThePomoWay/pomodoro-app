@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createTask } from "../../state/slices/TasksSlice";
+import { createTaskThunk } from "../../state/slices/TasksSlice";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
 export function AddNewTask() {
@@ -10,7 +10,10 @@ export function AddNewTask() {
 
     let doSaveTask = useCallback((task) => {
         if(task.fid){
-            dispatch(createTask(task));
+            dispatch(createTaskThunk({
+                task,
+                isTodaysTask: true
+            }));
         }
         setShowBtn(true);
     }, []);

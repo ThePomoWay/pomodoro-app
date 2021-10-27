@@ -11,7 +11,9 @@ export const initialTimerState = {
 
 export let timerReducer = {
     tick: (state) => {
-        state.timerInSec -= 1;
+        if(state.timerInSec > 0){
+            state.timerInSec -= 1;
+        }
     },
     pauseTimer: (state) => {
         state.pomoState = POMO_PAUSED_STATE;

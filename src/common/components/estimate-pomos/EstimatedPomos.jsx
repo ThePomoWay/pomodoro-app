@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "./estimatedPomos.module.scss";
 
@@ -6,6 +6,10 @@ export default (props) => {
     let defaultPomos = Number(props.default) || 5;
     let [checkedPomos, setCheckedPomos] = useState(-1);
     let [hoverPomos, setHoverPomos] = useState(-1);
+
+    useEffect(() => {
+        setCheckedPomos(props.value - 1);
+    }, [props.value])
 
     let onHover = useCallback((i) => {
         setHoverPomos(i)
@@ -17,7 +21,7 @@ export default (props) => {
     
     let onClick = useCallback((i) => {
         setCheckedPomos(i);
-        props.onClick && props.onClick(i);
+        props.onClick && props.onClick(i+1);
     })
     return (
         <span className="w-100 flex">

@@ -11,6 +11,7 @@ import { rearrangeTodaysTask } from "../../state/slices/TasksSlice";
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
 
+    
     let dispatch = useDispatch();
 
     let onDragEnd = useCallback((result) => {
@@ -43,7 +44,7 @@ export function TodaysTaskContainer () {
                 <span className="title">Give your 100% today! unless you're donating blood</span>
                 <div className="task-container">
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <DraggableTaskList tasks={tasks} dropId="id-1e" />
+                    <DraggableTaskList tasks={tasks} dropId="id-1e" isEditable="true" />
                 </DragDropContext>
                 </div>
                 <AddNewTask></AddNewTask>

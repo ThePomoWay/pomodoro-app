@@ -25,7 +25,7 @@ export function DraggableTaskItem(props) {
                     ref={provided.innerRef}
                     >
                         
-                            <TaskItem task={task}></TaskItem>
+                            <TaskItem task={task} onClick={props.onClick}></TaskItem>
                         </div>
                 );
             }}

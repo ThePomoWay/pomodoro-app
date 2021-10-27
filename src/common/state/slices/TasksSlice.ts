@@ -6,28 +6,28 @@ import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import { tick } from "./TimerSlice";
 
-export const createTask = createAsyncThunk(
+export const createTaskThunk = createAsyncThunk(
     'tasks/create',
-    async (task, { dispatch } ) => {
-        dispatch(pushTask(task));
-        let response = await createIDBTask(task);
-        if(AuthService.isLoggedIn) {
-            createTaskAPI(task);
+    async (payload, { dispatch } ) => {
+        dispatch(createTask(payload));
+        let response = await createIDBTask(payload.task);
+        if(AuthService.isLoggedIn()) {
+            createTaskAPI(payload.task);
         }
         return response;
     }
 )
 
-export const updateTask = createAsyncThunk(
+export const updateTaskThunk = createAsyncThunk(
     'tasks/update',
     async (task, {dispatch}) => {
-        dispatch(pushTask(task));
+        dispatch(updateTask(task));
 
         let response = await updateIDBTask(task);
-        if(AuthService.isLoggedIn) {
+        if(AuthService.isLoggedIn()) {
             updateTaskAPI(task);
         }
-        return response;
+        return task;
     }
 );
 
@@ -35,7 +35,12 @@ export const markTaskAsCurrent = createAsyncThunk(
     'tasks/markAsCurrent',
     async (task: any, {getState, dispatch}) => {
         let tasks = getState()['tasks'].tasks;
-        let currentTask = tasks.filter(item => item.isCurrentTask)[0];
+        let currentTask = Object.keys(tasks).map(i=>tasks[i]).filter(item => item.isCurrentTask)[0];
+        if(!currentTask) {
+            //@ts-ignore
+            dispatch(updateTask({...task, isCurrentTask: true}));
+            return;
+        }
         if(currentTask.fid === task.fid) {
             return;
         }
@@ -61,6 +66,25 @@ export const deleteTaskThunk = createAsyncThunk(
     }
 )
 
+export const incrementCurTaskCpomo = createAsyncThunk(
+    'tasks/updatePomo',
+    async (_, {dispatch, getState}) => {
+        let state = getState()['tasks'];
+        if(state.currentTaskRef) {
+            let updatedTask = state.tasks[state.currentTaskRef];
+
+            //@ts-ignore
+            dispatch(updateTaskThunk({
+                ...updatedTask,
+                summary: {
+                    cpomo: updatedTask.summary.cpomo + 1,
+                    csec: updatedTask.summary.csec
+                }
+            }))
+        }
+    }
+)
+
 export const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialTaskState,
@@ -71,19 +95,13 @@ export const tasksSlice = createSlice({
                 state.tasks[task.fid] = task;
             }
             state.todaysTasks = state.allTasks = action.payload.map(i => i.fid);
-            state.currentTaskRef = action.payload.filter(item => item.isCurrentTask)[0];
-        })
-        .addCase(createTask.pending, (state) => {
-            state.status = 'creating';
-        })
-        .addCase(createTask.fulfilled, (state, action: any) => {
-            if(action.payload.success) {
-                state.status = 'created';
-            }
+
+            let currentTask = action.payload.filter(item => item.isCurrentTask)[0];
+            state.currentTaskRef = currentTask && currentTask.fid;
         })
         .addCase(tick, (state) => {
             if(state.currentTaskRef) {
-                state.currentTaskRef.csec += 1;
+                state.tasks[state.currentTaskRef].summary.csec += 1;
             }
         })
     }
@@ -91,7 +109,7 @@ export const tasksSlice = createSlice({
 
 
 
-export const {  pushTask, markTaskAsComplete, taskSelected, 
+export const {  createTask, updateTask, markTaskAsComplete, taskSelected, 
                 deleteTask, rearrangeTodaysTask, rearrangeAllTasks
                 , removeFromAllTasks, removeFromTodaysTasks,
-                 addToAllTasks, addToTodaysTasks} = tasksSlice.actions;
+                 addToAllTasks, addToTodaysTasks, setEditTask} = tasksSlice.actions;

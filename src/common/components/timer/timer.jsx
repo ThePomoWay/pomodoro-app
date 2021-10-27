@@ -12,18 +12,40 @@ let timer = 0;
 const TAB_POMODORO = 'pomodoro';
 const TAB_BREAK = 'break';
 const TAB_LONG_BREAK = 'long_break'
+
+const ACTION_PLAY = 'play';
+const ACTION_PAUSE = 'pause';
+const ACTION_SKIP = 'skip'
+
+const actionStateMap = {
+    pomodoro: {
+        pause: POMO_PAUSED_STATE,
+        play: POMO_RUNNING_STATE
+    },
+    break: {
+        pause: POMO_BREAK_PAUSED_STATE,
+        play: POMO_BREAK_RUNNING_STATE
+    },
+    long_break: {
+        pause: POMO_LONG_BREAK_PAUSED_STATE,
+        play: POMO_LONG_BREAK_RUNNING_STATE
+    }
+}
 let getTab = function(state) {
 
-    let tab = TAB_POMODORO
     if(state.startsWith('pomo_break')) {
-        tab = TAB_BREAK;
+        return TAB_BREAK;
     }
-    else if(state.startsWith('pomo_long_break')) {
-        tab = TAB_LONG_BREAK
+    
+    if(state.startsWith('pomo_long_break')) {
+        return TAB_LONG_BREAK
     }
-    return tab;
+    return TAB_POMODORO;
 }
 
+let getNextPomoState = function(curState, action) {
+    return actionStateMap[getTab(curState)] [action];
+}
 export default function Timer(){
 
 
@@ -36,9 +58,19 @@ export default function Timer(){
         const doStartTimer = useCallback(() => {
             if(!timer) {
                 dispatch(updateTimerState({
-                    pomoState: POMO_RUNNING_STATE
+                    pomoState: getNextPomoState(state, ACTION_PLAY)
                 }));
-                timer = setInterval(() => {dispatch(tick())}, 1000)
+
+                timer = setInterval(() => {
+                    if(timerSec <= 0) {
+                        dispatch(updateNextState());
+                        clearInterval(timer);
+                        timer = 0;
+                    }
+                    else {
+                        dispatch(tick())
+                    }
+                }, 1000)
             }
         });
 
@@ -48,7 +80,7 @@ export default function Timer(){
                 timer = 0;
             }
             dispatch(updateTimerState({
-                pomoState: POMO_PAUSED_STATE
+                pomoState: getNextPomoState(state, ACTION_PAUSE)
             }));
         });
 
@@ -65,9 +97,7 @@ export default function Timer(){
                 clearInterval(timer);
                 timer = 0;
             }
-            dispatch(updateTimerState({
-                pomoState: POMO_IDLE_STATE
-            }))
+            dispatch(updateNextState())
         })
         const getCTA = useCallback((state) => {
             if(state === POMO_IDLE_STATE) {
@@ -126,9 +156,7 @@ export default function Timer(){
             }
         }, [state])
 
-        if(state === POMO_RUNNING_STATE && !timer) {
-            doStartTimer();
-        }
+        
 
         useEffect(() => {
             if(timerSec <= 0) {
@@ -136,13 +164,19 @@ export default function Timer(){
                 timer = 0;
                 dispatch(updateNextState());
             }
-        }, [timerSec]);
+
+            if(state === POMO_RUNNING_STATE && !timer && timerSec > 0) {
+                doStartTimer();
+            }
+        }, [timerSec, state]);
         
         
         let tab = getTab(state);
 
         let changePomoState = useCallback((state) => {
-            dispatch(setPomoState({state}))
+            dispatch(updateTimerState({
+                pomoState: state
+            }))
         });
 
         return ( 

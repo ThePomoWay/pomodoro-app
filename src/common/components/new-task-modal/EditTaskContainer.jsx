@@ -5,16 +5,28 @@ import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
 
 import styles from "./EditTaskContainer.module.scss";
 
+let setEndOfContentEditable = (elem) => {
+    let range, selection;
+    if(document.createRange) {
+        range = document.createRange();
+        range.selectNodeContents(elem);
+        range.collapse(false);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    else if(document.selection) {
+        range = document.body.createTextRange();
+        range.moveToElementText(elem);
+        range.collapse(false);
+        range.select();
+    }
+}
+
 export default function EditTaskContainer(props) {
     let taskToBeEdited = props.task || {};
 
     let ref = useRef(null);
-
-    useEffect(() => {
-        if(ref) {
-            ref.current.focus();
-        }
-    }, [ref]);
 
     let [showTitleInput, setShowTitleInput] = useState(true);
     let [title, setTitle]                   = useState(taskToBeEdited.title || '');
@@ -23,14 +35,32 @@ export default function EditTaskContainer(props) {
     let [schedule, setSchedule]             = useState(taskToBeEdited.schedule || new Date());
     let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.estimatedPomos || 0);
 
-    if(taskToBeEdited.fid) {
-        setTitle(taskToBeEdited.title);
-        setPriority(taskToBeEdited.priority);
-        setDescription(taskToBeEdited.description);
-        setSchedule(taskToBeEdited.schedule);
-    }
+    useEffect(() => {
+        if(taskToBeEdited.fid) {
+            setTitle(taskToBeEdited.title);
+            setPriority(taskToBeEdited.priority);
+            setDescription(taskToBeEdited.description);
+            setSchedule(taskToBeEdited.schedule);
+
+            if(ref) {
+                ref.current.textContent = taskToBeEdited.title
+                setEndOfContentEditable(ref.current);
+            }
+        }
+    }, [taskToBeEdited, ref])
+    
 
     let doSaveTask = useCallback(() => {
+        if(taskToBeEdited.fid) {
+            task = {
+                ...taskToBeEdited,
+                title,
+                priority,
+                description,
+                schedule: schedule.toString(),
+                estimatedPomos
+            }
+        }
         let task = {
             fid: taskToBeEdited.fid || generateUniqueId(),
             title,
@@ -39,7 +69,8 @@ export default function EditTaskContainer(props) {
             schedule: schedule.toString(),
             estimatedPomos,
             summary: {
-                csec: 0
+                csec: 0,
+                cpomo: 0
             },
             project: {
                 projectID: '',
@@ -70,13 +101,13 @@ export default function EditTaskContainer(props) {
         <div>
         <div className={styles['edit-task']}>
             <div ref={ref} className={styles['content-editable-div']} contentEditable="true" onInput={(e) => {setTitle(e.currentTarget.textContent)}}>
-
+                
             </div>
             <div className={styles['cta-row']}>
                 <div className={styles['estimated-pomos']}>
                     <span className={styles['estimated-pomos-text']}>Estd. Pomo: </span>
                     <div className={styles['estimated-pomos-container']}>
-                        <EstimatedPomos default="5" onClick={(value) => {setEstimatedPomos(value)}}/>
+                        <EstimatedPomos default="5" value={estimatedPomos} onClick={(value) => {setEstimatedPomos(value)}}/>
                     </div>
                 </div>
                 <div className="right-cta">

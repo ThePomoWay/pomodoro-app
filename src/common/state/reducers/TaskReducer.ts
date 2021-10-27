@@ -2,25 +2,46 @@ export const initialTaskState = {
     tasks: {},
     todaysTasks: [],
     allTasks: [],
-    currentTaskRef: {}
+    currentTaskRef: '',
+    editTaskRef: ''
 }
 
 export let taskReducer = {
-    pushTask: (state, action) => {
-        state.tasks[action.payload.fid] = action.payload;
+    createTask: (state, action) => {
+        state.tasks[action.payload.task.fid] = action.payload.task;
+
+        state.allTasks.push(action.payload.task.fid);
+
+        if(action.payload.isTodaysTask) {
+            state.todaysTasks.push(action.payload.task.fid);
+        }
 
         if(action.payload.isCurrentTask) {
-            state.currentTaskRef = action.payload;
+            state.currentTaskRef = action.payload.task.fid;
         }
         
     },
+    updateTask: (state, action) => {
+        state.tasks[action.payload.fid] = action.payload;
+
+        if(action.payload.isCurrentTask) {
+            state.currentTaskRef = action.payload.fid;
+        }
+    },
     deleteTask: (state, action) => {
         delete state.tasks[action.payload.fid];
-        state.todaysTasks = state.todaysTasks.filter(item => item.fid !== action.payload.fid);
-        state.allTasks = state.allTasks.filter(item => item.fid !== action.payload.fid);
+        let ind = findIndex(state.todaysTasks, action.payload.fid);
+        if(ind !== -1) {
+            state.todaysTasks.splice(ind, 1);
+        }
 
-        if(state.currentTaskRef.fid === action.payload.fid) {
-            state.currentTaskRef = {};
+        ind = findIndex(state.allTasks, action.payload.fid);
+        if(ind !== -1) {
+            state.allTasks.splice(ind, 1);
+        }
+
+        if(state.currentTaskRef === action.payload.fid) {
+            state.currentTaskRef = '';
         }
     },
     markTaskAsComplete: (state, action) => {
@@ -34,7 +55,7 @@ export let taskReducer = {
             for(let fid in state.tasks) {
                 if(action.payload.fid === fid) {
                     state.tasks[fid].isCurrentTask = true;
-                    state.currentTaskRef = action.payload;
+                    state.currentTaskRef = action.payload.fid;
                 }
                 else {
                     state.tasks[fid].isCurrentTask = false;
@@ -75,9 +96,17 @@ export let taskReducer = {
         else {
             state.allTasks.push(action.payload.item);
         }
+    },
+    setEditTask: (state, action) => {
+        state.editTaskRef = action.payload;
     }
 };
 
-function getTaskFromArr(task, tasks) {
-    return (tasks && tasks.filter(item => item.fid === task.fid)[0]) || null;
+function findIndex(tasksArr, fid) {
+    for(let ind in tasksArr) {
+        if(tasksArr[ind] === fid){
+            return ind;
+        }
+    }
+    return -1;
 }

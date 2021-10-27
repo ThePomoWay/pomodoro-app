@@ -1,17 +1,29 @@
 import React, { useCallback } from "react";
-import {DragDropContext, Droppable} from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
-import { Task } from "../../models/Task";
-import { rearrangeAllTasks, rearrangeTodaysTask } from "../../state/slices/TasksSlice";
-import { todaysTasksDropId } from "../../utils/constants";
+import { Droppable } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { selectEditTask } from "../../state/selectors";
+import { setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
+import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
 import styles from "./draggableList.module.scss";
 
 export default (props) => {
-    let dispatch = useDispatch();
     
+    let editableTask = useSelector(selectEditTask);
+    let dispatch = useDispatch();
 
+    let doSaveTask = useCallback((item) => {
+        if(item && item.fid) {
+            dispatch(updateTaskThunk(item));
+        }
+        dispatch(setEditTask(''));
+    })
+
+    let doSetEditTask = useCallback((item) => {
+        dispatch(setEditTask(item.fid));
+    })
+    
     return (
             <Droppable droppableId={props.dropId}>
             {(provided) => {
@@ -20,18 +32,22 @@ export default (props) => {
                     <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}>
-                        {props.tasks.map((item, index) => <DraggableTaskItem task={item} key={item.fid} index={index} dropId={props.dropId}/>)}
+                        {props.tasks.map((item, index) => {
+                            if(props.isEditable && editableTask && editableTask.fid === item.fid){
+                                return (
+                                    <EditTaskContainer key={item.fid} task={item} saveTask={doSaveTask} />
+                                )
+                            }
+                            return (
+                            <DraggableTaskItem task={item} key={item.fid} index={index} dropId={props.dropId} onClick={doSetEditTask}/>
+                            )
+                        }
+                        )}
                         {provided.placeholder}
                     </div>
                 </div>
             )}
         }
-            
-                
-                    
-                            
-                
-            
             </Droppable>
     );
 }

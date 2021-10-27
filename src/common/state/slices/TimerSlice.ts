@@ -4,6 +4,7 @@ import { createTimerStateIdb, getTimerStateFromIdb, updateTimerStateIdb } from "
 import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_RUNNING_STATE } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
+import { incrementCurTaskCpomo } from "./TasksSlice";
 
 export let getTimerState = createAsyncThunk(
     'timer/getState',
@@ -37,6 +38,7 @@ export let updateTimerState = createAsyncThunk(
                  date
             });
         }
+        
         return {
             ...stateInStore,
             ...curStateObj,
@@ -57,7 +59,9 @@ export let updateNextState = createAsyncThunk(
                 pomoState: nextState,
                 timerInSec: nextTimerInSec,
                 completedPomos
-            }))
+            }));
+
+            dispatch(incrementCurTaskCpomo());
         }
         else {
             dispatch(updateTimerState({

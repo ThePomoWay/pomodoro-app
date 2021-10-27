@@ -2,6 +2,7 @@ import { getCookie } from "../../utils/common";
 
 export default class AuthService {
     static isLoggedIn() {
+        return false; // comment later
         return getCookie('isLoggedIn');
     }
 
