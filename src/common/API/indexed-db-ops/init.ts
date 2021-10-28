@@ -20,6 +20,11 @@ export function initIdb() {
 
                 taskObjStore.createIndex("fid", "fid", {unique: true});
                 timerStateObjStore.createIndex("date", "date", {unique: true});
+
+                todaysTasksObjStore.add({
+                    key: '_TodaysTasks',
+                    value: []
+                });
             };
 
             request.onsuccess = function(event: any) {

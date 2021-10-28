@@ -9,7 +9,7 @@ initIdb().then(dbObj => {
 
     let transaction = db.transaction(todaysTasksObjectStoreName).objectStore(todaysTasksObjectStoreName).get(key);
     transaction.onsuccess = function(event) {
-        debugger;
+        
         if(!event.target.result) {
             db.transaction(todaysTasksObjectStoreName, 'readwrite').objectStore(todaysTasksObjectStoreName).add({
                 key,
@@ -25,7 +25,7 @@ export function getTodaysTasksFromIdb() {
             let transaction = db.transaction(todaysTasksObjectStoreName).objectStore(todaysTasksObjectStoreName).get(key);
 
             transaction.onsuccess = function(event) {
-                res(event.target.result);
+                res(event.target.result.value);
             }
         })
     })

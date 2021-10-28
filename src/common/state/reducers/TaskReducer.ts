@@ -1,3 +1,5 @@
+import { findIndex } from "../../utils/array-utils";
+
 export const initialTaskState = {
     tasks: {},
     todaysTasks: [],
@@ -11,10 +13,6 @@ export let taskReducer = {
         state.tasks[action.payload.task.fid] = action.payload.task;
 
         state.allTasks.push(action.payload.task.fid);
-
-        if(action.payload.isTodaysTask) {
-            state.todaysTasks.push(action.payload.task.fid);
-        }
 
         if(action.payload.isCurrentTask) {
             state.currentTaskRef = action.payload.task.fid;
@@ -30,12 +28,8 @@ export let taskReducer = {
     },
     deleteTask: (state, action) => {
         delete state.tasks[action.payload.fid];
-        let ind = findIndex(state.todaysTasks, action.payload.fid);
-        if(ind !== -1) {
-            state.todaysTasks.splice(ind, 1);
-        }
-
-        ind = findIndex(state.allTasks, action.payload.fid);
+        
+        let ind = findIndex(state.allTasks, action.payload.fid);
         if(ind !== -1) {
             state.allTasks.splice(ind, 1);
         }
@@ -62,6 +56,9 @@ export let taskReducer = {
                 }
             }
         }
+    },
+    updateTodaysTasks: (state, action) => {
+        state.todaysTasks = action.payload;
     },
     rearrangeTodaysTask: (state, action) => {
         if(action.payload.source !== action.payload.destination) {
@@ -114,11 +111,3 @@ export let taskReducer = {
     }
 };
 
-function findIndex(tasksArr, fid) {
-    for(let ind in tasksArr) {
-        if(tasksArr[ind] === fid){
-            return ind;
-        }
-    }
-    return -1;
-}

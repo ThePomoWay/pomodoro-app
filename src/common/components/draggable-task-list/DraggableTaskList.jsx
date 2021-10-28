@@ -33,6 +33,9 @@ export default (props) => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}>
                         {props.tasks.map((item, index) => {
+                            if(!item) {
+                                return (<div></div>);
+                            }
                             if(props.isEditable && editableTask && editableTask.fid === item.fid){
                                 return (
                                     <EditTaskContainer key={item.fid} task={item} saveTask={doSaveTask} />

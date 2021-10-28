@@ -1,17 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createIDBTask, updateIDBTask, deleteIDBTask } from "../../API/indexed-db-ops/crud";
-import { getTodaysTasksFromIdb } from "../../API/indexed-db-ops/todaysTasks";
+import { getTodaysTasksFromIdb, updateTodaysTasksInIdb } from "../../API/indexed-db-ops/todaysTasks";
 import AuthService from "../../API/network/AuthService";
 import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/TaskApis";
+import { findIndex } from "../../utils/array-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import { tick } from "./TimerSlice";
 
 export const createTaskThunk = createAsyncThunk(
     'tasks/create',
-    async (payload, { dispatch } ) => {
+    async (payload: any, { dispatch } ) => {
         dispatch(createTask(payload));
         let response = await createIDBTask(payload.task);
+
+        if(payload.isTodaysTask) {
+            dispatch(addToTodaysTasks({
+                fid: payload.task.fid
+            }))    
+        }
         if(AuthService.isLoggedIn()) {
             createTaskAPI(payload.task);
         }
@@ -60,6 +67,9 @@ export const deleteTaskThunk = createAsyncThunk(
     async (task, { dispatch }) => {
         dispatch(deleteTask(task));
         let response = await deleteIDBTask(task);
+        dispatch(removeFromTodaysTasks({
+            fid: task.fid
+        }));
         if(AuthService.isLoggedIn()) {
             deleteTaskAPI(task);
         }
@@ -86,12 +96,66 @@ export const incrementCurTaskCpomo = createAsyncThunk(
     }
 )
 
+//Todays task actions
+
 export const getTodaysTasks = createAsyncThunk(
     'tasks/getTodaysTasks',
     async (_, {dispatch}) => {
-        let todaysTasks = getTodaysTasksFromIdb();
+        let todaysTasks = await getTodaysTasksFromIdb();
+
+        return todaysTasks;
     }
 )
+
+export const rearrangeTodaysTask = createAsyncThunk(
+    'tasks/todays/rearrange',
+    async (obj: any, {getState, dispatch}) => {
+        let todaysTasks = JSON.parse(JSON.stringify(getState()['tasks'].todaysTasks))
+
+        let fid = todaysTasks.splice(obj.source, 1);
+        todaysTasks.splice(obj.destination, 0, fid[0]);
+
+        updateTodaysTasksInIdb(todaysTasks);
+        dispatch(updateTodaysTasks(todaysTasks));
+    }
+)
+
+export const addToTodaysTasks = createAsyncThunk(
+    'tasks/todays/rearrange',
+    async (obj: any, {getState, dispatch}) => {
+        let todaysTasks = JSON.parse(JSON.stringify(getState()['tasks'].todaysTasks))
+        if(obj.index !== undefined) {
+            todaysTasks.splice(obj.index, 0, obj.fid);
+        }
+        else {
+            todaysTasks.push(obj.fid);
+        }
+
+        updateTodaysTasksInIdb(todaysTasks);
+        dispatch(updateTodaysTasks(todaysTasks));
+    }
+)
+
+export const removeFromTodaysTasks = createAsyncThunk(
+    'tasks/todays/rearrange',
+    async (payload: any, {getState, dispatch}) => {
+        let todaysTasks = JSON.parse(JSON.stringify(getState()['tasks'].todaysTasks))
+        
+        if(payload.index !== undefined){
+            todaysTasks.splice(payload.index, 1);
+        }
+        else if(payload.fid) {
+            let index = findIndex(todaysTasks, payload.fid);
+            if(index !== -1) {
+                todaysTasks.splice(index, 1);
+            }
+        }
+
+        updateTodaysTasksInIdb(todaysTasks);
+        dispatch(updateTodaysTasks(todaysTasks));
+    }
+)
+
 
 export const tasksSlice = createSlice({
     name: 'tasks',
@@ -102,10 +166,14 @@ export const tasksSlice = createSlice({
             for(let task of action.payload as Array<any>) {
                 state.tasks[task.fid] = task;
             }
-            state.todaysTasks = state.allTasks = action.payload.map(i => i.fid);
+
+            state.allTasks = Object.keys(state.tasks);
 
             let currentTask = action.payload.filter(item => item.isCurrentTask)[0];
             state.currentTaskRef = currentTask && currentTask.fid;
+        })
+        .addCase(getTodaysTasks.fulfilled, (state, action) => {
+            state.todaysTasks = <any> action.payload;
         })
         .addCase(tick, (state) => {
             if(state.currentTaskRef) {
@@ -118,6 +186,5 @@ export const tasksSlice = createSlice({
 
 
 export const { createTask, updateTask, markTaskAsComplete, taskSelected, 
-                deleteTask, rearrangeTodaysTask, rearrangeAllTasks
-                , removeFromAllTasks, removeFromTodaysTasks,
-                 addToAllTasks, addToTodaysTasks, setEditTask } = tasksSlice.actions;
+                deleteTask, updateTodaysTasks, rearrangeAllTasks,
+                 addToAllTasks, setEditTask, removeFromAllTasks } = tasksSlice.actions;

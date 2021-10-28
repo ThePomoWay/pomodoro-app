@@ -14,6 +14,9 @@ import TaskItem from "../task/task";
 export function DraggableTaskItem(props) {
     let task: Task = props.task;
     
+    if(!task) {
+        return (<div></div>);
+    }
 
     return (
         <Draggable draggableId={props.dropId + task.fid} index={props.index}>

@@ -8,6 +8,7 @@ import { TodaysTaskContainer } from '../../common/components/tasklist/TodaysTask
 import Timer from '../../common/components/timer/timer';
 import { getAllTasks } from '../../common/state/async';
 import { selectPomoState } from '../../common/state/selectors';
+import { getTodaysTasks } from '../../common/state/slices/TasksSlice';
 import { getTimerState } from '../../common/state/slices/TimerSlice';
 import { allowOnlyOneTab } from '../../common/utils/common';
 import "./home.scss";
@@ -41,6 +42,8 @@ export default function Homepage(){
         useEffect(() => {
             dispatch(getAllTasks())
             dispatch(getTimerState())
+            setTimeout(() => dispatch(getTodaysTasks()), 0)
+            
         }, []);
         return (
         <div className="container">
