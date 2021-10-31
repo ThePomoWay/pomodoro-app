@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
 import { addToTodaysTasks, removeFromTodaysTasks } from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 
@@ -8,6 +9,8 @@ import styles from "./plannerDraggableList.module.scss";
 
 export default (props) => {
     let dispatch = useDispatch();
+
+    let tags = useSelector(selectTagsAsObj);
 
     const doAddTask = useCallback((task) => {
         dispatch(addToTodaysTasks({fid: task.fid}));
@@ -20,7 +23,7 @@ export default (props) => {
     });
     
     return (
-            <Droppable droppableId={props.dropId}>
+            <Droppable droppableId={props.dropId} type="Planner">
             {(provided) => {
                 return (
                 <div className={styles['task-container']}>
@@ -34,6 +37,7 @@ export default (props) => {
                                 showRemoveBtn={(item.fid in props.todaysTasksIds)} 
                                 doAddTask={doAddTask}
                                 doRemoveTask={doRemoveTask}
+                                tags={tags}
                                 task={item} key={item.fid} index={index} dropId={props.dropId} />
                             )
                         }

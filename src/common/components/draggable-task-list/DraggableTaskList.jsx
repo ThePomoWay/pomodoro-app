@@ -28,7 +28,7 @@ export default (props) => {
     })
     
     return (
-            <Droppable droppableId={props.dropId}>
+            <Droppable droppableId={props.dropId} type="all">
             {(provided) => {
                 return (
                 <div className={styles['task-container']}>

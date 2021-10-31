@@ -2,9 +2,7 @@ import { Delete, MoreHorizRounded, PlayArrow } from "@material-ui/icons";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Task } from "../../models/Task";
-import { editTask } from "../../state/slices/GlobalSlice";
-import { deleteTaskThunk, markTaskAsCurrent } from "../../state/slices/TasksSlice";
-import { initiatePomo } from "../../state/slices/TimerSlice";
+import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 
 import {Draggable} from "react-beautiful-dnd";
 
@@ -22,9 +20,13 @@ export function DraggableTaskItem(props) {
         <Draggable draggableId={props.dropId + task.fid} index={props.index}>
             {(provided, snapshot) => {
                 return (
-                    <div
+                    <NaturalDragAnimation
+                        style={provided.draggableProps.style}
+                        snapshot={snapshot}>
+                            {style => (<div
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
+                    style={style}
                     ref={provided.innerRef}
                     >
                             <TaskItem 
@@ -37,7 +39,9 @@ export function DraggableTaskItem(props) {
                                 tags={props.tags}
                                 >
                             </TaskItem>
-                        </div>
+                        </div>)}
+                    
+                        </NaturalDragAnimation>
                 );
             }}
         
