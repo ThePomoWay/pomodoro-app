@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEditTask } from "../../state/selectors";
+import { selectEditTask, selectTagsAsObj } from "../../state/selectors";
 import { setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
@@ -11,7 +11,10 @@ import styles from "./draggableList.module.scss";
 export default (props) => {
     
     let editableTask = useSelector(selectEditTask);
+    let tags = useSelector(selectTagsAsObj);
+
     let dispatch = useDispatch();
+
 
     let doSaveTask = useCallback((item) => {
         if(item && item.fid) {
@@ -42,7 +45,7 @@ export default (props) => {
                                 )
                             }
                             return (
-                            <DraggableTaskItem task={item} key={item.fid} index={index} dropId={props.dropId} onClick={doSetEditTask}/>
+                            <DraggableTaskItem tags={tags} task={item} key={item.fid} index={index} dropId={props.dropId} onClick={doSetEditTask}/>
                             )
                         }
                         )}

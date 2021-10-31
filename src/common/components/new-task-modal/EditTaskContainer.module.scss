@@ -10,6 +10,31 @@
   border: 1px solid #bababa;
   box-sizing: border-box;
   border-radius: 12px;
+
+  .task-tags-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    padding: 10px;
+
+    grid-column: 1;
+    grid-row: 3 / 4;
+
+    .task-tag-item {
+      border: 1px solid;
+      border-radius: 5px;
+      padding: 6px;
+      position: relative;
+
+      .close {
+        position: absolute;
+        top: -6px;
+        right: 0px;
+        cursor: pointer;
+      }
+    }
+  }
 }
 .content-editable-div {
   background: #f9f9f9;
@@ -29,7 +54,7 @@
   width: 100%;
 
   grid-row: 1 / 4;
-  grid-column: 1fr;
+  grid-column: 1;
 }
 
 .cta-row {
@@ -53,6 +78,14 @@
       top: 2px;
       margin-left: 5px;
     }
+  }
+
+  .priority-popover {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    min-width: 100px;
+    min-height: 100px;
   }
 }
 

@@ -14,3 +14,7 @@ export const selectAllTasks = (state) => state.tasks.allTasks.map(i => state.tas
 export const selectCurrentTask = (state) => {return state.tasks.tasks[state.tasks.currentTaskRef]};
 export const selectEditTask = (state) => {return state.tasks.tasks[state.tasks.editTaskRef]};
 export const selectTasksByDate = (state) => {return groupByDates(state.tasks.tasks);}
+
+//Tags
+export const selectTagsAsObj = (state) => state.tags.tags;
+export const selectTagsAsArr = (state) => Object.values(state.tags.tags);

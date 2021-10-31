@@ -15,7 +15,9 @@ export function AddNewTask() {
                 isTodaysTask: true
             }));
         }
-        setShowBtn(true);
+        else {
+            setShowBtn(true);
+        }
     }, []);
     let showEditContainer = useCallback(() => {
         if(showBtn) {

@@ -33,7 +33,9 @@ export function DraggableTaskItem(props) {
                                 doRemoveTask={props.doRemoveTask}
                                 doAddTask={props.doAddTask}
                                 task={task} 
-                                onClick={props.onClick}>
+                                onClick={props.onClick}
+                                tags={props.tags}
+                                >
                             </TaskItem>
                         </div>
                 );

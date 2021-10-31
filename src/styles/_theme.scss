@@ -148,6 +148,14 @@
   text-decoration: underline;
 }
 
+.text-gray {
+  color: #878787;
+}
+
+.text-small {
+  font-size: 9px;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -173,4 +181,11 @@
 
 .lavendar {
   background-color: lavender;
+}
+
+.tags-small {
+  border: 1px solid;
+  padding: 4px;
+  font-size: 10px;
+  border-radius: 4px;
 }

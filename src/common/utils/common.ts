@@ -74,8 +74,15 @@ export function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export function getObjFromArr(arr) {
+export function getObjFromArr(arr, key?) {
     let returnObj = {};
+
+    if(key) {
+        for(let item of arr) {
+            returnObj[item[key]] = 1;
+        }
+        return returnObj;
+    }
 
     for(let i in arr) {
         returnObj[arr[i]] = 1;

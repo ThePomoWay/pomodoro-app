@@ -96,11 +96,18 @@ export default function TaskItem(props) {
         <div className="second-row">
             <span className="estimated-pomos-tag"> {getEstimatedPomoHtml()}</span>
             <span className="project">project</span>
-            <span className="tags">tags</span>
+            <span className="tags">
+                {
+                    Object.keys(props.tags).length >= task.labels.length && 
+                    (
+                        task.labels.map((item, ind) => (<span key={ind} className="tags-small" style={{borderColor: props.tags[item].color, color: props.tags[item].color}}>{props.tags[item].title}</span>))
+                    )
+                }
+            </span>
         </div>
         <span className="task-actions">
             {getFirstCTA()}
-            <span className="task-actions-round more" onClick={(e) => {doDeleteTask(); e.stopPropagation()}}>
+            <span className="task-actions-round more">
                 <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
                 <Popover
                 open={Boolean(anchorEl)}

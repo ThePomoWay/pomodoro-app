@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTodaysTasks } from "../../state/selectors";
+import { selectTagsAsArr, selectTagsAsObj, selectTodaysTasks } from "../../state/selectors";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
 import {DragDropContext} from "react-beautiful-dnd";
@@ -10,12 +10,11 @@ import { rearrangeTodaysTask } from "../../state/slices/TasksSlice";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
-
+    let tags = useSelector(selectTagsAsObj);
     
     let dispatch = useDispatch();
 
     let onDragEnd = useCallback((result) => {
-        console.log(result)
         if(result.destination && result.source) {
             if(result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index) {
                 return;
@@ -44,7 +43,7 @@ export function TodaysTaskContainer () {
                 <span className="title">Give your 100% today! unless you're donating blood</span>
                 <div className="task-container">
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <DraggableTaskList tasks={tasks} dropId="id-1e" isEditable="true" />
+                    <DraggableTaskList tasks={tasks} tags={tags} dropId="id-1e" isEditable="true" />
                 </DragDropContext>
                 </div>
                 <AddNewTask></AddNewTask>

@@ -60,12 +60,18 @@
   .second-row {
     grid-area: 2 / 2 / 3 / 11;
 
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
     gap: 20px;
     align-items: center;
 
     font-size: 10px;
+
+    .tags {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+    }
   }
 
   &.selected::before {
