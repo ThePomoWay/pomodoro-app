@@ -1,43 +1,20 @@
-import { Close, Search } from "@material-ui/icons";
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectTasksByDate } from "../../state/selectors";
-import { getDateStr } from "../../utils/common";
-import TaskItem from "../task/task";
+import { InboxOutlined } from "@material-ui/icons";
+import { Link } from "react-router-dom"
+import ProjectSidebar from "../project-sidebar/ProjectSidebar";
+import styles from "./AllTaskSidebar.module.scss";
 
-import "./AllTaskSidebar.scss";
+export default () => {
+    let path = window.location.pathname;
 
-export function AllTaskSidebar(props) {
-    let [dates, tasksObj] = useSelector(selectTasksByDate);
-
-    let getTasks = () => {
-        if(dates.length > 0){
-            return (dates.map((item, ind) => (
-                <div key={ind}>
-                    <span>{getDateStr(item)}</span>
-                    <div className="tasks">
-                        {tasksObj[item].map(item => (<TaskItem task={item} key={item.fid}></TaskItem>))}
-                    </div>
-                </div>)))
-        }
-        return (<div>
-            Add Tasks to access this area
-        </div>)
-    }
     return (
-        <div className={`sidebar ${props.show ? 'show' : ''}`}>
-            <div className="close" onClick={(e) => {props.onClose()}}>
-                <Close></Close>
-            </div>
-
-            <div className="search-bar">
-                <Search></Search>
-                <span className="label">Search Tasks</span>
-            </div>
-
-            <div className="task-list">
-                {getTasks()}
-            </div>
-        </div>
-    );
+    <div className={styles['sidebar']}>
+        <Link to="/all">
+       <div className={`${styles['sidebar-item']} ${path === '/all' && styles['selected']}`}>
+            <InboxOutlined />
+            Inbox
+            
+       </div>
+       </Link>
+        <ProjectSidebar />
+    </div>)
 }

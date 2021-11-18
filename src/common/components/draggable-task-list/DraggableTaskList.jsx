@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEditTask, selectTagsAsObj } from "../../state/selectors";
-import { setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
+import { selectEditTask, selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
+import { markTaskAsCompleteThunk, markTaskAsInCompleteThunk, setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
@@ -12,6 +12,7 @@ export default (props) => {
     
     let editableTask = useSelector(selectEditTask);
     let tags = useSelector(selectTagsAsObj);
+    let projects = useSelector(selectProjectsObj);
 
     let dispatch = useDispatch();
 
@@ -26,13 +27,22 @@ export default (props) => {
     let doSetEditTask = useCallback((item) => {
         dispatch(setEditTask(item.fid));
     })
+
+    let toggleCompletedTasks = useCallback((task) => {
+        if(!task.isComplete) {
+            dispatch(markTaskAsCompleteThunk({task, container: props.container}))
+        }
+        else {
+            dispatch(markTaskAsInCompleteThunk({task, container: props.container}))
+        }
+    });
     
     return (
             <Droppable droppableId={props.dropId} type="all">
             {(provided) => {
                 return (
-                <div className={styles['task-container']}>
-                    <div
+                    <div 
+                    className={styles['task-container']}
                     {...provided.droppableProps}
                     ref={provided.innerRef}>
                         {props.tasks.map((item, index) => {
@@ -45,13 +55,22 @@ export default (props) => {
                                 )
                             }
                             return (
-                            <DraggableTaskItem tags={tags} task={item} key={item.fid} index={index} dropId={props.dropId} onClick={doSetEditTask}/>
+                            <DraggableTaskItem 
+                                hidePlay={props.hidePlay}
+                                tags={tags} 
+                                projects={projects}
+                                task={item} 
+                                key={item.fid} 
+                                index={index} 
+                                dropId={props.dropId}
+                                onComplete={toggleCompletedTasks}
+                                onClick={doSetEditTask}/>
                             )
                         }
                         )}
                         {provided.placeholder}
                     </div>
-                </div>
+                
             )}
         }
             </Droppable>

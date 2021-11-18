@@ -26,7 +26,7 @@ function App() {
           <Route path="/all">
             <AllTasks />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <HomePage />
           </Route>
         </Switch>

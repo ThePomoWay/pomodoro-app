@@ -2,17 +2,23 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
 import Navbar from "../../common/components/navbar/navbar";
-import ProjectSidebar from "../../common/components/project-sidebar/ProjectSidebar";
 import { getAllTasks } from "../../common/state/async";
 import { selectAllTasks, selectTodaysTaskIds, selectTodaysTasks } from "../../common/state/selectors";
-import { addToAllTasks, addToTodaysTasks, rearrangeAllTasks, rearrangeTodaysTask, removeFromAllTasks, removeFromTodaysTasks } from "../../common/state/slices/TasksSlice";
+import { addToAllTasks, addToTodaysTasks, getTodaysTasks, rearrangeAllTasks, rearrangeTodaysTask, removeFromAllTasks, removeFromTodaysTasks } from "../../common/state/slices/TasksSlice";
 import { todaysTasksDropId } from "../../common/utils/constants";
 
 import { DragDropContext } from "react-beautiful-dnd";
 
 import styles from "./AllTasks.module.scss";
-import PlannerDraggableList from "../../common/components/PlannerDraggableList/PlannerDraggableList";
 import { getObjFromArr } from "../../common/utils/common";
+import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
+
+import { Switch, useRouteMatch, Route } from "react-router-dom"
+import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
+import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
+import ProjectContainer from "../../common/components/project-container/ProjectContainer";
+import { getAllProjects } from "../../common/state/slices/ProjectSlice";
+import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 
 export default () => {
     let alltasks = useSelector(selectAllTasks);
@@ -25,6 +31,8 @@ export default () => {
 
     useEffect(() => {
         dispatch(getAllTasks());
+        dispatch(getTodaysTasks());
+        dispatch(getAllProjects());
     }, []);
 
     let onDragEnd = useCallback((result) => {
@@ -71,6 +79,8 @@ export default () => {
         
     }, []);
 
+    let { path } = useRouteMatch();
+
     return (
         <div className="container">
             <div>
@@ -78,22 +88,41 @@ export default () => {
             </div>
             <div className={styles['main-view']}>
                 <div className={styles.sidebar}>
-                    <ProjectSidebar></ProjectSidebar>
+                    <AllTaskSidebar></AllTaskSidebar>
                 </div>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <div className={styles['all-task-container']}>
-                        <div className={styles['all-task-list']}>
-                            <h2>Inbox</h2>
-                            <PlannerDraggableList todaysTasksIds={todaysTaskIdsObj} tasks={alltasks} dropId="id-2e" />
-                        </div>
+                    
+                    <div className={styles['middle-container']}>
+                    <Switch>
+                        <Route exact path={path}>
+                            <AllTaskContainer
+                                todaysTasksIds={todaysTaskIdsObj}
+                                tasks={alltasks}
+                                container="all"
+                            />
+                            <AddNewTask isTodaysTask={false} />
+                        </Route>
+
+                        <Route exact path={`${path}/project`}>
+                            <NewProjectContainer />
+                        </Route>
+
+                        <Route path={`${path}/project/:projectId`}>
+                            <ProjectContainer />
+                        </Route>
+
+                    </Switch>
                     </div>
                     <div className={styles['todays-task-container']}>
-                    <div className={styles['todays-task-list']}>
+                        <div className={styles['todays-task-list']}>
                             <h2>Todays Tasks</h2>
-                            <DraggableTaskList tasks={todaystasks} dropId="id-1e" />
+                            <DraggableTaskList
+                                hidePlay={true}
+                                tasks={todaystasks} 
+                                dropId="id-1e" />
                         </div>
                     </div>
-                    </DragDropContext>
+                </DragDropContext>
             </div>
         </div>
     );

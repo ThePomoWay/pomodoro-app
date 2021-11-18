@@ -1,0 +1,35 @@
+.project-container {
+  display: flex;
+  flex-direction: column;
+
+  background-color: white;
+  padding: 20px;
+
+  .selected {
+    border: 1px solid red;
+  }
+
+  .projects {
+    border-bottom: 1px solid gray;
+    .sections {
+      padding: 10px 25px;
+      padding-left: 25px;
+
+      .section {
+        border-bottom: 1px solid gray;
+        padding-bottom: 4px;
+
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+}

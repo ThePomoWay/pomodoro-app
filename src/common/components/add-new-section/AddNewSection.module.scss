@@ -1,0 +1,54 @@
+.new-section {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  margin: 20px 0px 20px 0px;
+
+  transition: all 0.1s ease-in;
+
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.04);
+  }
+
+  .border {
+    width: 100%;
+    border-top: 1px solid black;
+  }
+
+  .title {
+    position: absolute;
+    top: -10px;
+    padding: 0px 10px 0px 10px;
+    background-color: white;
+  }
+}
+
+.hover {
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.edit-section {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  .edit-input {
+    background-color: #f9f9f9;
+    padding: 6px;
+    border-radius: 12px;
+    height: 80px;
+    width: 100%;
+
+    margin-bottom: 10px;
+  }
+  .save-btn {
+    margin-right: 10px;
+  }
+}

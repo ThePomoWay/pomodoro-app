@@ -13,6 +13,12 @@
 }
 
 .task-container {
-  max-height: 350px;
   margin-bottom: 15px;
+}
+
+.completed-tasks {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

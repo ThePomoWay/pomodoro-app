@@ -1,6 +1,6 @@
 import React, { Component, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AllTaskSidebar } from '../../common/components/all-task-sidebar/AllTaskSidebar';
+import { AllTaskSidebar } from '../../common/components/all-task-mini-view/AllTaskMiniView';
 import CurrentTask from '../../common/components/current-task/currentTask';
 import Footer from '../../common/components/footer/footer';
 import Navbar from '../../common/components/navbar/navbar';
@@ -8,6 +8,7 @@ import { TodaysTaskContainer } from '../../common/components/tasklist/TodaysTask
 import Timer from '../../common/components/timer/timer';
 import { getAllTasks } from '../../common/state/async';
 import { selectPomoState } from '../../common/state/selectors';
+import { getAllProjects } from '../../common/state/slices/ProjectSlice';
 import { getAllTags } from '../../common/state/slices/TagsSlice';
 import { getTodaysTasks } from '../../common/state/slices/TasksSlice';
 import { getTimerState } from '../../common/state/slices/TimerSlice';
@@ -42,7 +43,8 @@ export default function Homepage(){
 
         useEffect(() => {
             dispatch(getAllTasks())
-            dispatch(getTimerState())
+            dispatch(getTimerState());
+            dispatch(getAllProjects());
             dispatch(getAllTags());
             setTimeout(() => dispatch(getTodaysTasks()), 0)
             

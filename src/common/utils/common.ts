@@ -74,12 +74,12 @@ export function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export function getObjFromArr(arr, key?) {
+export function getObjFromArr(arr, key?, putValues=false) {
     let returnObj = {};
 
     if(key) {
         for(let item of arr) {
-            returnObj[item[key]] = 1;
+            returnObj[item[key]] = putValues ? item: 1;
         }
         return returnObj;
     }

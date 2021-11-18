@@ -3,6 +3,7 @@ import { create } from "domain";
 import { createTimerStateIdb, getTimerStateFromIdb, updateTimerStateIdb } from "../../API/indexed-db-ops/timerstate";
 import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_RUNNING_STATE } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
+import { playAlarmSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import { incrementCurTaskCpomo } from "./TasksSlice";
 
@@ -51,6 +52,7 @@ export let updateNextState = createAsyncThunk(
     'timer/nextstate',
     async (_, {getState, dispatch}) => {
         let state = getState()['timer'];
+        playAlarmSound();
         if(state.pomoState === POMO_RUNNING_STATE) {
             let completedPomos = state.completedPomos + 1;
             let nextState = (completedPomos !== 0 && completedPomos % 4 == 0) ? POMO_LONG_BREAK_IDLE_STATE : POMO_BREAK_IDLE_STATE;

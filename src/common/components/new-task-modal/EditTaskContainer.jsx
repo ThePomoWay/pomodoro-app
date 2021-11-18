@@ -1,12 +1,14 @@
 import { ClickAwayListener, Popover, Popper } from "@material-ui/core";
-import { Close, Flag, Label, TagFaces } from "@material-ui/icons";
+import { Close, ExpandMore, Flag, FormatListBulleted, FormatListBulletedOutlined, FormatListBulletedRounded, FormatListBulletedTwoTone, Label, TagFaces } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
+import { selectProjectsObj, selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
 import { setTags } from "../../state/slices/TagsSlice";
 import { generateUniqueId, getObjFromArr } from "../../utils/common";
 import AddTagContainer from "../add-tag-container/AddTagContainer";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
+import ProjectSelector from "../project-selector/ProjectSelector";
+import TaskDescription from "../task-description/TaskDescription";
 
 import styles from "./EditTaskContainer.module.scss";
 
@@ -32,6 +34,7 @@ export default function EditTaskContainer(props) {
     let taskToBeEdited = props.task || {};
 
     let tags = useSelector(selectTagsAsObj);
+    let projectsObj = useSelector(selectProjectsObj);
 
     let ref = useRef(null);
 
@@ -40,9 +43,12 @@ export default function EditTaskContainer(props) {
     let [description, setDescription]       = useState(taskToBeEdited.description || '');
     let [schedule, setSchedule]             = useState(taskToBeEdited.schedule || new Date());
     let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.estimatedPomos || 0);
+    let [isBulleted, setIsBulleted]         = useState(taskToBeEdited.isBulleted || false);
+    let [project, setProject]               = useState(taskToBeEdited.project || {});
 
     let [tagAnchorEl, setTagAnchorEl] = useState(null);
     let [priorityAncholEl, setPriorityAnchorEl] = useState(null)
+    let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
     let [selectedTags, setSelectedTags] = useState(taskToBeEdited.labels || []);
 
@@ -53,6 +59,15 @@ export default function EditTaskContainer(props) {
 
     const onTagAnchorClose = useCallback((e) => {
         setTagAnchorEl(null);
+    });
+
+    const onProjectAnchorClick = useCallback((e) => {
+        setProjectAnchorEl(e.currentTarget);
+        e.stopPropagation();
+    });
+
+    const onProjectAnchorClose = useCallback((e) => {
+        setProjectAnchorEl(null);
     });
 
     const onPriorityAnchorClick = useCallback((e) => {
@@ -74,6 +89,7 @@ export default function EditTaskContainer(props) {
         setPriority(taskToBeEdited.priority || 1);
         setDescription(taskToBeEdited.description || '');
         setTags(taskToBeEdited.labels || []);
+        setIsBulleted(taskToBeEdited.isBulleted || false);
         // setSchedule(taskToBeEdited.schedule);
 
         if(ref) {
@@ -84,6 +100,7 @@ export default function EditTaskContainer(props) {
     
 
     let doSaveTask = useCallback(() => {
+        if(title){
         let task = {
             fid: taskToBeEdited.fid || generateUniqueId(),
             title,
@@ -91,13 +108,14 @@ export default function EditTaskContainer(props) {
             description,
             schedule: schedule.toString(),
             estimatedPomos,
+            isBulleted,
             summary: {
                 csec: 0,
                 cpomo: 0
             },
             project: {
-                projectID: '',
-                secID: ''
+                projectID: project.projectID || '',
+                secID: project.secID || ''
             },
             labels: selectedTags
         }
@@ -110,13 +128,18 @@ export default function EditTaskContainer(props) {
                 description,
                 schedule: schedule.toString(),
                 estimatedPomos,
-                labels: selectedTags
+                labels: selectedTags,
+                project: {
+                    projectID: project.projectID,
+                    secID: project.secID
+                }
             }
         }
         
         resetContainer({});
 
         props.saveTask(task);
+        }
 
         // setTitle('');
         // setPriority(2);
@@ -133,6 +156,10 @@ export default function EditTaskContainer(props) {
         if (e.key === 'Enter' && title) {
             doSaveTask();
         }
+        
+        if(e.key === 'Backspace') {
+            setTitle(title.slice(0,title.length-1));
+        }
 
         if((e.keyCode > 64 && e.keyCode < 91) || e.keyCode==32 || (e.keyCode >=48 && e.keycode <=57) ){
             setTitle(title + e.key);
@@ -145,7 +172,14 @@ export default function EditTaskContainer(props) {
     
     const removeTag = useCallback((item) => {
         setSelectedTags(selectedTags.filter(i => i !== item));
-    })
+    });
+
+    const setProjectId = useCallback((projectId, sectionId) => {
+        setProject({
+            projectID: projectId,
+            secID: sectionId
+        })
+    });
 
     const getTaskTags = useCallback(() => {
         return (
@@ -165,6 +199,9 @@ export default function EditTaskContainer(props) {
             <div ref={ref} className={styles['content-editable-div']} onKeyDown={onTitleInput} contentEditable="true">
                 
             </div>
+            <div className={styles['description']}>
+                <TaskDescription onChange={(e) => setDescription(e)} isBulleted={isBulleted} value={taskToBeEdited.description} />
+            </div>
             {getTaskTags()}
             <div className={styles['cta-row']}>
                 <div className={styles['estimated-pomos']}>
@@ -174,15 +211,16 @@ export default function EditTaskContainer(props) {
                     </div>
                 </div>
                 <ClickAwayListener onClickAway={(e) => {onPriorityAnchorClose();onTagAnchorClose()}}>
-                <div className="right-cta">
+                <div className={styles['right-cta']}>
+                    <FormatListBulletedOutlined className={`cursor-pointer ${isBulleted ? styles['border-round'] : ''}`} onClick={(e) => setIsBulleted(!isBulleted)} />
+                    
                     <Flag onClick={onPriorityAnchorClick} />
                     
                     <Popper
                     open={Boolean(priorityAncholEl)}
                     id="priority-popover"
                     anchorEl={priorityAncholEl}
-                    position="bottom-left"
-                >
+                    position="bottom-left">
                       <div className={styles['priority-popover']}>
                         <div>Hello I'm underwater, pls save me</div>
                       </div>
@@ -200,6 +238,26 @@ export default function EditTaskContainer(props) {
                         selectedTags={selectedTags}
                         onTagsUpdate={onLabelUpdate}></AddTagContainer>
                     </Popper>
+
+                    <div className={`cursor-pointer ${styles['project']}`} onClick={onProjectAnchorClick} >
+                        {project.projectID && (
+                            projectsObj[project.projectID] && projectsObj[project.projectID].title
+                        ) || (
+                            'Select a Project'
+                        )}
+                        <ExpandMore />
+                    </div>
+                    <Popper
+                        open={Boolean(projectAnchorEl)}
+                        id="project-popover"
+                        anchorEl={projectAnchorEl}
+                        onClose={onProjectAnchorClose}
+                        position="bottom-left"
+                    >
+                      <ProjectSelector onChange={setProjectId} projectId={project.projectID} sectionId={project.secID} />
+                    </Popper>
+
+                    
                     
                 </div>
                 </ClickAwayListener>

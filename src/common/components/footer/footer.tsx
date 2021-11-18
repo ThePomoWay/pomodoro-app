@@ -1,7 +1,19 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectCompletedPomos, selectTodaysTasks } from "../../state/selectors";
 import "./footer.scss"
 
 export default function Footer() {
+
+    let todaysTasks = useSelector(selectTodaysTasks);
+    let cPomos = useSelector(selectCompletedPomos);
+
+    let ePomos = 0;
+    for(let task of todaysTasks) {
+        ePomos += task.estimatedPomos
+    }
+
+    console.log(ePomos);
 
     return (
         <footer className="footer">
@@ -11,12 +23,9 @@ export default function Footer() {
                 </span>
             </div>
             <div className="completed-pomos">
-                <span>Completed Pomodoros </span>
-                <span className="round-border"></span>
-                <span className="round-border"></span>
-                <span className="round-border"></span>
-                <span className="round-border"></span>
-                <span className="round-border"></span>
+                <span>Todays Pomodoros </span>
+                {[...Array(cPomos)].map((item, index) => (<span key={`completed-pomo-${index}`} className="round-border filled"></span>))}
+                {ePomos > cPomos && [...Array(ePomos - cPomos)].map((item, index) => (<span key={`pending-pomo-${index}`} className="round-border"></span>))}
             </div>
             <div className="focus-mode">
                 <span>Focus Mode</span>

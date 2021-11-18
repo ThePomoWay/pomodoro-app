@@ -6,6 +6,7 @@ import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/T
 import { findIndex } from "../../utils/array-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
+import { addTaskToProject, updateProjectAsync } from "./ProjectSlice";
 import { tick } from "./TimerSlice";
 
 export const createTaskThunk = createAsyncThunk(
@@ -74,6 +75,105 @@ export const deleteTaskThunk = createAsyncThunk(
             deleteTaskAPI(task);
         }
         return response;
+    }
+)
+
+export const markTaskAsCompleteThunk = createAsyncThunk(
+    'task/markAsComplete',
+    async (obj: any, {dispatch, getState}) => {
+
+        dispatch(updateTaskThunk({
+            ...obj.task,
+            isComplete: true,
+            completedOn: new Date().toISOString()
+        }))
+
+        if(obj.container === 'todays'){
+            dispatch(addToCompletedTasks({fid: obj.task.fid}));
+        }
+
+        if(obj.container === 'projects') {
+            let project = getState()['projects'].projects[obj.projectId]
+            let taskOrderCopy = [...project.taskOrder];
+            if(obj.sectionId) {
+                taskOrderCopy = [...project.sections[obj.sectionId].taskOrder]
+
+                taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
+                let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
+                //@ts-ignore
+                dispatch(updateProjectAsync({
+                    ...project,
+                    sections: {
+                        ...project.sections,
+                        [obj.sectionId]: {
+                            ...project.sections[obj.sectionId],
+                            taskOrder: taskOrderCopy,
+                            completedTaskOrder
+                        }
+                    }
+                }))
+            }
+            else{
+                taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
+                let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
+
+                dispatch(updateProjectAsync({
+                    ...project,
+                    taskOrder: taskOrderCopy,
+                    completedTaskOrder
+                }))
+            }
+        }
+    }
+)
+
+export const markTaskAsInCompleteThunk = createAsyncThunk(
+    'task/markAsComplete',
+    async (obj: any, {dispatch, getState}) => {
+
+        dispatch(updateTaskThunk({
+            ...obj.task,
+            isComplete: false
+        }))
+
+        if(obj.container === 'todays'){
+            dispatch(removeFromCompletedTasks({fid: obj.task.fid}));
+        }
+
+        if(obj.container === 'projects') {
+            let project = getState()['projects'].projects[obj.projectId]    
+            let taskOrderCopy = [...project.taskOrder, obj.task.fid];
+
+            if(obj.sectionId) {
+                taskOrderCopy = [...project.sections[obj.sectionId].taskOrder, obj.task.fid]
+
+                let completedTaskOrderCopy = [...project.sections[obj.sectionId].completedTaskOrder];
+                completedTaskOrderCopy.splice(findIndex(completedTaskOrderCopy, obj.task.fid), 1);
+
+                //@ts-ignore
+                dispatch(updateProjectAsync({
+                    ...project,
+                    sections: {
+                        ...project.sections,
+                        [obj.sectionId]: {
+                            ...project.sections[obj.sectionId],
+                            taskOrder: taskOrderCopy,
+                            completedTaskOrder: completedTaskOrderCopy
+                        }
+                    }
+                }))
+            }
+            else {
+                let completedTaskOrderCopy = [...project.completedTaskOrder];
+                completedTaskOrderCopy.splice(findIndex(completedTaskOrderCopy, obj.task.fid), 1);
+
+                dispatch(updateProjectAsync({
+                    ...project,
+                    taskOrder: taskOrderCopy,
+                    completedTaskOrder: completedTaskOrderCopy
+                }))
+            }
+        }
     }
 )
 
@@ -165,6 +265,10 @@ export const tasksSlice = createSlice({
         builder.addCase(getAllTasks.fulfilled, (state, action) => {
             for(let task of action.payload as Array<any>) {
                 state.tasks[task.fid] = task;
+
+                if(task.isComplete) {
+                    state.todaysCompletedTasks.push(task.fid);
+                }
             }
 
             state.allTasks = Object.keys(state.tasks);
@@ -187,4 +291,5 @@ export const tasksSlice = createSlice({
 
 export const { createTask, updateTask, markTaskAsComplete, taskSelected, 
                 deleteTask, updateTodaysTasks, rearrangeAllTasks,
-                 addToAllTasks, setEditTask, removeFromAllTasks } = tasksSlice.actions;
+                 addToAllTasks, setEditTask, removeFromAllTasks,
+                addToCompletedTasks, removeFromCompletedTasks } = tasksSlice.actions;

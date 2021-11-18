@@ -3,6 +3,7 @@ import { findIndex } from "../../utils/array-utils";
 export const initialTaskState = {
     tasks: {},
     todaysTasks: [],
+    todaysCompletedTasks: [],
     allTasks: [],
     currentTaskRef: '',
     editTaskRef: ''
@@ -21,6 +22,7 @@ export let taskReducer = {
     },
     updateTask: (state, action) => {
         state.tasks[action.payload.fid] = action.payload;
+        state.tasks = {...state.tasks};
 
         if(action.payload.isCurrentTask) {
             state.currentTaskRef = action.payload.fid;
@@ -97,6 +99,13 @@ export let taskReducer = {
         else {
             state.todaysTasks.push(action.payload.fid);
         }
+    },
+    addToCompletedTasks: (state, action) => {
+        state.todaysCompletedTasks.push(action.payload.fid);
+    },
+    removeFromCompletedTasks: (state, action) => {
+        let index = findIndex(state.todaysCompletedTasks, action.payload.fid);
+        state.todaysCompletedTasks.splice(index, 1);
     },
     addToAllTasks: (state, action) => {
         if(action.payload.index !== null) {

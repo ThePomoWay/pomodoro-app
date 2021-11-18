@@ -1,0 +1,17 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+
+    padding: 20px;
+
+    &.selected {
+      background-color: #ececec;
+    }
+  }
+}

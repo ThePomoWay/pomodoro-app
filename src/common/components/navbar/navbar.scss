@@ -1,12 +1,12 @@
 @import "../../../styles/variables";
-@import "../../../styles/theme";
-
 .navbar {
   border: 1px solid #c6c6c6;
   box-sizing: border-box;
   background-color: $primary-bg;
   padding: 10px;
   height: 100%;
+
+  flex: 1;
 
   display: grid;
   grid-template-columns: 5fr 7fr;

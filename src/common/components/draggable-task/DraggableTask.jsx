@@ -1,12 +1,10 @@
-import { Delete, MoreHorizRounded, PlayArrow } from "@material-ui/icons";
-import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import { Task } from "../../models/Task";
-import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 
 import {Draggable} from "react-beautiful-dnd";
 
 import TaskItem from "../task/task";
+
+import styles from "./DraggableTask.module.scss"
 
 
 export function DraggableTaskItem(props) {
@@ -20,13 +18,10 @@ export function DraggableTaskItem(props) {
         <Draggable draggableId={props.dropId + task.fid} index={props.index}>
             {(provided, snapshot) => {
                 return (
-                    <NaturalDragAnimation
-                        style={provided.draggableProps.style}
-                        snapshot={snapshot}>
-                            {style => (<div
+                    <div
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={style}
+                    className={styles["draggable-task"]}
                     ref={provided.innerRef}
                     >
                             <TaskItem 
@@ -37,11 +32,12 @@ export function DraggableTaskItem(props) {
                                 task={task} 
                                 onClick={props.onClick}
                                 tags={props.tags}
+                                projects={props.projects}
+                                hidePlay={props.hidePlay}
+                                onComplete={props.onComplete}
                                 >
                             </TaskItem>
-                        </div>)}
-                    
-                        </NaturalDragAnimation>
+                        </div>
                 );
             }}
         

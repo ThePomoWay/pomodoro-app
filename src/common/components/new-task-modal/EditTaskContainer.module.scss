@@ -3,7 +3,7 @@
   min-height: 140px;
 
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   grid-template-columns: 1fr;
 
   background: #ffffff;
@@ -57,12 +57,23 @@
   grid-column: 1;
 }
 
-.cta-row {
+.description {
   grid-row: 4 / 5;
+  grid-column: 1;
+}
+
+.cta-row {
+  grid-row: 5 / 6;
   padding: 12px;
 
   justify-content: space-between;
   display: flex;
+  align-items: center;
+
+  .border-round {
+    border: 1px solid gray;
+    border-radius: 6px;
+  }
 
   .estimated-pomos {
     display: flex;
@@ -80,12 +91,25 @@
     }
   }
 
+  .right-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .priority-popover {
     display: flex;
     background-color: white;
     flex-direction: column;
     min-width: 100px;
     min-height: 100px;
+  }
+
+  .project {
+    display: flex;
+    border: 1px solid black;
+    align-items: center;
+    padding: 2px;
   }
 }
 

@@ -1,0 +1,38 @@
+.description-bullet {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .descitem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background-color: black;
+    }
+  }
+}
+
+.desc-input {
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+
+  background: #f9f9f9;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.description-value {
+}

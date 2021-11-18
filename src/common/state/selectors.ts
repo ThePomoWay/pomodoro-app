@@ -1,16 +1,19 @@
-import { getTimerString, groupByDates } from "../utils/common";
+import { groupByDates } from "../utils/common";
 
-export const selectPomoState = (state) => state.timer.pomoState;
-export const selectTimer        = (state) => state.timer.timerInSec;
+export const selectPomoState        = (state) => state.timer.pomoState;
+export const selectTimer            = (state) => state.timer.timerInSec;
+export const selectCompletedPomos   = (state) => state.timer.completedPomos;
 
 export const selectFocusMode = (state) => state.global.focusMode;
 export const selectAddTaskBtn = (state) => state.global.showAddTaskBtn;
 export const selectTaskToBeEdited = (state) => state.global.taskToBeEdited;
 
-export const selectTodaysTasks = (state) => state.tasks.todaysTasks.filter(i=>state.tasks.tasks[i]).map(i => state.tasks.tasks[i]);
+export const selectTodaysTasks = (state) => state.tasks.todaysTasks.filter(i=>state.tasks.tasks[i] && !state.tasks.tasks[i].isComplete).map(i => state.tasks.tasks[i]);
+export const selectTodaysCompletedTasks = (state) => state.tasks.todaysCompletedTasks.filter(i=>state.tasks.tasks[i]).map(i => state.tasks.tasks[i])
 export const selectTodaysTaskIds = (state) => state.tasks.todaysTasks;
 
-export const selectAllTasks = (state) => state.tasks.allTasks.map(i => state.tasks.tasks[i]);
+export const selectTasksAsobj = (state) => state.tasks.tasks;
+export const selectAllTasks = (state) => state.tasks.allTasks.filter(i => !state.tasks.tasks[i].isComplete).map(i => state.tasks.tasks[i]);
 export const selectCurrentTask = (state) => {return state.tasks.tasks[state.tasks.currentTaskRef]};
 export const selectEditTask = (state) => {return state.tasks.tasks[state.tasks.editTaskRef]};
 export const selectTasksByDate = (state) => {return groupByDates(state.tasks.tasks);}
@@ -18,3 +21,7 @@ export const selectTasksByDate = (state) => {return groupByDates(state.tasks.tas
 //Tags
 export const selectTagsAsObj = (state) => state.tags.tags;
 export const selectTagsAsArr = (state) => Object.values(state.tags.tags);
+
+//projects
+export const selectProjectsObj = (state) => state.projects.projects;
+export const selectProjectOrder = (state) => state.projects.projectOrder;

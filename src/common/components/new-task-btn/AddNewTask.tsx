@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createTaskThunk } from "../../state/slices/TasksSlice";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
-export function AddNewTask() {
+export function AddNewTask(props) {
     const dispatch = useDispatch();
 
     let [showBtn, setShowBtn] = useState(true);
@@ -12,13 +12,13 @@ export function AddNewTask() {
         if(task.fid){
             dispatch(createTaskThunk({
                 task,
-                isTodaysTask: true
+                isTodaysTask: props.isTodaysTask
             }));
         }
         else {
             setShowBtn(true);
         }
-    }, []);
+    }, [props]);
     let showEditContainer = useCallback(() => {
         if(showBtn) {
             return (

@@ -3,6 +3,8 @@ export const taskObjectStoreName = 'tasks';
 export const timerstateObjectStoreName = 'timerState';
 export const todaysTasksObjectStoreName = 'todaysTasks';
 export const tagsObjectStoreName = 'tags';
+export const projectsObjectStoreName = 'projects';
+
 
 let promise = null;
 export function initIdb() {
@@ -19,6 +21,7 @@ export function initIdb() {
                 let timerStateObjStore = db.createObjectStore(timerstateObjectStoreName, {keyPath: 'date'});
                 let todaysTasksObjStore = db.createObjectStore(todaysTasksObjectStoreName, {keyPath: 'key'});
                 let tagsObjectStore = db.createObjectStore(tagsObjectStoreName, {keyPath: 'fid'});
+                let projectsObjectStore = db.createObjectStore(projectsObjectStoreName, {keyPath: 'fid'});
 
                 taskObjStore.createIndex("fid", "fid", {unique: true});
                 timerStateObjStore.createIndex("date", "date", {unique: true});

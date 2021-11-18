@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
 import { editTask } from "../../state/slices/GlobalSlice";
-import { deleteTaskThunk, markTaskAsCurrent } from "../../state/slices/TasksSlice";
+import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk } from "../../state/slices/TasksSlice";
 import { initiatePomo } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE } from "../../utils/constants";
 
@@ -41,11 +41,16 @@ export default function TaskItem(props) {
     }, [dispatch]);
 
     const doAddTask = useCallback(() => {
-        props.doAddTask(task);
+        props.doAddTask && props.doAddTask(task);
     });
 
     const doRemoveTask = useCallback(() => {
-        props.doRemoveTask(task);
+        props.doRemoveTask && props.doRemoveTask(task);
+    });
+
+    const toggleMarkAsComplete = useCallback((e) => {
+        props.onComplete && props.onComplete(task);
+        e.stopPropagation();
     })
 
     const getFirstCTA = useCallback(() => {
@@ -63,9 +68,12 @@ export default function TaskItem(props) {
                 </span>
             )
         }
-        return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
-        { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
-    </span>)
+        if(!props.hidePlay) {
+            return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
+            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
+            </span>)
+        }
+        return (<span></span>);
     })
 
     let [anchorEl, setAnchorEl] = useState(null);
@@ -88,14 +96,17 @@ export default function TaskItem(props) {
 
     return (
     
-    <div className={`task ${task.isCurrentTask ? 'selected' : ''}`} onClick={((e) => props.onClick(task))}>
+    <div className={`task ${task.isCurrentTask ? 'selected' : ''}`} onClick={((e) => props.onClick && props.onClick(task))}>
         <span className="checkbox">
-            <input type="radio" />
+            <input type="radio" onClick={(e) => {toggleMarkAsComplete(e)}} value={!!task.isComplete} defaultChecked={!!task.isComplete} />
         </span>
         <span className="task-title">{task.title} {task.isCurrentTask &&  '(current task)'}</span>
         <div className="second-row">
             <span className="estimated-pomos-tag"> {getEstimatedPomoHtml()}</span>
-            <span className="project">project</span>
+            {(task.project.projectID && props.projects && props.projects[task.project.projectID]) && (
+                <span className="project">{props.projects[task.project.projectID].title}</span>
+            )}
+            
             <span className="tags">
                 {
                     Object.keys(props.tags).length >= task.labels.length && 

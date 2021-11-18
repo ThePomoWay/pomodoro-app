@@ -1,15 +1,17 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTagsAsArr, selectTagsAsObj, selectTodaysTasks } from "../../state/selectors";
+import { selectTagsAsObj, selectTodaysCompletedTasks, selectTodaysTasks } from "../../state/selectors";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
 import {DragDropContext} from "react-beautiful-dnd";
 
-import "./todaysTaskContainer.scss";
-import { rearrangeTodaysTask } from "../../state/slices/TasksSlice";
+import styles from "./todaysTaskContainer.module.scss";
+import { markTaskAsInCompleteThunk, rearrangeTodaysTask } from "../../state/slices/TasksSlice";
+import TaskItem from "../task/task";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
+    let completedTasks = useSelector(selectTodaysCompletedTasks);
     let tags = useSelector(selectTagsAsObj);
     
     let dispatch = useDispatch();
@@ -27,28 +29,54 @@ export function TodaysTaskContainer () {
         }
     }, []);
 
-    let getTasks = useCallback((tasks) => {
-        if(!tasks || tasks.length === 0) {
+    let onTaskUncomplete = useCallback((task) => {
+        dispatch(markTaskAsInCompleteThunk({task, container: 'todays'}));
+    });
+
+    let getTasks = useCallback((tasks, completedTasks) => {
+        if(!tasks || (tasks.length === 0 && completedTasks.length === 0)) {
             return (
-                <div className="empty-state">
-                    <span className="title">Morning! Start your day and accomplish your goals for the day</span>
-                    <span className="label">Add new tasks to the list and start your pomodoro !</span>
+                <div className={styles['empty-state']}>
+                    <span className={styles["title"]}>Morning! Start your day and accomplish your goals for the day</span>
+                    <span className={styles["label"]}>Add new tasks to the list and start your pomodoro !</span>
                     <img src="/empty-tasks.png" alt="Empty tasks"/>
-                    <AddNewTask></AddNewTask>
+                    <AddNewTask isTodaysTask={true}></AddNewTask>
                 </div>
             );
         }
         return (
             <div className="task-list">
-                <span className="title">Give your 100% today! unless you're donating blood</span>
-                <div className="task-container">
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <DraggableTaskList tasks={tasks} tags={tags} dropId="id-1e" isEditable="true" />
-                </DragDropContext>
+                <span className={styles["title"]}>Give your 100% today! unless you're donating blood</span>
+                <div className={styles["task-container"]}>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <DraggableTaskList
+                            container='todays'
+                            tasks={tasks}
+                            tags={tags}
+                            dropId="id-1e"
+                            isEditable="true" />
+                    </DragDropContext>
+                    <AddNewTask isTodaysTask={true}></AddNewTask>
+                    
+                    {completedTasks.length > 0 && 
+                    (<div className={styles['completed-tasks']}>
+                        <p> Completed tasks </p>
+                        {completedTasks.map(item => (
+                            <TaskItem 
+                                key={item.fid+'complete'}
+                                task={item}
+                                tags={tags}
+                                onComplete={onTaskUncomplete}
+                                />
+                        ))}
+                    </div>)
+                    }
+                        
+                        
                 </div>
-                <AddNewTask></AddNewTask>
+                
         </div>);
     }, [])
 
-    return getTasks(tasks);
+    return getTasks(tasks, completedTasks);
 }

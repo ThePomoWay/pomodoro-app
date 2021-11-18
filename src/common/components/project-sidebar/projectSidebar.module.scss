@@ -1,0 +1,48 @@
+.project-sidebar {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  padding: 20px;
+
+  .accordion {
+    margin-left: auto;
+
+    transition: all 0.5s ease-out;
+    cursor: pointer;
+
+    &.down-arrow {
+      width: 10px;
+      height: 10px;
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+      transform: rotate(-315deg);
+    }
+
+    &.up-arrow {
+      width: 10px;
+      height: 10px;
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+      transform: rotate(225deg);
+    }
+  }
+}
+
+.project-sidebar-second {
+  padding: 10px 10px 10px 40px;
+
+  .sidebar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    cursor: pointer;
+
+    padding: 6px;
+  }
+
+  .selected {
+    background-color: #ececec;
+  }
+}

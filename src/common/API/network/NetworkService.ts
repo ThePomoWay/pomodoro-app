@@ -38,7 +38,7 @@ export class NetworkService {
         }).then(res => res.json());
     }
 
-    static delete(endpoint, query={}, body) {
+    static delete(endpoint, query={}, body={}) {
         return fetch(getQueryParamString(endpoint, query), {
             method: 'DELETE',
             body: JSON.stringify(body)

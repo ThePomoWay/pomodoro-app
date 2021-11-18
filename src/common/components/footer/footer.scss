@@ -1,5 +1,4 @@
 @import "../../../styles/variables";
-@import "../../../styles/theme";
 
 .footer {
   display: grid;
@@ -34,6 +33,10 @@
     height: 20px;
     border: 1px solid black;
     border-radius: 20px;
+  }
+
+  .filled {
+    background-color: black;
   }
 
   .focus-mode {

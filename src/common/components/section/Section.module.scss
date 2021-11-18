@@ -1,0 +1,28 @@
+.section-task-list {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  button {
+    width: 30%;
+  }
+}
+.section-title {
+  display: flex;
+  align-items: center;
+
+  .hamburger {
+    position: relative;
+    top: 2px;
+  }
+}
+
+.dragging {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.section {
+  margin: 0px 0px 10px 0px;
+}
