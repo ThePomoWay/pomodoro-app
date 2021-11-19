@@ -19,6 +19,9 @@ import NewProjectContainer from "../../common/components/new-project-container/N
 import ProjectContainer from "../../common/components/project-container/ProjectContainer";
 import { getAllProjects } from "../../common/state/slices/ProjectSlice";
 import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
+import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
+import LabelContainer from "../../common/components/label-container/LabelContainer";
+import { getAllTags } from "../../common/state/slices/TagsSlice";
 
 export default () => {
     let alltasks = useSelector(selectAllTasks);
@@ -33,6 +36,7 @@ export default () => {
         dispatch(getAllTasks());
         dispatch(getTodaysTasks());
         dispatch(getAllProjects());
+        dispatch(getAllTags());
     }, []);
 
     let onDragEnd = useCallback((result) => {
@@ -109,6 +113,13 @@ export default () => {
 
                         <Route path={`${path}/project/:projectId`}>
                             <ProjectContainer />
+                        </Route>
+
+                        <Route exact path={`${path}/labels`}>
+                            <NewLabelContainer />
+                        </Route>
+                        <Route path={`${path}/labels/:labelId`}>
+                            <LabelContainer />
                         </Route>
 
                     </Switch>

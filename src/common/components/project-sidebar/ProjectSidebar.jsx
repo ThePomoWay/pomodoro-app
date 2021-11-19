@@ -3,8 +3,6 @@ import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch, Link, useParams } from "react-router-dom";
 import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
-import { addWindowUnloadFn } from "../../utils/common";
-
 
 import styles from "./projectSidebar.module.scss";
 
@@ -47,7 +45,7 @@ export default () => {
             <div className={styles['project-sidebar']}>
                 <WorkOutlineOutlined />
                 Projects
-                <span onClick={(e) => setProjectExpanded(!projectExpanded)} className={`${styles['accordion']} ${projectExpanded ? styles['up-arrow'] : styles['down-arrow']}`}>
+                <span onClick={(e) => setProjectExpanded(!projectExpanded)} className={`${styles['accordion']} ${projectExpanded ? 'up-arrow' : 'down-arrow'}`}>
                 </span>
             </div>
             <div className={styles['project-sidebar-second']}>

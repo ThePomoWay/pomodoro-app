@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import { selectProjectsObj, selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
 import { setTags } from "../../state/slices/TagsSlice";
 import { generateUniqueId, getObjFromArr } from "../../utils/common";
+import { priorityColorMap } from "../../utils/constants";
 import AddTagContainer from "../add-tag-container/AddTagContainer";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
+import { PrioritySelector } from "../priority-selector/PrioritySelector";
 import ProjectSelector from "../project-selector/ProjectSelector";
 import TaskDescription from "../task-description/TaskDescription";
 
@@ -78,10 +80,6 @@ export default function EditTaskContainer(props) {
     const onPriorityAnchorClose = useCallback((e) => {
         setPriorityAnchorEl(null);
     });
-
-    useEffect(() => {
-        resetContainer(taskToBeEdited)
-    }, [taskToBeEdited, ref])
 
     let resetContainer = useCallback((taskToBeEdited) => {
         
@@ -214,16 +212,14 @@ export default function EditTaskContainer(props) {
                 <div className={styles['right-cta']}>
                     <FormatListBulletedOutlined className={`cursor-pointer ${isBulleted ? styles['border-round'] : ''}`} onClick={(e) => setIsBulleted(!isBulleted)} />
                     
-                    <Flag onClick={onPriorityAnchorClick} />
+                    <Flag style={{fill: priorityColorMap[priority]}} onClick={onPriorityAnchorClick} />
                     
                     <Popper
                     open={Boolean(priorityAncholEl)}
                     id="priority-popover"
                     anchorEl={priorityAncholEl}
                     position="bottom-left">
-                      <div className={styles['priority-popover']}>
-                        <div>Hello I'm underwater, pls save me</div>
-                      </div>
+                      <PrioritySelector priority={priority} onChange={(item) => setPriority(item)} />
                     </Popper>
 
                     <Label className="cursor-pointer" onClick={onTagAnchorClick}/>

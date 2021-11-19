@@ -22,6 +22,14 @@ export const selectTasksByDate = (state) => {return groupByDates(state.tasks.tas
 export const selectTagsAsObj = (state) => state.tags.tags;
 export const selectTagsAsArr = (state) => Object.values(state.tags.tags);
 
+export const selectTasksFromTag = (tag) => {
+    return (state) => {
+        return state.tasks.allTasks.filter(i => !state.tasks.tasks[i].isComplete)
+                                    .filter(i => state.tasks.tasks[i].labels.find(i => i===tag))
+                                    .map(i => state.tasks.tasks[i])
+    }
+}
+
 //projects
 export const selectProjectsObj = (state) => state.projects.projects;
 export const selectProjectOrder = (state) => state.projects.projectOrder;

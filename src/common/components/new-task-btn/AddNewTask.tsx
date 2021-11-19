@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createTaskThunk } from "../../state/slices/TasksSlice";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
-export function AddNewTask(props) {
+export const AddNewTask = React.memo(function(props) {
     const dispatch = useDispatch();
 
     let [showBtn, setShowBtn] = useState(true);
@@ -28,9 +28,9 @@ export function AddNewTask(props) {
             );
         }
         return (
-            <EditTaskContainer task={{}} saveTask={doSaveTask}/>
+            <EditTaskContainer saveTask={doSaveTask}/>
         );
     }, [showBtn]);
 
     return showEditContainer();
-}
+})

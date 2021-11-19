@@ -12,6 +12,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 6px;
+
+      &.view-only {
+        justify-content: left;
+      }
     }
   }
 

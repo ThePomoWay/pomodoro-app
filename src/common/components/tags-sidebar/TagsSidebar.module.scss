@@ -1,4 +1,4 @@
-.project-sidebar {
+.tags-sidebar {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -13,18 +13,28 @@
   }
 }
 
-.project-sidebar-second {
+.tags-sidebar-second {
   padding: 10px 10px 10px 40px;
 
   .sidebar-row {
     display: flex;
     align-items: center;
     gap: 6px;
+
     cursor: pointer;
+
     padding: 6px;
   }
 
   .selected {
     background-color: #ececec;
+  }
+
+  .tag {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 4px;
+    cursor: pointer;
   }
 }

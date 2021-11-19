@@ -49,12 +49,18 @@ export default function AddTagContainer(props) {
 
     let getTags = useCallback(() => {
         if(tags.length > 0) {
-            return (<div className={styles['tags-list']}>
-                        { tags.map((tag, ind) => (<div key={ind} className={styles['tags-item']}>
+            return (<div className={`${styles['tags-list']} `}>
+                        { tags.map((tag, ind) => (<div key={ind} className={`${styles['tags-item']} ${props.hideSelect && styles['view-only']}`}>
                             <Label style={{fill: tag.color}} />
                             <span>{tag.title} </span>
-                            <input onChange={(e) => handleCheckboxClick(tag)} checked={!!selectedTagsObj[tag.fid]} type="checkbox" className={styles['tag-checkbox']} />     
-                            </div>)) }
+                            {
+                                (!props.hideSelect && (
+                                    <input onChange={(e) => handleCheckboxClick(tag)} checked={!!selectedTagsObj[tag.fid]} type="checkbox" className={styles['tag-checkbox']} />     
+                            
+                                ))
+                            }
+                             </div>
+                            )) }
                     </div>)
         }
         return (<span></span>);
