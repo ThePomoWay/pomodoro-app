@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState, selectTimer, selectTimerString } from "../../state/selectors";
-import { initiatePomo, pauseTimer, resetTimer, setPomoState, tick, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
+import { initiatePomo, pauseTimer, resetTimer, setPomoState, tick, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE, POMO_IDLE_STATE, POMO_PAUSED_STATE, POMO_BREAK_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_LONG_BREAK_RUNNING_STATE, POMO_LONG_BREAK_PAUSED_STATE, POMO_BREAK_PAUSED_STATE } from "../../utils/constants";
 import styles from "./timer.module.scss";
 import { Pause, PlayArrow, SkipNext, Stop } from "@material-ui/icons";
@@ -55,8 +55,13 @@ export default function Timer(){
         let state = useSelector(selectPomoState);
         let dispatch = useDispatch();
 
-        const doStartTimer = useCallback(() => {
+        const doStartTimer = useCallback((isCta) => {
             if(!timer) {
+                if(isCta){
+                    dispatch(updateTimerState({
+                        pomoStartTime: Date.now()
+                    }));
+                }
                 dispatch(updateTimerState({
                     pomoState: getNextPomoState(state, ACTION_PLAY)
                 }));
@@ -68,7 +73,7 @@ export default function Timer(){
                         timer = 0;
                     }
                     else {
-                        dispatch(tick())
+                        dispatch(tickAsync())
                     }
                 }, 1000)
             }
@@ -103,7 +108,7 @@ export default function Timer(){
             if(state === POMO_IDLE_STATE) {
                 return (
                     <div className={`${styles['timer-cta']} grid grid-center`}>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={doStartTimer}>
+                        <button className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(true)}>
                             <PlayArrow />
                             Start Timer
                             </button>
@@ -123,7 +128,7 @@ export default function Timer(){
             if(state === POMO_PAUSED_STATE) {
                 return (
                     <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={doStartTimer}> <PlayArrow /> Resume</span>
+                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(false)}> <PlayArrow /> Resume</span>
                         <button className="btn btn-simple btn-round flex flex-center" onClick={doStopTimer}><Stop /> Stop</button>
                     </div>
                 );
@@ -132,7 +137,7 @@ export default function Timer(){
             if(state === POMO_BREAK_IDLE_STATE || state === POMO_LONG_BREAK_IDLE_STATE) {
                 return (
                     <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={doStartTimer}> <PlayArrow /> Start Timer</span>
+                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(true)}> <PlayArrow /> Start Timer</span>
                         <button className="btn btn-simple btn-round flex flex-center" onClick={doSkipBreak}><SkipNext /> Skip</button>
                     </div>
                 );
@@ -149,7 +154,7 @@ export default function Timer(){
             if(state === POMO_LONG_BREAK_PAUSED_STATE || state === POMO_BREAK_PAUSED_STATE) {
                 return (
                     <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={doStartTimer}> <PlayArrow /> Start Timer</span>
+                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(false)}> <PlayArrow /> Start Timer</span>
                         <button className="btn btn-simple btn-round flex flex-center" onClick={doSkipBreak}> <SkipNext /> Skip</button>
                     </div>
                 );
@@ -166,7 +171,7 @@ export default function Timer(){
             }
 
             if(state === POMO_RUNNING_STATE && !timer && timerSec > 0) {
-                doStartTimer();
+                doStartTimer(false);
             }
         }, [timerSec, state]);
         

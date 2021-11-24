@@ -1,5 +1,6 @@
 import { InboxOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom"
+import { PrioritySidebar } from "../priority-sidebar/PrioritySidebar";
 import ProjectSidebar from "../project-sidebar/ProjectSidebar";
 import { TagsSidebar } from "../tags-sidebar/TagsSidebar";
 import styles from "./AllTaskSidebar.module.scss";
@@ -18,5 +19,6 @@ export default () => {
        </Link>
         <ProjectSidebar />
         <TagsSidebar />
+        <PrioritySidebar />
     </div>)
 }

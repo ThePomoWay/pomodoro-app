@@ -30,6 +30,18 @@ export const selectTasksFromTag = (tag) => {
     }
 }
 
+export const selectTasksFromPriority = (priority) => {
+    return (state) => {
+        return state.tasks.allTasks.filter(i => !state.tasks.tasks[i].isComplete)
+                                    .filter(i => state.tasks.tasks[i].priority === Number(priority))
+                                    .map(i => state.tasks.tasks[i])
+    }
+}
+
 //projects
 export const selectProjectsObj = (state) => state.projects.projects;
 export const selectProjectOrder = (state) => state.projects.projectOrder;
+
+//clock settings
+export const selectDefaultWorkTime = (state) => state.timer.defaultWorkTime;
+export const selectDefaultBreakTime = (state) => state.timer.defaultBreakTime;

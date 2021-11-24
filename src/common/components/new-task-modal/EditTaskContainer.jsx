@@ -48,11 +48,18 @@ export default function EditTaskContainer(props) {
     let [isBulleted, setIsBulleted]         = useState(taskToBeEdited.isBulleted || false);
     let [project, setProject]               = useState(taskToBeEdited.project || {});
 
-    let [tagAnchorEl, setTagAnchorEl] = useState(null);
+    let [tagAnchorEl, setTagAnchorEl]       = useState(null);
     let [priorityAncholEl, setPriorityAnchorEl] = useState(null)
     let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
     let [selectedTags, setSelectedTags] = useState(taskToBeEdited.labels || []);
+
+    useEffect(() => {
+        if(ref) {
+            ref.current.textContent = taskToBeEdited.title || ''
+            setEndOfContentEditable(ref.current);
+        }
+    }, [])
 
     const onTagAnchorClick = useCallback((e) => {
         setTagAnchorEl(e.currentTarget);
@@ -195,7 +202,6 @@ export default function EditTaskContainer(props) {
         <div>
         <div className={styles['edit-task']}>
             <div ref={ref} className={styles['content-editable-div']} onKeyDown={onTitleInput} contentEditable="true">
-                
             </div>
             <div className={styles['description']}>
                 <TaskDescription onChange={(e) => setDescription(e)} isBulleted={isBulleted} value={taskToBeEdited.description} />

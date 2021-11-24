@@ -6,7 +6,10 @@ export const initialTimerState = {
     defaultBreakTime: DEFAULT_BREAK_TIME,
     defaultLongBreakTime: DEFAULT_LONG_BREAK_TIME,
     completedPomos: 0,
-    pomoState: POMO_IDLE_STATE
+    pomoState: POMO_IDLE_STATE,
+    autoPlayPomo: false,
+    autoPlayBreak: false,
+    pomoStartTime: 0
 }
 
 export let timerReducer = {

@@ -22,6 +22,7 @@ import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
 import LabelContainer from "../../common/components/label-container/LabelContainer";
 import { getAllTags } from "../../common/state/slices/TagsSlice";
+import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
 
 export default () => {
     let alltasks = useSelector(selectAllTasks);
@@ -120,6 +121,10 @@ export default () => {
                         </Route>
                         <Route path={`${path}/labels/:labelId`}>
                             <LabelContainer />
+                        </Route>
+
+                        <Route path={`${path}/priority/:priority`}>
+                            <PriorityContainer />
                         </Route>
 
                     </Switch>
