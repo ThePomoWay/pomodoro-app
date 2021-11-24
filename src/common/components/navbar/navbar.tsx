@@ -14,7 +14,7 @@ let navItems = [
     },
     {
         title: "Your Daily Stats",
-        to: '/'
+        to: '/analysis'
     },
     {
         title: "Settings",

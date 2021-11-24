@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .main-view {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+
+    .analysis-container {
+      width: 50vw;
+      padding: 20px;
+
+      .streak-container {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid gray;
+        border-radius: 6px;
+        padding: 40px;
+
+        margin-bottom: 40px;
+
+        .longest-streak {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          border-right: 1px solid gray;
+        }
+        .current-streak {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          flex: 1;
+        }
+      }
+    }
+  }
+}

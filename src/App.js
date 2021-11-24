@@ -27,6 +27,9 @@ function App() {
           <Route path="/all">
             <AllTasks />
           </Route>
+          <Route exact path="/analysis">
+            <AnalysisPage />
+          </Route>
           <Route exact path="/clock/settings">
             <ClockSettings />
           </Route>
