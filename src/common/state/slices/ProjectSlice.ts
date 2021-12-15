@@ -7,17 +7,19 @@ import { initialProjectsState, projectReducer } from "../reducers/ProjectReducer
 
 export const createProjectAsync = createAsyncThunk(
     'create/project',
-    async (project: any, {dispatch}) => {
-        dispatch(createProject(project))
+    async (obj: any, {dispatch}) => {
+        dispatch(createProject(obj.project))
+        let response = await createIDBProject(obj.project);
 
         if(AuthService.isLoggedIn()) {
-            let bid = await createProjectApi(project);
-            project.id = bid;
+            let bid = await createProjectApi(obj.project);
+            dispatch(updateProjectAsync({
+                ...obj.project,
+                _id: bid
+            }));
         }
 
-
-        let response = await createIDBProject(project);
-        return response;
+        return obj;
     }
 )
 
@@ -67,6 +69,11 @@ export const projectSlice = createSlice({
             if(action.payload) {
                 state.projects = getObjFromArr(action.payload, 'fid', true);
                 state.projectOrder = action.payload.map(i => i.fid);
+            }
+        })
+        .addCase(createProjectAsync.fulfilled, (state: any, action: any) => {
+            if(action.payload) {
+                window.location.href = `${action.payload.path}/${action.payload.project.fid}`;
             }
         })
     }

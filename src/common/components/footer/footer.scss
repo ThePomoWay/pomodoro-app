@@ -46,4 +46,10 @@
     font-size: 14px;
     font-weight: $font-weight-400;
   }
+
+  .lock {
+    position: absolute;
+    background-color: grey;
+    opacity: 0.5;
+  }
 }

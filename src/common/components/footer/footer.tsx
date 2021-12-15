@@ -1,6 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectCompletedPomos, selectTodaysTasks } from "../../state/selectors";
+import { Lock } from "@material-ui/icons";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCompletedPomos, selectIfExtensionInstalled, selectTodaysTasks } from "../../state/selectors";
+import { updateFocusModeState } from "../../state/slices/GlobalSlice";
 import "./footer.scss"
 
 export default function Footer() {
@@ -13,7 +15,25 @@ export default function Footer() {
         ePomos += task.estimatedPomos
     }
 
-    console.log(ePomos);
+    let dispatch = useDispatch();
+
+    let isExtensionInstalled = useSelector(selectIfExtensionInstalled);
+
+    let [focusModeState, setFocusModeState] = useState(isExtensionInstalled);
+
+    useEffect(() => {
+        if(focusModeState !== isExtensionInstalled) {
+            setFocusModeState(isExtensionInstalled);
+        }
+    }, [isExtensionInstalled])
+
+    console.log(focusModeState);
+
+    const onFocusModeClick = useCallback(() => {
+
+        dispatch(updateFocusModeState(!focusModeState))
+        setFocusModeState(!focusModeState);
+    }, []);
 
     return (
         <footer className="footer">
@@ -29,9 +49,19 @@ export default function Footer() {
             </div>
             <div className="focus-mode">
                 <span>Focus Mode</span>
+                {/* {
+                    isExtensionInstalled &&
+                    (
+                        <div className="lock">
+                            <Lock />
+                        </div>
+                    )
+                } */}
                 <label className="switch">
-                    <input type="checkbox" />
-                    <span className="slider round"></span>
+                    <input type="checkbox" onChange={(e) => onFocusModeClick()} defaultChecked={focusModeState} />
+                    <span className="slider round">
+                        
+                    </span>
                 </label>
             </div>
         </footer>

@@ -18,18 +18,20 @@ export default () => {
             let fid = generateUniqueId();
 
             dispatch(createProjectAsync({
-                fid,
-                title: projectTitle,
-                completedTaskOrder: [],
-                sections: {},
-                sectionOrder: [],
-                taskOrder: [],
-                isArchived: false
+                project: {
+                    fid,
+                    title: projectTitle,
+                    sections: {},
+                    sectionOrder: [],
+                    to: [],
+                    isArchived: false
+                },
+                path
             }));
 
-            setTimeout(() => {
-                window.location.href = `${path}/${fid}`
-            }, 100);
+            // setTimeout(() => {
+            //     window.location.href = `${path}/${fid}`
+            // }, 500);
         }
         
     })

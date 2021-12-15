@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllTasks, selectProjectsObj, selectTagsAsObj, selectTasksAsobj, selectTodaysTaskIds } from "../../state/selectors";
+import { selectAllTasks, selectCompletedTaskInProject, selectProjectsObj, selectTagsAsObj, selectTasksAsobj, selectTodaysTaskIds } from "../../state/selectors";
 
 import {useParams} from 'react-router-dom';
 import { useCallback, useState } from "react";
@@ -24,6 +24,8 @@ export default () => {
     let tags = useSelector(selectTagsAsObj);
     let todaysTaskIds = useSelector(selectTodaysTaskIds);
     let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
+    let completedTasks = useSelector(selectCompletedTaskInProject(projectsObj[projectId] && projectsObj[projectId]._id, ''));
+    
 
     let dispatch = useDispatch();
 
@@ -50,7 +52,7 @@ export default () => {
             dispatch(createTaskThunk({task}));
             dispatch(updateProjectAsync({
                 ...project,
-                taskOrder: [...project.taskOrder, task.fid]
+                to: [...project.to, task.fid]
             }))
         }
         else{
@@ -69,8 +71,7 @@ export default () => {
                 [section.fid]: {
                     fid: section.fid,
                     title: section.title,
-                    taskOrder: section.taskOrder,
-                    completedTaskOrder: section.completedTaskOrder
+                    to: section.to
                 }
                 
             },
@@ -86,7 +87,7 @@ export default () => {
                 ...project.sections,
                 [section.fid]: {
                     ...section,
-                    taskOrder: [...section.taskOrder, task.fid]
+                    to: [...section.taskOrder, task.fid]
                 }
             }
         }))
@@ -110,23 +111,23 @@ export default () => {
                 let projectCopy = JSON.parse(JSON.stringify(project))
 
                 if(result.source.droppableId === PROJECT_DROPPABLE_ID) {
-                    projectCopy.taskOrder.splice(result.source.index, 1);
+                    projectCopy.to.splice(result.source.index, 1);
                 }
                 else {
                     let sectionId = result.source.droppableId.split('section-droppable-')[1];
                     if(projectCopy.sections[sectionId]) {
-                        projectCopy.sections[sectionId].taskOrder.splice(result.source.index, 1)
+                        projectCopy.sections[sectionId].to.splice(result.source.index, 1)
                     }
                 }
 
                 let taskId = result.draggableId.split('task-')[1]
                 if(result.destination.droppableId === PROJECT_DROPPABLE_ID) {
-                    projectCopy.taskOrder.splice(result.destination.index, 0, taskId);
+                    projectCopy.to.splice(result.destination.index, 0, taskId);
                 }
                 else {
                     let sectionId = result.destination.droppableId.split('section-droppable-')[1];
                     if(projectCopy.sections[sectionId]) {
-                        projectCopy.sections[sectionId].taskOrder.splice(result.destination.index, 0, taskId)
+                        projectCopy.sections[sectionId].to.splice(result.destination.index, 0, taskId)
                     }
                     setDefaultExpandedSectionId(sectionId);
                 }
@@ -170,9 +171,9 @@ export default () => {
 
     if(project) {
 
-        let totalTasks = project.taskOrder.length;
+        let totalTasks = project.to.length;
         for(let sectionId of project.sectionOrder) {
-            totalTasks += project.sections[sectionId].taskOrder.length;
+            totalTasks += project.sections[sectionId].to.length;
         }
         
         return (
@@ -195,7 +196,7 @@ export default () => {
                                     totalTasks > 0 && 
                                         (
                                         <div className={styles["task-list"]}>
-                                            {project.taskOrder.map((item, index) => 
+                                            {project.to.map((item, index) => 
                                                 (
                                                 
                                                 <DraggableTaskItem
@@ -231,7 +232,7 @@ export default () => {
                 </div>
 
                 <div className={styles['completed-task']}>
-                    <CompletedTasksList container='projects' projectId={project.fid} tasks={project.completedTaskOrder.map(item => tasks[item])}/>
+                    <CompletedTasksList container='projects' projectId={project.fid} tasks={completedTasks}/>
                 </div>
                 </div>
                 {
@@ -244,7 +245,7 @@ export default () => {
                         doAddTask={doAddTask}
                         doRemoveTask={doRemoveTask}
                         isTaskDragging={isTaskDragging}
-                        projectId={project.fid}
+                        projectId={project._id}
                         defaultExpandedSectionId={defaultExpandedSectionId}
                          />)
                     ||

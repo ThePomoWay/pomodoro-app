@@ -19,3 +19,5 @@ export let DEFAULT_LONG_BREAK_TIME  = 15 * 60;
 export const priorityColorMap = ['', 'purple', 'red', 'yellow', 'green'];
 
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+export const EXTENSION_ID = 'agbkeeoecdaegljhmkndleobgbimfoog';

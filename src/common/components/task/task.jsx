@@ -31,7 +31,7 @@ export default function TaskItem(props) {
 
     const doDeleteTask = useCallback(() => {
         dispatch(deleteTaskThunk(task));
-    }, [dispatch]);
+    }, [dispatch, task]);
 
     const doPlayTask = useCallback(() => {
         if(!task.isCurrentTask){

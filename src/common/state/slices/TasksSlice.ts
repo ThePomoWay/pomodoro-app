@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createIDBTask, updateIDBTask, deleteIDBTask } from "../../API/indexed-db-ops/crud";
 import { getTodaysTasksFromIdb, updateTodaysTasksInIdb } from "../../API/indexed-db-ops/todaysTasks";
 import AuthService from "../../API/network/AuthService";
-import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/TaskApis";
+import { addToTodaysTaskAPI, createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/TaskApis";
 import { findIndex } from "../../utils/array-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import { addTaskToProject, updateProjectAsync } from "./ProjectSlice";
-import { tick } from "./TimerSlice";
+import {  tickAsync } from "./TimerSlice";
 
 export const createTaskThunk = createAsyncThunk(
     'tasks/create',
@@ -18,21 +18,45 @@ export const createTaskThunk = createAsyncThunk(
         if(payload.isTodaysTask) {
             dispatch(addToTodaysTasks({
                 fid: payload.task.fid
-            }))    
+            }));
+
         }
         if(AuthService.isLoggedIn()) {
-            createTaskAPI(payload.task);
+            createTaskAPI(payload.task).then((response) => {
+                if(response.status === 200) {
+                    dispatch(updateLocalTaskThunk({
+                        ...payload.task,
+                        _id: response.data.tid
+                    }));
+
+                    if(payload.isTodaysTask) {
+                        addToTodaysTaskAPI(response.data.tid);
+                    }
+                }
+            });
+
+            
+
         }
         return response;
+    }
+)
+
+export const updateLocalTaskThunk = createAsyncThunk(
+    'task/update/local',
+    async (task, {dispatch}) => {
+        dispatch(updateTask(task));
+
+        let response = await updateIDBTask(task);
+        return task;
     }
 )
 
 export const updateTaskThunk = createAsyncThunk(
     'tasks/update',
     async (task, {dispatch}) => {
-        dispatch(updateTask(task));
+        dispatch(updateLocalTaskThunk(task));
 
-        let response = await updateIDBTask(task);
         if(AuthService.isLoggedIn()) {
             updateTaskAPI(task);
         }
@@ -99,7 +123,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
                 taskOrderCopy = [...project.sections[obj.sectionId].taskOrder]
 
                 taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
-                let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
+                //let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
                 //@ts-ignore
                 dispatch(updateProjectAsync({
                     ...project,
@@ -107,20 +131,18 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
                         ...project.sections,
                         [obj.sectionId]: {
                             ...project.sections[obj.sectionId],
-                            taskOrder: taskOrderCopy,
-                            completedTaskOrder
+                            to: taskOrderCopy
                         }
                     }
                 }))
             }
             else{
                 taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
-                let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
+                //let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
 
                 dispatch(updateProjectAsync({
                     ...project,
-                    taskOrder: taskOrderCopy,
-                    completedTaskOrder
+                    to: taskOrderCopy
                 }))
             }
         }
@@ -147,8 +169,8 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
             if(obj.sectionId) {
                 taskOrderCopy = [...project.sections[obj.sectionId].taskOrder, obj.task.fid]
 
-                let completedTaskOrderCopy = [...project.sections[obj.sectionId].completedTaskOrder];
-                completedTaskOrderCopy.splice(findIndex(completedTaskOrderCopy, obj.task.fid), 1);
+                // let completedTaskOrderCopy = [...project.sections[obj.sectionId].completedTaskOrder];
+                // completedTaskOrderCopy.splice(findIndex(completedTaskOrderCopy, obj.task.fid), 1);
 
                 //@ts-ignore
                 dispatch(updateProjectAsync({
@@ -157,20 +179,15 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
                         ...project.sections,
                         [obj.sectionId]: {
                             ...project.sections[obj.sectionId],
-                            taskOrder: taskOrderCopy,
-                            completedTaskOrder: completedTaskOrderCopy
+                            to: taskOrderCopy
                         }
                     }
                 }))
             }
             else {
-                let completedTaskOrderCopy = [...project.completedTaskOrder];
-                completedTaskOrderCopy.splice(findIndex(completedTaskOrderCopy, obj.task.fid), 1);
-
                 dispatch(updateProjectAsync({
                     ...project,
-                    taskOrder: taskOrderCopy,
-                    completedTaskOrder: completedTaskOrderCopy
+                    to: taskOrderCopy
                 }))
             }
         }
@@ -279,7 +296,7 @@ export const tasksSlice = createSlice({
         .addCase(getTodaysTasks.fulfilled, (state, action) => {
             state.todaysTasks = <any> action.payload;
         })
-        .addCase(tick, (state) => {
+        .addCase(tickAsync, (state) => {
             if(state.currentTaskRef) {
                 state.tasks[state.currentTaskRef].summary.csec += 1;
             }

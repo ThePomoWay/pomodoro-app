@@ -3,7 +3,7 @@ import { Model } from "../utils/ModelFactory";
 
 @Model('Task')
 export class Task {
-    public id: string;
+    public _id: string;
     public title: string;
     public estimatedPomodoros: number;
     public priority: number;
@@ -16,7 +16,7 @@ export class Task {
         if(!obj) {
             obj = {};
         }
-        this.id = obj.id || generateUniqueId();
+        this._id = obj._id || generateUniqueId();
         this.title = obj.title || '';
         this.estimatedPomodoros = obj.estPomos || 0;
         this.priority = obj.priority || 2;

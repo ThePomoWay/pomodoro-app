@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core
 import { ExpandMoreOutlined, Menu, MenuBookOutlined } from "@material-ui/icons"
 import { useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectTagsAsObj, selectTasksAsobj, selectTodaysTaskIds } from "../../state/selectors"
+import { selectCompletedTaskInProject, selectTagsAsObj, selectTasksAsobj, selectTodaysTaskIds } from "../../state/selectors"
 import { SECTION_DROPPABLE_ID } from "../../utils/droppable-ids"
 import {Droppable, Draggable} from "react-beautiful-dnd";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask"
@@ -17,6 +17,8 @@ export default (props) => {
     let tasks = useSelector(selectTasksAsobj);
     let tags = useSelector(selectTagsAsObj);
     let todaysTaskIdsObj = getObjFromArr(useSelector(selectTodaysTaskIds));
+
+    let completedTasks = useSelector(selectCompletedTaskInProject(props.projectId, props.section._id))
 
     let dispatch = useDispatch();
 

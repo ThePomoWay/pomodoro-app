@@ -13,8 +13,7 @@ export default (props) => {
             index: props.index,
             title: sectionTitle,
             fid: generateUniqueId(),
-            taskOrder: [],
-            completedTaskOrder: []
+            to: []
         });
         setShowEditSection(false)
     })

@@ -1,9 +1,9 @@
 import AuthService from "./AuthService";
-import { createTaskEndpoint, deleteProjectEndpoint, updateProjectEndpoint } from "./Endpoints";
+import { createProjectEndpoint, createSectionEndpoint, createTaskEndpoint, deleteProjectEndpoint, updateProjectEndpoint } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
 export function createProjectApi(project) {
-    let endpoint = createTaskEndpoint.replace('{userId}', AuthService.getUserId());
+    let endpoint = createProjectEndpoint.replace('{userId}', AuthService.getUserId());
 
     let body = {
         uid: AuthService.getUserId(),
@@ -25,11 +25,17 @@ export function deleteProjectApi(project) {
 export function updateProjectApi(project) {
     let endpoint = updateProjectEndpoint.replace('{userId}', AuthService.getUserId())
                                         .replace('{projectId}', project.id);
-    project.to = project.taskOrder;
     return NetworkService.patch(endpoint, {}, {
         title: project.title,
         uid: AuthService.getUserId(),
         _id: project.id,
         to: project.taskOrder
     });
+}
+
+export function createSectionApi(project) {
+    let endpoint = createSectionEndpoint.replace('{userId}', AuthService.getUserId())
+                                        .replace('{projectId}', project.id)
+    
+    
 }

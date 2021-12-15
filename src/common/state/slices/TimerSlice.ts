@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { create } from "domain";
 import { createTimerStateIdb, getTimerStateFromIdb, updateTimerStateIdb } from "../../API/indexed-db-ops/timerstate";
 import AuthService from "../../API/network/AuthService";
 import { updateTimerStatsAPI } from "../../API/network/StatsApis";
-import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_RUNNING_STATE } from "../../utils/constants";
+import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, EXTENSION_ID, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_RUNNING_STATE } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playAlarmSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
@@ -36,21 +35,33 @@ export let updateTimerState = createAsyncThunk(
         let date = getFormattedDate();
         let stateInStore = getState()['timer'];
         let response;
+
+        let updateObj = {
+            ...stateInStore,
+            pomoDate: new Date().toISOString(),
+            curTime: Date.now(),
+            date
+        };
         if(curStateObj.create) {
-            response = await createTimerStateIdb({
-                ...stateInStore,
-                pomoDate: new Date().toISOString(),
-                curTime: Date.now(),
-                date
-            });
+            response = await createTimerStateIdb(updateObj);
         }
         else {
-            response = await updateTimerStateIdb({
-                ...stateInStore,
+            updateObj = {
+                ...updateObj,
                 ...curStateObj,
                 curTime: Date.now(),
                  date
-            });
+            }
+            response = await updateTimerStateIdb(updateObj);
+        }
+
+        //@ts-ignore
+        if(window && window.postMessage && curStateObj && curStateObj.pomoState !== stateInStore.pomoState) {
+            //@ts-ignore
+            window.postMessage({
+                action: 'updateTimerState',
+                timerState: updateObj
+            }, '*');
         }
         
         return {
@@ -95,10 +106,21 @@ export let updateNextState = createAsyncThunk(
 export let tickAsync = createAsyncThunk(
     'timer/tick',
     async (_, {getState, dispatch}) => {
-        dispatch(tick());
-        dispatch(updateTimerState({
-            pomoDate: new Date().toISOString()
-        }))
+        let timerState = getState()['timer'];
+
+        let defaultTotalTime = timerState.defaultWorkTime;
+
+        if(timerState.pomoState.includes('long_break')) {
+            defaultTotalTime = timerState.defaultLongBreakTime;
+        }
+        else if(timerState.pomoState.includes('break')) {
+            defaultTotalTime = timerState.defaultBreakTime;
+        }
+        let diff = Math.floor((Date.now() - timerState.pomoStartTime)/1000);
+        if(diff <= (defaultTotalTime+2)){
+            dispatch(setTimerSec(defaultTotalTime - diff));
+        }
+        
     }
 )
 
@@ -126,9 +148,9 @@ export const timerSlice = createSlice({
                 }
 
                 if(state.pomoState.includes('running')) {
-                    let diff = Math.floor((Date.now() - action.payload.curTime)/1000);
-                    if(diff > 0){
-                        state.timerInSec = action.payload.timerInSec - diff
+                    let diff = Math.floor((Date.now() - action.payload.pomoStartTime)/1000);
+                    if(diff < defaultTotalTime){
+                        state.timerInSec = defaultTotalTime - diff;
                     }
                     else {
                         //update next state. Maybe this should be in thunk instead
@@ -153,5 +175,5 @@ export const timerSlice = createSlice({
     }
 });
 
-export const {completedPomo, tick,
+export const {completedPomo, setTimerSec,
 initiateBreak, initiatePomo, resetTimer, pauseTimer, completeBreak, setPomoState} = timerSlice.actions;

@@ -1,5 +1,5 @@
 import AuthService from "./AuthService";
-import { createTaskEndpoint, deleteTaskEndpoint, getTodaysTaskEndpoint, updateTaskEndpoint } from "./Endpoints";
+import { addToTodaysTasksEndpoint, createTaskEndpoint, deleteTaskEndpoint, getTodaysTaskEndpoint, markTaskAsCompleteEndpoint, updateTaskEndpoint } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
 export function getTodaysTasksAPI() {
@@ -21,6 +21,18 @@ export function createTaskAPI(taskObj){
 
 export function deleteTaskAPI(taskObj) {
     let endpoint = deleteTaskEndpoint.replace('{userId}', AuthService.getUserId())
-                                     .replace('{taskId}', taskObj.id);
+                                     .replace('{taskId}', taskObj._id);
     return NetworkService.delete(endpoint, {}, taskObj)
+}
+
+export function addToTodaysTaskAPI(taskId) {
+    let endpoint = addToTodaysTasksEndpoint.replace('{userId}', AuthService.getUserId())
+                                           .replace('{taskId}', taskId);
+    return NetworkService.post(endpoint, {}, {});
+}
+
+export function markTaskAsCompleteApi(taskId) {
+    let endpoint = markTaskAsCompleteEndpoint.replace('{userId}', AuthService.getUserId())
+                                             .replace('{taskId}', taskId);
+    return NetworkService.post(endpoint)
 }

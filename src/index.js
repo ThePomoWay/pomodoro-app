@@ -5,6 +5,7 @@ import App from './App';
 import { store } from './common/state/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import addExtensionListeners from './common/utils/extension-utils';
 
 const rootElement = document.getElementById("root");
 
@@ -27,3 +28,4 @@ const rootElement = document.getElementById("root");
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+addExtensionListeners();

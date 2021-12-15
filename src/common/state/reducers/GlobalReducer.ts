@@ -1,7 +1,8 @@
 export const initialGlobalState = {
     focusMode: false,
     showAddTaskBtn: false,
-    taskToBeEdited: {}
+    taskToBeEdited: {},
+    extensionPresent: false
 };
 
 export let globalReducer = {
@@ -11,11 +12,8 @@ export let globalReducer = {
     hideAddTaskBtn: (state) => {
         state.showAddTaskBtn = false;
     },
-    enableFocusMode: (state) => {
-        state.focusMode = true;
-    },
-    disableFocusMode: (state) => {
-        state.focusMode = false;
+    setFocusMode: (state, action) => {
+        state.focusMode = action.payload;
     },
 
     editTask: (state, action) => {
@@ -24,5 +22,8 @@ export let globalReducer = {
 
     clearTaskToBeEdited: (state, action) => {
         state.taskToBeEdited = {};
+    },
+    setExtensionPresent: (state, action) => {
+        state.extensionPresent = action.payload;
     }
 }

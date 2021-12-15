@@ -2,6 +2,7 @@ import { ClickAwayListener, Popover, Popper } from "@material-ui/core";
 import { Close, ExpandMore, Flag, FormatListBulleted, FormatListBulletedOutlined, FormatListBulletedRounded, FormatListBulletedTwoTone, Label, TagFaces } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import AuthService from "../../API/network/AuthService";
 import { selectProjectsObj, selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
 import { setTags } from "../../state/slices/TagsSlice";
 import { generateUniqueId, getObjFromArr } from "../../utils/common";
@@ -119,7 +120,7 @@ export default function EditTaskContainer(props) {
                 cpomo: 0
             },
             project: {
-                projectID: project.projectID || '',
+                projectID: project.projectID || AuthService.getProjectId(),
                 secID: project.secID || ''
             },
             labels: selectedTags
@@ -135,7 +136,7 @@ export default function EditTaskContainer(props) {
                 estimatedPomos,
                 labels: selectedTags,
                 project: {
-                    projectID: project.projectID,
+                    projectID: project.projectID || AuthService.getProjectId(),
                     secID: project.secID
                 }
             }
