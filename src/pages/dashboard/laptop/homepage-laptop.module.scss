@@ -29,6 +29,9 @@
 
   .timer {
     grid-column: 1 / 4;
+
+    align-items: start;
+    margin-top: 140px;
   }
 
   &.hide-sidebar {
