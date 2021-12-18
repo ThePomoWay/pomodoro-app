@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+
+  background-color: #ffffff;
+  font-family: Roboto;
+
+  .taskList {
+    display: grid;
+
+    padding: 20px;
+  }
+}
+
+.main-content {
+  display: grid;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+
+  flex: 11;
+
+  transition: all 1s ease-in;
+
+  .timer {
+    grid-column: 1 / 4;
+  }
+
+  &.hide-sidebar {
+    .sidebar-container {
+      grid-column: 11 / 13;
+    }
+
+    .taskList {
+      grid-column: 5 / 13;
+    }
+  }
+  &.show-sidebar {
+    .sidebar-container {
+      grid-column: 10 / 13;
+    }
+
+    .taskList {
+      grid-column: 5 / 10;
+      transition: 1s;
+    }
+  }
+
+  .sidebar-container {
+    overflow: hidden;
+    position: relative;
+    button {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+    }
+  }
+}
+
+.footer-container {
+  z-index: 1;
+}

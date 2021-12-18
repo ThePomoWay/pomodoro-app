@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
 import { editTask } from "../../state/slices/GlobalSlice";
-import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk } from "../../state/slices/TasksSlice";
+import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk, setEditTask } from "../../state/slices/TasksSlice";
 import { initiatePomo } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE } from "../../utils/constants";
 
@@ -26,7 +26,7 @@ export default function TaskItem(props) {
     }, [dispatch]);
 
     const doEditTask = useCallback(() => {
-        dispatch(editTask(task));
+        dispatch(setEditTask(task.fid));
     }, [dispatch]);
 
     const doDeleteTask = useCallback(() => {
@@ -69,9 +69,12 @@ export default function TaskItem(props) {
             )
         }
         if(!props.hidePlay) {
-            return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
-            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
+            return (<span className="task-actions-round edit" onClick={(e) => {doEditTask(); e.stopPropagation()}}>
+            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<Edit></Edit>) }
             </span>)
+            // return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
+            // { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
+            // </span>)
         }
         return (<span></span>);
     })
@@ -89,9 +92,9 @@ export default function TaskItem(props) {
 
     let getEstimatedPomoHtml = useCallback(() => {
         if(task.estimatedPomos) {
-            return (<span className="e-pomos"><div className="circle"> </div> {task.summary.cpomo} / <div className="circle circle-filled"></div>{ task.estimatedPomos }</span>)
+            return (<span className="e-pomos"><div className="circle completed"> </div> {task.summary.cpomo} / <div className="circle estimated"></div>{ task.estimatedPomos }</span>)
         }
-        return (<span className="e-pomos"><div className="circle"> </div> {task.summary.cpomo}</span>)
+        return (<span className="e-pomos"><div className="circle completed"> </div> {task.summary.cpomo}</span>)
     })
 
     return (

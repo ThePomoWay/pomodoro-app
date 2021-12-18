@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { createTaskThunk } from "../../state/slices/TasksSlice";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
+import styles from "./AddNewTask.module.scss";
+
 export const AddNewTask = React.memo(function(props) {
     const dispatch = useDispatch();
 
@@ -22,8 +24,8 @@ export const AddNewTask = React.memo(function(props) {
     let showEditContainer = useCallback(() => {
         if(showBtn) {
             return (
-                <button className="btn btn-simple" onClick={() => setShowBtn(!showBtn) }>
-                    + Add New Task
+                <button className={`btn btn-simple ${styles['add-task-btn']}`} onClick={() => setShowBtn(!showBtn) }>
+                    + Create task
                 </button>
             );
         }

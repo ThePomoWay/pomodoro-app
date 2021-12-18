@@ -1,6 +1,6 @@
 import { FlashOn, FlashOnOutlined, Info } from "@material-ui/icons";
 import { useEffect } from "react";
-import Navbar from "../../common/components/navbar/navbar";
+import Navbar from "../../common/components/navbar/Navbar";
 import { TabsComponent } from "../../common/components/tabs-component/TabsComponent";
 import styles from './Analysispage.module.scss';
 

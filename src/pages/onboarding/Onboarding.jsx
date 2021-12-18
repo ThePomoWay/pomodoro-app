@@ -6,6 +6,8 @@ import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
 
 import "./onboarding.scss";
+import { useDispatch } from "react-redux";
+import { signin } from "../../common/state/slices/GlobalSlice";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -18,9 +20,14 @@ export default function OnBoarding(props) {
     sauces: []
   };
 
+  let dispatch = useDispatch();
+
   const responseGoogle = useCallback((response) => {
-    console.log(response);
-    debugger;
+      console.log(response);
+      dispatch(signin({
+          mode: 'google',
+          data: response
+      }))
   });
 
   const componentClicked = useCallback(() => {
@@ -29,6 +36,10 @@ export default function OnBoarding(props) {
 
   const responseFacebook = useCallback((response) => {
     console.log(response);
+    dispatch(signin({
+        mode: 'facebook',
+        data: response.tokenObj.access_token
+    }))
     });
 
   return (

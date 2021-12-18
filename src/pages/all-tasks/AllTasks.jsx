@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
-import Navbar from "../../common/components/navbar/navbar";
+import Navbar from "../../common/components/navbar/Navbar";
 import { getAllTasks } from "../../common/state/async";
 import { selectAllTasks, selectTodaysTaskIds, selectTodaysTasks } from "../../common/state/selectors";
 import { addToAllTasks, addToTodaysTasks, getTodaysTasks, rearrangeAllTasks, rearrangeTodaysTask, removeFromAllTasks, removeFromTodaysTasks } from "../../common/state/slices/TasksSlice";
@@ -87,9 +87,9 @@ export default () => {
     let { path } = useRouteMatch();
 
     return (
-        <div className="container">
+        <div className={styles["container"]}>
             <div>
-                <Navbar selected="1"></Navbar>
+                <Navbar selected="0"></Navbar>
             </div>
             <div className={styles['main-view']}>
                 <div className={styles.sidebar}>

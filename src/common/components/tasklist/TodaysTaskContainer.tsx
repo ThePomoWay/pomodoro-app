@@ -8,6 +8,7 @@ import {DragDropContext} from "react-beautiful-dnd";
 import styles from "./todaysTaskContainer.module.scss";
 import { markTaskAsInCompleteThunk, rearrangeTodaysTask } from "../../state/slices/TasksSlice";
 import TaskItem from "../task/task";
+import { getTodaysDateFormatted } from "../../utils/date-utils";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
@@ -45,8 +46,9 @@ export function TodaysTaskContainer () {
             );
         }
         return (
-            <div className="task-list">
-                <span className={styles["title"]}>Give your 100% today! unless you're donating blood</span>
+            <div className={styles["task-list"]}>
+                <span className={styles["title"]}>Today's Tasks</span>
+                <span className={styles['subtitle']}>{getTodaysDateFormatted()}</span>
                 <div className={styles["task-container"]}>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <DraggableTaskList

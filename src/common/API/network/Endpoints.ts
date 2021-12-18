@@ -21,3 +21,6 @@ export const createSectionEndpoint = 'v1/user/{userId}/project/{projectId}/secti
 export const deleteSectionEndpoint = 'v1/user/{userId}/project/{projectId}/section/{sectionId}';
 export const updateSectionEndpoint = deleteSectionEndpoint;
 
+//Login APIs
+export const googleLoginEndpoint = 'v1/google-login';
+export const facebookLoginEndpoint = 'v1/facebook-login';

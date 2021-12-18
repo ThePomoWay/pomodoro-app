@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { selectEditTask, selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
-import { markTaskAsCompleteThunk, markTaskAsInCompleteThunk, setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
+import { markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk, setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
@@ -23,6 +23,10 @@ export default (props) => {
         }
         dispatch(setEditTask(''));
     })
+
+    let markAsCurrent = useCallback((item) => {
+        dispatch(markTaskAsCurrent(item));
+    });
 
     let doSetEditTask = useCallback((item) => {
         dispatch(setEditTask(item.fid));
@@ -64,7 +68,7 @@ export default (props) => {
                                 index={index} 
                                 dropId={props.dropId}
                                 onComplete={toggleCompletedTasks}
-                                onClick={doSetEditTask}/>
+                                onClick={markAsCurrent}/>
                             )
                         }
                         )}

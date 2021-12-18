@@ -7,7 +7,7 @@ import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
 import ClockSettings from './pages/clock-settings/ClockSettings';
 import CloseTabs from './pages/close-tab/CloseTab';
-import HomePage from './pages/dashboard/HomePage';
+import Homepage from './pages/dashboard/Homepage';
 import OnBoarding from './pages/onboarding/Onboarding';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
             <ClockSettings />
           </Route>
           <Route exact path="/">
-            <HomePage />
+            <Homepage />
           </Route>
         </Switch>
     </Router>

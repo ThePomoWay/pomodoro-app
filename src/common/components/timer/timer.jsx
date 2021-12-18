@@ -35,6 +35,12 @@ const actionStateMap = {
         stop: POMO_LONG_BREAK_IDLE_STATE
     }
 }
+
+const TIMER_BG_COLOR = {
+    [TAB_POMODORO]: "#344493",
+    [TAB_BREAK]: "#344493",
+    [TAB_LONG_BREAK]: "#344493"
+};
 let getTab = function(state) {
 
     if(state.startsWith('pomo_break')) {
@@ -49,6 +55,16 @@ let getTab = function(state) {
 
 let getNextPomoState = function(curState, action) {
     return actionStateMap[getTab(curState)] [action];
+}
+
+let getTotalTime = function(defaults, tab) {
+    if(tab === TAB_POMODORO) {
+        return defaults.defaultWorkTime;
+    }
+    if(tab === TAB_BREAK) {
+        return defaults.defaultBreakTime
+    }
+    return defaults.defaultLongBreakTime;
 }
 export default function Timer(){
 
@@ -206,18 +222,23 @@ export default function Timer(){
             }))
         });
 
+        let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
+        let timerStyle = {
+            "background": "linear-gradient(0deg, " + TIMER_BG_COLOR[tab] + " " + percentComplete + "%, white " + (percentComplete+1) + "%, #C3C3C3 100%)"
+        }
+
         return ( 
             <div className={`${styles.timer} grid grid-center`}>
                 <div className={styles['timer-tabs']}>
                     <div className={`${styles['timer-tabs-item']} ${tab === 'pomodoro' && styles['selected']}`}
-                         onClick={() => {changePomoState(POMO_IDLE_STATE)}}>Pomodoro</div>
+                         onClick={() => {changePomoState(POMO_IDLE_STATE)}}>Work Mode</div>
                     <div className={`${styles['timer-tabs-item']} ${tab === 'break' && styles['selected']}`}
-                         onClick={() => {changePomoState(POMO_BREAK_IDLE_STATE)}}>Short break</div>
+                         onClick={() => {changePomoState(POMO_BREAK_IDLE_STATE)}}>Short Break</div>
                     <div className={`${styles['timer-tabs-item']} ${tab === 'long_break' && styles['selected']}`}
-                         onClick={() => {changePomoState(POMO_LONG_BREAK_IDLE_STATE)}}>Long break</div>
+                         onClick={() => {changePomoState(POMO_LONG_BREAK_IDLE_STATE)}}>Long Break</div>
                 </div>
-                <div className={`${styles.round} ${styles['border-red']} grid grid-center`}>
-                    <span> {timerString}</span>
+                <div className={`${styles.round} ${styles['border-red']} grid grid-center`} style={timerStyle}>
+                    <span className={styles['timer-text']}> {timerString}</span>
                 </div>
                 {getCTA(state)}
             </div>
