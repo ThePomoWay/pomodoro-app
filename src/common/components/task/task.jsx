@@ -1,5 +1,5 @@
 import { Popover } from "@material-ui/core";
-import { Add, Delete, Edit, MoreHorizRounded, PlayArrow, Remove, RemoveFromQueue, TimelapseOutlined } from "@material-ui/icons";
+import { Add, Delete, Edit, EditOutlined, MoreHorizRounded, PlayArrow, Remove, RemoveFromQueue, TimelapseOutlined } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
@@ -8,7 +8,7 @@ import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAs
 import { initiatePomo } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE } from "../../utils/constants";
 
-import "./task.scss";
+import styles from "./task.module.scss";
 
 export default function TaskItem(props) {
 
@@ -56,21 +56,21 @@ export default function TaskItem(props) {
     const getFirstCTA = useCallback(() => {
         if(showAddBtn) {
             return (
-                <span className="task-actions-round add" onClick={(e) => {doAddTask(); e.stopPropagation()}}>
+                <span className={styles["task-actions-round"]} onClick={(e) => {doAddTask(); e.stopPropagation()}}>
                 { (<Add></Add>) }
                 </span>
             )
         }
         if(showRemoveBtn) {
             return (
-                <span className="task-actions-round add" onClick={(e) => {doRemoveTask(); e.stopPropagation()}}>
+                <span className={styles["task-actions-round"]} onClick={(e) => {doRemoveTask(); e.stopPropagation()}}>
                 { (<Remove></Remove>) }
                 </span>
             )
         }
         if(!props.hidePlay) {
-            return (<span className="task-actions-round edit" onClick={(e) => {doEditTask(); e.stopPropagation()}}>
-            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<Edit></Edit>) }
+            return (<span className={styles["task-actions-round"]} onClick={(e) => {doEditTask(); e.stopPropagation()}}>
+            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<EditOutlined></EditOutlined>) }
             </span>)
             // return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
             // { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
@@ -92,36 +92,36 @@ export default function TaskItem(props) {
 
     let getEstimatedPomoHtml = useCallback(() => {
         if(task.estimatedPomos) {
-            return (<span className="e-pomos"><div className="circle completed"> </div> {task.summary.cpomo} / <div className="circle estimated"></div>{ task.estimatedPomos }</span>)
+            return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.summary.cpomo} / <div className={`circle ${styles["estimated"]} ${styles["pomo"]}`}></div>{ task.estimatedPomos }</span>)
         }
-        return (<span className="e-pomos"><div className="circle completed"> </div> {task.summary.cpomo}</span>)
+        return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.summary.cpomo}</span>)
     })
 
     return (
     
-    <div className={`task ${task.isCurrentTask ? 'selected' : ''}`} onClick={((e) => props.onClick && props.onClick(task))}>
-        <span className="checkbox">
+    <div className={`${styles["task"]} ${task.isCurrentTask ? styles['selected'] : ''}`} onClick={((e) => props.onClick && props.onClick(task))}>
+        <span className={styles["checkbox"]}>
             <input type="radio" onClick={(e) => {toggleMarkAsComplete(e)}} value={!!task.isComplete} defaultChecked={!!task.isComplete} />
         </span>
-        <span className="task-title">{task.title} {task.isCurrentTask &&  '(current task)'}</span>
-        <div className="second-row">
-            <span className="estimated-pomos-tag"> {getEstimatedPomoHtml()}</span>
+        <span className={styles["task-title"]}>{task.title} {task.isCurrentTask &&  '(current task)'}</span>
+        <div className={styles["second-row"]}>
+            <span className={styles["estimated-pomos-tag"]}> {getEstimatedPomoHtml()}</span>
             {(task.project.projectID && props.projects && props.projects[task.project.projectID]) && (
-                <span className="project">{props.projects[task.project.projectID].title}</span>
+                <span className={styles["project"]}>{props.projects[task.project.projectID].title}</span>
             )}
             
-            <span className="tags">
+            <span className={styles["tags"]}>
                 {
                     Object.keys(props.tags).length >= task.labels.length && 
                     (
-                        task.labels.map((item, ind) => (<span key={ind} className="tags-small" style={{borderColor: props.tags[item].color, color: props.tags[item].color}}>{props.tags[item].title}</span>))
+                        task.labels.map((item, ind) => (<span key={ind} className={styles["tags-small"]} style={{borderColor: props.tags[item].color, color: props.tags[item].color}}>{props.tags[item].title}</span>))
                     )
                 }
             </span>
         </div>
-        <span className="task-actions">
+        <span className={styles["task-actions"]}>
             {getFirstCTA()}
-            <span className="task-actions-round more">
+            <span className={`${styles["task-actions-round"]} ${styles["more"]}`}>
                 <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
                 <Popover
                 open={Boolean(anchorEl)}
@@ -132,12 +132,12 @@ export default function TaskItem(props) {
                     vertical: 'bottom',
                     horizontal: 'left',
                   }}>
-                    <div className="more-options">
-                        <div className="more-options-item" onClick={(e) => {doEditTask(); e.stopPropagation()}}>
-                            <Edit></Edit>
+                    <div className={styles["more-options"]}>
+                        <div className={styles["more-options-item"]} onClick={(e) => {doEditTask(); e.stopPropagation()}}>
+                            <EditOutlined></EditOutlined>
                             <span>Edit task</span>
                         </div>
-                        <div className="more-options-item" onClick={(e) => {doDeleteTask(); e.stopPropagation()}}>
+                        <div className={styles["more-options-item"]} onClick={(e) => {doDeleteTask(); e.stopPropagation()}}>
                             <Delete></Delete>
                             <span>Delete task</span>
                         </div>
