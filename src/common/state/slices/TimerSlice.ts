@@ -40,6 +40,8 @@ export let updateTimerState = createAsyncThunk(
             ...stateInStore,
             pomoDate: new Date().toISOString(),
             curTime: Date.now(),
+            psec: 0,
+            ptime: '',
             date
         };
         if(curStateObj.create) {
@@ -50,7 +52,7 @@ export let updateTimerState = createAsyncThunk(
                 ...updateObj,
                 ...curStateObj,
                 curTime: Date.now(),
-                 date
+                date
             }
             response = await updateTimerStateIdb(updateObj);
         }
@@ -116,11 +118,26 @@ export let tickAsync = createAsyncThunk(
         else if(timerState.pomoState.includes('break')) {
             defaultTotalTime = timerState.defaultBreakTime;
         }
-        let diff = Math.floor((Date.now() - timerState.pomoStartTime)/1000);
+        let diff = Math.floor((Date.now() - timerState.pomoStartTime + timerState.psec)/1000);
         if(diff <= (defaultTotalTime+2)){
-            dispatch(setTimerSec(defaultTotalTime - diff));
+            dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
         }
         
+    }
+)
+
+export const resumeTimerAsync = createAsyncThunk(
+    'timer/resume',
+    (_, {dispatch, getState}) => {
+        let timerState = getState()['timer'];
+
+        //assumes ptime is present. 
+        let pausedSec = timerState.psec + Math.round((Date.now() - new Date(timerState.ptime).getTime()) / 1000);
+        dispatch(updateTimerState({
+            ...timerState,
+            pomoState: POMO_RUNNING_STATE,
+            psec: pausedSec
+        }));
     }
 )
 
@@ -134,6 +151,8 @@ export const timerSlice = createSlice({
                 state.completedPomos = action.payload.completedPomos;
                 state.pomoState = action.payload.pomoState;
                 state.pomoStartTime = action.payload.pomoStartTime;
+                state.psec = action.payload.psec;
+                state.ptime = action.payload.ptime;
 
                 let defaultTotalTime = 0;
 
@@ -170,6 +189,8 @@ export const timerSlice = createSlice({
                 state.pomoState = action.payload.pomoState;
                 state.timerInSec = action.payload.timerInSec;
                 state.pomoStartTime = action.payload.pomoStartTime;
+                state.psec = action.payload.psec;
+                state.ptime = action.payload.ptime;
             }
         })
     }

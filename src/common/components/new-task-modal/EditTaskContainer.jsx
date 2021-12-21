@@ -117,7 +117,8 @@ export default function EditTaskContainer(props) {
             isBulleted,
             summary: {
                 csec: 0,
-                cpomo: 0
+                cpomo: 0,
+                psec: 0
             },
             project: {
                 projectID: project.projectID || AuthService.getProjectId(),
@@ -159,16 +160,24 @@ export default function EditTaskContainer(props) {
     }, []);
 
     const onTitleInput = useCallback((e) => {
-        if (e.key === 'Enter' && title) {
-            doSaveTask();
-        }
+        // if (e.key === 'Enter' && title) {
+        //     doSaveTask();
+        // }
         
-        if(e.key === 'Backspace') {
-            setTitle(title.slice(0,title.length-1));
-        }
+        // if(e.key === 'Backspace') {
+        //     setTitle(title.slice(0,title.length-1));
+        // }
 
-        if((e.keyCode > 64 && e.keyCode < 91) || e.keyCode==32 || (e.keyCode >=48 && e.keycode <=57) ){
-            setTitle(title + e.key);
+        // if((e.keyCode > 64 && e.keyCode < 91) || e.keyCode==32 || (e.keyCode >=48 && e.keycode <=57) ){
+        //     setTitle(title + e.key);
+        // }
+
+        setTitle(e.target.value);
+    });
+
+    const onTitleKeyChange = useCallback((e) => {
+        if(e.key === 'Enter' && title) {
+            doSaveTask();
         }
     })
 
@@ -202,8 +211,8 @@ export default function EditTaskContainer(props) {
     return (
         <div>
         <div className={styles['edit-task']}>
-            <div ref={ref} className={styles['content-editable-div']} onKeyDown={onTitleInput} contentEditable="true">
-            </div>
+            <textarea ref={ref} value={title} className={styles['content-editable-div']} onChange={onTitleInput} onKeyDown={onTitleKeyChange}>
+            </textarea>
             <div className={styles['description']}>
                 <TaskDescription onChange={(e) => setDescription(e)} isBulleted={isBulleted} value={taskToBeEdited.description} />
             </div>

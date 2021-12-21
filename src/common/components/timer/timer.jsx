@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDefaultTimes, selectPomoState, selectTimer } from "../../state/selectors";
-import { tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
+import { resumeTimerAsync, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE, POMO_IDLE_STATE, POMO_PAUSED_STATE, POMO_BREAK_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_LONG_BREAK_RUNNING_STATE, POMO_LONG_BREAK_PAUSED_STATE, POMO_BREAK_PAUSED_STATE } from "../../utils/constants";
 import styles from "./timer.module.scss";
 import { Pause, PlayArrow, SkipNext, Stop } from "@material-ui/icons";
@@ -75,6 +75,21 @@ export default function Timer(){
         let state = useSelector(selectPomoState);
         let dispatch = useDispatch();
 
+        const startInterval = useCallback(() => {
+            if(!timer) {
+                timer = setInterval(() => {
+                    if(timerSec <= 0) {
+                        dispatch(updateNextState());
+                        clearInterval(timer);
+                        timer = 0;
+                    }
+                    else {
+                        dispatch(tickAsync())
+                    }
+                }, 1000)
+            }
+        });
+
         const doStartTimer = useCallback((isCta) => {
             if(!timer) {
                 if(isCta){
@@ -89,16 +104,7 @@ export default function Timer(){
                     }));
                 }
 
-                timer = setInterval(() => {
-                    if(timerSec <= 0) {
-                        dispatch(updateNextState());
-                        clearInterval(timer);
-                        timer = 0;
-                    }
-                    else {
-                        dispatch(tickAsync())
-                    }
-                }, 1000)
+                startInterval();
             }
         });
 
@@ -109,9 +115,15 @@ export default function Timer(){
             }
             dispatch(updateTimerState({
                 pomoState: getNextPomoState(state, ACTION_PAUSE),
-
+                ptime: new Date().toISOString()
             }));
         });
+
+        const doResumeTimer = useCallback(() => {
+            
+            dispatch(resumeTimerAsync());
+            setTimeout(startInterval, 0);
+        })
 
         const doStopTimer = useCallback(() => {
             if(timer) {
@@ -120,7 +132,9 @@ export default function Timer(){
             }
             dispatch(updateTimerState({
                 pomoState: getNextPomoState(state, ACTION_STOP),
-                timerInSec: defaults.defaultWorkTime
+                timerInSec: defaults.defaultWorkTime,
+                ptime:'',
+                psec: 0
             }))
         });
 
@@ -155,7 +169,7 @@ export default function Timer(){
             if(state === POMO_PAUSED_STATE) {
                 return (
                     <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(false)}> <PlayArrow /> Resume</span>
+                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doResumeTimer()}> <PlayArrow /> Resume</span>
                         <button className="btn btn-simple btn-round flex flex-center" onClick={doStopTimer}><Stop /> Stop</button>
                     </div>
                 );

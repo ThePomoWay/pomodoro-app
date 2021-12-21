@@ -103,7 +103,7 @@ export default function TaskItem(props) {
         <span className={styles["checkbox"]}>
             <input type="radio" onClick={(e) => {toggleMarkAsComplete(e)}} value={!!task.isComplete} defaultChecked={!!task.isComplete} />
         </span>
-        <span className={styles["task-title"]}>{task.title} {task.isCurrentTask &&  '(current task)'}</span>
+        <span className={styles["task-title"]}>{task.title}</span>
         <div className={styles["second-row"]}>
             <span className={styles["estimated-pomos-tag"]}> {getEstimatedPomoHtml()}</span>
             {(task.project.projectID && props.projects && props.projects[task.project.projectID]) && (
@@ -114,7 +114,7 @@ export default function TaskItem(props) {
                 {
                     Object.keys(props.tags).length >= task.labels.length && 
                     (
-                        task.labels.map((item, ind) => (<span key={ind} className={styles["tags-small"]} style={{borderColor: props.tags[item].color, color: props.tags[item].color}}>{props.tags[item].title}</span>))
+                        task.labels.map((item, ind) => (<span key={ind} className={styles["tags-small"]} style={{borderColor: props.tags[item].color, color: props.tags[item].color}}>#{props.tags[item].title}</span>))
                     )
                 }
             </span>

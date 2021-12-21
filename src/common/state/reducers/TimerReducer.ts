@@ -9,7 +9,9 @@ export const initialTimerState = {
     pomoState: POMO_IDLE_STATE,
     autoPlayPomo: false,
     autoPlayBreak: false,
-    pomoStartTime: 0
+    pomoStartTime: 0,
+    psec: 0,
+    ptime: ''
 }
 
 export let timerReducer = {
