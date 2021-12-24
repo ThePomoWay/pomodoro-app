@@ -1,8 +1,8 @@
 export function playAlarmSound() {
-    let audio = new Audio('/sounds/alarm.wav');
+    let audio = new Audio('/sounds/alarm.mpeg');
     audio.play();
 
     setTimeout(() => {
         audio.pause();
-    }, 3000)
+    }, 8000)
 }

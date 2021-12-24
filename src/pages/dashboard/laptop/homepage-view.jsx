@@ -13,7 +13,7 @@ export function HomepageLaptop() {
         <div className={styles["container"]}>
             <Navbar selected="1"></Navbar>
             <div className={`${styles['main-content']} ${showSidebar ? styles['show-sidebar'] : styles['hide-sidebar']}`}>
-                <div className={`${styles["timer"]} grid`}>
+                <div className={`${styles["timer"]}`}>
                     <Timer></Timer>
                     {/* <CurrentTask></CurrentTask> */}
                 </div>

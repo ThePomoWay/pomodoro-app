@@ -11,9 +11,13 @@ export const POMO_LONG_BREAK_PAUSED_STATE   = 'pomo_long_break_paused';
 export const allTasksDropId = 'id-2e';
 export const todaysTasksDropId = 'id-1e';
 
-export let DEFAULT_WORK_TIME        = 25 * 60;
+export let DEFAULT_WORK_TIME        = 1 * 10;
 export let DEFAULT_BREAK_TIME       = 5 * 60;
 export let DEFAULT_LONG_BREAK_TIME  = 15 * 60;
+
+//stats
+export const STATS_TYPE_COMPLETE = 'complete';
+export const STATS_TYPE_PAUSED   = 'pause';
 
 
 export const priorityColorMap = ['', 'purple', 'red', 'yellow', 'green'];

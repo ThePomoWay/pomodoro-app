@@ -1,0 +1,123 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  font-family: Roboto;
+
+  .main-view {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+
+    .analysis-container {
+      width: 60vw;
+      padding: 20px;
+
+      .streak-container {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid gray;
+        border-radius: 6px;
+        padding: 40px;
+
+        margin-bottom: 40px;
+
+        .longest-streak {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          border-right: 1px solid gray;
+        }
+        .current-streak {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          flex: 1;
+        }
+      }
+
+      .stats {
+        .date-picker {
+          margin-top: 20px;
+        }
+      }
+
+      .daily-pomodoro {
+        margin-top: 84px;
+      }
+
+      .daily-pomodoro-stats {
+        margin-top: 48px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .completed-pomodoros {
+          display: flex;
+          flex-direction: row;
+
+          .completed-pomo-stats {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            align-items: center;
+            .green {
+              color: #93b558;
+            }
+          }
+        }
+
+        .undisturbed-pomos {
+          display: flex;
+          flex-direction: row;
+
+          .undisturbed-pomo-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin-left: 20px;
+          }
+        }
+
+        .circle {
+          width: 107px;
+          height: 107px;
+          border: 1px solid gray;
+          border-radius: 50%;
+          background: linear-gradient(0deg, #dedede 49%, #ededed 50%);
+        }
+      }
+
+      .tasks {
+        margin-top: 20px;
+
+        .task-stats-container {
+          display: flex;
+          flex-direction: row;
+
+          svg {
+            width: 80px;
+            height: 80px;
+          }
+
+          .task-stats {
+            display: flex;
+            flex-direction: column;
+
+            .task-stats-count {
+              display: flex;
+              flex-direction: row;
+              gap: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

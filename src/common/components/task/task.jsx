@@ -7,6 +7,7 @@ import { editTask } from "../../state/slices/GlobalSlice";
 import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk, setEditTask } from "../../state/slices/TasksSlice";
 import { initiatePomo } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE } from "../../utils/constants";
+import { EditIcon } from "../edit-icon/EditIcon";
 
 import styles from "./task.module.scss";
 
@@ -70,7 +71,7 @@ export default function TaskItem(props) {
         }
         if(!props.hidePlay) {
             return (<span className={styles["task-actions-round"]} onClick={(e) => {doEditTask(); e.stopPropagation()}}>
-            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<EditOutlined></EditOutlined>) }
+            { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<EditIcon />) }
             </span>)
             // return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
             // { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }

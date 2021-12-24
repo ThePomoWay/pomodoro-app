@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { pushToStatsUpdateQueueIDB } from "../../API/indexed-db-ops/statsQueue";
 import { createTimerStateIdb, getTimerStateFromIdb, updateTimerStateIdb } from "../../API/indexed-db-ops/timerstate";
 import AuthService from "../../API/network/AuthService";
 import { updateTimerStatsAPI } from "../../API/network/StatsApis";
-import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, EXTENSION_ID, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_RUNNING_STATE } from "../../utils/constants";
+import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, EXTENSION_ID, POMO_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_PAUSED_STATE, POMO_RUNNING_STATE, STATS_TYPE_COMPLETE, STATS_TYPE_PAUSED } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playAlarmSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
@@ -91,7 +92,10 @@ export let updateNextState = createAsyncThunk(
             dispatch(updateTimerState({
                 pomoState: nextState,
                 timerInSec: nextTimerInSec,
-                completedPomos
+                completedPomos,
+                ptime: '',
+                lastResumeTime: '',
+                psec: 0
             }));
 
             dispatch(incrementCurTaskCpomo());
@@ -119,12 +123,32 @@ export let tickAsync = createAsyncThunk(
             defaultTotalTime = timerState.defaultBreakTime;
         }
         let diff = Math.floor((Date.now() - timerState.pomoStartTime + timerState.psec)/1000);
-        if(diff <= (defaultTotalTime+2)){
+        
+        let timerSec = defaultTotalTime - diff + timerState.psec;
+        if(timerSec < 0) {
+            dispatch(completePomodoro());
+        }
+        else {
             dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
         }
-        
     }
 )
+
+export const pauseTimerAsync = createAsyncThunk(
+    'timer/pause',
+    (_, {dispatch, getState}) => {
+        let timerState = getState()['timer'];
+
+        if(AuthService.isLoggedIn()) {
+            updateTimerStatsAPI(timerState.lastResumeTime || new Date(timerState.pomoStartTime).toISOString(), new Date().toISOString(), STATS_TYPE_PAUSED , false);
+        }
+
+        dispatch(updateTimerState({
+            pomoState: POMO_PAUSED_STATE,
+            ptime: new Date().toISOString()
+        }));
+    }
+);
 
 export const resumeTimerAsync = createAsyncThunk(
     'timer/resume',
@@ -136,8 +160,29 @@ export const resumeTimerAsync = createAsyncThunk(
         dispatch(updateTimerState({
             ...timerState,
             pomoState: POMO_RUNNING_STATE,
-            psec: pausedSec
+            psec: pausedSec,
+            lastResumeTime: new Date().toISOString()
         }));
+    }
+)
+
+export const completePomodoro = createAsyncThunk(
+    'timer/complete',
+    (_, {dispatch, getState}) => {
+        let timerState = getState()['timer'];
+        if(timerState.pomoState === POMO_RUNNING_STATE) {
+            if(AuthService.isLoggedIn()) {
+                //ToDo: add functionality for distracted.
+                updateTimerStatsAPI(timerState.lastResumeTime || new Date(timerState.pomoStartTime).toISOString(), new Date().toISOString(), STATS_TYPE_COMPLETE , false);
+            }
+
+            else {
+                pushToStatsUpdateQueueIDB(timerState.lastResumeTime || new Date(timerState.pomoStartTime).toISOString(), new Date().toISOString, STATS_TYPE_COMPLETE, false);
+            }
+        }
+
+        dispatch(updateNextState());
+
     }
 )
 
@@ -191,6 +236,7 @@ export const timerSlice = createSlice({
                 state.pomoStartTime = action.payload.pomoStartTime;
                 state.psec = action.payload.psec;
                 state.ptime = action.payload.ptime;
+                state.lastResumeTime = action.payload.lastResumeTime;
             }
         })
     }

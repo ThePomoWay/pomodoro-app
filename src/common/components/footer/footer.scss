@@ -11,7 +11,7 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
 
-    padding: 20px;
+    padding: 16px;
 
     grid-column: 5 / 13;
 
@@ -41,10 +41,22 @@
       align-items: center;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-start;
       width: 55%;
+      font-size: 14px;
+      font-weight: 400;
 
       grid-column: 1 / 10;
+
+      &-circles {
+        margin-left: 8px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+      &-title {
+        margin-right: 4px;
+      }
     }
 
     .round-border {
@@ -55,17 +67,16 @@
     }
 
     .filled {
-      background-color: black;
-    }
+      background: #eeeffa;
+      border: 1px solid #bcc7ff;
 
-    .focus-mode {
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: space-evenly;
-      font-size: 14px;
-      font-weight: $font-weight-400;
 
-      grid-column: 10 / 13;
+      color: #a1aef0;
+      font-size: 12px;
+      line-height: 14px;
     }
 
     .lock {

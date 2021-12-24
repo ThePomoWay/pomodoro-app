@@ -24,3 +24,7 @@ export const updateSectionEndpoint = deleteSectionEndpoint;
 //Login APIs
 export const googleLoginEndpoint = 'v1/google-login';
 export const facebookLoginEndpoint = 'v1/facebook-login';
+
+//Stats APIs
+export const updateStatsEndpoint = 'v1/users/{userId}/stats';
+export const getStatsEndpoint = updateStatsEndpoint;

@@ -44,9 +44,11 @@ export default function Footer() {
                     </span>
                 </div> */}
                 <div className="completed-pomos">
-                    <span>Today's Pomodoros: </span>
-                    {[...Array(cPomos)].map((item, index) => (<span key={`completed-pomo-${index}`} className="round-border filled"></span>))}
+                    <span className="completed-pomos-title">Today's Pomodoros: </span>
+                    <div className="completed-pomos-circles">
+                    {[...Array(cPomos)].map((item, index) => (<div key={`completed-pomo-${index}`} className="round-border filled">{index+1}</div>))}
                     {/* {ePomos > cPomos && [...Array(ePomos - cPomos)].map((item, index) => (<span key={`pending-pomo-${index}`} className="round-border"></span>))} */}
+                    </div>
                 </div>
                 {/* <div className="focus-mode">
                     <span>Focus Mode</span>

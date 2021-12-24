@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDefaultTimes, selectPomoState, selectTimer } from "../../state/selectors";
-import { resumeTimerAsync, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
+import { completePomodoro, pauseTimerAsync, resumeTimerAsync, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE, POMO_IDLE_STATE, POMO_PAUSED_STATE, POMO_BREAK_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_LONG_BREAK_RUNNING_STATE, POMO_LONG_BREAK_PAUSED_STATE, POMO_BREAK_PAUSED_STATE } from "../../utils/constants";
 import styles from "./timer.module.scss";
-import { Pause, PlayArrow, SkipNext, Stop } from "@material-ui/icons";
+import { Pause, PlayArrow, PlayArrowOutlined, Replay, Replay10Outlined, ReplayOutlined, SkipNext, Stop } from "@material-ui/icons";
 import { getTimerString } from "../../utils/common";
 
 let timer = 0;
@@ -75,20 +75,13 @@ export default function Timer(){
         let state = useSelector(selectPomoState);
         let dispatch = useDispatch();
 
-        const startInterval = useCallback(() => {
+        const startInterval = () => {
             if(!timer) {
                 timer = setInterval(() => {
-                    if(timerSec <= 0) {
-                        dispatch(updateNextState());
-                        clearInterval(timer);
-                        timer = 0;
-                    }
-                    else {
                         dispatch(tickAsync())
-                    }
                 }, 1000)
             }
-        });
+        }
 
         const doStartTimer = useCallback((isCta) => {
             if(!timer) {
@@ -113,10 +106,10 @@ export default function Timer(){
                 clearInterval(timer);
                 timer = 0;
             }
-            dispatch(updateTimerState({
-                pomoState: getNextPomoState(state, ACTION_PAUSE),
-                ptime: new Date().toISOString()
-            }));
+            dispatch(pauseTimerAsync());
+            // dispatch(updateTimerState({
+            //     pomoState: getNextPomoState(state, ACTION_PAUSE),
+            // }));
         });
 
         const doResumeTimer = useCallback(() => {
@@ -148,53 +141,50 @@ export default function Timer(){
         const getCTA = useCallback((state) => {
             if(state === POMO_IDLE_STATE) {
                 return (
-                    <div className={`${styles['timer-cta']} grid grid-center`}>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(true)}>
-                            <PlayArrow />
-                            Start Timer
-                        </button>
+                    <div className={`${styles['timer-cta']} grid grid-center`} onClick={(e) => doStartTimer(true)}>
+                        <PlayArrowOutlined />
                     </div>
                 );
             }
         
             if(state === POMO_RUNNING_STATE) {
                 return (
-                    <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={doPauseTimer}> <Pause /> Pause</span>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={doStopTimer}> <Stop /> Stop</button>
+                    <div className={`${styles['timer-cta']} grid ${styles['cta-2']}`}>
+                        <span onClick={doPauseTimer}> <Pause /> </span>
+                        <span onClick={doStopTimer}> <ReplayOutlined /> </span>
                     </div>
                 );
             }
 
             if(state === POMO_PAUSED_STATE) {
                 return (
-                    <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doResumeTimer()}> <PlayArrow /> Resume</span>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={doStopTimer}><Stop /> Stop</button>
+                    <div className={`${styles['timer-cta']} grid ${styles['cta-2']}`}>
+                        <span onClick={(e) => doResumeTimer()}> <PlayArrowOutlined /></span>
+                        <span onClick={doStopTimer}><ReplayOutlined /></span>
                     </div>
                 );
             }
 
             if(state === POMO_BREAK_IDLE_STATE || state === POMO_LONG_BREAK_IDLE_STATE) {
                 return (
-                    <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(true)}> <PlayArrow /> Start Timer</span>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={doSkipBreak}><SkipNext /> Skip</button>
+                    <div className={`${styles['timer-cta']} grid ${styles['cta-2']}`}>
+                        <span onClick={(e) => doStartTimer(true)}> <PlayArrow /></span>
+                        <span onClick={doSkipBreak}><SkipNext /> </span>
                     </div>
                 );
             }
             if(state === POMO_BREAK_RUNNING_STATE || state === POMO_LONG_BREAK_RUNNING_STATE) {
                 return (
-                    <div className={`timer-cta grid ${styles['cta-2']}`}>
-                        <span className="btn btn-simple btn-round flex flex-center" onClick={doPauseTimer}> <Pause /> Pause Timer</span>
-                        <button className="btn btn-simple btn-round flex flex-center" onClick={doSkipBreak}><SkipNext /> Skip</button>
+                    <div className={`${styles['timer-cta']} grid ${styles['cta-2']}`}>
+                        <span onClick={doPauseTimer}> <Pause /></span>
+                        <span onClick={doSkipBreak}><SkipNext /> </span>
                     </div>
                 );
             }
 
             if(state === POMO_LONG_BREAK_PAUSED_STATE || state === POMO_BREAK_PAUSED_STATE) {
                 return (
-                    <div className={`timer-cta grid ${styles['cta-2']}`}>
+                    <div className={`${styles['timer-cta']} grid ${styles['cta-2']}`}>
                         <span className="btn btn-simple btn-round flex flex-center" onClick={(e) => doStartTimer(false)}> <PlayArrow /> Start Timer</span>
                         <button className="btn btn-simple btn-round flex flex-center" onClick={doSkipBreak}> <SkipNext /> Skip</button>
                     </div>
@@ -203,11 +193,11 @@ export default function Timer(){
         }, [state]);
 
         useEffect(() => {
-            if(timerSec <= 0) {
-                clearInterval(timer)
-                timer = 0;
-                dispatch(updateNextState());
-            }
+            // if(timerSec <= 0) {
+            //     clearInterval(timer)
+            //     timer = 0;
+            //     dispatch(updateNextState());
+            // }
 
             if(state === POMO_RUNNING_STATE && !timer && timerSec > 0) {
                 doStartTimer(false);
@@ -215,6 +205,11 @@ export default function Timer(){
 
             if(state === POMO_PAUSED_STATE && timer) {
                 doPauseTimer();
+            }
+
+            if((state === POMO_BREAK_IDLE_STATE || state === POMO_IDLE_STATE || state === POMO_LONG_BREAK_IDLE_STATE) && timer) {
+                clearInterval(timer);
+                timer = 0;
             }
         }, [timerSec, state]);
         
@@ -238,11 +233,11 @@ export default function Timer(){
 
         let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
         let timerStyle = {
-            "background": "linear-gradient(0deg, " + TIMER_BG_COLOR[tab] + " " + percentComplete + "%, white " + (percentComplete+1) + "%, #C3C3C3 100%)"
+            "background": "linear-gradient(0deg, " + TIMER_BG_COLOR[tab] + " 0%, #5468ce " + percentComplete + "%, white " + (percentComplete+1) + "%, #C3C3C3 100%)"
         }
 
         return ( 
-            <div className={`${styles.timer} grid grid-center`}>
+            <div className={`${styles.timer}`}>
                 <div className={styles['timer-tabs']}>
                     <div className={`${styles['timer-tabs-item']} ${tab === 'pomodoro' && styles['selected']}`}
                          onClick={() => {changePomoState(POMO_IDLE_STATE)}}>Work Mode</div>
@@ -253,8 +248,18 @@ export default function Timer(){
                 </div>
                 <div className={`${styles.round} ${styles['border-red']} grid grid-center`} style={timerStyle}>
                     <span className={styles['timer-text']}> {timerString}</span>
+                    {getCTA(state)}
                 </div>
-                {getCTA(state)}
+                
+                <div className={styles["focus-mode"]}>
+                    <span>Focus Mode</span>
+                    <label className="switch">
+                        <input type="checkbox" onChange={(e) => {}} defaultChecked={false} />
+                        <span className="slider round">
+                            
+                        </span>
+                    </label>
+                </div>
             </div>
             );
     }

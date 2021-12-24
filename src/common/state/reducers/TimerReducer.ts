@@ -11,6 +11,7 @@ export const initialTimerState = {
     autoPlayBreak: false,
     pomoStartTime: 0,
     psec: 0,
+    lastResumeTime: '',
     ptime: ''
 }
 

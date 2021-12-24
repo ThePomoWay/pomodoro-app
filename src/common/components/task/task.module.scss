@@ -1,11 +1,11 @@
 .task {
-  padding: 10px;
+  padding: 12px 16px;
   width: 100%;
   border: 1px solid #d0d0d0;
   box-sizing: border-box;
   border-radius: 8px;
   background-color: white;
-  min-height: 70px;
+  min-height: 68px;
   max-height: 80px;
 
   cursor: pointer !important;
@@ -28,21 +28,25 @@
       content: "";
       width: 6px;
       height: 100%;
-      background-color: #7488f2;
+      background-color: #9aaaff;
       position: absolute;
     }
 
-    &::after {
-      content: "Working on";
-      padding: 8px;
-      z-index: 1;
-      position: absolute;
-      top: -10px;
-      right: 50px;
-      font-size: 12px;
-      border: 1px solid #bcc7ff;
-      color: #afb5ee;
+    .task-title {
+      color: #5a6bc9;
     }
+
+    // &::after {
+    //   content: "Working on";
+    //   padding: 8px;
+    //   z-index: 1;
+    //   position: absolute;
+    //   top: -10px;
+    //   right: 50px;
+    //   font-size: 12px;
+    //   border: 1px solid #bcc7ff;
+    //   color: #afb5ee;
+    // }
   }
 
   .estimated-pomos-tag {
@@ -56,6 +60,9 @@
       align-items: center;
       gap: 5px;
       flex-direction: row;
+
+      font-size: 12px;
+      line-height: 16px;
 
       .pomo {
         width: 12px;
@@ -77,8 +84,8 @@
     align-items: center;
 
     input {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
 
       cursor: pointer;
     }
@@ -86,8 +93,14 @@
 
   &-title {
     grid-area: 1 / 2 / 2 / 11;
-    font-size: 18px;
-    line-height: 21px;
+
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 
   &-actions {
@@ -138,6 +151,12 @@
     cursor: pointer;
 
     &-round {
+      svg {
+        width: 16px;
+        height: 16px;
+        color: #adadae;
+      }
+
       &:hover {
         transform: scale(1.5);
       }
