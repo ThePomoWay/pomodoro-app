@@ -10,6 +10,8 @@
 
     justify-self: center;
 
+    margin-top: 52px;
+
     &.border-red {
       border-color: black;
     }
@@ -22,7 +24,7 @@
       color: white;
 
       font-weight: 300;
-      font-size: 56px;
+      font-size: 42px;
       line-height: 33px;
     }
   }
@@ -46,6 +48,8 @@
       font-size: 14px;
       line-height: 20px;
       padding: 6px;
+
+      max-width: 120px;
 
       &.selected {
         // border-bottom: 1px solid gray;
