@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDefaultTimes, selectPomoState, selectTimer } from "../../state/selectors";
 import { completePomodoro, pauseTimerAsync, resumeTimerAsync, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
@@ -72,13 +72,22 @@ export default function Timer(){
         let timerString = getTimerString(timerSec);
         let defaults = useSelector(selectDefaultTimes);
 
+        let timerSecRef = useRef(null);
+
+        useEffect(() => {
+            timerSecRef.current = timerSec;
+        })
+
         let state = useSelector(selectPomoState);
         let dispatch = useDispatch();
 
         const startInterval = () => {
             if(!timer) {
                 timer = setInterval(() => {
-                        dispatch(tickAsync())
+                    if(timerSecRef.current > 0) {
+                        dispatch(tickAsync());
+                        console.log(timerSecRef.current);
+                    }
                 }, 1000)
             }
         }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
-import { googleLoginApi } from "../../API/network/SignonApis";
+import { googleLoginApi, registerApi } from "../../API/network/SignonApis";
 import { globalReducer, initialGlobalState } from "../reducers/GlobalReducer";
 
 export let updateFocusModeState = createAsyncThunk(
@@ -17,16 +17,12 @@ export let updateFocusModeState = createAsyncThunk(
     }
 )
 
-function signinSuccess (value) {
-    AuthService.setAuthToken(value.auth);
-    AuthService.setUserId(value.uid);
-}
-
 export const signin = createAsyncThunk(
     'global/signin',
     async (obj: any, {dispatch}) => {
+        let response;
         if(obj.mode === 'google') {
-            await googleLoginApi(obj.data).then(signinSuccess);
+            response = await googleLoginApi(obj.data);
         }
         else if(obj.mode === 'fb') {
 
@@ -34,25 +30,26 @@ export const signin = createAsyncThunk(
         else if(obj.mode === 'email') {
 
         }
+
+        return response.data;
     }
 )
 
-export const register = createAsyncThunk(
-    'global/register',
-    (obj: any, {dispatch}) => {
-        if(obj.mode === 'email') {
-
-        }
-    }
-);
 
 
 export const globalSlice = createSlice({
     name: 'global',
     initialState: initialGlobalState,
-    reducers: globalReducer
+    reducers: globalReducer,
+    extraReducers: (builder) => {
+        builder.addCase(signin.fulfilled, (state, action) => {
+            if(action.payload && action.payload.uid) {
+                AuthService.login(action.payload);
+            }
+        })
+    }
 });
 
 export const { showAddTaskBtn, 
     hideAddTaskBtn, editTask, clearTaskToBeEdited,
-    setExtensionPresent} = globalSlice.actions
+    setExtensionPresent, openOnboardingModal, closeOnboardingModal} = globalSlice.actions

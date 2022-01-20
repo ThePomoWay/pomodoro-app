@@ -1,7 +1,15 @@
-import { googleLoginEndpoint } from "./Endpoints";
+import { googleLoginEndpoint, loginEndpoint, registerEndpoint } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
 export function googleLoginApi(tokenObj) {
-    let endpoint = googleLoginEndpoint;
-    return NetworkService.post(endpoint, {}, tokenObj)
+
+    return NetworkService.post(googleLoginEndpoint, {}, {tokenId: tokenObj.tokenId});
+}
+
+export function registerApi(obj) {
+    return NetworkService.post(registerEndpoint, {}, obj);
+}
+
+export function loginApi(obj) {
+    return NetworkService.post(loginEndpoint, {}, obj);
 }

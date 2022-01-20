@@ -45,9 +45,9 @@ export default function EditTaskContainer(props) {
     let [priority, setPriority]             = useState(taskToBeEdited.priority || 2);
     let [description, setDescription]       = useState(taskToBeEdited.description || '');
     let [schedule, setSchedule]             = useState(taskToBeEdited.schedule || new Date());
-    let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.estimatedPomos || 0);
+    let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.epomo || 0);
     let [isBulleted, setIsBulleted]         = useState(taskToBeEdited.isBulleted || false);
-    let [project, setProject]               = useState(taskToBeEdited.project || {});
+    let [project, setProject]               = useState(taskToBeEdited.project || {projectID: props.defaultProjectId || '', secID: props.defaultSectionId || ''});
 
     let [tagAnchorEl, setTagAnchorEl]       = useState(null);
     let [priorityAncholEl, setPriorityAnchorEl] = useState(null)
@@ -113,13 +113,11 @@ export default function EditTaskContainer(props) {
             priority,
             description,
             schedule: schedule.toString(),
-            estimatedPomos,
+            epomo: estimatedPomos,
             isBulleted,
-            summary: {
-                csec: 0,
-                cpomo: 0,
-                psec: 0
-            },
+            csec: 0,
+            cpomo: 0,
+            psec: 0,
             project: {
                 projectID: project.projectID || AuthService.getProjectId(),
                 secID: project.secID || ''
@@ -134,7 +132,7 @@ export default function EditTaskContainer(props) {
                 priority,
                 description,
                 schedule: schedule.toString(),
-                estimatedPomos,
+                epomo: estimatedPomos,
                 labels: selectedTags,
                 project: {
                     projectID: project.projectID || AuthService.getProjectId(),
@@ -213,9 +211,9 @@ export default function EditTaskContainer(props) {
         <div className={styles['edit-task']}>
             <textarea ref={ref} value={title} className={styles['content-editable-div']} onChange={onTitleInput} onKeyDown={onTitleKeyChange}>
             </textarea>
-            <div className={styles['description']}>
+            {/* <div className={styles['description']}>
                 <TaskDescription onChange={(e) => setDescription(e)} isBulleted={isBulleted} value={taskToBeEdited.description} />
-            </div>
+            </div> */}
             {getTaskTags()}
             <div className={styles['cta-row']}>
                 <div className={styles['estimated-pomos']}>
@@ -224,10 +222,10 @@ export default function EditTaskContainer(props) {
                         <EstimatedPomos default="5" value={estimatedPomos} onClick={(value) => {setEstimatedPomos(value)}}/>
                     </div>
                 </div>
-                <ClickAwayListener onClickAway={(e) => {onPriorityAnchorClose();onTagAnchorClose()}}>
+                <ClickAwayListener onClickAway={(e) => {onPriorityAnchorClose();onTagAnchorClose(); onProjectAnchorClose()}}>
                 <div className={styles['right-cta']}>
-                    <FormatListBulletedOutlined className={`cursor-pointer ${isBulleted ? styles['border-round'] : ''}`} onClick={(e) => setIsBulleted(!isBulleted)} />
-                    
+                    {/* <FormatListBulletedOutlined className={`cursor-pointer ${isBulleted ? styles['border-round'] : ''}`} onClick={(e) => setIsBulleted(!isBulleted)} />
+                     */}
                     <Flag style={{fill: priorityColorMap[priority]}} onClick={onPriorityAnchorClick} />
                     
                     <Popper

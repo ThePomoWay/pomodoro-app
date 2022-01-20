@@ -1,18 +1,21 @@
+import { getFormattedDate } from "../../utils/date-utils";
 import AuthService from "./AuthService";
 import { getStatsEndpoint, updateStatsEndpoint } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
-export function updateTimerStatsAPI(startTime, endTime, type, isDistracted) {
+export function updateTimerStatsAPI(startTime, endTime, type, isDistracted, pomoSummary) {
     let endpoint = updateStatsEndpoint.replace('{userId}', AuthService.getUserId())
-    return NetworkService.post(endpoint, {date: new Date().toISOString()}, {
+    let today = new Date();
+    return NetworkService.post(endpoint, {date: getFormattedDate()}, {
         st: startTime,
         et: endTime,
         type,
-        isDistracted
+        isDistracted,
+        pomoSummary
     })
 }
 
-export function getStatsApi(from, to) {
+export function getStatsApi(from, till) {
     let endpoint = getStatsEndpoint.replace('{userId}', AuthService.getUserId());
-    return NetworkService.get(endpoint, {from, to});
+    return NetworkService.get(endpoint, {from, till});
 }

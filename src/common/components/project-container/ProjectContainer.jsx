@@ -9,7 +9,7 @@ import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 import SectionList from "../section-list/SectionList";
-import { updateProject, updateProjectAsync } from "../../state/slices/ProjectSlice";
+import { createSectionAsync, rearrangeTaskInProjectAsync, updateProject, updateProjectAsync } from "../../state/slices/ProjectSlice";
 import { addToTodaysTasks, createTaskThunk, markTaskAsCompleteThunk, markTaskAsInCompleteThunk, removeFromTodaysTasks } from "../../state/slices/TasksSlice";
 import { PROJECT_DROPPABLE_ID } from "../../utils/droppable-ids";
 
@@ -61,22 +61,7 @@ export default () => {
     });
 
     const onSectionCreate = useCallback((section) => {
-        let sectionOrderCopy = JSON.parse(JSON.stringify(project.sectionOrder));
-        sectionOrderCopy.splice(section.index, 0, section.fid);
-
-        dispatch(updateProjectAsync({
-            ...project,
-            sections: {
-                ...project.sections,
-                [section.fid]: {
-                    fid: section.fid,
-                    title: section.title,
-                    to: section.to
-                }
-                
-            },
-            sectionOrder: sectionOrderCopy
-        }))
+        dispatch(createSectionAsync({project, section}))
     });
 
     const onAddTaskToSection = useCallback((task, section) => {
@@ -87,7 +72,7 @@ export default () => {
                 ...project.sections,
                 [section.fid]: {
                     ...section,
-                    to: [...section.taskOrder, task.fid]
+                    to: [...section.to, task.fid]
                 }
             }
         }))
@@ -96,43 +81,71 @@ export default () => {
     const onDragEnd = useCallback((result) => {
         if(result.source && result.destination){
             if(result.type === 'section') {
-                let sectionOrderCopy = JSON.parse(JSON.stringify(project.sectionOrder));
+                let sectionOrderCopy = JSON.parse(JSON.stringify(project.so));
 
                 let sid = sectionOrderCopy.splice(result.source.index, 1);
                 sectionOrderCopy.splice(result.destination.index, 0, sid);
 
                 dispatch(updateProjectAsync({
                     ...project,
-                    sectionOrder: sectionOrderCopy
+                    so: sectionOrderCopy
                 }))
             }
             else {
                 
                 let projectCopy = JSON.parse(JSON.stringify(project))
 
+                let source = {
+                    isSection: false,
+                    hid: '',
+                    to: []
+                };
+                let destination = {
+                    isSection: false,
+                    hid: '',
+                    to: []
+                };
+
                 if(result.source.droppableId === PROJECT_DROPPABLE_ID) {
                     projectCopy.to.splice(result.source.index, 1);
+                    source.hid = projectCopy._id;
+                    source.to = projectCopy.to;
                 }
                 else {
                     let sectionId = result.source.droppableId.split('section-droppable-')[1];
                     if(projectCopy.sections[sectionId]) {
                         projectCopy.sections[sectionId].to.splice(result.source.index, 1)
+
+                        source.isSection = true;
+                        source.hid = projectCopy.sections[sectionId]._id;
+                        source.to = projectCopy.sections[sectionId].to
                     }
                 }
 
                 let taskId = result.draggableId.split('task-')[1]
                 if(result.destination.droppableId === PROJECT_DROPPABLE_ID) {
                     projectCopy.to.splice(result.destination.index, 0, taskId);
+
+                    destination.hid = projectCopy._id;
+                    destination.to = projectCopy.to;
                 }
                 else {
                     let sectionId = result.destination.droppableId.split('section-droppable-')[1];
                     if(projectCopy.sections[sectionId]) {
                         projectCopy.sections[sectionId].to.splice(result.destination.index, 0, taskId)
+
+                        destination.isSection = true;
+                        destination.hid = projectCopy.sections[sectionId]._id;
+                        destination.to = projectCopy.sections[sectionId].to;
                     }
                     setDefaultExpandedSectionId(sectionId);
                 }
 
-                dispatch(updateProjectAsync(projectCopy))
+                source.to = source.to.map(item => tasks[item] && tasks[item]._id);
+                destination.to = destination.to.map(item => tasks[item] && tasks[item]._id);
+
+                dispatch(rearrangeTaskInProjectAsync({source, destination, taskId: tasks[taskId]._id, projectId: projectCopy._id, isSame: destination.hid === source.hid}));
+                dispatch(updateProjectAsync(projectCopy));
             }
         }
 
@@ -150,12 +163,13 @@ export default () => {
     });
 
     const doAddTask = useCallback((task) => {
-        dispatch(addToTodaysTasks({fid: task.fid}));
+        dispatch(addToTodaysTasks({fid: task.fid, _id: task._id}));
     });
 
     const doRemoveTask = useCallback((task) => {
         dispatch(removeFromTodaysTasks({
-            fid: task.fid
+            fid: task.fid,
+            _id: task._id
         }));
     });
 
@@ -172,7 +186,7 @@ export default () => {
     if(project) {
 
         let totalTasks = project.to.length;
-        for(let sectionId of project.sectionOrder) {
+        for(let sectionId of project.so) {
             totalTasks += project.sections[sectionId].to.length;
         }
         
@@ -227,7 +241,7 @@ export default () => {
                     !showEditTaskContainer && 
                     (<button className="btn btn-simple" onClick={(e) => setShowEditTaskContainer(true)}>+ Create a task</button>)
                     ||
-                    (<EditTaskContainer defaultProjectId={project.fid} task={{}} saveTask={addTaskToProject} />)
+                    (<EditTaskContainer defaultProjectId={project._id || project.fid} task={{}} saveTask={addTaskToProject} />)
                 }
                 </div>
 
@@ -237,7 +251,7 @@ export default () => {
                 </div>
                 {
                     (<SectionList 
-                        order={project.sectionOrder} 
+                        order={project.so} 
                         sections={project.sections}
                         onCreateSection={onSectionCreate}
                         onAddTaskToSection={onAddTaskToSection}
@@ -245,7 +259,7 @@ export default () => {
                         doAddTask={doAddTask}
                         doRemoveTask={doRemoveTask}
                         isTaskDragging={isTaskDragging}
-                        projectId={project._id}
+                        projectId={project._id || project.fid}
                         defaultExpandedSectionId={defaultExpandedSectionId}
                          />)
                     ||

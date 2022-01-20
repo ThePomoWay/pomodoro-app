@@ -1,13 +1,16 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { getStatsAsync } from "../../common/state/slices/StatsSlice";
+import { getUserAsync } from "../../common/state/slices/UserSlice";
 import { AnalysisLaptop } from "./analysis-laptop/analysis-laptop";
 import { AnalysisMobile } from "./analysis-mobile/analysis-mobile";
 
-
-
 export default function AnalysisPage(props) {
+  let dispatch = useDispatch();
     useEffect(() => {
-        //getStats();
+        dispatch(getStatsAsync({}));
+        dispatch(getUserAsync());
     });
 
     const isMobileDevice = useMediaQuery({

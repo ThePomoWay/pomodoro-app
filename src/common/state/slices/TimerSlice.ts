@@ -7,7 +7,7 @@ import { DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, DEFAULT_WORK_TIME, EXTENSI
 import { getFormattedDate } from "../../utils/date-utils";
 import { playAlarmSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
-import { incrementCurTaskCpomo } from "./TasksSlice";
+import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksSlice";
 
 export let getTimerState = createAsyncThunk(
     'timer/getState',
@@ -85,9 +85,9 @@ export let updateNextState = createAsyncThunk(
             let nextState = (completedPomos !== 0 && completedPomos % 4 == 0) ? POMO_LONG_BREAK_IDLE_STATE : POMO_BREAK_IDLE_STATE;
             let nextTimerInSec = nextState === POMO_LONG_BREAK_IDLE_STATE ? DEFAULT_LONG_BREAK_TIME : DEFAULT_BREAK_TIME;
             
-            if(AuthService.isLoggedIn()) {
-                updateTimerStatsAPI(new Date(state.pomoStartTime).toISOString(), new Date().toISOString(), 'complete', false);
-            }
+            // if(AuthService.isLoggedIn()) {
+            //     updateTimerStatsAPI(new Date(state.pomoStartTime).toISOString(), new Date().toISOString(), 'complete', false);
+            // }
 
             dispatch(updateTimerState({
                 pomoState: nextState,
@@ -113,6 +113,19 @@ export let tickAsync = createAsyncThunk(
     'timer/tick',
     async (_, {getState, dispatch}) => {
         let timerState = getState()['timer'];
+        let taskState = getState()['tasks'];
+
+        let pomoSummary = Object.assign({}, timerState.pomoSummary);
+
+        let curTaskId = taskState.currentTaskRef;
+        if(curTaskId) {
+            if(!pomoSummary[curTaskId]) {
+                pomoSummary[curTaskId] = 1
+            }
+            else {
+                pomoSummary[curTaskId] += 1;
+            }
+        }
 
         let defaultTotalTime = timerState.defaultWorkTime;
 
@@ -125,11 +138,15 @@ export let tickAsync = createAsyncThunk(
         let diff = Math.floor((Date.now() - timerState.pomoStartTime + timerState.psec)/1000);
         
         let timerSec = defaultTotalTime - diff + timerState.psec;
-        if(timerSec < 0) {
+        if(timerSec <= 0) {
+            dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
             dispatch(completePomodoro());
         }
         else {
             dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
+            // dispatch(incrementCurTaskCsec());
+            dispatch(setPomoSummary(pomoSummary));
+
         }
     }
 )
@@ -170,10 +187,21 @@ export const completePomodoro = createAsyncThunk(
     'timer/complete',
     (_, {dispatch, getState}) => {
         let timerState = getState()['timer'];
+        let taskState = getState()['tasks'];
+        let pomoSummary = timerState.pomoSummary;
+        let summary = [];
+        for(let taskId in pomoSummary) {
+            summary.push({
+                tid: taskState.tasks[taskId]._id,
+                csec: pomoSummary[taskId]
+            })
+        }
+
         if(timerState.pomoState === POMO_RUNNING_STATE) {
             if(AuthService.isLoggedIn()) {
                 //ToDo: add functionality for distracted.
-                updateTimerStatsAPI(timerState.lastResumeTime || new Date(timerState.pomoStartTime).toISOString(), new Date().toISOString(), STATS_TYPE_COMPLETE , false);
+                updateTimerStatsAPI(timerState.lastResumeTime || new Date(timerState.pomoStartTime).toISOString(), new Date().toISOString(), STATS_TYPE_COMPLETE , false, summary);
+                dispatch(setPomoSummary({}));
             }
 
             else {
@@ -243,4 +271,4 @@ export const timerSlice = createSlice({
 });
 
 export const {completedPomo, setTimerSec,
-initiateBreak, initiatePomo, resetTimer, pauseTimer, completeBreak, setPomoState} = timerSlice.actions;
+initiateBreak, initiatePomo, resetTimer, pauseTimer, completeBreak, setPomoState, setPomoSummary} = timerSlice.actions;

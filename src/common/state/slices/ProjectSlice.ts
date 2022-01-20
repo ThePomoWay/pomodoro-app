@@ -1,15 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createIDBProject, getAllProjectsFromIDB, updateIDBProject } from "../../API/indexed-db-ops/projectCrud";
 import AuthService from "../../API/network/AuthService";
-import { createProjectApi } from "../../API/network/ProjectApis";
+import { createProjectApi, createSectionApi, rearrangeTaskApi } from "../../API/network/ProjectApis";
 import { getObjFromArr } from "../../utils/common";
 import { initialProjectsState, projectReducer } from "../reducers/ProjectReducer";
+import { createLocalTaskThunk } from "./TasksSlice";
+
+export const createLocalProjectAsync = createAsyncThunk(
+    'create/project/local',
+    async (obj: any, {dispatch}) => {
+        dispatch(createProject(obj.project))
+        let response = await createIDBProject(obj.project);
+    }
+)
 
 export const createProjectAsync = createAsyncThunk(
     'create/project',
     async (obj: any, {dispatch}) => {
-        dispatch(createProject(obj.project))
-        let response = await createIDBProject(obj.project);
+        dispatch(createLocalProjectAsync(obj));
 
         if(AuthService.isLoggedIn()) {
             let bid = await createProjectApi(obj.project);
@@ -20,6 +28,39 @@ export const createProjectAsync = createAsyncThunk(
         }
 
         return obj;
+    }
+)
+
+export const createSectionAsync = createAsyncThunk(
+    'create/section',
+    async (obj: any, {dispatch}) => {
+
+        let sectionOrderCopy = JSON.parse(JSON.stringify(obj.project.so));
+        sectionOrderCopy.splice(obj.section.index, 0, obj.section.fid);
+
+        let sectionObj = {
+            ...obj.project.sections,
+            [obj.section.fid]: {
+                fid: obj.section.fid,
+                title: obj.section.title,
+                to: obj.section.to
+            }
+            
+        }
+
+        if(AuthService.isLoggedIn()) {
+            let response = await createSectionApi(obj.project, obj.section);
+            if(response && response.data && response.data.secId) {
+                sectionObj[obj.section.fid]['_id'] = response.data.secId;
+            }
+        }
+
+        dispatch(updateProjectAsync({
+            ...obj.project,
+            sections: sectionObj,
+            so: sectionOrderCopy
+        }))
+
     }
 )
 
@@ -40,6 +81,13 @@ export const deleteProjectAsync = createAsyncThunk(
         return response
     }
 );
+
+export const rearrangeTaskInProjectAsync = createAsyncThunk(
+    'tasks/project/rearrange',
+    async (obj, {dispatch}) => {
+        let response = await rearrangeTaskApi(obj);
+    }
+)
 
 export const addTaskToProject = createAsyncThunk(
     'add/task/project',

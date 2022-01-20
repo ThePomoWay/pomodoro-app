@@ -22,12 +22,13 @@ export default (props) => {
     let tags = useSelector(selectTagsAsObj);
 
     const doAddTask = useCallback((task) => {
-        dispatch(addToTodaysTasks({fid: task.fid}));
+        dispatch(addToTodaysTasks({fid: task.fid, _id: task._id}));
     });
 
     const doRemoveTask = useCallback((task) => {
         dispatch(removeFromTodaysTasks({
-            fid: task.fid
+            fid: task.fid,
+            _id: task._id
         }));
     });
 

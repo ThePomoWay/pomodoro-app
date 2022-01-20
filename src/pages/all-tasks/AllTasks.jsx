@@ -89,7 +89,7 @@ export default () => {
     return (
         <div className={styles["container"]}>
             <div>
-                <Navbar selected="0"></Navbar>
+                <Navbar selected="1"></Navbar>
             </div>
             <div className={styles['main-view']}>
                 <div className={styles.sidebar}>

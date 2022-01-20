@@ -38,7 +38,7 @@ export default function ProjectSelector(props) {
                 <div key={projects[item].fid + 'project'} className={`${styles['projects']} ${item === selectedProjectId ? styles['selected'] : ''} cursor-pointer`} onClick={(e) => onProjectSelect(item)}> 
                     {projects[item].title}
                     <div className={styles['sections']}>
-                        {projects[item].sectionOrder.map(sectionId => (
+                        {projects[item].so.map(sectionId => (
                             <div 
                                 key={sectionId + 'project-container'} 
                                 className={`${styles['section']} ${sectionId === selectedSectionId ? styles['selected'] : ''}  currsor-pointer`}

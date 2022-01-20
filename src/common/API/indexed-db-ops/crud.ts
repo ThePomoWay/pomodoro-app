@@ -60,3 +60,22 @@ export function deleteIDBTask(task) {
     })
 }
 
+export function clearTasksInIDB() {
+    return new Promise((res, rej) => {
+        let transaction = db.transaction(taskObjectStoreName, "readwrite");
+
+        let objectStore = transaction.objectStore(taskObjectStoreName)
+
+        transaction.onerror = function(event) {
+            rej(event);
+        };
+
+        let objRequest = objectStore.clear();
+
+        objRequest.onsuccess = function(event) {
+            res({success: true, msg: 'Cleared Successfully'});
+        }
+
+    })
+}
+

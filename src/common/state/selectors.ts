@@ -9,6 +9,7 @@ export const selectFocusMode = (state) => state.global.focusMode;
 export const selectAddTaskBtn = (state) => state.global.showAddTaskBtn;
 export const selectTaskToBeEdited = (state) => state.global.taskToBeEdited;
 export const selectIfExtensionInstalled = (state) => state.global.extensionPresent;
+export const selectOnboardingOpen = (state) => state.global.onboardingModalOpen;
  
 export const selectTodaysTasks = (state) => state.tasks.todaysTasks.filter(i=>state.tasks.tasks[i] && !state.tasks.tasks[i].isComplete).map(i => state.tasks.tasks[i]);
 export const selectTodaysCompletedTasks = (state) => state.tasks.todaysCompletedTasks.filter(i=>state.tasks.tasks[i]).map(i => state.tasks.tasks[i])
@@ -58,3 +59,9 @@ export const selectDefaultTimes = (state) => {return {defaultWorkTime: state.tim
                                                   defaultBreakTime: state.timer.defaultBreakTime,
                                                   defaultLongBreakTime: state.timer.defaultLongBreakTime}}
 
+//Select user info
+export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
+export const selectUserInfo = (state) => state.user.user
+
+//onboarding 
+export const selectStep = (state) => state.onboarding.step;

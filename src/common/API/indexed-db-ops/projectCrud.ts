@@ -60,3 +60,20 @@ export function deleteIDBproject(project) {
     })
 }
 
+export function clearProjectsFromIDB() {
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(projectsObjectStoreName, "readwrite");
+
+        transaction.onerror = function(err) {
+            reject(err);
+        }
+
+        let objectStore = transaction.objectStore(projectsObjectStoreName);
+
+        let objRequest = objectStore.clear();
+        objRequest.onsuccess = function(result) {
+            resolve({success: true, msg: "Cleared Successfully"});
+        }
+    })
+}
+

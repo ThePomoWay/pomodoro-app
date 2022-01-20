@@ -9,14 +9,22 @@ import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import { addTaskToProject, updateProjectAsync } from "./ProjectSlice";
 import {  tickAsync } from "./TimerSlice";
 
+export const createLocalTaskThunk = createAsyncThunk(
+    'tasks/local/create',
+    async (payload: any, {dispatch}) => {
+        dispatch(createTask(payload));
+        let response = await createIDBTask(payload.task);
+    }
+)
+
 export const createTaskThunk = createAsyncThunk(
     'tasks/create',
     async (payload: any, { dispatch } ) => {
-        dispatch(createTask(payload));
-        let response = await createIDBTask(payload.task);
+        
+        dispatch(createLocalTaskThunk(payload));
 
         if(payload.isTodaysTask) {
-            dispatch(addToTodaysTasks({
+            dispatch(addToTodaysTaskLocal({
                 fid: payload.task.fid
             }));
 
@@ -34,9 +42,6 @@ export const createTaskThunk = createAsyncThunk(
                     }
                 }
             });
-
-            
-
         }
         return response;
     }
@@ -71,7 +76,7 @@ export const markTaskAsCurrent = createAsyncThunk(
         let currentTask = Object.keys(tasks).map(i=>tasks[i]).filter(item => item.isCurrentTask)[0];
         if(!currentTask) {
             //@ts-ignore
-            dispatch(updateTask({...task, isCurrentTask: true}));
+            dispatch(updateTaskThunk({...task, isCurrentTask: true}));
             return;
         }
         if(currentTask.fid === task.fid) {
@@ -79,10 +84,10 @@ export const markTaskAsCurrent = createAsyncThunk(
         }
 
         //@ts-ignore
-        dispatch(updateTask({...currentTask, isCurrentTask: false}));
+        dispatch(updateTaskThunk({...currentTask, isCurrentTask: false}));
 
         //@ts-ignore
-        dispatch(updateTask({...task, isCurrentTask: true}));
+        dispatch(updateTaskThunk({...task, isCurrentTask: true}));
         
     }
 );
@@ -204,10 +209,26 @@ export const incrementCurTaskCpomo = createAsyncThunk(
             //@ts-ignore
             dispatch(updateTaskThunk({
                 ...updatedTask,
-                summary: {
-                    cpomo: updatedTask.summary.cpomo + 1,
-                    csec: updatedTask.summary.csec
-                }
+                cpomo: updatedTask.cpomo + 1,
+                csec: updatedTask.csec
+            }))
+        }
+    }
+)
+
+export const incrementCurTaskCsec = createAsyncThunk(
+    'tasks/updatecsec',
+    async (_, {dispatch, getState}) => {
+        let state = getState()['tasks'];
+        if(state.currentTaskRef) {
+            let updatedTask = state.tasks[state.currentTaskRef];
+
+            //@ts-ignore
+            dispatch(updateLocalTaskThunk({
+                ...updatedTask,
+                cpomo: updatedTask.cpomo,
+                csec: updatedTask.csec + 1
+                
             }))
         }
     }
@@ -237,8 +258,8 @@ export const rearrangeTodaysTask = createAsyncThunk(
     }
 )
 
-export const addToTodaysTasks = createAsyncThunk(
-    'tasks/todays/rearrange',
+export const addToTodaysTaskLocal = createAsyncThunk(
+    'tasks/today/update/local',
     async (obj: any, {getState, dispatch}) => {
         let todaysTasks = JSON.parse(JSON.stringify(getState()['tasks'].todaysTasks))
         if(obj.index !== undefined) {
@@ -250,6 +271,18 @@ export const addToTodaysTasks = createAsyncThunk(
 
         updateTodaysTasksInIdb(todaysTasks);
         dispatch(updateTodaysTasks(todaysTasks));
+    }
+)
+
+export const addToTodaysTasks = createAsyncThunk(
+    'tasks/todays/rearrange',
+    async (obj: any, {getState, dispatch}) => {
+        
+        dispatch(addToTodaysTaskLocal(obj));
+
+        if(AuthService.isLoggedIn()) {
+            await addToTodaysTaskAPI(obj._id);
+        }
     }
 )
 

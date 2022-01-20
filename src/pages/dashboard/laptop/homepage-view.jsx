@@ -2,6 +2,7 @@ import Footer from "../../../common/components/footer/footer";
 import Navbar from "../../../common/components/navbar/Navbar";
 import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
 import Timer from "../../../common/components/timer/timer";
+import OnBoarding from "../../onboarding/Onboarding";
 import useHomepage from "../HomePage-hook";
 
 import styles from './homepage-laptop.module.scss';
@@ -11,7 +12,8 @@ export function HomepageLaptop() {
 
     return (
         <div className={styles["container"]}>
-            <Navbar selected="1"></Navbar>
+            <OnBoarding />
+            <Navbar selected="0"></Navbar>
             <div className={`${styles['main-content']} ${showSidebar ? styles['show-sidebar'] : styles['hide-sidebar']}`}>
                 <div className={`${styles["timer"]}`}>
                     <Timer></Timer>

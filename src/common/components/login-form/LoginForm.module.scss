@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+
+  .welcome-subtext {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    font-weight: 400;
+    color: gray;
+  }
+
+  .form {
+    border: 1px solid #dfe4e7;
+    padding: 20px;
+    width: 90%;
+  }
+
+  .email {
+    margin-bottom: 20px;
+  }
+
+  .cta {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .signup {
+      align-self: flex-end;
+      text-decoration: underline;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  }
+}

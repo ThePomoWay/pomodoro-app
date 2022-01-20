@@ -2,7 +2,8 @@ export const initialGlobalState = {
     focusMode: false,
     showAddTaskBtn: false,
     taskToBeEdited: {},
-    extensionPresent: false
+    extensionPresent: false,
+    onboardingModalOpen: false
 };
 
 export let globalReducer = {
@@ -25,5 +26,11 @@ export let globalReducer = {
     },
     setExtensionPresent: (state, action) => {
         state.extensionPresent = action.payload;
+    },
+    openOnboardingModal: (state) => {
+        state.onboardingModalOpen = true;
+    },
+    closeOnboardingModal: (state) => {
+        state.onboardingModalOpen = false;
     }
 }

@@ -1,36 +1,61 @@
 import { getCookie } from "../../utils/common";
 
-const bearerLSKey = 'token';
+const userAuthInfoLsKey = 'userAuthInfo';
 const uidKey = 'uid';
+const justLoggedInKey = 'newSignin';
 
 export default class AuthService {
     static isLoggedIn() {
         //return false; // comment later
-        return true;
-        return getCookie('isLoggedIn');
+        // return true;
+        let userInfo = AuthService.getUserAuthInfo();
+        return !!userInfo.uid;
     }
 
     static getUserId() {
-        return '61b585fb4e5283002df9e593';
+        let userInfo = AuthService.getUserAuthInfo();
+        return userInfo.uid;
     }
 
     static getProjectId() {
-        return '61b585fb4e5283002df9e594';
+        let userInfo = AuthService.getUserAuthInfo();
+        return userInfo.inboxId;
     }
 
-    static setAuthToken(value) {
-        localStorage.setItem(bearerLSKey, value);
+    static setUserAuthInfo(value) {
+        localStorage.setItem(userAuthInfoLsKey, JSON.stringify(value));
     }
 
-    static setUserId(value) {
-        localStorage.setItem(uidKey, value);
+    static getUserAuthInfo() {
+        return JSON.parse(localStorage.getItem(userAuthInfoLsKey)) || {};
     }
 
     static getAuthToken() {
-        return 'Bearer' + localStorage.getItem(bearerLSKey);
+        let userInfo = AuthService.getUserAuthInfo();
+        return 'Bearer' + localStorage.getItem(userInfo.auth);
+    }
+
+    static setJustLoggedIn(value) {
+        if(value){
+            localStorage.setItem(justLoggedInKey, value);
+        }   
+        else {
+            localStorage.removeItem(justLoggedInKey);
+        }
+    }
+
+    static isJustLoggedIn() {
+        return Boolean(localStorage.getItem(justLoggedInKey));
+    }
+
+    static login(payload) {
+        AuthService.setUserAuthInfo(payload);
+        AuthService.setJustLoggedIn(true);  
+        window.location.reload();
     }
 
     static logout(){
-
+        localStorage.removeItem(userAuthInfoLsKey);
+        window.location.reload();
     }
 }

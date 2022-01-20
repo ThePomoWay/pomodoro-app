@@ -1,22 +1,35 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {  BrowserRouter as Router , Switch, Route } from 'react-router-dom';
 import './App.scss';
+import AuthService from './common/API/network/AuthService';
 import { Sidebar } from './common/components/sidebar/sidebar';
+import { getUserAsync } from './common/state/slices/UserSlice';
+import { syncIdb } from './common/utils/sync';
 import AboutUs from './pages/about-us/AbousUsPage';
 import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
 import ClockSettings from './pages/clock-settings/ClockSettings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/Homepage';
-import OnBoarding from './pages/onboarding/Onboarding';
 
 function App() {
+
+  let dispatch = useDispatch();
+  if(AuthService.isLoggedIn()) {
+    dispatch(getUserAsync());
+  }
+
+  if(AuthService.isJustLoggedIn()) {
+    syncIdb();
+  }
+
   return (
     <Router>
       <Switch>
-          <Route path="/onboarding">
+          {/* <Route path="/onboarding">
             <OnBoarding />
-          </Route>
+          </Route> */}
           <Route path="/closetabs">
             <CloseTabs></CloseTabs>
           </Route>

@@ -1,117 +1,51 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import { TextField } from "@material-ui/core";
-import React, { useCallback } from "react";
-import { Form, Field } from "react-final-form";
-import GoogleLogin from "react-google-login";
-import FacebookLogin from 'react-facebook-login';
+import Modal from "@mui/material/Modal";
+import React, { useCallback, useState } from "react";
 
-import "./onboarding.scss";
-import { useDispatch } from "react-redux";
-import { signin } from "../../common/state/slices/GlobalSlice";
+import styles from "./onboarding.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { closeOnboardingModal, signin } from "../../common/state/slices/GlobalSlice";
+import { selectOnboardingOpen, selectStep } from "../../common/state/selectors";
+
+import {Close} from "@material-ui/icons";
+import { LoginForm } from "../../common/components/login-form/LoginForm";
+import { SignupForm } from "../../common/components/signup-form/SignupForm";
+
+import {LoginStep} from "./login/login-step";
+import { SignupStep1 } from "./signup/signup-step-1";
+import { SignupStep2 } from "./signup/signup-step-2";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
 };
 
 export default function OnBoarding(props) {
-  let formData = {
-    stooge: "larry",
-    toppings: [],
-    sauces: []
-  };
 
   let dispatch = useDispatch();
 
-  const responseGoogle = useCallback((response) => {
-      console.log(response);
-      dispatch(signin({
-          mode: 'google',
-          data: response
-      }))
-  });
+  let isModalOpen = useSelector(selectOnboardingOpen);
 
-  const componentClicked = useCallback(() => {
-      console.log('fb btn clicked');
-  });
+  let step = useSelector(selectStep);
 
-  const responseFacebook = useCallback((response) => {
-    console.log(response);
-    dispatch(signin({
-        mode: 'facebook',
-        data: response.tokenObj.access_token
-    }))
-    });
+  const handleClose = useCallback(() => {
+      dispatch(closeOnboardingModal());
+  })
+return (
+    <Modal
+        open={isModalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+            <div className={`${styles['form-wrapper']}`}>
+                <span className={styles['close']} onClick={(e) => handleClose()}> <Close /> </span>
 
-  return (
-    <div className="form-wrapper grid grid-center">
-        <div className="form-box">
-        <div>React Final Form - Simple Example</div>
-        <Form
-            onSubmit={onSubmit}
-            initialValues={{
-            ...formData,
-            }}
-            render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-                <div>
-                <Field
-                    name="firstName"
-                    type="text"
-                    placeholder="First Name">
-
-                    {props => (
-                        <div>
-                        <TextField
-                            name={props.input.name}
-                            value={props.input.value}
-                            onChange={props.input.onChange}
-                            variant="outlined"
-                            label="Email"
-                        />
-                        </div>
-                    )}
-                    </Field>
-                </div>
-                
-                
-            {/* <div>
-                <label>Notes</label>
-                <Field name="notes" component="textarea" placeholder="Notes" />
-            </div> */}
-                
-                <div>
-                <button type="submit" disabled={submitting || pristine}>
-                    Submit
-                </button>
-                <button
-                    type="button"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                >
-                    Reset
-                </button>
-                </div>
-                {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
-            </form>
-            )}
-
-        />
-
-        <GoogleLogin
-            clientId="905357367821-f8j4n23ghi3bbebga32e105e375edfj2.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-        />
-
-        <FacebookLogin
-            appId="958233501449664"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={componentClicked}
-            callback={responseFacebook} />
-      </div>
-    </div>
+                {(step === 1 && (<LoginStep />)) || 
+                (step === 2 && (<SignupStep2 />)) || 
+                (step === 3 && (<LoginStep />)) || 
+                (step === 4 && (<LoginStep />)) }
+            </div>
+    </Modal>
   );
 };

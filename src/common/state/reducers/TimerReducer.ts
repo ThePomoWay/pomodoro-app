@@ -12,7 +12,9 @@ export const initialTimerState = {
     pomoStartTime: 0,
     psec: 0,
     lastResumeTime: '',
-    ptime: ''
+    ptime: '',
+    isClockRunning: false,
+    pomoSummary: {}
 }
 
 export let timerReducer = {
@@ -46,5 +48,8 @@ export let timerReducer = {
     setInitialState: (state, action) => {
         state.completedPomos = action.payload.completedPomos;
         state.pomoState = action.payload.pomoState;
+    },
+    setPomoSummary: (state, action) => {
+        state.pomoSummary = action.payload || {};
     }
 }

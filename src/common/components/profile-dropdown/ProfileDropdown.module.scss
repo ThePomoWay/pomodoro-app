@@ -1,0 +1,39 @@
+.profile {
+  display: flex;
+  position: relative;
+  align-items: center;
+  img {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .arrow {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .open {
+    transform: rotateX(180deg);
+  }
+
+  &-dropdown {
+    position: absolute;
+    top: 40px;
+    left: -30px;
+    width: 100px;
+    height: auto;
+
+    padding: 20px;
+    background-color: white;
+
+    &-item {
+      border-bottom: 1px solid gray;
+      padding: 10px;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+  }
+}

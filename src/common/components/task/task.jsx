@@ -92,10 +92,10 @@ export default function TaskItem(props) {
     })
 
     let getEstimatedPomoHtml = useCallback(() => {
-        if(task.estimatedPomos) {
-            return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.summary.cpomo} / <div className={`circle ${styles["estimated"]} ${styles["pomo"]}`}></div>{ task.estimatedPomos }</span>)
+        if(task.epomo) {
+            return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo} / <div className={`circle ${styles["estimated"]} ${styles["pomo"]}`}></div>{ task.epomo }</span>)
         }
-        return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.summary.cpomo}</span>)
+        return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo}</span>)
     })
 
     return (

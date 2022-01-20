@@ -27,11 +27,11 @@ export class NetworkService {
 
     static post(endpoint, query={}, body={}) {
         try{
-        return fetch(getQueryParamString(endpoint, query), {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: getCommonHeaders()
-        }).then(res => res.json()).catch(console.error);
+            return fetch(getQueryParamString(endpoint, query), {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: getCommonHeaders()
+            }).then(res => res.json()).catch(console.error);
         }
         catch {
             console.error("error");

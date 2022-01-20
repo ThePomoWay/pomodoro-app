@@ -22,7 +22,7 @@ export default () => {
                     fid,
                     title: projectTitle,
                     sections: {},
-                    sectionOrder: [],
+                    so: [],
                     to: [],
                     isArchived: false
                 },

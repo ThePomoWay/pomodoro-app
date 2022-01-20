@@ -1,6 +1,8 @@
 
 export const initialStatsState = {
-    stats: {}
+    stats: {},
+    oldStats: {},
+    loaded: false
 }
 
 export const statsReducer = {

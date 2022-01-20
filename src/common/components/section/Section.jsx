@@ -65,11 +65,10 @@ export default (props) => {
                                     {
                                         (provided) => (
                                             <div
-                                            
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
                                             >
-                                                {props.section.taskOrder.map((item, index) => (
+                                                {props.section.to.map((item, index) => (
                                                     <DraggableTaskItem
                                                         showAddBtn={!(item in todaysTaskIdsObj)} 
                                                         showRemoveBtn={(item in todaysTaskIdsObj)}
@@ -94,7 +93,7 @@ export default (props) => {
                                 {!showEditTaskContainer && 
                                     (<button className="btn btn-simple" onClick={(e) => setShowEditTaskContainer(true)}>+ Create new Task</button>)
                                     ||
-                                    (<EditTaskContainer defaultProjectId={props.projectId} task={{}} saveTask={addTaskToSection} />)
+                                    (<EditTaskContainer defaultProjectId={props.projectId} defaultSectionId={section._id || section.fid} task={{}} saveTask={addTaskToSection} />)
                                 }
                                  {section.completedTaskOrder && (
                                     <CompletedTasksList tasks={section.completedTaskOrder.map(item => tasks[item])} projectId={props.projectId} sectionId={props.section.fid} container='projects' />

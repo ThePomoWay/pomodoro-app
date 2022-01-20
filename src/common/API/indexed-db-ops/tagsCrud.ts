@@ -47,3 +47,20 @@ export function deleteIDBTag(tag) {
     })
 }
 
+export function clearTagsFromIDB() {
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(tagsObjectStoreName, "readwrite");
+
+        transaction.onerror = function(err) {
+            reject(err);
+        }
+
+        let objectStore = transaction.objectStore(tagsObjectStoreName);
+
+        let objRequest = objectStore.clear();
+        objRequest.onsuccess = function(result) {
+            resolve({success: true, msg: "Cleared Successfully"});
+        }
+    })
+}
+

@@ -1,13 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createIDBTag, getAllTagsFromIDB } from "../../API/indexed-db-ops/tagsCrud";
+import AuthService from "../../API/network/AuthService";
+import { createTagApi } from "../../API/network/TagsApis";
 import { initialTagState, tagsReducer } from "../reducers/TagsReducer";
+
+export const createLocalTagThunk = createAsyncThunk(
+    'create/tags/local',
+    async (tag, {dispatch}) => {
+        dispatch(addTag(tag));
+        let response = createIDBTag(tag);
+    }
+)
 
 export const createTagThunk = createAsyncThunk(
     'create/tags',
     async (tag, {dispatch}) => {
-        dispatch(addTag(tag));
-        let response = createIDBTag(tag);
-        return response;
+        dispatch(createLocalTagThunk(tag));
+
+        if(AuthService.isLoggedIn()) {
+            await createTagApi(tag);
+        }
     }
 )
 

@@ -3,7 +3,7 @@
   min-height: 140px;
 
   display: grid;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   grid-template-columns: 1fr;
 
   background: #ffffff;
@@ -65,7 +65,7 @@
 }
 
 .cta-row {
-  grid-row: 5 / 6;
+  grid-row: 4 / 5;
   padding: 12px;
 
   justify-content: space-between;

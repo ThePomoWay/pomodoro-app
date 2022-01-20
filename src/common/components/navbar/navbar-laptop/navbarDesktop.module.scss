@@ -82,4 +82,19 @@
       color: #4b60ce;
     }
   }
+  .right-nav {
+    position: absolute;
+    right: 60px;
+    top: 4px;
+
+    color: rgb(52, 68, 147);
+    text-decoration: underline;
+    cursor: pointer;
+
+    .login {
+      position: relative;
+      top: 12px;
+      align-self: center;
+    }
+  }
 }

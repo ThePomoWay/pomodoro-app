@@ -69,6 +69,9 @@
             .green {
               color: #93b558;
             }
+            .red {
+              color: #dd726b;
+            }
           }
         }
 
@@ -97,9 +100,14 @@
       .tasks {
         margin-top: 20px;
 
+        padding: 60px 0px;
+        border-bottom: 1px solid #a5a5a5;
+
         .task-stats-container {
           display: flex;
           flex-direction: row;
+
+          margin-top: 48px;
 
           svg {
             width: 80px;
@@ -117,6 +125,36 @@
             }
           }
         }
+      }
+
+      .distractions-container {
+        padding: 54px 0px;
+        border-bottom: 1px solid #a5a5a5;
+
+        .pauses-distractions {
+          display: flex;
+          flex-direction: row;
+
+          .pauses {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-right: 1px solid #a5a5a5;
+            flex: 1;
+            padding: 20px;
+          }
+        }
+        .distractions {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex: 1;
+          padding: 20px;
+        }
+      }
+
+      .focused-time-container {
+        margin-top: 40px;
       }
     }
   }
