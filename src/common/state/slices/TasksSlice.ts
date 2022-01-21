@@ -3,6 +3,7 @@ import { createIDBTask, updateIDBTask, deleteIDBTask } from "../../API/indexed-d
 import { getTodaysTasksFromIdb, updateTodaysTasksInIdb } from "../../API/indexed-db-ops/todaysTasks";
 import AuthService from "../../API/network/AuthService";
 import { addToTodaysTaskAPI, createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../../API/network/TaskApis";
+import { updateTodaysTaskAPI } from "../../API/network/TodaysTaskApis";
 import { findIndex } from "../../utils/array-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
@@ -255,6 +256,12 @@ export const rearrangeTodaysTask = createAsyncThunk(
 
         updateTodaysTasksInIdb(todaysTasks);
         dispatch(updateTodaysTasks(todaysTasks));
+
+        if(AuthService.isLoggedIn()) {
+            let tasks = getState()['tasks'].tasks;
+
+            let response = await updateTodaysTaskAPI(todaysTasks.map(item => tasks[item] && tasks[item]._id).filter(i=>i));
+        }
     }
 )
 

@@ -10,6 +10,8 @@ export const getAllTasksEndpoint = 'v1/user/{userId}/tasks';
 //Todays Task APIs
 export const addToTodaysTasksEndpoint = 'v1/user/{userId}/today/{taskId}';
 export const updateTodaysTasksEndpoint = 'v1/user/{userId}/today/update';
+export const getTodaysTasksEndpoint = 'v1/user/{userId}/today';
+export const removeFromTodaysTasksEndpoint = 'v1/user/{userId}/today/{taskId}';
 
 //Project APIs
 export const createProjectEndpoint = 'v1/user/{userId}/project';

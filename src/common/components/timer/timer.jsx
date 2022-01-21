@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectDefaultTimes, selectPomoState, selectTimer } from "../../state/selectors";
+import { selectDefaultTimes, selectFocusMode, selectPomoState, selectTimer } from "../../state/selectors";
 import { completePomodoro, pauseTimerAsync, resumeTimerAsync, tickAsync, updateNextState, updateTimerState } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE, POMO_IDLE_STATE, POMO_PAUSED_STATE, POMO_BREAK_IDLE_STATE, POMO_LONG_BREAK_IDLE_STATE, POMO_BREAK_RUNNING_STATE, POMO_LONG_BREAK_RUNNING_STATE, POMO_LONG_BREAK_PAUSED_STATE, POMO_BREAK_PAUSED_STATE } from "../../utils/constants";
 import styles from "./timer.module.scss";
 import { Pause, PlayArrow, PlayArrowOutlined, Replay, Replay10Outlined, ReplayOutlined, SkipNext, Stop } from "@material-ui/icons";
 import { getTimerString } from "../../utils/common";
+import { focusModeToggle } from "../../state/slices/GlobalSlice";
 
 let timer = 0;
 
@@ -71,6 +72,8 @@ export default function Timer(){
         let timerSec = useSelector(selectTimer);
         let timerString = getTimerString(timerSec);
         let defaults = useSelector(selectDefaultTimes);
+
+        let focusModeState = useSelector(selectFocusMode);
 
         let timerSecRef = useRef(null);
 
@@ -245,6 +248,10 @@ export default function Timer(){
             "background": "linear-gradient(0deg, " + TIMER_BG_COLOR[tab] + " 0%, #5468ce " + percentComplete + "%, white " + (percentComplete+1) + "%, #C3C3C3 100%)"
         }
 
+        const onFocusModeSwitch = useCallback((e) => {
+            dispatch(focusModeToggle(!focusModeState));
+        })
+
         return ( 
             <div className={`${styles.timer}`}>
                 <div className={styles['timer-tabs']}>
@@ -263,7 +270,7 @@ export default function Timer(){
                 <div className={styles["focus-mode"]}>
                     <span>Focus Mode</span>
                     <label className="switch">
-                        <input type="checkbox" onChange={(e) => {}} defaultChecked={false} />
+                        <input type="checkbox" onChange={(e) => {onFocusModeSwitch()}} defaultChecked={focusModeState} />
                         <span className="slider round">
                             
                         </span>

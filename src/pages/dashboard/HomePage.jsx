@@ -4,7 +4,7 @@ import { HomepageMobile } from "./mobile/homepage-view-xs";
 
 export default function Homepage() {
     const isMobileDevice = useMediaQuery({
-        query: "(min-device-width: 480px)",
+        query: "(max-device-width: 0px)",
       });
     
       const isTabletDevice = useMediaQuery({
@@ -24,12 +24,12 @@ export default function Homepage() {
       });
 
       if(isDesktop) {
-        return (
-            <HomepageLaptop />
-        )
-    }
+          return (
+              <HomepageLaptop />
+          )
+      }
 
-      if(isMobileDevice) {
+      else {
           return (
               <HomepageMobile />
           )

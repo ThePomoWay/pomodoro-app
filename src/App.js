@@ -20,7 +20,7 @@ function App() {
     dispatch(getUserAsync());
   }
 
-  if(AuthService.isJustLoggedIn()) {
+  if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
   }
 

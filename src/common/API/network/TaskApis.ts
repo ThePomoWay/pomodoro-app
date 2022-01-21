@@ -35,11 +35,6 @@ export function addToTodaysTaskAPI(taskId) {
     return NetworkService.post(endpoint, {}, {});
 }
 
-export function updateTodaysTaskAPI(taskIdArr) {
-    let endpoint = updateTodaysTasksEndpoint.replace('{userId}', AuthService.getUserId())
-    return NetworkService.patch(endpoint, {}, {taskIds: taskIdArr})
-}
-
 export function markTaskAsCompleteApi(taskId) {
     let endpoint = markTaskAsCompleteEndpoint.replace('{userId}', AuthService.getUserId())
                                              .replace('{taskId}', taskId);

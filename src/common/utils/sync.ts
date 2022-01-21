@@ -58,6 +58,8 @@ export async function syncIdb() {
     await syncTasks();
     let tasks =await getTasks();
     syncProjects(tasks);
+
+    AuthService.setJustLoggedIn(false);
 }
 
 export async function syncTasks() {
