@@ -16,12 +16,12 @@ export default function useHomepage(){
 
         let pomoState = useSelector(selectPomoState);
 
-        let bgColor = 'floralwhite';
+        let timerBgColor = 'purple';
         if(pomoState.startsWith('pomo_break')) {
-            bgColor = 'lightskyblue'
+            timerBgColor = 'pink'
         }
         else if(pomoState.startsWith('pomo_long_break')) {
-            bgColor= 'lavendar'
+            timerBgColor= 'cyan'
         }
         let toggleSidebar = useCallback(() => {
             if(this.state.showSidebar) {
@@ -47,7 +47,7 @@ export default function useHomepage(){
             showSidebar,
             setShowSidebar,
             toggleSidebar,
-            bgColor
+            timerBgColor
         }
         
     }

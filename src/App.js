@@ -11,7 +11,7 @@ import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
 import ClockSettings from './pages/clock-settings/ClockSettings';
 import CloseTabs from './pages/close-tab/CloseTab';
-import Homepage from './pages/dashboard/Homepage';
+import Homepage from './pages/dashboard/HomePage';
 
 function App() {
 

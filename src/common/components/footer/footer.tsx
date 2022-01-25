@@ -27,8 +27,6 @@ export default function Footer() {
         }
     }, [isExtensionInstalled])
 
-    console.log(focusModeState);
-
     const onFocusModeClick = useCallback(() => {
 
         dispatch(updateFocusModeState(!focusModeState))

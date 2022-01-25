@@ -4,9 +4,9 @@ import AuthService from "./AuthService";
 function getQueryParamString(e, q) {
     let qString = Object.keys(q).map(i => i + '=' + q[i]).join('&');
     if(qString.length > 0){
-        return env.apiEndpoint + e + '?' + qString;
+        return "/api/" + e + '?' + qString;
     }
-    return env.apiEndpoint + e
+    return "/api/" + e
 }
 
 function getCommonHeaders() {

@@ -8,16 +8,18 @@ import useHomepage from "../HomePage-hook";
 import styles from './homepage-laptop.module.scss';
 
 export function HomepageLaptop() {
-    let {showSidebar, bgColor} = useHomepage();
+    let {showSidebar, timerBgColor} = useHomepage();
 
     return (
         <div className={styles["container"]}>
             <OnBoarding />
             <Navbar selected="0"></Navbar>
             <div className={`${styles['main-content']} ${showSidebar ? styles['show-sidebar'] : styles['hide-sidebar']}`}>
-                <div className={`${styles["timer"]}`}>
-                    <Timer></Timer>
-                    {/* <CurrentTask></CurrentTask> */}
+                <div className={styles['timer-container']+' '+styles[timerBgColor]}>
+                    <div className={`${styles["timer"]}`}>
+                        <Timer></Timer>
+                        {/* <CurrentTask></CurrentTask> */}
+                    </div>
                 </div>
                 <div className={styles["taskList"]}>
                     <TodaysTaskContainer></TodaysTaskContainer>
@@ -27,9 +29,9 @@ export function HomepageLaptop() {
                     <AllTaskSidebar show={this.state.showSidebar} onClose={this.toggleSidebar.bind(this)}></AllTaskSidebar>
                 </div> */}
             </div>
-            <div className={styles["footer-container"]}>
+            {/* <div className={styles["footer-container"]}>
                 <Footer></Footer>
-            </div>
+            </div> */}
         </div>
             );
 }

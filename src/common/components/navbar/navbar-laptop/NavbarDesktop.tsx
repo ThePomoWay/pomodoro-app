@@ -5,7 +5,6 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openOnboardingModal } from "../../../state/slices/GlobalSlice";
 import { selectUserInfo } from "../../../state/selectors";
-import { ArrowDownwardRounded, ArrowDropDown } from "@material-ui/icons";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 
 let navItems = [
@@ -77,6 +76,13 @@ export default function NavbarDesktop(props) {
         </div>
 
         <div className={styles["right-nav"]}>
+            <div>
+                <span className={styles['manage-focus']}>Manage Focus</span>
+            </div>
+            <div>
+                <button className='btn btn-premium'>Premium</button>
+            </div>
+
             {isLoggedIn && (
                 <ProfileDropdown />
             )
@@ -86,6 +92,8 @@ export default function NavbarDesktop(props) {
                     Login
                 </div>
             )}
+
+            
         </div>
     </div>)
 }

@@ -41,21 +41,36 @@
       cursor: pointer;
 
       &:hover:not(.selected) {
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
 
       font-weight: normal;
       font-size: 14px;
       line-height: 20px;
-      padding: 6px;
+      padding: 6px 12px;
+
+      justify-self: left;
 
       max-width: 120px;
 
-      &.selected {
+      &.selected-purple {
         // border-bottom: 1px solid gray;
-        background-color: #e6eaff;
+        background-color: #dfe5ff;
         color: #2e3c87;
         font-weight: 500;
+        border-radius: 8px;
+      }
+      &.selected-pink {
+        background-color: #ffeaf0;
+        color: #c84e7c;
+        font-weight: 500;
+        border-radius: 8px;
+      }
+      &.selected-cyan {
+        background-color: #d0effe;
+        color: #58a2c2;
+        font-weight: 500;
+        border-radius: 8px;
       }
     }
   }

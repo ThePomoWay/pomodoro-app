@@ -11,9 +11,9 @@ export const POMO_LONG_BREAK_PAUSED_STATE   = 'pomo_long_break_paused';
 export const allTasksDropId = 'id-2e';
 export const todaysTasksDropId = 'id-1e';
 
-export let DEFAULT_WORK_TIME        = 60 * 25;
-export let DEFAULT_BREAK_TIME       = 5 * 60;
-export let DEFAULT_LONG_BREAK_TIME  = 15 * 60;
+export let DEFAULT_WORK_TIME        = 60 * 3;
+export let DEFAULT_BREAK_TIME       = 1 * 30;
+export let DEFAULT_LONG_BREAK_TIME  = 1 * 60;
 
 //stats
 export const STATS_TYPE_COMPLETE = 'complete';
@@ -25,3 +25,9 @@ export const priorityColorMap = ['', 'purple', 'red', 'yellow', 'green'];
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const EXTENSION_ID = 'agbkeeoecdaegljhmkndleobgbimfoog';
+
+export const focusModeLSKey = 'focusMode';
+
+//Extension actions
+export const ENABLE_FOCUS_MODE = 'enableFocusMode';
+export const DISABLE_FOCUS_MODE = 'disableFocusMode'

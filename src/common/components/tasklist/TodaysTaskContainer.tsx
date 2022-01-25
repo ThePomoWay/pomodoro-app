@@ -9,6 +9,7 @@ import styles from "./todaysTaskContainer.module.scss";
 import { markTaskAsInCompleteThunk, rearrangeTodaysTask } from "../../state/slices/TasksSlice";
 import TaskItem from "../task/task";
 import { getTodaysDateFormatted } from "../../utils/date-utils";
+import { DailyStats } from "../daily-stats/DailyStats";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
@@ -26,7 +27,7 @@ export function TodaysTaskContainer () {
             dispatch(rearrangeTodaysTask({
                 source: result.source.index,
                 destination: result.destination.index
-            }))   
+            })) 
         }
     }, []);
 
@@ -38,8 +39,8 @@ export function TodaysTaskContainer () {
         if(!tasks || (tasks.length === 0 && completedTasks.length === 0)) {
             return (
                 <div className={styles['empty-state']}>
-                    <span className={styles["title"]}>Morning! Start your day and accomplish your goals for the day</span>
-                    <span className={styles["label"]}>Add new tasks to the list and start your pomodoro !</span>
+                    <span className={styles["title"]}>Today's Tasks</span>
+                    <DailyStats />
                     <img src="/empty-tasks.png" alt="Empty tasks"/>
                     <AddNewTask isTodaysTask={true}></AddNewTask>
                 </div>

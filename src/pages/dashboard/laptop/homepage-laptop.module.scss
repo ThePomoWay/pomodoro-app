@@ -17,21 +17,38 @@
 .main-content {
   display: grid;
   height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  width: 81%;
+
   grid-template-columns: repeat(12, 1fr);
-  gap: 32px;
+  gap: 12px;
 
   flex: 11;
 
   transition: all 1s ease-in;
 
-  .timer {
-    grid-column: 1 / 4;
+  .timer-container {
+    grid-column: 1 / 5;
+    padding-left: 6vw;
 
     align-items: start;
-    margin-top: 108px;
+
+    &.purple {
+      background-color: #f7f7ff;
+    }
+
+    &.pink {
+      background-color: #fffcfd;
+    }
+
+    &.cyan {
+      background-color: #f9feff;
+    }
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    .timer {
+      margin-top: 94px;
+      grid-column: 1 / 5;
+    }
   }
 
   &.hide-sidebar {
@@ -40,7 +57,7 @@
     }
 
     .taskList {
-      grid-column: 5 / 13;
+      grid-column: 5 / 12;
     }
   }
   &.show-sidebar {

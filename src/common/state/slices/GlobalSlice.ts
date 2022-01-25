@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
 import { googleLoginApi, registerApi } from "../../API/network/SignonApis";
+import { DISABLE_FOCUS_MODE, ENABLE_FOCUS_MODE, focusModeLSKey } from "../../utils/constants";
+import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { globalReducer, initialGlobalState } from "../reducers/GlobalReducer";
 
 export let updateFocusModeState = createAsyncThunk(
@@ -35,6 +37,22 @@ export const signin = createAsyncThunk(
     }
 )
 
+export const focusModeToggle = createAsyncThunk(
+    'global/focus/toggle',
+    async (value: any, {dispatch, getState}) => {
+        localStorage.setItem(focusModeLSKey, value);
+        dispatch(setFocusMode(value));
+
+        let isExtensionPresent = getState()['global'].extensionPresent;
+
+        if(isExtensionPresent) {
+                sendMessageToExtension({
+                    action: value ? ENABLE_FOCUS_MODE : DISABLE_FOCUS_MODE
+                })
+            
+        }
+    }
+)
 
 
 export const globalSlice = createSlice({
@@ -52,4 +70,5 @@ export const globalSlice = createSlice({
 
 export const { showAddTaskBtn, 
     hideAddTaskBtn, editTask, clearTaskToBeEdited,
-    setExtensionPresent, openOnboardingModal, closeOnboardingModal} = globalSlice.actions
+    setExtensionPresent, openOnboardingModal, closeOnboardingModal,
+    setFocusMode} = globalSlice.actions

@@ -1,6 +1,13 @@
 .empty-state {
   display: grid;
 
+  .title {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 36px;
+    display: block;
+  }
+
   img {
     width: 200px;
     height: 200px;

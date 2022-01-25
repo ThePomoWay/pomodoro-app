@@ -32,7 +32,7 @@ export default class AuthService {
 
     static getAuthToken() {
         let userInfo = AuthService.getUserAuthInfo();
-        return 'Bearer' + localStorage.getItem(userInfo.auth);
+        return 'Bearer ' + userInfo.auth;
     }
 
     static setJustLoggedIn(value) {
