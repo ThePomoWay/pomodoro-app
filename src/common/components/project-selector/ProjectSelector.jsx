@@ -33,22 +33,25 @@ export default function ProjectSelector(props) {
 
     if(projectIds.length === 0) {
         return (
-        <div>
+        <div className="popover">
+            <div className={`${styles["title"]} popover-title`}>
             Please create a project from all tasks
+            </div>
+            
         </div>
         );
     }
 
     return (
-        <div className={styles['project-container']}>
-            <div className={styles['title']}>{
+        <div className={`${styles['project-container']} popover`}>
+            <div className="popover-title">{
                 AuthService.isLoggedIn() && (<p>Select another project</p>) || 
                 (<p><a href="javascript:void(0)" className={styles['login']} onClick={(e) => onLogin()}>Login</a> to create a project</p>)
             }</div>
             {AuthService.isLoggedIn() && projectIds.map((item, index) => (
-                <div key={projects[item].fid + 'project'} className={`${styles['projects']} ${item === selectedProjectId ? styles['selected'] : ''} cursor-pointer`} onClick={(e) => onProjectSelect(item)}> 
+                <div key={projects[item].fid + 'project'} className={`${styles['projects']} popover-normal-item ${item === selectedProjectId ? 'popover-normal-item-selected' : ''}`} onClick={(e) => onProjectSelect(item)}> 
                     {projects[item].title}
-                    <div className={styles['sections']}>
+                    {/* <div className={styles['sections']}>
                         {projects[item].so.map(sectionId => (
                             <div 
                                 key={sectionId + 'project-container'} 
@@ -57,8 +60,9 @@ export default function ProjectSelector(props) {
                                 {projects[item].sections[sectionId].title}
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
+                
             ))}
         </div>
     );
