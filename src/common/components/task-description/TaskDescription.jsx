@@ -66,7 +66,7 @@ export default function TaskDescription(props) {
     }
     return (
         <div className={styles['description-value']}>
-            <textarea placeholder="Enter Task Description" className={styles['desc-input']} onChange={onChangeValue} value={value} />
+            <textarea placeholder="This is some Tech term that I don't understand" className={styles['desc-input']} onChange={onChangeValue} value={value} />
         </div>
     )
 }

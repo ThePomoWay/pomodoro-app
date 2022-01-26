@@ -1,15 +1,15 @@
 .edit-task {
   width: 100%;
-  min-height: 140px;
+  min-height: 147px;
 
-  display: grid;
-  grid-template-rows: repeat(4, 1fr);
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
 
   background: #ffffff;
-  border: 1px solid #bababa;
+  border: 1px solid #bbc0eb;
   box-sizing: border-box;
-  border-radius: 12px;
+  box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.25);
+  border-radius: 8px;
 
   .task-tags-list {
     display: flex;
@@ -18,8 +18,7 @@
     align-items: center;
     padding: 10px;
 
-    grid-column: 1;
-    grid-row: 3 / 4;
+    position: absolute;
 
     .task-tag-item {
       border: 1px solid;
@@ -37,36 +36,36 @@
   }
 }
 .content-editable-div {
-  background: #f9f9f9;
-  border: 1px solid #bababa;
+  background: #ffffff;
+  border: none;
   box-sizing: border-box;
-  box-shadow: inset 0px 4px 8px rgba(121, 121, 121, 0.25);
-  border-radius: 12px;
-  padding-left: 15px;
-  padding-top: 15px;
+  box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.11);
+  border-radius: 8px;
+  padding: 16px 20px;
   font-size: 18px;
+
+  position: relative;
+
+  height: 74px;
 
   resize: none;
 
+  font-family: "Roboto";
+
   &:focus-visible {
-    border: 1px solid #bababa;
     outline: none;
   }
 
   width: 100%;
-
-  grid-row: 1 / 4;
-  grid-column: 1;
 }
 
 .description {
-  grid-row: 4 / 5;
-  grid-column: 1;
+  height: 32px;
 }
 
 .cta-row {
-  grid-row: 4 / 5;
-  padding: 12px;
+  height: 40px;
+  padding: 10px 12px;
 
   justify-content: space-between;
   display: flex;
@@ -82,13 +81,17 @@
     align-items: center;
 
     .estimated-pomos-text {
-      flex: 1 1 100px;
+      color: #808ac4;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+
+      margin-left: 8px;
     }
 
     .estimated-pomos-container {
-      flex: 1 1 100px;
-      position: relative;
-      top: 2px;
       margin-left: 5px;
     }
   }
@@ -96,7 +99,14 @@
   .right-cta {
     display: flex;
     align-items: center;
-    gap: 6px;
+
+    .icon-container {
+      padding: 2px 4px;
+
+      &:hover {
+        background-color: #fff5f7;
+      }
+    }
   }
 
   .priority-popover {
@@ -109,9 +119,20 @@
 
   .project {
     display: flex;
-    border: 1px solid black;
     align-items: center;
-    padding: 2px;
+    gap: 5px;
+    padding: 4px;
+
+    margin-right: 6px;
+
+    background: #ffffff;
+    border: 1px solid #dee2fc;
+    color: #414141;
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    font-size: 12px;
+    line-height: 16px;
   }
 }
 

@@ -27,7 +27,7 @@
   box-sizing: border-box;
   padding: 10px;
 
-  background: #f9f9f9;
+  background: #ffffff;
 
   &:focus {
     outline: none;
@@ -35,4 +35,20 @@
 }
 
 .description-value {
+  height: 32px;
+  padding: 0px 20px;
+  textarea {
+    border-top: 1px solid #e0e3fc;
+    resize: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 9px;
+    padding: 6px 0px;
+    color: #9aa2cf;
+  }
+
+  border-radius: 8px;
+  border-bottom: 1px solid #e0e3fc;
 }

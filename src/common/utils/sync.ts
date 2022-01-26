@@ -6,7 +6,7 @@ import { getTodaysTasksFromIdb } from "../API/indexed-db-ops/todaysTasks";
 import AuthService from "../API/network/AuthService";
 import { getAllProjectsApi } from "../API/network/ProjectApis";
 import { GetAllTagsApi } from "../API/network/TagsApis";
-import { addToTodaysTaskAPI, createTaskAPI, getAllTasksApi, updateTodaysTaskAPI } from "../API/network/TaskApis";
+import { addToTodaysTaskAPI, createTaskAPI, getAllTasksApi } from "../API/network/TaskApis";
 import { createLocalProjectAsync } from "../state/slices/ProjectSlice";
 import { createLocalTagThunk } from "../state/slices/TagsSlice";
 import { createLocalTaskThunk, updateLocalTaskThunk } from "../state/slices/TasksSlice";

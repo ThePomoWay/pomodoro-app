@@ -1,26 +1,31 @@
 .empty-state {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
 
   .title {
     font-weight: 700;
     font-size: 32px;
     line-height: 36px;
     display: block;
+    height: 50px;
   }
 
   img {
     width: 200px;
     height: 200px;
     justify-self: center;
+    align-self: center;
   }
 
   button {
-    justify-self: center;
+    justify-self: left;
   }
 }
 
 .task-list {
   margin-top: 28px;
+
   .task-container {
     margin-bottom: 15px;
   }

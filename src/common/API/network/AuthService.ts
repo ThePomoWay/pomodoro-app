@@ -19,7 +19,7 @@ export default class AuthService {
 
     static getProjectId() {
         let userInfo = AuthService.getUserAuthInfo();
-        return userInfo.inboxId;
+        return userInfo.inboxID;
     }
 
     static setUserAuthInfo(value) {

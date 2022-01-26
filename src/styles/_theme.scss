@@ -166,8 +166,24 @@
   border-radius: 8px;
   border: 1px solid gray;
 
+  background: #ffffff;
+  border: 1px solid #cbceeb;
+  box-sizing: border-box;
+  box-shadow: inset 0px 2px 4px #e2e7ff;
   &-filled {
-    background-color: #454545;
+    background: radial-gradient(
+      103.13% 103.13% at 71.87% 12.5%,
+      #d5dcff 0%,
+      #879aff 100%
+    );
+    box-shadow: inset 1px -2px 4px rgba(0, 0, 0, 0.12);
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 14px;
+
+    color: #ffffff;
   }
 }
 

@@ -1,10 +1,16 @@
 .add-task-btn {
-  background-color: #f7f8ff;
-  color: #4d61d1;
+  background-color: #839cfb;
+  color: white;
+  border: 1px solid #5976d8;
   border-radius: 8px;
 
-  font-size: 18px;
-  width: 176px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.1px;
 
-  margin-top: 20px;
+  width: 115px;
+  height: 32px;
 }

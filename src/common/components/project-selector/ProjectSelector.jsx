@@ -1,11 +1,14 @@
 import { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AuthService from '../../API/network/AuthService';
 import { selectProjectsObj } from '../../state/selectors';
+import { openOnboardingModal } from '../../state/slices/GlobalSlice';
 import styles from './ProjectSelector.module.scss';
 export default function ProjectSelector(props) {
 
     let projects = useSelector(selectProjectsObj);
     let projectIds = Object.keys(projects);
+    let dispatch = useDispatch();
 
     let [selectedProjectId, setSelectedProjectId] = useState(props.project && props.project.projectID || '');
     let [selectedSectionId, setSelectedSectionId] = useState(props.project && props.project.secID || '');
@@ -22,6 +25,10 @@ export default function ProjectSelector(props) {
         props.onChange && props.onChange(projectId, secId);
 
         e.stopPropagation();
+    });
+
+    const onLogin = useCallback(() => {
+        dispatch(openOnboardingModal())
     })
 
     if(projectIds.length === 0) {
@@ -34,7 +41,11 @@ export default function ProjectSelector(props) {
 
     return (
         <div className={styles['project-container']}>
-            {projectIds.map((item, index) => (
+            <div className={styles['title']}>{
+                AuthService.isLoggedIn() && (<p>Select another project</p>) || 
+                (<p><a href="javascript:void(0)" className={styles['login']} onClick={(e) => onLogin()}>Login</a> to create a project</p>)
+            }</div>
+            {AuthService.isLoggedIn() && projectIds.map((item, index) => (
                 <div key={projects[item].fid + 'project'} className={`${styles['projects']} ${item === selectedProjectId ? styles['selected'] : ''} cursor-pointer`} onClick={(e) => onProjectSelect(item)}> 
                     {projects[item].title}
                     <div className={styles['sections']}>

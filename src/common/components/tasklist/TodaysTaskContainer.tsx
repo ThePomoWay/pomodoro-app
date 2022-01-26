@@ -41,15 +41,16 @@ export function TodaysTaskContainer () {
                 <div className={styles['empty-state']}>
                     <span className={styles["title"]}>Today's Tasks</span>
                     <DailyStats />
-                    <img src="/empty-tasks.png" alt="Empty tasks"/>
                     <AddNewTask isTodaysTask={true}></AddNewTask>
+                    <img src="/empty-tasks.png" alt="Empty tasks"/>
+                    
                 </div>
             );
         }
         return (
             <div className={styles["task-list"]}>
                 <span className={styles["title"]}>Today's Tasks</span>
-                <span className={styles['subtitle']}>{getTodaysDateFormatted()}</span>
+                <DailyStats />
                 <div className={styles["task-container"]}>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <DraggableTaskList

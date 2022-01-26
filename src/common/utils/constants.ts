@@ -11,7 +11,7 @@ export const POMO_LONG_BREAK_PAUSED_STATE   = 'pomo_long_break_paused';
 export const allTasksDropId = 'id-2e';
 export const todaysTasksDropId = 'id-1e';
 
-export let DEFAULT_WORK_TIME        = 60 * 3;
+export let DEFAULT_WORK_TIME        = 3 * 60;
 export let DEFAULT_BREAK_TIME       = 1 * 30;
 export let DEFAULT_LONG_BREAK_TIME  = 1 * 60;
 

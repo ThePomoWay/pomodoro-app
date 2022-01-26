@@ -1,5 +1,11 @@
 .item {
   margin-right: 4px;
-
+  align-self: center;
   cursor: pointer;
+}
+.add {
+  color: #8e94c5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
