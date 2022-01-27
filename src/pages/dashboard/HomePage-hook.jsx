@@ -40,7 +40,6 @@ export default function useHomepage(){
             dispatch(getAllProjects());
             dispatch(getAllTags());
             setTimeout(() => dispatch(getTodaysTasks()), 0)
-            
         }, []);
 
         return {

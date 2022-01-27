@@ -1,21 +1,11 @@
 .container {
   background-color: white;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 
   .priority {
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    &.selected {
-      border: 1px solid red;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-    }
   }
 }

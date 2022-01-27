@@ -44,7 +44,7 @@ export default function AddTagContainer(props) {
 
     useEffect(() => {
         setFilteredTags(filter(tags, tagTitle));
-    }, [])
+    }, [tags, tagTitle])
 
     const handleCheckboxClick = useCallback((tag) => {
         if(!selectedTagsObj[tag.fid]) {
@@ -103,8 +103,6 @@ export default function AddTagContainer(props) {
         setSelectedIndex(-1);
         setCreateLabelView(false);
         setShowCreateTag(true);
-        setFilteredTags(tags);
-
         handleCheckboxClick({fid})
     });
 

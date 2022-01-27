@@ -10,6 +10,7 @@ import { markTaskAsInCompleteThunk, rearrangeTodaysTask } from "../../state/slic
 import TaskItem from "../task/task";
 import { getTodaysDateFormatted } from "../../utils/date-utils";
 import { DailyStats } from "../daily-stats/DailyStats";
+import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
@@ -63,17 +64,22 @@ export function TodaysTaskContainer () {
                     <AddNewTask isTodaysTask={true}></AddNewTask>
                     
                     {completedTasks.length > 0 && 
-                    (<div className={styles['completed-tasks']}>
-                        <p> Completed tasks </p>
-                        {completedTasks.map(item => (
-                            <TaskItem 
-                                key={item.fid+'complete'}
-                                task={item}
-                                tags={tags}
-                                onComplete={onTaskUncomplete}
-                                />
-                        ))}
-                    </div>)
+                    // (<div className={styles['completed-tasks']}>
+                    //     <p> Completed tasks </p>
+                    //     {completedTasks.map(item => (
+                    //         <TaskItem 
+                    //             key={item.fid+'complete'}
+                    //             task={item}
+                    //             tags={tags}
+                    //             onComplete={onTaskUncomplete}
+                    //             />
+                    //     ))}
+                    // </div>)
+                    (
+                        <div className={styles['completed-tasks']}>
+                            <CompletedTasksList tasks={completedTasks} totalTasks={tasks.length + completedTasks.length} />
+                        </div>
+                    )
                     }
                         
                         

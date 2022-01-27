@@ -6,7 +6,7 @@ import { selectPomoState } from "../../state/selectors";
 import { editTask } from "../../state/slices/GlobalSlice";
 import { deleteTaskThunk, markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk, setEditTask } from "../../state/slices/TasksSlice";
 import { initiatePomo } from "../../state/slices/TimerSlice";
-import { POMO_RUNNING_STATE } from "../../utils/constants";
+import { POMO_RUNNING_STATE, priorityColorMap } from "../../utils/constants";
 import { EditIcon } from "../edit-icon/EditIcon";
 
 import styles from "./task.module.scss";
@@ -16,6 +16,8 @@ export default function TaskItem(props) {
     let task: Task = props.task;
     let showAddBtn = props.showAddBtn;
     let showRemoveBtn = props.showRemoveBtn;
+
+    let isEditable = props.isEditable || false;
 
     let dispatch = useDispatch();
 
@@ -93,22 +95,34 @@ export default function TaskItem(props) {
 
     let getEstimatedPomoHtml = useCallback(() => {
         if(task.epomo) {
-            return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo} / <div className={`circle ${styles["estimated"]} ${styles["pomo"]}`}></div>{ task.epomo }</span>)
+            return (<span className={styles["e-pomos"]}><div className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo} / <div className={`circle ${styles["estimated"]} ${styles["pomo"]}`}></div>{ task.epomo }</span>)
         }
-        return (<span className={styles["e-pomos"]}><div className={`circle ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo}</span>)
+        return (<span className={styles["e-pomos"]}><div className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}> </div> {task.cpomo}</span>)
     })
+
 
     return (
     
-    <div className={`${styles["task"]} ${task.isCurrentTask ? styles['selected'] : ''}`} onClick={((e) => props.onClick && props.onClick(task))}>
-        <span className={styles["checkbox"]}>
-            <input type="radio" onClick={(e) => {toggleMarkAsComplete(e)}} value={!!task.isComplete} defaultChecked={!!task.isComplete} />
-        </span>
-        <span className={styles["task-title"]}>{task.title}</span>
+    <div className={`${styles["task"]} ${isEditable && styles['task-editable']} ${task.isComplete && styles['task-completed']} ${task.isCurrentTask ? styles['selected'] : ''}`} onClick={((e) => props.onClick && props.onClick(task))}>
+        <div className={styles['first-row']}>
+            <span className={`${styles["checkbox"]} ${task.isComplete && styles['tick']}`} >
+                <span onClick={(e) => {toggleMarkAsComplete(e)}} value={!!task.isComplete} defaultChecked={!!task.isComplete} style={{borderColor: priorityColorMap[task.priority]}} />
+            </span>
+            <span className={styles["task-title"]}>{task.title}</span>
+        </div>
         <div className={styles["second-row"]}>
             <span className={styles["estimated-pomos-tag"]}> {getEstimatedPomoHtml()}</span>
             {(task.project.projectID && props.projects && props.projects[task.project.projectID]) && (
-                <span className={styles["project"]}>{props.projects[task.project.projectID].title}</span>
+                
+                <span className={styles["project"]}>
+                    <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.4" y="0.4" width="9.2" height="13.2" rx="1.6" stroke="#414141" strokeWidth="0.8"/>
+                        <line x1="3" y1="3.6" x2="7" y2="3.6" stroke="#414141" strokeWidth="0.8"/>
+                        <line x1="3" y1="6.6" x2="7" y2="6.6" stroke="#414141" strokeWidth="0.8"/>
+                        <line x1="3" y1="9.6" x2="7" y2="9.6" stroke="#414141" strokeWidth="0.8"/>
+                    </svg>
+                    {props.projects[task.project.projectID].title}
+                </span>
             )}
             
             <span className={styles["tags"]}>
@@ -146,6 +160,8 @@ export default function TaskItem(props) {
                 </Popover>
             </span>
         </span>
+
+        {task.isCurrentTask && (<div className={styles["selected-tag"]}> Working On</div>)}
     </div>
     );
 }

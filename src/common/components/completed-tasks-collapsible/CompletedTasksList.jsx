@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTagsAsObj } from "../../state/selectors";
 import { markTaskAsInCompleteThunk } from "../../state/slices/TasksSlice";
 import TaskItem from "../task/task";
+import styles from "./CompletedTaskList.module.scss";
 
 export default (props) => {
     let tasks = props.tasks;
@@ -19,17 +20,20 @@ export default (props) => {
         return (
             <Accordion elevation={0}>
                 <AccordionSummary expandIcon={(<ExpandMoreOutlined />)}>
-                    <p>Completed Task</p>
+                    <p className={styles['title']}>Completed Task</p>
+                    <span className={styles['summary']}> <span className={styles['completed']}>{tasks.length}</span> {props.totalTasks ? 'out of '+props.totalTasks : 'Completed'} </span>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <div className={styles['tasklist']}>
                     {tasks.map(item => (
                         <TaskItem 
-                        key={item.fid+'completed'}
-                        task={item}
-                        tags={tags}
-                        onComplete={onTaskUncomplete}
+                            key={item.fid+'completed'}
+                            task={item}
+                            tags={tags}
+                            onComplete={onTaskUncomplete}
                         />
                     ))}
+                    </div>
                 </AccordionDetails>
             </Accordion>
         )

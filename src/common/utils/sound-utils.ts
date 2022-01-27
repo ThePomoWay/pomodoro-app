@@ -4,5 +4,5 @@ export function playAlarmSound() {
 
     setTimeout(() => {
         audio.pause();
-    }, 8000)
+    }, 5000)
 }

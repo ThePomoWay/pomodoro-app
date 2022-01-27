@@ -1,8 +1,10 @@
+import { Done } from '@material-ui/icons';
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthService from '../../API/network/AuthService';
 import { selectProjectsObj } from '../../state/selectors';
 import { openOnboardingModal } from '../../state/slices/GlobalSlice';
+import { setTimerSec } from '../../state/slices/TimerSlice';
 import styles from './ProjectSelector.module.scss';
 export default function ProjectSelector(props) {
 
@@ -61,6 +63,7 @@ export default function ProjectSelector(props) {
                             </div>
                         ))}
                     </div> */}
+                    {item === selectedProjectId && (<Done className="popover-select-tick" />)}
                 </div>
                 
             ))}

@@ -68,7 +68,8 @@ export default (props) => {
                                 index={index} 
                                 dropId={props.dropId}
                                 onComplete={toggleCompletedTasks}
-                                onClick={markAsCurrent}/>
+                                onClick={markAsCurrent}
+                                isEditable={props.isEditable}/>
                             )
                         }
                         )}

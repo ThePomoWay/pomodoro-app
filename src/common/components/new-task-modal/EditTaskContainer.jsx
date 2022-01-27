@@ -198,9 +198,9 @@ export default function EditTaskContainer(props) {
         return (
         <div className={styles['task-tags-list']}>
             {selectedTags.map((item, ind) => (
-                <span key={ind} className={styles['task-tag-item']} style={{borderColor: tags[item].color, color: tags[item].color}}>
-                    {tags[item].title}
-                    <Close className={styles['close']} style={{width: '12px'}} onClick={(e) => removeTag(item)} />
+                <span key={ind} className={styles['task-tag-item']} style={{color: tags[item].color}}>
+                    #{tags[item].title}
+                    {/* <Close className={styles['close']} style={{width: '12px'}} onClick={(e) => removeTag(item)} /> */}
                     </span>
             ))}
         </div>)
@@ -210,8 +210,9 @@ export default function EditTaskContainer(props) {
         <div>
         <div className={styles['edit-task']}>
             <textarea ref={ref} value={title} className={styles['content-editable-div']} onChange={onTitleInput} onKeyDown={onTitleKeyChange}>
-            {getTaskTags()}
             </textarea>
+            {getTaskTags()}
+
             <div className={styles['description']}>
                 <TaskDescription onChange={(e) => setDescription(e)} isBulleted={isBulleted} value={taskToBeEdited.description} />
             </div>
@@ -230,12 +231,11 @@ export default function EditTaskContainer(props) {
 
                     <div className={`cursor-pointer ${styles['project']}`} onClick={onProjectAnchorClick} >
                         <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.4" y="0.4" width="9.2" height="13.2" rx="1.6" stroke="#414141" stroke-width="0.8"/>
-                            <line x1="3" y1="3.6" x2="7" y2="3.6" stroke="#414141" stroke-width="0.8"/>
-                            <line x1="3" y1="6.6" x2="7" y2="6.6" stroke="#414141" stroke-width="0.8"/>
-                            <line x1="3" y1="9.6" x2="7" y2="9.6" stroke="#414141" stroke-width="0.8"/>
+                            <rect x="0.4" y="0.4" width="9.2" height="13.2" rx="1.6" stroke="#414141" strokeWidth="0.8"/>
+                            <line x1="3" y1="3.6" x2="7" y2="3.6" stroke="#414141" strokeWidth="0.8"/>
+                            <line x1="3" y1="6.6" x2="7" y2="6.6" stroke="#414141" strokeWidth="0.8"/>
+                            <line x1="3" y1="9.6" x2="7" y2="9.6" stroke="#414141" strokeWidth="0.8"/>
                         </svg>
-
 
                         {project.projectID && (
                             projectsObj[project.projectID] && projectsObj[project.projectID].title
@@ -279,8 +279,8 @@ export default function EditTaskContainer(props) {
                     </Popper>
 
                     <span onClick={onPriorityAnchorClick} className={`${styles['icon-container']} cursor-pointer`} >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.07161 10.4896C6.90808 10.6179 6.67154 10.5893 6.54327 10.4258C6.415 10.2622 6.44358 10.0257 6.6071 9.89746C7.69406 9.04482 9.26042 9.13302 10.2457 10.1175C11.5947 11.4652 13.7896 11.4652 15.1372 10.1176C15.204 10.0508 15.2413 9.96077 15.2413 9.86654V4.01437C15.2413 3.87063 15.1548 3.74116 15.0222 3.68607C14.8895 3.63106 14.7367 3.66151 14.6349 3.76338C13.5631 4.83434 11.8202 4.83462 10.7482 3.76342C9.39916 2.41572 7.20497 2.41569 5.85602 3.76397C5.78998 3.82966 5.75261 3.91999 5.75261 4.01437V18.6237C5.75261 18.8315 5.58413 19 5.37631 19C5.16848 19 5 18.8315 5 18.6237V4.01437C5 3.72016 5.11688 3.43766 5.32462 3.23103C6.96678 1.58967 9.6372 1.58966 11.2801 3.23098C12.0583 4.00854 13.3249 4.00838 14.1028 3.23112C14.4197 2.91419 14.8962 2.8192 15.3107 2.99097C15.7242 3.16279 15.9939 3.56631 15.9939 4.01437V9.86654C15.9939 10.1604 15.8773 10.4419 15.6694 10.6498C14.0279 12.2913 11.3567 12.2913 9.7138 10.6499C8.99856 9.9353 7.86001 9.87117 7.07161 10.4896Z" fill="#E46780" stroke="#E46780" stroke-width="0.2"/>
+                    <svg style={{fill: priorityColorMap[priority]}} width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.07161 10.4896C6.90808 10.6179 6.67154 10.5893 6.54327 10.4258C6.415 10.2622 6.44358 10.0257 6.6071 9.89746C7.69406 9.04482 9.26042 9.13302 10.2457 10.1175C11.5947 11.4652 13.7896 11.4652 15.1372 10.1176C15.204 10.0508 15.2413 9.96077 15.2413 9.86654V4.01437C15.2413 3.87063 15.1548 3.74116 15.0222 3.68607C14.8895 3.63106 14.7367 3.66151 14.6349 3.76338C13.5631 4.83434 11.8202 4.83462 10.7482 3.76342C9.39916 2.41572 7.20497 2.41569 5.85602 3.76397C5.78998 3.82966 5.75261 3.91999 5.75261 4.01437V18.6237C5.75261 18.8315 5.58413 19 5.37631 19C5.16848 19 5 18.8315 5 18.6237V4.01437C5 3.72016 5.11688 3.43766 5.32462 3.23103C6.96678 1.58967 9.6372 1.58966 11.2801 3.23098C12.0583 4.00854 13.3249 4.00838 14.1028 3.23112C14.4197 2.91419 14.8962 2.8192 15.3107 2.99097C15.7242 3.16279 15.9939 3.56631 15.9939 4.01437V9.86654C15.9939 10.1604 15.8773 10.4419 15.6694 10.6498C14.0279 12.2913 11.3567 12.2913 9.7138 10.6499C8.99856 9.9353 7.86001 9.87117 7.07161 10.4896Z" strokeWidth="0.2"/>
                     </svg>
 
 

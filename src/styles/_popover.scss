@@ -56,4 +56,19 @@
       background-color: #f3f4ff;
     }
   }
+
+  &-icon-item {
+    @extend .popover-normal-item;
+    padding: 8px;
+    display: flex;
+    gap: 6px;
+  }
+
+  &-select-tick {
+    width: 16px !important;
+    height: 16px !important;
+    position: absolute;
+    right: 8px;
+    fill: #4d6de3;
+  }
 }

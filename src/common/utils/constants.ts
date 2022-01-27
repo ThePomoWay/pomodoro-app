@@ -20,7 +20,7 @@ export const STATS_TYPE_COMPLETE = 'complete';
 export const STATS_TYPE_PAUSED   = 'pause';
 
 
-export const priorityColorMap = ['', 'purple', 'red', 'yellow', 'green'];
+export const priorityColorMap = ['', '#FF93A8', '#365FF2', '#F58E4B', '#60A993'];
 
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 

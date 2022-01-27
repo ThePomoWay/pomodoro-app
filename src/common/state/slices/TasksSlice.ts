@@ -115,6 +115,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
         dispatch(updateTaskThunk({
             ...obj.task,
             isComplete: true,
+            isCurrentTask: false,
             completedOn: new Date().toISOString()
         }))
 
@@ -156,12 +157,13 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
 )
 
 export const markTaskAsInCompleteThunk = createAsyncThunk(
-    'task/markAsComplete',
+    'task/markAsInComplete',
     async (obj: any, {dispatch, getState}) => {
 
         dispatch(updateTaskThunk({
             ...obj.task,
-            isComplete: false
+            isComplete: false,
+            isCurrentTask: false
         }))
 
         if(obj.container === 'todays'){
