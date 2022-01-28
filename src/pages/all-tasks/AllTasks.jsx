@@ -84,7 +84,16 @@ export default () => {
         
     }, []);
 
+    const doRemoveTask = useCallback((task) => {
+        dispatch(removeFromTodaysTasks({
+            fid: task.fid,
+            _id: task._id
+        }));
+    });
+
     let { path } = useRouteMatch();
+
+
 
     return (
         <div className={styles["container"]}>
@@ -100,12 +109,18 @@ export default () => {
                     <div className={styles['middle-container']}>
                     <Switch>
                         <Route exact path={path}>
-                            <AllTaskContainer
-                                todaysTasksIds={todaysTaskIdsObj}
-                                tasks={alltasks}
-                                container="all"
-                            />
+                            <div className={styles["all-tasks-container"]}>
+                            <h2 className={styles['title']}>Inbox</h2>
+                            <div className={styles['add-task-btn']}>
                             <AddNewTask isTodaysTask={false} />
+                            </div>
+                                <AllTaskContainer
+                                    todaysTasksIds={todaysTaskIdsObj}
+                                    tasks={alltasks}
+                                    container="all"
+                                />
+                                
+                            </div>
                         </Route>
 
                         <Route exact path={`${path}/project`}>
@@ -135,6 +150,8 @@ export default () => {
                             <DraggableTaskList
                                 hidePlay={true}
                                 tasks={todaystasks} 
+                                showRemoveBtn={true}
+                                doRemoveTask={doRemoveTask}
                                 dropId="id-1e" />
                         </div>
                     </div>

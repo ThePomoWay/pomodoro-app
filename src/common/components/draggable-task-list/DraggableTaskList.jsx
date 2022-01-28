@@ -69,7 +69,9 @@ export default (props) => {
                                 dropId={props.dropId}
                                 onComplete={toggleCompletedTasks}
                                 onClick={markAsCurrent}
-                                isEditable={props.isEditable}/>
+                                showRemoveBtn={props.showRemoveBtn}
+                                isEditable={props.isEditable}
+                                doRemoveTask={props.doRemoveTask}/>
                             )
                         }
                         )}

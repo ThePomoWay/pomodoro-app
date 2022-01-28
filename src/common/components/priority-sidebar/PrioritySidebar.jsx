@@ -14,7 +14,8 @@ export function PrioritySidebar(props) {
     let priorities = priorityColorMap;
 
     let pathname = window.location.pathname;
-    let selectedPriority = pathname.split('/all/priority/')[1];
+    let selectedPriority = Number(pathname.split('/all/priority/')[1]);
+
 
     const getPriorities = useCallback(() => {
         return ( 

@@ -17,7 +17,7 @@ export default () => {
             
        </div>
        </Link>
-        <ProjectSidebar />
+        <ProjectSidebar className={styles['sidebar-item']} />
         <TagsSidebar />
         <PrioritySidebar />
     </div>)

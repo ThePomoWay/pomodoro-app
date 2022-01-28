@@ -62,14 +62,14 @@ export default (props) => {
                             return (
                                 <DraggableTaskItem 
                                 showAddBtn={!(item.fid in props.todaysTasksIds)} 
-                                showRemoveBtn={(item.fid in props.todaysTasksIds)} 
+                                
                                 doAddTask={doAddTask}
                                 doRemoveTask={doRemoveTask}
                                 onComplete={doCompleteTask}
                                 tags={tags}
                                 task={item} 
                                 key={item.fid} 
-                                onClick={doSetEditTask}
+                                
                                 index={index} 
                                 dropId={props.dropId} />
                             )

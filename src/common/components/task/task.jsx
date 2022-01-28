@@ -71,7 +71,7 @@ export default function TaskItem(props) {
                 </span>
             )
         }
-        if(!props.hidePlay) {
+        if(!props.hidePlay && props.isEditable) {
             return (<span className={styles["task-actions-round"]} onClick={(e) => {doEditTask(); e.stopPropagation()}}>
             { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<EditIcon />) }
             </span>)

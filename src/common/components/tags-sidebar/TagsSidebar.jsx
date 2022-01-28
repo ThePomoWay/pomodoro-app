@@ -1,5 +1,5 @@
 
-import { AddCircleOutlineOutlined, Label, LabelOutlined } from '@material-ui/icons';
+import { Add, AddCircleOutlineOutlined, Label, LabelOutlined } from '@material-ui/icons';
 import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTagsAsArr } from '../../state/selectors';
@@ -21,8 +21,13 @@ export function TagsSidebar(props) {
            <div>
                 {tags.map(item =>(
                     <Link  key={`sidebar-${item.fid}`} to={`/all/labels/${item.fid}`} >
-                        <div className={`${styles['tag']} ${selectedTagId === item.fid && styles['selected']}`}>
-                            <Label style={{fill: item.color}} />
+                        <div className={`${styles['tag']} ${selectedTagId === item.fid && styles['selected']}`} 
+                             >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill={item.color} xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.0666 2.40039H13.76C13.6266 2.40039 13.4932 2.45378 13.3866 2.56036L2.56004 13.3603C2.34669 13.5737 2.34669 13.8936 2.56004 14.107L9.86667 21.4403C9.97325 21.5468 10.1066 21.6002 10.24 21.6002C10.3734 21.6002 10.5067 21.5468 10.6133 21.4403L21.4133 10.6403C21.5198 10.5337 21.5732 10.4004 21.5732 10.267V2.9337C21.6 2.64036 21.36 2.40039 21.0666 2.40039ZM20.5333 10.027L10.2667 20.3203L3.68007 13.7337L13.9734 3.46705H20.5333V10.027ZM18.5867 5.41375C18.1868 5.01383 17.6267 4.80047 17.0666 4.80047C16.5065 4.80047 15.9732 5.01383 15.5465 5.41375C15.1466 5.81368 14.9334 6.37375 14.9334 6.93384C14.9334 7.49393 15.1468 8.02722 15.5467 8.45393C15.9466 8.85385 16.4801 9.06721 17.0668 9.06721C17.6269 9.06721 18.1602 8.85385 18.5869 8.45393C18.9868 8.05401 19.2002 7.5205 19.2002 6.93384C19.2 6.34718 18.9866 5.81371 18.5867 5.41375ZM17.8133 7.6805C17.4134 8.08043 16.6933 8.08043 16.2932 7.6805C16.1066 7.49375 16 7.2272 16 6.93384C16 6.6405 16.1066 6.37375 16.32 6.18718C16.5333 5.97382 16.7999 5.86724 17.0666 5.86724C17.36 5.86724 17.6267 5.97382 17.8133 6.18718C18.0001 6.40054 18.1333 6.66708 18.1333 6.93384C18.1334 7.2004 18.0266 7.49374 17.8133 7.6805Z" />
+                            </svg>
+
+                            {/* <Label style={{fill: item.color}} /> */}
                             {item.title}
                         </div>
                     </Link>
@@ -36,21 +41,26 @@ export function TagsSidebar(props) {
     return (
         <div>
             <div className={styles['tags-sidebar']}>
-                <LabelOutlined />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.0666 2.40039H13.76C13.6266 2.40039 13.4932 2.45378 13.3866 2.56036L2.56004 13.3603C2.34669 13.5737 2.34669 13.8936 2.56004 14.107L9.86667 21.4403C9.97325 21.5468 10.1066 21.6002 10.24 21.6002C10.3734 21.6002 10.5067 21.5468 10.6133 21.4403L21.4133 10.6403C21.5198 10.5337 21.5732 10.4004 21.5732 10.267V2.9337C21.6 2.64036 21.36 2.40039 21.0666 2.40039ZM20.5333 10.027L10.2667 20.3203L3.68007 13.7337L13.9734 3.46705H20.5333V10.027ZM18.5867 5.41375C18.1868 5.01383 17.6267 4.80047 17.0666 4.80047C16.5065 4.80047 15.9732 5.01383 15.5465 5.41375C15.1466 5.81368 14.9334 6.37375 14.9334 6.93384C14.9334 7.49393 15.1468 8.02722 15.5467 8.45393C15.9466 8.85385 16.4801 9.06721 17.0668 9.06721C17.6269 9.06721 18.1602 8.85385 18.5869 8.45393C18.9868 8.05401 19.2002 7.5205 19.2002 6.93384C19.2 6.34718 18.9866 5.81371 18.5867 5.41375ZM17.8133 7.6805C17.4134 8.08043 16.6933 8.08043 16.2932 7.6805C16.1066 7.49375 16 7.2272 16 6.93384C16 6.6405 16.1066 6.37375 16.32 6.18718C16.5333 5.97382 16.7999 5.86724 17.0666 5.86724C17.36 5.86724 17.6267 5.97382 17.8133 6.18718C18.0001 6.40054 18.1333 6.66708 18.1333 6.93384C18.1334 7.2004 18.0266 7.49374 17.8133 7.6805Z" fill="white"/>
+            </svg>
+
                 Labels
                 <span onClick={(e) => setTagExpanded(!tagExpanded)} className={`${styles['accordion']} ${tagExpanded ? 'up-arrow' : 'down-arrow'}`}>
                 </span>
             </div>
+
             <div className={styles['tags-sidebar-second']}>
-            {tagExpanded && 
-                getTags()
-            }
             <Link to="/all/labels">
-                <div className={`${styles['sidebar-row']} text-gray`}>
-                    <AddCircleOutlineOutlined />
+                <div className={`${styles['sidebar-row']}`}>
+                    <Add />
                     Create a Label
                 </div>
             </Link>
+            {tagExpanded && 
+                getTags()
+            }
+            
             </div>
         </div>
 
