@@ -1,11 +1,125 @@
 $bgColor: #020438;
 $boxColor: #020438;
-$waterFColor: #4d6de3;
+$pomoColor: radial-gradient(
+  99.46% 88.64% at 70.45% 3.41%,
+  #cad2fd 0.69%,
+  #637bf9 60.46%,
+  #334996 100%
+);
+$pomoBreakColor: radial-gradient(
+  99.46% 88.64% at 70.45% 3.41%,
+  #ffd3e0 0.69%,
+  #f4759a 60.46%,
+  #b44a7f 100%
+);
+$pomoLongBreakColor: radial-gradient(
+  99.46% 88.64% at 70.45% 3.41%,
+  #bbf3da 0.69%,
+  #74bdd0 60.46%,
+  #408db9 100%
+);
 $waterBColor: #5394d8;
 
 .timer {
   transition: all 1s ease-in-out;
 
+  .blur-bg {
+    z-index: 0;
+    width: 130%;
+    height: 278px;
+    position: relative;
+    top: -145px;
+    left: -20px;
+
+    .blur {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .pomodoro {
+    .blur {
+      background: radial-gradient(
+        45.88% 45.88% at 49.7% 57.76%,
+        rgba(125, 141, 227, 0.6) 0%,
+        rgba(56, 79, 202, 0) 100%
+      );
+      filter: blur(29px);
+    }
+    .box {
+      background: radial-gradient(
+        121.5% 94.67% at 66% 5.33%,
+        rgba(242, 244, 251, 0.64) 0%,
+        #abb2cf 100%
+      );
+    }
+    .water {
+      background: $pomoColor;
+    }
+
+    .timer-circle {
+      background-color: #97a7fe;
+      box-shadow: inset 5px 6px 12px #8fa0fb;
+    }
+
+    .timer-text {
+      text-shadow: 0px 6px 11px #5b6ecd;
+    }
+  }
+  .break {
+    .blur {
+      background: radial-gradient(
+        45.88% 45.88% at 49.7% 57.76%,
+        rgba(202, 56, 91, 0.35) 0%,
+        rgba(202, 56, 91, 0) 100%
+      );
+      filter: blur(29px);
+    }
+    .box {
+      background: radial-gradient(
+        121.5% 94.67% at 66% 5.33%,
+        #fff7fa 0%,
+        #e7b4c4 100%
+      );
+    }
+    .water {
+      background: $pomoBreakColor;
+    }
+    .timer-circle {
+      background-color: #ffa5c1;
+      box-shadow: inset 5px 6px 12px #e89fbe;
+    }
+    .timer-text {
+      text-shadow: 0px 6px 11px #ce679f;
+    }
+  }
+  .long_break {
+    .blur {
+      background: radial-gradient(
+        45.88% 45.88% at 49.7% 57.76%,
+        rgba(69, 145, 187, 0.34) 0%,
+        rgba(69, 145, 187, 0) 100%
+      );
+      filter: blur(29px);
+    }
+    .box {
+      background: radial-gradient(
+        121.5% 94.67% at 66% 5.33%,
+        #ecfcfe 0%,
+        #c7dbde 100%
+      );
+      .water {
+        background: $pomoLongBreakColor;
+      }
+      .timer-circle {
+        background-color: #99dad6;
+        box-shadow: inset 5px 6px 12px #6fcfc9;
+      }
+    }
+    .timer-text {
+      text-shadow: 0px 6px 11px #52b7b7;
+    }
+  }
   .round {
     width: 100%;
     padding-top: 100%; /* 1:1 Aspect Ratio */
@@ -13,6 +127,7 @@ $waterBColor: #5394d8;
     border-radius: 50%;
     justify-self: center;
     margin-top: 52px;
+    z-index: 1;
 
     .box {
       height: 100%;
@@ -21,7 +136,7 @@ $waterBColor: #5394d8;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #f1e7fe;
+
       border-radius: 100%;
       overflow: hidden;
       .percent {
@@ -38,17 +153,28 @@ $waterBColor: #5394d8;
         color: #fff;
         font-size: 64px;
       }
+
       .water {
         position: absolute;
         left: 0;
-        top: 0;
+        top: 0px;
         z-index: 2;
         width: 100%;
         height: 100%;
         transform: translate(100, 0%);
-        background: $waterFColor;
         transition: all 0.3s;
         opacity: 1;
+        position: relative;
+        transition: all 1.5s ease-in-out;
+
+        .timer-circle {
+          width: 100%;
+          border-radius: 50%;
+
+          position: absolute;
+          left: 50%;
+        }
+
         &_wave {
           width: 200%;
           position: absolute;
@@ -61,10 +187,10 @@ $waterBColor: #5394d8;
           }
           &_front {
             left: 0;
-            fill: $waterFColor;
+            fill: rgb(179, 190, 252);
             margin-bottom: -2px;
             opacity: 1;
-            animation: wave-front 2.5s infinite linear;
+            animation: wave-front 3s infinite linear;
           }
           &_front_2 {
             left: 0;
@@ -92,7 +218,7 @@ $waterBColor: #5394d8;
   }
   &-tabs {
     display: grid;
-    width: 111%;
+
     grid-template-columns: 1fr 1fr 1fr;
     text-align: center;
     justify-content: center;
@@ -101,6 +227,7 @@ $waterBColor: #5394d8;
 
     &-item {
       cursor: pointer;
+      color: #404040;
 
       &:hover:not(.selected) {
         transform: scale(1.05);
@@ -113,26 +240,26 @@ $waterBColor: #5394d8;
 
       justify-self: left;
 
-      max-width: 120px;
+      width: 74px;
 
       &.selected-purple {
         // border-bottom: 1px solid gray;
         background-color: #dfe5ff;
         color: #2e3c87;
         font-weight: 500;
-        border-radius: 8px;
+        border-radius: 4px;
       }
       &.selected-pink {
         background-color: #ffeaf0;
         color: #c84e7c;
         font-weight: 500;
-        border-radius: 8px;
+        border-radius: 4px;
       }
       &.selected-cyan {
         background-color: #d0effe;
         color: #58a2c2;
         font-weight: 500;
-        border-radius: 8px;
+        border-radius: 4px;
       }
     }
   }
@@ -143,7 +270,7 @@ $waterBColor: #5394d8;
     gap: 20px;
     align-items: center;
     position: absolute;
-    bottom: 40px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
@@ -151,8 +278,8 @@ $waterBColor: #5394d8;
     cursor: pointer;
 
     svg {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
     }
   }
 

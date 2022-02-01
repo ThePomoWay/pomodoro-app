@@ -1,7 +1,10 @@
-.header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.container {
+  padding: 44px 84px;
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+  }
 }

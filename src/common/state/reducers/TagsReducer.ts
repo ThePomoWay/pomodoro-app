@@ -1,9 +1,10 @@
 export const initialTagState = {
-    tags: {}
+    tags: {},
+    editTagId: ''
 }
 
 export let tagsReducer = {
-    addTag: (state, action) => {
+    updateTag: (state, action) => {
         state.tags[action.payload.fid] = action.payload;
     },
     deleteTag: (state, action) => {
@@ -11,5 +12,8 @@ export let tagsReducer = {
     },
     setTags: (state, action) => {
         state.tags = action.payload;
+    },
+    setEditTagId: (state, action) => {
+        state.editTagId = action.payload;
     }
 }

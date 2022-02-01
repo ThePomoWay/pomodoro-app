@@ -1,0 +1,24 @@
+.sidenav {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #566ee8;
+  color: #ffffff;
+
+  height: calc(100vh - 104px);
+  overflow-y: scroll;
+
+  padding: 48px 16px 0px 16px;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-direction: row;
+    padding: 8px 10px;
+
+    &.selected {
+      background-color: #3f56b9;
+    }
+  }
+}

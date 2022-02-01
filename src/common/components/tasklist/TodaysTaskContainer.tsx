@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTagsAsObj, selectTodaysCompletedTasks, selectTodaysTasks } from "../../state/selectors";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
@@ -11,11 +11,23 @@ import TaskItem from "../task/task";
 import { getTodaysDateFormatted } from "../../utils/date-utils";
 import { DailyStats } from "../daily-stats/DailyStats";
 import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
+import { Edit, MoreHorizRounded } from "@material-ui/icons";
+import { ClickAwayListener, Popper } from "@mui/material";
 
 export function TodaysTaskContainer () {
     let tasks = useSelector(selectTodaysTasks);
     let completedTasks = useSelector(selectTodaysCompletedTasks);
     let tags = useSelector(selectTagsAsObj);
+
+    let [moreAnchorEl, setMoreAnchorEl] = useState(null);
+
+    let onClose = () => {
+        setMoreAnchorEl(null)
+    }
+
+    let onPopperOpen = (e) => {
+        setMoreAnchorEl(e.currentTarget);
+    }
     
     let dispatch = useDispatch();
 
@@ -36,22 +48,56 @@ export function TodaysTaskContainer () {
         dispatch(markTaskAsInCompleteThunk({task, container: 'todays'}));
     });
 
-    let getTasks = useCallback((tasks, completedTasks) => {
+    
         if(!tasks || (tasks.length === 0 && completedTasks.length === 0)) {
             return (
                 <div className={styles['empty-state']}>
-                    <span className={styles["title"]}>Today's Tasks</span>
-                    <DailyStats />
-                    <AddNewTask isTodaysTask={true}></AddNewTask>
-                    <img src="/empty-tasks.png" alt="Empty tasks"/>
+                    <span className={styles["welcome-title"]}>👋 Welcome to PomoPanda</span>
+                    <div className={styles['create-task']}>
+                        <div className={styles['text-container']}>
+                        <span className={styles['text']}>Create Tasks </span>
+                        to do today and start the timer
+                        </div>
+                        <div>
+                            <AddNewTask isTodaysTask={true} />
+                        </div>
+                    </div>
+                    <div className={styles["timer"]}>
+                        <div className={styles["or"]}>OR</div>
+                        <div className={styles['timer-text']}>Simply Start the timer</div>
+                    </div>
+                    
+                    
+                    {/* <img src="/empty-tasks.png" alt="Empty tasks"/> */}
                     
                 </div>
             );
         }
         return (
             <div className={styles["task-list"]}>
+                <div className={styles['title-container']}>
                 <span className={styles["title"]}>Today's Tasks</span>
-                <DailyStats />
+                <ClickAwayListener onClickAway={onClose}>
+                    <div>
+                        <MoreHorizRounded style={{cursor: 'pointer'}} onClick={onPopperOpen} />
+                        <Popper
+                            open={Boolean(moreAnchorEl)}
+                            id="more-today-popover"
+                            anchorEl={moreAnchorEl}
+                            onClose={onClose}
+                            position="bottom-left">
+                            <div className="popper-container">
+                                <div className="popper-item">
+                                    <Edit /> Delete todays tasks
+                                </div>
+                            </div>
+                        </Popper>
+                    </div>
+                </ClickAwayListener>
+                </div>
+                <div className={styles['daily-stats']}>
+                    <DailyStats />
+                </div>
                 <div className={styles["task-container"]}>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <DraggableTaskList
@@ -61,7 +107,9 @@ export function TodaysTaskContainer () {
                             dropId="id-1e"
                             isEditable="true" />
                     </DragDropContext>
+                    <div className={styles['add-new-task']}>
                     <AddNewTask isTodaysTask={true}></AddNewTask>
+                    </div>
                     
                     {completedTasks.length > 0 && 
                     // (<div className={styles['completed-tasks']}>
@@ -77,7 +125,7 @@ export function TodaysTaskContainer () {
                     // </div>)
                     (
                         <div className={styles['completed-tasks']}>
-                            <CompletedTasksList tasks={completedTasks} totalTasks={tasks.length + completedTasks.length} />
+                            <CompletedTasksList container="todays" tasks={completedTasks} totalTasks={tasks.length + completedTasks.length} />
                         </div>
                     )
                     }
@@ -86,7 +134,6 @@ export function TodaysTaskContainer () {
                 </div>
                 
         </div>);
-    }, [])
 
-    return getTasks(tasks, completedTasks);
+  
 }

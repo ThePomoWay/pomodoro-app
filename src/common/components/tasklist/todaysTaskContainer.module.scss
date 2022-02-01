@@ -1,14 +1,49 @@
 .empty-state {
   display: flex;
   flex-direction: column;
-  margin-top: 28px;
+  margin-top: 81px;
 
-  .title {
+  .welcome-title {
     font-weight: 700;
     font-size: 32px;
     line-height: 36px;
-    display: block;
-    height: 50px;
+    color: #000000;
+    margin-bottom: 36px;
+  }
+
+  .create-task {
+    width: 428px;
+
+    background: #f7f7ff;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+
+    padding: 17px 17px 23px 24px;
+
+    .text-container {
+      margin-bottom: 22px;
+      .text {
+        color: #2e3c87;
+      }
+    }
+  }
+
+  .timer {
+    margin-top: 14px;
+    .or {
+      font-size: 20px;
+      line-height: 20px;
+
+      color: #ff9f2f;
+    }
+    .timer-text {
+      font-size: 16px;
+      line-height: 20px;
+
+      color: #4157b2;
+    }
   }
 
   img {
@@ -24,18 +59,27 @@
 }
 
 .task-list {
-  margin-top: 28px;
+  margin-top: 24px;
 
   .task-container {
     margin-bottom: 15px;
+
+    .add-new-task {
+      margin-top: 4px;
+    }
+  }
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
   }
 
   .title {
-    font-weight: 700;
-    font-size: 32px;
+    font-weight: 600;
+    font-size: 28px;
     line-height: 36px;
     display: block;
-    margin-bottom: 16px;
+    margin-bottom: 4px;
   }
 
   .subtitle {
@@ -49,4 +93,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.daily-stats {
+  margin-bottom: 28px;
 }

@@ -17,23 +17,40 @@
   }
 }
 
+.project {
+  padding-left: 22px !important;
+}
+
 .project-sidebar-second {
   padding: 10px 10px 10px 30px;
 
   .sidebar-row {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     cursor: pointer;
-    padding: 4px 8px;
+
     color: white;
 
     font-weight: 600;
     font-size: 14px;
     line-height: 16px;
+
+    flex-direction: row;
+
+    padding: 8px 12px;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .create-project {
+    font-weight: 600;
   }
 
   .selected {
-    background-color: #ececec;
+    background-color: #3f56b9;
   }
 }

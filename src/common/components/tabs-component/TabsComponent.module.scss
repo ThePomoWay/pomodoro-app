@@ -1,28 +1,27 @@
 .tabs {
-  border: 1px solid #cbcbcb;
-
   display: flex;
   flex-direction: row;
 
   .tab {
-    width: 60px;
-    flex: 1;
+    width: 168px;
+    height: 32px;
+
     display: flex;
-    padding: 20px;
+    padding: 4px 0px;
     justify-content: center;
+    align-items: center;
     cursor: pointer;
 
-    &.selected {
-      background-color: #ebebeb;
-      cursor: initial;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
 
-      font-family: Roboto;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 16px;
-      letter-spacing: 0em;
-      text-align: center;
+    color: #2e3c87;
+
+    &.selected {
+      background-color: #dfe5ff;
+      border-radius: 8px;
+      cursor: initial;
     }
   }
 }

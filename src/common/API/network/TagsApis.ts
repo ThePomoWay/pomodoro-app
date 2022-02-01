@@ -1,5 +1,5 @@
 import AuthService from "./AuthService";
-import { createTagEndpoint, deleteTagEndpoint, getAllTagsEndpoint } from "./Endpoints";
+import { createTagEndpoint, deleteTagEndpoint, getAllTagsEndpoint, updateTagEndpoint } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
 export function GetAllTagsApi() {
@@ -10,6 +10,11 @@ export function GetAllTagsApi() {
 export function createTagApi(body) {
     let endpoint = createTagEndpoint.replace('{userId}', AuthService.getUserId());
     return NetworkService.post(endpoint, {}, body);
+}
+
+export function updateTagApi(body) {
+    let endpoint = updateTagEndpoint.replace('{userId}', AuthService.getUserId());
+    return NetworkService.patch(endpoint, {}, body);
 }
 
 export function deleteTagApi(tagId) {

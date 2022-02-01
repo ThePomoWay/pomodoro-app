@@ -71,4 +71,4 @@ export const globalSlice = createSlice({
 export const { showAddTaskBtn, 
     hideAddTaskBtn, editTask, clearTaskToBeEdited,
     setExtensionPresent, openOnboardingModal, closeOnboardingModal,
-    setFocusMode} = globalSlice.actions
+    setFocusMode, setProjectModalState, setLabelModalState} = globalSlice.actions

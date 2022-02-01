@@ -2,7 +2,8 @@ import { findIndex } from "../../utils/array-utils";
 
 export const initialProjectsState = {
     projects: {},
-    projectOrder: []
+    projectOrder: [],
+    editProjectId: ''
 }
 
 export const projectReducer = {
@@ -16,7 +17,10 @@ export const projectReducer = {
     deleteProject: (state, action) => {
         delete state.projects[action.payload.fid];
 
-        let ind = findIndex(state.projectOder, action.payload.fid);
+        let ind = findIndex(state.projectOrder, action.payload.fid);
         state.projectOrder.splice(ind, 1);
+    },
+    setEditProjectId: (state, action) => {
+        state.editProjectId = action.payload;
     }
 }

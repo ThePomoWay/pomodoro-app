@@ -3,18 +3,22 @@
   flex-direction: column;
 
   width: 100%;
-
-  button {
-    width: 30%;
-  }
 }
 .section-title {
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .hamburger {
     position: relative;
-    top: 2px;
+    top: 1px;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 }
 

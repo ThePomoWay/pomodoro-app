@@ -1,43 +1,52 @@
 .font-heading {
-  font-family: Roboto;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 42px;
-  letter-spacing: 0em;
-  text-align: left;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 33px;
+
+  color: #000000;
+}
+
+.font-sub-heading {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
 }
 
 .font-info {
-  font-family: Roboto;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
+  line-height: 20px;
 }
 
 .font-big {
-  font-family: Roboto;
   font-size: 48px;
   font-style: normal;
-  font-weight: 500;
   line-height: 56px;
-  letter-spacing: 0em;
-  text-align: left;
+  font-weight: bold;
+}
+
+.font-medium {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 44px;
 }
 
 .font-normal {
-  font-family: Roboto;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 23px;
+  line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
 }
 
 .font-align-center {
   text-align: center;
+}
+
+.font-title {
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 36px;
+
+  color: #000000;
 }

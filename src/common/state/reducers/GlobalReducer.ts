@@ -3,7 +3,9 @@ export const initialGlobalState = {
     showAddTaskBtn: false,
     taskToBeEdited: {},
     extensionPresent: false,
-    onboardingModalOpen: false
+    onboardingModalOpen: false,
+    projectModalOpen: false,
+    labelModalOpen: false
 };
 
 export let globalReducer = {
@@ -32,5 +34,11 @@ export let globalReducer = {
     },
     closeOnboardingModal: (state) => {
         state.onboardingModalOpen = false;
+    },
+    setProjectModalState: (state, action) => {
+        state.projectModalOpen = action.payload;
+    },
+    setLabelModalState: (state, action) => {
+        state.labelModalOpen = action.payload;
     }
 }

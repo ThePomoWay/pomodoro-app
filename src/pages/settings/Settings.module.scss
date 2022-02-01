@@ -1,0 +1,22 @@
+.settings-container {
+  display: flex;
+  flex-direction: column;
+
+  .main {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+
+    .sidebar {
+      border-right: 1px solid gray;
+      grid-column: 1 / 6;
+      height: calc(100vh - 104px);
+    }
+
+    .settings {
+      grid-column: 6 / -1;
+      padding: 48px 84px;
+
+      overflow-y: scroll;
+    }
+  }
+}

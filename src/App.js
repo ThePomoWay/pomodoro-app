@@ -9,7 +9,7 @@ import { syncIdb } from './common/utils/sync';
 import AboutUs from './pages/about-us/AbousUsPage';
 import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
-import ClockSettings from './pages/clock-settings/ClockSettings';
+import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
 
@@ -43,8 +43,8 @@ function App() {
           <Route exact path="/analysis">
             <AnalysisPage />
           </Route>
-          <Route exact path="/clock/settings">
-            <ClockSettings />
+          <Route path="/settings">
+            <Settings />
           </Route>
           <Route exact path="/">
             <Homepage />

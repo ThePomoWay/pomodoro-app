@@ -1,2 +1,36 @@
-.container {
+.input {
+  background: #ffffff;
+  border: 1px solid #e0e3fc;
+  box-sizing: border-box;
+  box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.11);
+  border-radius: 8px;
+  padding: 12px;
+
+  width: 100%;
+
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.color-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  .label {
+    font-size: 12px;
+    line-height: 16px;
+
+    color: #5b5b5e;
+  }
+  .color-palette {
+    display: flex;
+    gap: 9px;
+    cursor: pointer;
+  }
+}
+.cta {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }

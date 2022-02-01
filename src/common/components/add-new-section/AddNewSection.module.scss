@@ -4,25 +4,26 @@
   display: flex;
   justify-content: center;
 
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px 10px 0px;
 
   transition: all 0.1s ease-in;
 
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.04);
+    transform: scale(1.02);
   }
 
   .border {
     width: 100%;
-    border-top: 1px solid black;
+    border-top: 1px solid #909eea;
   }
 
   .title {
     position: absolute;
     top: -10px;
     padding: 0px 10px 0px 10px;
+    color: #909eea;
     background-color: white;
   }
 }
@@ -36,19 +37,32 @@
 
 .edit-section {
   width: 100%;
-  padding: 10px;
+
+  margin-top: 24px;
   margin-bottom: 20px;
 
   .edit-input {
-    background-color: #f9f9f9;
-    padding: 6px;
-    border-radius: 12px;
-    height: 80px;
+    font-family: "Roboto";
+    background: #ffffff;
+    border: 1px solid #e0e3fc;
+    box-sizing: border-box;
+    box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.11);
+    border-radius: 8px;
+    height: 54px;
     width: 100%;
 
-    margin-bottom: 10px;
+    padding: 12px;
+    resize: none;
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    margin-bottom: 16px;
   }
-  .save-btn {
-    margin-right: 10px;
+  .cta {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
   }
 }

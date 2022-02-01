@@ -10,7 +10,7 @@
   .taskList {
     display: grid;
 
-    padding: 20px;
+    padding: 20px 20px 0px 52px;
   }
 }
 
@@ -27,26 +27,30 @@
 
   .timer-container {
     grid-column: 1 / 5;
-    padding-left: 6vw;
+    padding-left: 8vw;
 
     align-items: start;
 
+    transition: all 0.5s ease-in-out;
+
     &.purple {
-      background-color: #f7f7ff;
+      background-color: #f5f7ff;
     }
 
     &.pink {
-      background-color: #fffcfd;
+      background-color: #fff5f7;
     }
 
     &.cyan {
-      background-color: #f9feff;
+      background-color: #f3fcff;
     }
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     .timer {
       margin-top: 94px;
+      position: relative;
+      right: 30px;
       grid-column: 1 / 5;
     }
   }

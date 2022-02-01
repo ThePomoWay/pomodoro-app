@@ -1,10 +1,22 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
 import Navbar from "../../common/components/navbar/Navbar";
 import { getAllTasks } from "../../common/state/async";
-import { selectAllTasks, selectTodaysTaskIds, selectTodaysTasks } from "../../common/state/selectors";
-import { addToAllTasks, addToTodaysTasks, getTodaysTasks, rearrangeAllTasks, rearrangeTodaysTask, removeFromAllTasks, removeFromTodaysTasks } from "../../common/state/slices/TasksSlice";
+import {
+  selectAllTasks,
+  selectTodaysTaskIds,
+  selectTodaysTasks,
+} from "../../common/state/selectors";
+import {
+  addToAllTasks,
+  addToTodaysTasks,
+  getTodaysTasks,
+  rearrangeAllTasks,
+  rearrangeTodaysTask,
+  removeFromAllTasks,
+  removeFromTodaysTasks,
+} from "../../common/state/slices/TasksSlice";
 import { todaysTasksDropId } from "../../common/utils/constants";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -13,150 +25,214 @@ import styles from "./AllTasks.module.scss";
 import { getObjFromArr } from "../../common/utils/common";
 import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
 
-import { Switch, useRouteMatch, Route } from "react-router-dom"
+import { Switch, useRouteMatch, Route } from "react-router-dom";
 import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
 import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
-import ProjectContainer from "../../common/components/project-container/ProjectContainer";
 import { getAllProjects } from "../../common/state/slices/ProjectSlice";
 import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
 import LabelContainer from "../../common/components/label-container/LabelContainer";
 import { getAllTags } from "../../common/state/slices/TagsSlice";
 import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
+import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
 
 export default () => {
-    let alltasks = useSelector(selectAllTasks);
-    let todaystasks = useSelector(selectTodaysTasks);
+  let alltasks = useSelector(selectAllTasks);
+  let todaystasks = useSelector(selectTodaysTasks);
 
-    let todaysTaskIds = useSelector(selectTodaysTaskIds);
-    let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
+  let todaysTaskIds = useSelector(selectTodaysTaskIds);
+  let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
 
-    let dispatch = useDispatch();
+  let dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getAllTasks());
-        dispatch(getTodaysTasks());
-        dispatch(getAllProjects());
-        dispatch(getAllTags());
-    }, []);
+  let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
 
-    let onDragEnd = useCallback((result) => {
-        console.log(result)
-        if(result.destination && result.source) {
-            if(result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index) {
-                return;
-            }
+  useEffect(() => {
+    dispatch(getAllTasks());
+    dispatch(getTodaysTasks());
+    dispatch(getAllProjects());
+    dispatch(getAllTags());
+  }, []);
 
-            if(result.destination.droppableId === result.source.droppableId){
-                let action = result.source.droppableId === todaysTasksDropId ? rearrangeTodaysTask : rearrangeAllTasks;
-                dispatch(action({
-                    source: result.source.index,
-                    destination: result.destination.index
-                }))
-            }
-            else {
-                let removeAction = result.source.droppableId === todaysTasksDropId ? removeFromTodaysTasks : removeFromAllTasks;
-                let addAction;
-                let item;
+  let onDragEnd = useCallback((result) => {
+    console.log(result);
+    if (result.destination && result.source) {
+      if (
+        result.destination.droppableId === result.source.droppableId &&
+        result.destination.index === result.source.index
+      ) {
+        return;
+      }
 
-                if(result.destination.droppableId === todaysTasksDropId) {
-                    addAction = addToTodaysTasks;
-                    item = todaystasks[result.source.index].fid;
-                }
-                else {
-                    addAction = addToAllTasks;
-                    item = alltasks[result.source.index].fid;
-                }
+      if (result.destination.droppableId === result.source.droppableId) {
+        let action =
+          result.source.droppableId === todaysTasksDropId
+            ? rearrangeTodaysTask
+            : rearrangeAllTasks;
+        dispatch(
+          action({
+            source: result.source.index,
+            destination: result.destination.index,
+          })
+        );
+      } else {
+        let removeAction =
+          result.source.droppableId === todaysTasksDropId
+            ? removeFromTodaysTasks
+            : removeFromAllTasks;
+        let addAction;
+        let item;
 
-                dispatch(removeAction({
-                    index: result.source.index
-                }));
-
-
-
-                dispatch(addAction({
-                    index: result.destination.index,
-                    item
-                }))
-            }
-            
+        if (result.destination.droppableId === todaysTasksDropId) {
+          addAction = addToTodaysTasks;
+          item = todaystasks[result.source.index].fid;
+        } else {
+          addAction = addToAllTasks;
+          item = alltasks[result.source.index].fid;
         }
-        
-    }, []);
 
-    const doRemoveTask = useCallback((task) => {
-        dispatch(removeFromTodaysTasks({
-            fid: task.fid,
-            _id: task._id
-        }));
-    });
+        dispatch(
+          removeAction({
+            index: result.source.index,
+          })
+        );
 
-    let { path } = useRouteMatch();
+        dispatch(
+          addAction({
+            index: result.destination.index,
+            item,
+          })
+        );
+      }
+    }
+  }, []);
 
-
-
-    return (
-        <div className={styles["container"]}>
-            <div>
-                <Navbar selected="1"></Navbar>
-            </div>
-            <div className={styles['main-view']}>
-                <div className={styles.sidebar}>
-                    <AllTaskSidebar></AllTaskSidebar>
-                </div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    
-                    <div className={styles['middle-container']}>
-                    <Switch>
-                        <Route exact path={path}>
-                            <div className={styles["all-tasks-container"]}>
-                            <h2 className={styles['title']}>Inbox</h2>
-                            <div className={styles['add-task-btn']}>
-                            <AddNewTask isTodaysTask={false} />
-                            </div>
-                                <AllTaskContainer
-                                    todaysTasksIds={todaysTaskIdsObj}
-                                    tasks={alltasks}
-                                    container="all"
-                                />
-                                
-                            </div>
-                        </Route>
-
-                        <Route exact path={`${path}/project`}>
-                            <NewProjectContainer />
-                        </Route>
-
-                        <Route path={`${path}/project/:projectId`}>
-                            <ProjectContainer />
-                        </Route>
-
-                        <Route exact path={`${path}/labels`}>
-                            <NewLabelContainer />
-                        </Route>
-                        <Route path={`${path}/labels/:labelId`}>
-                            <LabelContainer />
-                        </Route>
-
-                        <Route path={`${path}/priority/:priority`}>
-                            <PriorityContainer />
-                        </Route>
-
-                    </Switch>
-                    </div>
-                    <div className={styles['todays-task-container']}>
-                        <div className={styles['todays-task-list']}>
-                            <h2>Todays Tasks</h2>
-                            <DraggableTaskList
-                                hidePlay={true}
-                                tasks={todaystasks} 
-                                showRemoveBtn={true}
-                                doRemoveTask={doRemoveTask}
-                                dropId="id-1e" />
-                        </div>
-                    </div>
-                </DragDropContext>
-            </div>
-        </div>
+  const doRemoveTask = useCallback((task) => {
+    dispatch(
+      removeFromTodaysTasks({
+        fid: task.fid,
+        _id: task._id,
+      })
     );
-}
+  });
+
+  let { path } = useRouteMatch();
+
+  return (
+    <div className={styles["container"]}>
+      <div>
+        <Navbar selected="1"></Navbar>
+      </div>
+      <div className={styles["main-view"]}>
+        <div className={styles.sidebar}>
+          <AllTaskSidebar></AllTaskSidebar>
+        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className={styles["middle-container"]}>
+            <Switch>
+              <Route exact path={path}>
+                <div className={styles["all-tasks-container"]}>
+                  <h2 className={styles["title"]}>Inbox</h2>
+                  <div className={styles["add-task-btn"]}>
+                    <AddNewTask isTodaysTask={false} />
+                  </div>
+                  <AllTaskContainer
+                    todaysTasksIds={todaysTaskIdsObj}
+                    tasks={alltasks}
+                    container="all"
+                  />
+                </div>
+              </Route>
+
+              <Route exact path={`${path}/project`}>
+                <NewProjectContainer />
+              </Route>
+
+              <Route path={`${path}/project/:projectId`}>
+                <ProjectContainer />
+              </Route>
+
+              <Route exact path={`${path}/labels`}>
+                <NewLabelContainer />
+              </Route>
+              <Route path={`${path}/labels/:labelId`}>
+                <LabelContainer />
+              </Route>
+
+              <Route path={`${path}/priority/:priority`}>
+                <PriorityContainer />
+              </Route>
+            </Switch>
+          </div>
+          <div className={styles["right-container"]}>
+            <div
+              className={`${styles["todays-task-container"]} ${
+                todaysTaskOpen ? styles["open"] : styles["closed"]
+              }`}
+              style={{ visibility: todaysTaskOpen ? "visible" : "hidden" }}
+            >
+              <div
+                className={`${styles["todays-task-list"]}`}
+                onClick={(e) => setTodaysTaskOpen(false)}
+              >
+                <h2 className={styles["title"]}>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
+                      stroke="#7586E3"
+                      strokeWidth="1.06667"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  Todays Tasks
+                </h2>
+
+                {todaystasks.length > 0 &&
+                  ((
+                    <DraggableTaskList
+                      hidePlay={true}
+                      tasks={todaystasks}
+                      showRemoveBtn={true}
+                      doRemoveTask={doRemoveTask}
+                      dropId="id-1e"
+                    />
+                  ) || <p>Add tasks to Today's Tasks to see them here.</p>)}
+              </div>
+            </div>
+            {!todaysTaskOpen && (
+              <div className={styles["todays-task-btn"]}>
+                <button
+                  className="btn btn-theme"
+                  onClick={(e) => setTodaysTaskOpen(true)}
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 2L4 6L8 10"
+                      stroke="#7586E3"
+                      strokeWidth="0.8"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+        </DragDropContext>
+      </div>
+      <NewProjectContainer />
+      <NewLabelContainer />
+    </div>
+  );
+};

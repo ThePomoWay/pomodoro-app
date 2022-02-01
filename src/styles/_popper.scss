@@ -1,0 +1,36 @@
+.popper-container {
+  width: 160px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+  border: 1px solid #cbcee1;
+  box-sizing: border-box;
+  box-shadow: 1px 4px 4px rgba(146, 154, 202, 0.36);
+  border-radius: 4px;
+  .popper-item {
+    padding: 8px;
+    display: flex;
+    gap: 4px;
+
+    font-size: 12px;
+    line-height: 16px;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    color: #6a6f9a;
+
+    &:hover {
+      background-color: #f3f4ff;
+    }
+
+    &:not(:first-child) {
+      border-top: 1px solid #e0e3fc;
+    }
+  }
+}

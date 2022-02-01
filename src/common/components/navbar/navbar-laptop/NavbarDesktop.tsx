@@ -62,38 +62,40 @@ export default function NavbarDesktop(props) {
     }, []);<></>
 
     return (
-    <div className={styles["navbar"]}>
-        <span className={styles["app"]}>
-            <span className={styles["title"]}>PomöPanda</span>
-        </span>
+        <div className={styles['navbar']}>
+            <div className={styles["navbar-content"]}>
+                <span className={styles["app"]}>
+                    <span className={styles["title"]}>PomöPanda</span>
+                </span>
 
-        <div className={styles["links"]}>
-            <div className={styles['link-items']}>
-            {navItems.map((item, index) => (<Link key={index} to={item.to} className={`${styles['link-item']} ${styles['link-item-'+(index+1)]} ${String(index) === props.selected ? styles['selected']: ''}`}>
-                {item.icon}{item.title}</Link>))}
-            {/* <span className={styles["link-item"]}><Menu /></span> */}
-            </div>
-        </div>
-
-        <div className={styles["right-nav"]}>
-            <div>
-                <span className={styles['manage-focus']}>Manage Focus</span>
-            </div>
-            <div>
-                <button className='btn btn-premium'>Premium</button>
-            </div>
-
-            {isLoggedIn && (
-                <ProfileDropdown />
-            )
-            ||
-            (
-                <div className={styles['login']} onClick={(e) => onOpenOnboardingModal()}>
-                    Login
+                <div className={styles["links"]}>
+                    <div className={styles['link-items']}>
+                    {navItems.map((item, index) => (<Link key={index} to={item.to} className={`${styles['link-item']} ${styles['link-item-'+(index+1)]} ${String(index) === props.selected ? styles['selected']: ''}`}>
+                        {item.icon}{item.title}</Link>))}
+                    {/* <span className={styles["link-item"]}><Menu /></span> */}
+                    </div>
                 </div>
-            )}
 
-            
-        </div>
+                <div className={styles["right-nav"]}>
+                    {/* <div>
+                        <span className={styles['manage-focus']}>Manage Focus</span>
+                    </div>
+                    <div>
+                        <button className='btn btn-premium'>Premium</button>
+                    </div> */}
+
+                    {isLoggedIn && (
+                        <ProfileDropdown />
+                    )
+                    ||
+                    (
+                        <div className={styles['login']} onClick={(e) => onOpenOnboardingModal()}>
+                            Login
+                        </div>
+                    )}
+
+                    
+                </div>
+            </div>
     </div>)
 }

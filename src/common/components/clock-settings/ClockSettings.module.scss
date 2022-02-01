@@ -1,0 +1,29 @@
+.heading {
+  margin-bottom: 40px;
+}
+
+.slider-item {
+  display: flex;
+  align-items: center;
+
+  .slider-text {
+    width: 400px;
+    position: relative;
+    top: -10px;
+  }
+  .slider {
+    padding: 20px 20px 20px 0px;
+    width: 40%;
+  }
+}
+
+.checkbox {
+  display: flex;
+
+  align-items: center;
+  margin-bottom: 20px;
+
+  :first-child {
+    width: 400px;
+  }
+}

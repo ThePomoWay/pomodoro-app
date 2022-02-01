@@ -1,85 +1,103 @@
 import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEditTask, selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
-import { markTaskAsCompleteThunk, markTaskAsCurrent, markTaskAsInCompleteThunk, setEditTask, updateTaskThunk } from "../../state/slices/TasksSlice";
+import {
+  selectEditTask,
+  selectProjectsObj,
+  selectTagsAsObj,
+} from "../../state/selectors";
+import {
+  markTaskAsCompleteThunk,
+  markTaskAsCurrent,
+  markTaskAsInCompleteThunk,
+  setEditTask,
+  unMarkTaskAsCurrent,
+  updateTaskThunk,
+} from "../../state/slices/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
 import styles from "./draggableList.module.scss";
 
 export default (props) => {
-    
-    let editableTask = useSelector(selectEditTask);
-    let tags = useSelector(selectTagsAsObj);
-    let projects = useSelector(selectProjectsObj);
+  let editableTask = useSelector(selectEditTask);
+  let tags = useSelector(selectTagsAsObj);
+  let projects = useSelector(selectProjectsObj);
 
-    let dispatch = useDispatch();
+  let dispatch = useDispatch();
 
+  let doSaveTask = useCallback((item) => {
+    if (item && item.fid) {
+      dispatch(updateTaskThunk(item));
+    }
+    dispatch(setEditTask(""));
+  });
 
-    let doSaveTask = useCallback((item) => {
-        if(item && item.fid) {
-            dispatch(updateTaskThunk(item));
-        }
-        dispatch(setEditTask(''));
-    })
+  let markAsCurrent = useCallback((item) => {
+    if (!item.isCurrentTask) {
+      dispatch(markTaskAsCurrent(item));
+    } else {
+      dispatch(unMarkTaskAsCurrent(item));
+    }
+  });
 
-    let markAsCurrent = useCallback((item) => {
-        dispatch(markTaskAsCurrent(item));
-    });
+  let doSetEditTask = useCallback((item) => {
+    dispatch(setEditTask(item.fid));
+  });
 
-    let doSetEditTask = useCallback((item) => {
-        dispatch(setEditTask(item.fid));
-    })
+  let toggleCompletedTasks = useCallback((task) => {
+    if (!task.isComplete) {
+      dispatch(markTaskAsCompleteThunk({ task, container: props.container }));
+    } else {
+      dispatch(markTaskAsInCompleteThunk({ task, container: props.container }));
+    }
+  });
 
-    let toggleCompletedTasks = useCallback((task) => {
-        if(!task.isComplete) {
-            dispatch(markTaskAsCompleteThunk({task, container: props.container}))
-        }
-        else {
-            dispatch(markTaskAsInCompleteThunk({task, container: props.container}))
-        }
-    });
-    
-    return (
-            <Droppable droppableId={props.dropId} type="all">
-            {(provided) => {
+  return (
+    <Droppable droppableId={props.dropId} type="all">
+      {(provided) => {
+        return (
+          <div
+            className={styles["task-container"]}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {props.tasks.map((item, index) => {
+              if (!item) {
+                return <div></div>;
+              }
+              if (
+                props.isEditable &&
+                editableTask &&
+                editableTask.fid === item.fid
+              ) {
                 return (
-                    <div 
-                    className={styles['task-container']}
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}>
-                        {props.tasks.map((item, index) => {
-                            if(!item) {
-                                return (<div></div>);
-                            }
-                            if(props.isEditable && editableTask && editableTask.fid === item.fid){
-                                return (
-                                    <EditTaskContainer key={item.fid} task={item} saveTask={doSaveTask} />
-                                )
-                            }
-                            return (
-                            <DraggableTaskItem 
-                                hidePlay={props.hidePlay}
-                                tags={tags} 
-                                projects={projects}
-                                task={item} 
-                                key={item.fid} 
-                                index={index} 
-                                dropId={props.dropId}
-                                onComplete={toggleCompletedTasks}
-                                onClick={markAsCurrent}
-                                showRemoveBtn={props.showRemoveBtn}
-                                isEditable={props.isEditable}
-                                doRemoveTask={props.doRemoveTask}/>
-                            )
-                        }
-                        )}
-                        {provided.placeholder}
-                    </div>
-                
-            )}
-        }
-            </Droppable>
-    );
-}
+                  <EditTaskContainer
+                    key={item.fid}
+                    task={item}
+                    saveTask={doSaveTask}
+                  />
+                );
+              }
+              return (
+                <DraggableTaskItem
+                  hidePlay={props.hidePlay}
+                  tags={tags}
+                  projects={projects}
+                  task={item}
+                  key={item.fid}
+                  index={index}
+                  dropId={props.dropId}
+                  onComplete={toggleCompletedTasks}
+                  onClick={markAsCurrent}
+                  isEditable={props.isEditable}
+                />
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        );
+      }}
+    </Droppable>
+  );
+};

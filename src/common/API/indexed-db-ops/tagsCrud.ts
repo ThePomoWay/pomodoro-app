@@ -34,6 +34,19 @@ export function createIDBTag(tag) {
     })
 }
 
+export function updateIDBTag(tag) {
+    return new Promise((resolve, reject) => {
+        let tagObjStore = db.transaction(tagsObjectStoreName, "readwrite").objectStore(tagsObjectStoreName);
+
+        tagObjStore.put(tagsObjectStoreName);
+        tagObjStore.transaction.oncomplete = function(event) {
+            resolve({
+                success: true
+            });
+        }
+    })
+}
+
 export function deleteIDBTag(tag) {
     return new Promise((resolve, reject) => {
         let tagsObjectStore = db.transaction(tagsObjectStoreName, "readwrite").objectStore(tagsObjectStoreName);
