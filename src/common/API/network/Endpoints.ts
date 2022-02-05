@@ -43,3 +43,8 @@ export const getAllTagsEndpoint = 'v1/users/{userId}/labels';
 export const createTagEndpoint = 'v1/users/{userId}/labels';
 export const updateTagEndpoint = 'v1/users/{userId}/labels/{labelId}';
 export const deleteTagEndpoint = 'v1/users/{userId}/labels/{labelId}';
+
+//Transaction APIs
+export const getAllProductsEndpoint = "v1/products"
+export const createCheckoutSessionEndpoint = "v1/users/{userId}/checkout-session"
+export const manageBillingPortalEndpoint = "v1/users/{userId}/billing-portal"

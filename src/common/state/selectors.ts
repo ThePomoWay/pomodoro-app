@@ -65,3 +65,6 @@ export const selectUserInfo = (state) => state.user.user
 
 //onboarding 
 export const selectStep = (state) => state.onboarding.step;
+
+// pricing page
+export const selectProducts = (state) => state.products.products;

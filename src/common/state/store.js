@@ -8,6 +8,7 @@ import { timerSlice } from './slices/TimerSlice';
 import { userSlice } from './slices/UserSlice';
 import {onboardingSlice} from './slices/OnboardingSlice';
 import counterSlice from '../../pages/dashboard/state/counterSlice';
+import { transactionSlice } from './slices/TransactionSlice';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     projects: projectSlice.reducer,
     stats: statsSlice.reducer,
     user: userSlice.reducer,
-    onboarding: onboardingSlice.reducer
+    onboarding: onboardingSlice.reducer,
+    products: transactionSlice.reducer
   },
 });

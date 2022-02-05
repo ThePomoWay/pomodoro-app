@@ -12,6 +12,7 @@ import AnalysisPage from './pages/analysis/Analysispage';
 import ClockSettings from './pages/clock-settings/ClockSettings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
+import { Pricing } from './pages/pricing/Pricing';
 
 function App() {
 
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <Route exact path="/">
             <Homepage />
+          </Route>
+          <Route exact path="/pricing">
+            <Pricing />
           </Route>
         </Switch>
     </Router>

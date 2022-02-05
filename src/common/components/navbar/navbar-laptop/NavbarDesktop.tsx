@@ -80,7 +80,9 @@ export default function NavbarDesktop(props) {
                 <span className={styles['manage-focus']}>Manage Focus</span>
             </div>
             <div>
-                <button className='btn btn-premium'>Premium</button>
+                <Link to="/pricing">
+                    <button className='btn btn-premium'>Premium</button>
+                </Link>
             </div>
 
             {isLoggedIn && (
