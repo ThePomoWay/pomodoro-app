@@ -7,13 +7,14 @@
   width: 160px;
   max-height: 200px;
   overflow-y: scroll;
+  padding: 4px 0px;
 
   &-title {
     font-size: 12px;
     line-height: 16px;
     color: #414141;
     font-weight: bold;
-    padding: 8px 16px 0px 16px;
+    padding: 8px 16px 4px 16px;
 
     .login {
       text-decoration: underline;
@@ -34,7 +35,7 @@
   }
 
   &-normal-item {
-    height: 32px;
+    height: 16px;
     padding: 8px 16px;
 
     color: #6a6f9a;
@@ -61,7 +62,7 @@
     @extend .popover-normal-item;
     padding: 8px;
     display: flex;
-    gap: 6px;
+    gap: 4px;
   }
 
   &-select-tick {

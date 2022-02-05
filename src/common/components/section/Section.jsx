@@ -63,7 +63,7 @@ export default (props) => {
           task,
           container: "projects",
           projectId: props.projectId,
-          sectionId: props.section.fid,
+          sectionId: props.section._id,
         })
       );
     } else {
@@ -72,7 +72,7 @@ export default (props) => {
           task,
           container: "projects",
           projectId: props.projectId,
-          sectionId: props.section.fid,
+          sectionId: props.section._id,
         })
       );
     }
@@ -149,7 +149,7 @@ export default (props) => {
           <AccordionDetails>
             <div className={styles["section-task-list"]}>
               <Droppable
-                droppableId={SECTION_DROPPABLE_ID + section.fid}
+                droppableId={SECTION_DROPPABLE_ID + section._id}
                 type="task"
               >
                 {(provided) => (
@@ -173,12 +173,17 @@ export default (props) => {
                 )}
               </Droppable>
 
-              <AddNewTask onSave={addTaskToSection} />
-              {section.completedTaskOrder && (
+              <AddNewTask
+                onSave={addTaskToSection}
+                defaultProjectId={props.projectId}
+                defaultSectionId={props.section._id}
+                viewOnlyProject={true}
+              />
+              {props.showCompletedSection && (
                 <CompletedTasksList
-                  tasks={section.completedTaskOrder.map((item) => tasks[item])}
+                  tasks={completedTasks}
                   projectId={props.projectId}
-                  sectionId={props.section.fid}
+                  sectionId={props.section._id}
                   container="projects"
                 />
               )}

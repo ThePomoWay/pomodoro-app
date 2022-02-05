@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNewLabelModal, selectTagsAsArr } from "../../state/selectors";
 import { Link } from "react-router-dom";
 import styles from "./TagsSidebar.module.scss";
-import { setLabelModalState } from "../../state/slices/GlobalSlice";
+import {
+  openOnboardingModal,
+  setLabelModalState,
+} from "../../state/slices/GlobalSlice";
+import AuthService from "../../API/network/AuthService";
 
 export function TagsSidebar(props) {
   let [tagExpanded, setTagExpanded] = useState(true);
@@ -22,7 +26,11 @@ export function TagsSidebar(props) {
   let dispatch = useDispatch();
 
   const onNewLabelModalOpen = useCallback(() => {
-    dispatch(setLabelModalState(true));
+    if (AuthService.isLoggedIn()) {
+      dispatch(setLabelModalState(true));
+    } else {
+      dispatch(openOnboardingModal());
+    }
   });
 
   const getTags = useCallback(() => {

@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { AddIcon } from "../../svgs/AddIcon";
 import { generateUniqueId } from "../../utils/common";
 import styles from "./AddNewSection.module.scss";
 
@@ -30,7 +31,9 @@ export default (props) => {
         onClick={(e) => setShowEditSection(true)}
       >
         <div className={styles["border"]}></div>
-        <span className={styles["title"]}>+ Add a section</span>
+        <span className={`${styles["title"]} flex flex-center`}>
+          <AddIcon style={{ fill: "#909EEA" }} /> Add a section
+        </span>
       </div>
     );
   }

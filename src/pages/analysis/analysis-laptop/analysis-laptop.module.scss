@@ -17,13 +17,19 @@
     }
 
     .analysis-container {
-      width: 60vw;
-      padding: 20px;
+      width: 45vw;
+      padding-top: 48px;
+
+      .description {
+        color: #242424;
+        font-size: 14px;
+        line-height: 20px;
+      }
 
       .heading {
         display: flex;
         align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
       }
 
       .streak-container {
@@ -38,14 +44,16 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
+          align-items: flex-start;
+          gap: 4px;
           padding: 24px;
           width: 108px;
           height: 100px;
 
           background: radial-gradient(
             100% 100% at 0% 100%,
-            #f0a5bb 0%,
-            #ffe8ef 100%
+            #f5a3bb 0%,
+            #ffd9e5 100%
           );
           border-radius: 12px;
 
@@ -65,30 +73,30 @@
 
           background: radial-gradient(
             100% 100% at 0% 100%,
-            #75bfb9 0%,
-            #daf1ef 86.89%
+            #75cbc4 0%,
+            #d5ecea 86.89%
           );
 
           .title {
-            color: #4693be;
+            color: #1b8ba4;
           }
 
           .description {
-            color: #4693be;
+            color: #1b8ba4;
             font-weight: bold;
           }
         }
       }
 
       .stats {
-        margin-top: 60px;
+        margin-top: 52px;
         .date-picker {
-          margin-top: 20px;
+          margin-top: 24px;
         }
       }
 
       .daily-pomodoro {
-        margin-top: 60px;
+        margin-top: 52px;
       }
 
       .daily-pomodoro-stats {
@@ -107,10 +115,10 @@
             display: flex;
             flex-direction: column;
             margin-left: 20px;
-            align-items: center;
+            align-items: flex-start;
 
             .green {
-              color: #93b558;
+              color: #559721;
             }
             .red {
               color: #dd726b;
@@ -132,12 +140,12 @@
         .undisturbed-pomos {
           display: flex;
           flex-direction: row;
-          align-items: center;
 
           .undisturbed-pomo-stats {
             display: flex;
+            padding-top: 8px;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
 
             margin-left: 20px;
           }
@@ -145,7 +153,7 @@
       }
 
       .tasks {
-        margin-top: 60px;
+        margin-top: 52px;
 
         .task-stats-container {
           display: flex;
@@ -174,10 +182,11 @@
       }
 
       .distractions-container {
-        margin-top: 60px;
+        margin-top: 52px;
         .pauses-distractions {
           display: flex;
           flex-direction: row;
+          margin-top: 16px;
 
           .pauses {
             display: flex;

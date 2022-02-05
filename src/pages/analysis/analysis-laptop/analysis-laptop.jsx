@@ -20,6 +20,7 @@ import { UndisturbedPomoSvg } from "../../../common/svgs/UndisturbedPomoSvg";
 import { TaskSvg } from "../../../common/svgs/TaskSvg";
 import { PauseStats } from "../../../common/svgs/PauseStats";
 import { Block } from "../../../common/svgs/Block";
+import OnBoarding from "../../onboarding/Onboarding";
 
 const tabs = [
   {
@@ -83,7 +84,20 @@ export function AnalysisLaptop(props) {
 
   let getDiffSvg = useCallback((a, b) => {
     if (a < b) {
-      return <ArrowUpward style={{ color: "#93B558" }} />;
+      return (
+        <svg
+          width="42"
+          height="42"
+          viewBox="0 0 42 42"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M22.1688 4.83121C21.5233 4.1857 20.4767 4.1857 19.8312 4.83121L9.31209 15.3503C8.66659 15.9958 8.66659 17.0424 9.31209 17.6879C9.9576 18.3334 11.0042 18.3334 11.6497 17.6879L21 8.33758L30.3503 17.6879C30.9958 18.3334 32.0424 18.3334 32.6879 17.6879C33.3334 17.0424 33.3334 15.9958 32.6879 15.3503L22.1688 4.83121ZM22.6529 36L22.6529 6L19.3471 6L19.3471 36L22.6529 36Z"
+            fill="#93B558"
+          />
+        </svg>
+      );
     }
     if (a > b) {
       return <ArrowDownward style={{ color: "#DD726B" }} />;
@@ -104,6 +118,7 @@ export function AnalysisLaptop(props) {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <div className={styles["container"]}>
+        <OnBoarding />
         <Navbar selected="2" />
         <div className={styles["main-view"]}>
           <div className={styles["analysis-container"]}>
@@ -113,37 +128,33 @@ export function AnalysisLaptop(props) {
                 <p className={styles["title"]}>My Streaks</p>
                 <div className={styles["line"]}></div>
               </h2>
-              <p className="font-info">
+              <p className={styles["description"]}>
                 Streaks are calculated daily. Complete at least 2 pomodoros in a
                 day to increase your streak
               </p>
               <div className={styles["streak-container"]}>
                 <div className={styles["longest-streak"]}>
-                  <h3
-                    className={`font-big font-align-center ${styles["text-red"]}`}
-                  >
+                  <h3 className={`font-big ${styles["text-red"]}`}>
                     {(user.overallStat &&
                       user.overallStat.ls &&
                       user.overallStat.ls.length) ||
                       0}{" "}
                   </h3>
                   <p
-                    className={`font-info flex flex-center font-align-center ${styles["description"]}`}
+                    className={`font-info flex flex-center ${styles["description"]}`}
                   >
                     My Longest Streak
                   </p>
                 </div>
                 <div className={styles["current-streak"]}>
-                  <h3
-                    className={`font-big font-align-center ${styles["text-blue"]}`}
-                  >
+                  <h3 className={`font-big ${styles["text-blue"]}`}>
                     {(user.overallStat &&
                       user.overallStat.rs &&
                       user.overallStat.rs.length) ||
                       0}{" "}
                   </h3>
                   <p
-                    className={`font-info flex flex-center font-align-center ${styles["description"]}`}
+                    className={`font-info flex flex-center ${styles["description"]}`}
                   >
                     My Current Streak
                   </p>
@@ -234,12 +245,12 @@ export function AnalysisLaptop(props) {
                   <PauseStats />
                   <div className={styles["pauses-stats"]}>
                     <p className="font-medium">
-                      {stats.ps} {getDiffSvg(oldStats.ps, stats.ps)}
+                      {stats.p} {getDiffSvg(oldStats.p, stats.p)}
                     </p>
 
                     <p className="font-normal">Pauses</p>
                     <p className="font-info">
-                      {getDiffText(oldStats.ps, stats.ps)}
+                      {getDiffText(oldStats.p, stats.p)}
                     </p>
                   </div>
                 </div>
@@ -260,7 +271,7 @@ export function AnalysisLaptop(props) {
             </div>
 
             <div className={styles["focused-time-container"]}>
-              <h2 className="font-big">Most Focused Time</h2>
+              <h2 className="font-sub-heading">Most Focused Time</h2>
               <div className="chart">//chart</div>
             </div>
           </div>

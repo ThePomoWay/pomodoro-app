@@ -65,7 +65,7 @@ export default function ProjectSelector(props) {
       {AuthService.isLoggedIn() &&
         projectIds.map((item, index) => (
           <div
-            key={projects[item].fid + "project"}
+            key={projects[item]._id + "project"}
             className={`${styles["projects"]} popover-normal-item ${
               item === selectedProjectId ? "popover-normal-item-selected" : ""
             }`}

@@ -19,7 +19,7 @@ import {
   deleteProjectAsync,
   rearrangeTaskInProjectAsync,
   setEditProjectId,
-  updateProjectAsync,
+  updateLocalProjectAsync,
 } from "../../state/slices/ProjectSlice";
 import {
   addToTodaysTasks,
@@ -82,7 +82,7 @@ export function ProjectContainer(props) {
       console.log(a);
       // dispatch(createTaskThunk({ task }));
       dispatch(
-        updateProjectAsync({
+        updateLocalProjectAsync({
           ...projectVar,
           to: [...projectVar.to, task.fid],
         })
@@ -98,11 +98,11 @@ export function ProjectContainer(props) {
   const onAddTaskToSection = useCallback((task, section) => {
     // dispatch(createTaskThunk({ task }));
     dispatch(
-      updateProjectAsync({
+      updateLocalProjectAsync({
         ...projectVar,
         sections: {
           ...projectVar.sections,
-          [section.fid]: {
+          [section._id]: {
             ...section,
             to: [...section.to, task.fid],
           },
@@ -120,7 +120,7 @@ export function ProjectContainer(props) {
         sectionOrderCopy.splice(result.destination.index, 0, sid);
 
         dispatch(
-          updateProjectAsync({
+          updateLocalProjectAsync({
             ...projectVar,
             so: sectionOrderCopy,
           })
@@ -192,7 +192,7 @@ export function ProjectContainer(props) {
             isSame: destination.hid === source.hid,
           })
         );
-        dispatch(updateProjectAsync(projectCopy));
+        dispatch(updateLocalProjectAsync(projectCopy));
       }
     }
 
@@ -227,7 +227,7 @@ export function ProjectContainer(props) {
         markTaskAsCompleteThunk({
           task,
           container: "projects",
-          projectId: projectVar.fid,
+          projectId: projectVar._id,
         })
       );
     } else {
@@ -235,7 +235,7 @@ export function ProjectContainer(props) {
         markTaskAsInCompleteThunk({
           task,
           container: "projects",
-          projectId: projectVar.fid,
+          projectId: projectVar._id,
         })
       );
     }
@@ -254,7 +254,7 @@ export function ProjectContainer(props) {
 
   const openProjectModal = useCallback((e) => {
     dispatch(setProjectModalState(true));
-    dispatch(setEditProjectId(projectVar.fid));
+    dispatch(setEditProjectId(projectVar._id));
   });
 
   const toggleCompletedTasks = useCallback((e) => {
@@ -331,51 +331,61 @@ export function ProjectContainer(props) {
           onDragEnd={onDragEnd}
         >
           <div className={styles["mar-b20"]}>
-            <Droppable droppableId={PROJECT_DROPPABLE_ID} type="task">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {totalTasks > 0 && (
-                    <div className={styles["task-list"]}>
-                      {projectVar.to.map((item, index) => {
-                        return (
-                          (item === editTaskRef && (
-                            <div className={styles["edit-task-container"]}>
-                              <EditTaskContainer
-                                saveTask={doSaveTask}
+            <div className={styles["task-container"]}>
+              <Droppable droppableId={PROJECT_DROPPABLE_ID} type="task">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {totalTasks > 0 && (
+                      <div className={styles["task-list"]}>
+                        {projectVar.to.map((item, index) => {
+                          return (
+                            (item === editTaskRef && (
+                              <div className={styles["edit-task-container"]}>
+                                <EditTaskContainer
+                                  defaultProjectId={projectVar._id}
+                                  saveTask={doSaveTask}
+                                  task={tasks[item]}
+                                />
+                              </div>
+                            )) || (
+                              <DraggableTaskItem
+                                showAddBtn={!(item in todaysTaskIdsObj)}
+                                showRemoveBtn={item in todaysTaskIdsObj}
+                                doAddTask={doAddTask}
+                                doRemoveTask={doRemoveTask}
+                                tags={tags}
                                 task={tasks[item]}
-                              />
-                            </div>
-                          )) || (
-                            <DraggableTaskItem
-                              showAddBtn={!(item in todaysTaskIdsObj)}
-                              showRemoveBtn={item in todaysTaskIdsObj}
-                              doAddTask={doAddTask}
-                              doRemoveTask={doRemoveTask}
-                              tags={tags}
-                              task={tasks[item]}
-                              key={item}
-                              index={index}
-                              onComplete={doCompleteTask}
-                              // onClick={doEditTask(index)}
-                              dropId={"task-"}
-                            ></DraggableTaskItem>
-                          )
-                        );
-                      })}
-                    </div>
-                  )}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+                                key={item}
+                                index={index}
+                                onComplete={doCompleteTask}
+                                // onClick={doEditTask(index)}
+                                dropId={"task-" + tasks[item].fid}
+                                projects={projectsObj}
+                              ></DraggableTaskItem>
+                            )
+                          );
+                        })}
+                      </div>
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
 
-            <AddNewTask onSave={(a) => addTaskToProject(a)} />
+            <div className={styles["project-add-new-task"]}>
+              <AddNewTask
+                onSave={(a) => addTaskToProject(a)}
+                defaultProjectId={projectVar._id}
+                viewOnlyProject={true}
+              />
+            </div>
 
             {showCompletedSection && (
               <div className={styles["completed-task"]}>
                 <CompletedTasksList
                   container="projects"
-                  projectId={projectVar.fid}
+                  projectId={projectVar._id}
                   tasks={completedTasks}
                 />
               </div>

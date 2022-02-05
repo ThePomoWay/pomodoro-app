@@ -77,5 +77,5 @@ export default function UndraggableList(props) {
       </div>
     );
   }
-  return <div>No tags found with this label.</div>;
+  return <div>No tasks found with this label.</div>;
 }

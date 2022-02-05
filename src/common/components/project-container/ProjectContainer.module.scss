@@ -1,5 +1,9 @@
 .project-container {
-  padding: 38px 44px 0px 84px;
+  padding: 38px 24px 0px 84px;
+
+  .task-container {
+    margin-bottom: 8px;
+  }
 
   .title {
     font-weight: bold;
@@ -28,4 +32,8 @@
       margin-bottom: 0px;
     }
   }
+}
+
+.project-add-new-task {
+  margin-bottom: 24px;
 }

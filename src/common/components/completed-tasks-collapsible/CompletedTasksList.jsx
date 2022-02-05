@@ -45,7 +45,18 @@ export default (props) => {
   if (tasks && tasks.length > 0) {
     return (
       <Accordion elevation={0}>
-        <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
+        <AccordionSummary
+          expandIcon={
+            <ExpandMoreOutlined
+              style={{
+                width: "28px",
+                height: "28px",
+                position: "relative",
+                left: "-4px",
+              }}
+            />
+          }
+        >
           <p className={styles["title"]}>Completed Task</p>
           <span className={styles["summary"]}>
             {" "}

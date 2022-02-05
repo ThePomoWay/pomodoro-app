@@ -1,11 +1,14 @@
 import React, { useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import AuthService from "../../API/network/AuthService";
 import {
   selectEditTask,
+  selectProjectsObj,
   selectTagsAsArr,
   selectTagsAsObj,
 } from "../../state/selectors";
+import { removeTaskFromProject } from "../../state/slices/ProjectSlice";
 import {
   addToTodaysTasks,
   markTaskAsCompleteThunk,
@@ -22,6 +25,7 @@ import styles from "./plannerDraggableList.module.scss";
 export default (props) => {
   let dispatch = useDispatch();
   let editableTask = useSelector(selectEditTask);
+  let projectsObj = useSelector(selectProjectsObj);
 
   let doSaveTask = useCallback((item) => {
     if (item && item.fid) {
@@ -41,6 +45,12 @@ export default (props) => {
       removeFromTodaysTasks({
         fid: task.fid,
         _id: task._id,
+      })
+    );
+    dispatch(
+      removeTaskFromProject({
+        projectId: AuthService.getInboxProjectId(),
+        taskId: task.fid,
       })
     );
   });
@@ -89,6 +99,7 @@ export default (props) => {
                     key={item.fid}
                     index={index}
                     dropId={props.dropId}
+                    projects={projectsObj}
                   />
                 );
               })}

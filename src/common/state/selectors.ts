@@ -13,6 +13,8 @@ export const selectIfExtensionInstalled = (state) =>
 export const selectOnboardingOpen = (state) => state.global.onboardingModalOpen;
 export const selectNewProjectModal = (state) => state.global.projectModalOpen;
 export const selectNewLabelModal = (state) => state.global.labelModalOpen;
+export const selectHideFirstUserScreen = (state) =>
+  state.global.hideFirstUserScreen;
 
 //todays tasks
 export const selectTodaysTasks = (state) =>

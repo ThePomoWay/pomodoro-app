@@ -47,6 +47,13 @@
   border-radius: 8px;
   padding: 16px 20px;
   font-size: 14px;
+  line-height: 18px;
+
+  ::placeholder {
+    color: #e40000;
+  }
+
+  color: #171717;
 
   position: relative;
 
@@ -68,8 +75,8 @@
 }
 
 .cta-row {
-  height: 40px;
-  padding: 10px 12px;
+  height: 16px;
+  padding: 12px 12px;
 
   justify-content: space-between;
   display: flex;
@@ -96,7 +103,7 @@
     }
 
     .estimated-pomos-container {
-      margin-left: 5px;
+      margin-left: 8px;
     }
   }
 
@@ -106,6 +113,10 @@
 
     .icon-container {
       padding: 2px 4px;
+
+      &.priority-icon {
+        padding: 2px 0px 2px 4px;
+      }
 
       &:hover {
         background-color: #fff5f7;
@@ -127,7 +138,7 @@
     gap: 5px;
     padding: 4px;
 
-    margin-right: 6px;
+    margin-right: 8px;
 
     background: #ffffff;
     border: 1px solid #dee2fc;
@@ -135,13 +146,15 @@
     box-sizing: border-box;
     border-radius: 4px;
 
+    filter: drop-shadow(0px 2px 3px rgba(146, 154, 202, 0.35));
+
     font-size: 12px;
     line-height: 16px;
   }
 }
 
 .save-cta {
-  margin-top: 20px;
+  margin-top: 12px;
 
   :first-child {
     margin-right: 10px;

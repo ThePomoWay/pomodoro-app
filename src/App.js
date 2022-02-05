@@ -12,6 +12,7 @@ import AnalysisPage from './pages/analysis/Analysispage';
 import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
+import { init } from './common/state/slices/GlobalSlice';
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
   if(AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
   }
+
+  dispatch(init());
 
   if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();

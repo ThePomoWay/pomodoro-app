@@ -1,0 +1,45 @@
+export function ProjectSidenavIcon() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="4.875"
+        y="2.375"
+        width="14.25"
+        height="19.25"
+        rx="2.625"
+        stroke="white"
+        strokeWidth="0.75"
+      />
+      <line
+        x1="7.5"
+        y1="7.125"
+        x2="16.5"
+        y2="7.125"
+        stroke="white"
+        strokeWidth="0.75"
+      />
+      <line
+        x1="7.5"
+        y1="11.625"
+        x2="16.5"
+        y2="11.625"
+        stroke="white"
+        strokeWidth="0.75"
+      />
+      <line
+        x1="7.5"
+        y1="16.125"
+        x2="16.5"
+        y2="16.125"
+        stroke="white"
+        strokeWidth="0.75"
+      />
+    </svg>
+  );
+}

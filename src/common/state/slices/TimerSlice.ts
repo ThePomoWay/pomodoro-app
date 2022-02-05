@@ -11,10 +11,8 @@ import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
-  EXTENSION_ID,
   POMO_BREAK_IDLE_STATE,
   POMO_BREAK_PAUSED_STATE,
-  POMO_BREAK_RUNNING_STATE,
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
   POMO_LONG_BREAK_PAUSED_STATE,
@@ -172,7 +170,7 @@ export let tickAsync = createAsyncThunk(
 
     let timerSec = defaultTotalTime - diff + timerState.psec;
     if (timerSec <= 0) {
-      dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
+      dispatch(setTimerSec(0));
       dispatch(completePomodoro());
     } else {
       dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));

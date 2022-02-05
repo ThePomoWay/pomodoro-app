@@ -7,15 +7,15 @@
   display: flex;
   align-items: center;
 
-  font-family: Roboto;
-  font-style: normal;
+  gap: 2px;
+  filter: drop-shadow(0px 5px 9px rgba(88, 99, 173, 0.3));
+
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: 0.1px;
 
-  padding: 8px 12px;
+  padding: 10px 12px;
 
-  width: 124px;
-  height: 32px;
+  width: 122px;
+  height: 36px;
 }

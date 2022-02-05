@@ -4,7 +4,7 @@ import {
   createProjectAsync,
   setEditProjectId,
   setEditProjectName,
-  updateProjectAsync,
+  updateLocalProjectAsync,
 } from "../../state/slices/ProjectSlice";
 import { generateUniqueId } from "../../utils/common";
 
@@ -45,7 +45,7 @@ export default () => {
   const saveProject = useCallback(() => {
     if (editProjectId) {
       dispatch(
-        updateProjectAsync({
+        updateLocalProjectAsync({
           ...projects[editProjectId],
           title: projectTitle,
         })
@@ -67,12 +67,13 @@ export default () => {
             isArchived: false,
           },
           path,
+          redirect: true,
         })
       );
 
-      setTimeout(() => {
-        history.push(`/all/project/${fid}`);
-      }, 500);
+      // setTimeout(() => {
+      //   history.push(`/all/project/${fid}`);
+      // }, 500);
     }
   });
 
@@ -93,7 +94,20 @@ export default () => {
         <div className={styles["main"]}>
           <p className={styles["title"]}>
             Create a project
-            <Close style={{ cursor: "pointer" }} onClick={handleClose} />
+            <span style={{ cursor: "pointer" }} onClick={handleClose}>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.1875 5.18751L11.375 10L16.1875 14.8125L14.8125 16.1875L10 11.375L5.18753 16.1875L3.81254 14.8125L8.62503 10L3.81254 5.18751L5.18753 3.81251L10 8.625L14.8125 3.81251L16.1875 5.18751Z"
+                  fill="#757575"
+                />
+              </svg>
+            </span>
           </p>
           <input
             className={styles["input"]}

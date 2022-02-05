@@ -1,13 +1,16 @@
 .title {
-  font-weight: bold;
-  font-size: 20px;
+  font-weight: 500;
+  font-size: 18px;
   line-height: 24px;
   color: #000000;
+
+  position: relative;
+  left: 12px;
 }
 
 .summary {
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 21px;
   /* identical to box height */
 

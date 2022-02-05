@@ -51,8 +51,8 @@ export default (props) => {
               props.sections &&
               props.order.map((item, index) => (
                 <Draggable
-                  key={props.sections[item].fid}
-                  draggableId={props.sections[item].fid}
+                  key={props.sections[item]._id}
+                  draggableId={props.sections[item]._id}
                   index={index}
                 >
                   {(provided) => (
@@ -70,9 +70,10 @@ export default (props) => {
                         isDragging={props.isDragging}
                         doAddTask={props.doAddTask}
                         doRemoveTask={props.doRemoveTask}
+                        showCompletedSection={props.showCompletedSection}
                         defaultExpanded={
                           props.defaultExpandedSectionId ===
-                          props.sections[item].fid
+                          props.sections[item]._id
                         }
                         dragHandleProps={provided.dragHandleProps}
                         onDelete={() => onDelete(item)}

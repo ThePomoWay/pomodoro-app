@@ -94,8 +94,10 @@ export default function EditTaskContainer(props) {
   });
 
   const onProjectAnchorClick = useCallback((e) => {
-    setProjectAnchorEl(e.currentTarget);
-    e.stopPropagation();
+    if (!props.viewOnlyProject) {
+      setProjectAnchorEl(e.currentTarget);
+      e.stopPropagation();
+    }
   });
 
   const onProjectAnchorClose = useCallback((e) => {
@@ -147,7 +149,7 @@ export default function EditTaskContainer(props) {
         cpomo: 0,
         psec: 0,
         project: {
-          projectID: project.projectID || AuthService.getProjectId(),
+          projectID: project.projectID || AuthService.getInboxProjectId(),
           secID: project.secID || "",
         },
         labels: selectedTags,
@@ -163,7 +165,7 @@ export default function EditTaskContainer(props) {
           epomo: estimatedPomos,
           labels: selectedTags,
           project: {
-            projectID: project.projectID || AuthService.getProjectId(),
+            projectID: project.projectID || AuthService.getInboxProjectId(),
             secID: project.secID,
           },
         };
@@ -248,6 +250,7 @@ export default function EditTaskContainer(props) {
           className={styles["content-editable-div"]}
           onChange={onTitleInput}
           onKeyDown={onTitleKeyChange}
+          placeholder="Type your task here"
         ></textarea>
         {getTaskTags()}
 
@@ -393,10 +396,13 @@ export default function EditTaskContainer(props) {
 
               <span
                 onClick={onPriorityAnchorClick}
-                className={`${styles["icon-container"]} cursor-pointer`}
+                className={`${styles["icon-container"]} ${styles["priority-icon"]} cursor-pointer`}
               >
                 <svg
-                  style={{ fill: priorityColorMap[priority] }}
+                  style={{
+                    fill:
+                      priority === -1 ? "#E46780" : priorityColorMap[priority],
+                  }}
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -417,7 +423,10 @@ export default function EditTaskContainer(props) {
               >
                 <PrioritySelector
                   priority={priority}
-                  onChange={(item) => setPriority(item)}
+                  onChange={(item) => {
+                    setPriority(item);
+                    onPriorityAnchorClose();
+                  }}
                 />
               </Popper>
             </div>
@@ -431,7 +440,7 @@ export default function EditTaskContainer(props) {
             doSaveTask();
           }}
         >
-          Save
+          SAVE
         </button>
         <button
           className="btn btn-cancel"
@@ -439,7 +448,7 @@ export default function EditTaskContainer(props) {
             doCancelTask();
           }}
         >
-          Cancel
+          CANCEL
         </button>
       </div>
     </div>

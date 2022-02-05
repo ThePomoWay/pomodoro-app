@@ -3,17 +3,27 @@
   align-items: center;
   gap: 8px;
   flex-direction: row;
-  padding: 8px 10px;
+  padding: 8px 8px 6px 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
 
   .accordion {
     margin-left: auto;
     border-color: white;
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
     cursor: pointer;
 
     position: relative;
     top: 0px;
     right: 4px;
+
+    &.down {
+      transform: rotate(180deg);
+    }
+    &.up {
+      transform: rotate(90deg);
+    }
   }
 }
 
@@ -22,7 +32,7 @@
 }
 
 .project-sidebar-second {
-  padding: 10px 10px 10px 30px;
+  padding: 0px 10px 10px 30px;
 
   .sidebar-row {
     display: flex;
@@ -51,6 +61,7 @@
   }
 
   .selected {
-    background-color: #3f56b9;
+    background: #3347ac;
+    border-radius: 8px;
   }
 }

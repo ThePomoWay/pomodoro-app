@@ -25,7 +25,11 @@ import { initiatePomo } from "../../state/slices/TimerSlice";
 import { POMO_RUNNING_STATE, priorityColorMap } from "../../utils/constants";
 import { EditIcon } from "../edit-icon/EditIcon";
 
+import { SunIcon } from "../../svgs/SunIcon";
+
 import styles from "./task.module.scss";
+import { AddTaskIcon } from "../../svgs/AddTaskIcon";
+import { RemoveTaskIcon } from "../../svgs/RemoveTaskIcon";
 
 export default function TaskItem(props) {
   let task: Task = props.task;
@@ -71,30 +75,53 @@ export default function TaskItem(props) {
     e.stopPropagation();
   });
 
-  const getFirstCTA = useCallback(() => {
+  const getCTA = useCallback(() => {
     if (showAddBtn) {
       return (
-        <span
-          className={styles["task-actions-round"]}
-          onClick={(e) => {
-            doAddTask();
-            e.stopPropagation();
-          }}
-        >
-          {<Add></Add>}
+        <span className={styles["task-actions-two"]}>
+          <span
+            className={styles["task-actions-round"]}
+            onClick={(e) => {
+              doAddTask();
+              e.stopPropagation();
+            }}
+          >
+            {<AddTaskIcon />}
+          </span>
+          <span
+            className={styles["task-actions-round"]}
+            onClick={(e) => {
+              doEditTask();
+              e.stopPropagation();
+            }}
+          >
+            {<EditIcon />}
+          </span>
         </span>
       );
     }
     if (showRemoveBtn) {
       return (
-        <span
-          className={styles["task-actions-round"]}
-          onClick={(e) => {
-            doRemoveTask();
-            e.stopPropagation();
-          }}
-        >
-          {<Remove></Remove>}
+        <span className={styles["task-actions-two"]}>
+          <span
+            className={styles["task-actions-round"]}
+            onClick={(e) => {
+              doRemoveTask();
+              e.stopPropagation();
+            }}
+          >
+            {<RemoveTaskIcon />}
+          </span>
+
+          <span
+            className={styles["task-actions-round"]}
+            onClick={(e) => {
+              doEditTask();
+              e.stopPropagation();
+            }}
+          >
+            {<EditIcon />}
+          </span>
         </span>
       );
     }
@@ -107,9 +134,7 @@ export default function TaskItem(props) {
             e.stopPropagation();
           }}
         >
-          {(task.isCurrentTask && isRunning && <TimelapseOutlined />) || (
-            <EditIcon />
-          )}
+          {<EditIcon />}
         </span>
       );
       // return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
@@ -133,30 +158,37 @@ export default function TaskItem(props) {
   let getEstimatedPomoHtml = useCallback(() => {
     if (task.epomo) {
       return (
-        <span className={styles["e-pomos"]}>
-          <div
-            className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}
-          >
-            {" "}
-          </div>{" "}
-          {task.cpomo} /{" "}
-          <div
-            className={`circle ${styles["estimated"]} ${styles["pomo"]}`}
-          ></div>
-          {task.epomo}
+        <span className={styles["estimated-pomos-tag"]}>
+          <span className={styles["e-pomos"]}>
+            <div
+              className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}
+            >
+              {" "}
+            </div>{" "}
+            {task.cpomo} /{" "}
+            <div
+              className={`circle ${styles["estimated"]} ${styles["pomo"]}`}
+            ></div>
+            {task.epomo}
+          </span>
         </span>
       );
     }
-    return (
-      <span className={styles["e-pomos"]}>
-        <div
-          className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}
-        >
-          {" "}
-        </div>{" "}
-        {task.cpomo}
-      </span>
-    );
+    if (task.cpomo > 0) {
+      return (
+        <span className={styles["estimated-pomos-tag"]}>
+          <span className={styles["e-pomos"]}>
+            <div
+              className={`circle-simple ${styles["completed"]} ${styles["pomo"]}`}
+            >
+              {" "}
+            </div>{" "}
+            {task.cpomo}
+          </span>
+        </span>
+      );
+    }
+    return null;
   });
 
   return (
@@ -171,11 +203,11 @@ export default function TaskItem(props) {
           className={`${styles["checkbox"]} ${
             task.isComplete && styles["tick"]
           }`}
+          onClick={(e) => {
+            toggleMarkAsComplete(e);
+          }}
         >
           <span
-            onClick={(e) => {
-              toggleMarkAsComplete(e);
-            }}
             value={!!task.isComplete}
             defaultChecked={!!task.isComplete}
             style={{ borderColor: priorityColorMap[task.priority] }}
@@ -184,55 +216,55 @@ export default function TaskItem(props) {
         <span className={styles["task-title"]}>{task.title}</span>
       </div>
       <div className={styles["second-row"]}>
-        <span className={styles["estimated-pomos-tag"]}>
-          {" "}
-          {getEstimatedPomoHtml()}
-        </span>
+        {getEstimatedPomoHtml()}
+
         {task.project.projectID &&
           props.projects &&
           props.projects[task.project.projectID] && (
             <span className={styles["project"]}>
               <svg
-                width="10"
-                height="14"
-                viewBox="0 0 10 14"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <rect
-                  x="0.4"
-                  y="0.4"
-                  width="9.2"
-                  height="13.2"
-                  rx="1.6"
-                  stroke="#414141"
-                  strokeWidth="0.8"
+                  x="3.25"
+                  y="1.25"
+                  width="9.5"
+                  height="13.5"
+                  rx="1.75"
+                  fill="white"
+                  stroke="black"
+                  strokeWidth="0.5"
                 />
                 <line
-                  x1="3"
-                  y1="3.6"
-                  x2="7"
-                  y2="3.6"
-                  stroke="#414141"
-                  strokeWidth="0.8"
+                  x1="5"
+                  y1="4.75"
+                  x2="11"
+                  y2="4.75"
+                  stroke="black"
+                  strokeWidth="0.5"
                 />
                 <line
-                  x1="3"
-                  y1="6.6"
-                  x2="7"
-                  y2="6.6"
-                  stroke="#414141"
-                  strokeWidth="0.8"
+                  x1="5"
+                  y1="7.75"
+                  x2="11"
+                  y2="7.75"
+                  stroke="black"
+                  strokeWidth="0.5"
                 />
                 <line
-                  x1="3"
-                  y1="9.6"
-                  x2="7"
-                  y2="9.6"
-                  stroke="#414141"
-                  strokeWidth="0.8"
+                  x1="5"
+                  y1="10.75"
+                  x2="11"
+                  y2="10.75"
+                  stroke="black"
+                  strokeWidth="0.5"
                 />
               </svg>
+
               {props.projects[task.project.projectID].title}
             </span>
           )}
@@ -254,7 +286,7 @@ export default function TaskItem(props) {
         </span>
       </div>
       <span className={styles["task-actions"]}>
-        {getFirstCTA()}
+        {getCTA()}
         <span className={`${styles["task-actions-round"]} ${styles["more"]}`}>
           <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
           <Popover

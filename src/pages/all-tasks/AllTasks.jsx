@@ -7,6 +7,8 @@ import {
   selectAllTasks,
   selectTodaysTaskIds,
   selectTodaysTasks,
+  selectProjectsObj,
+  selectTasksAsobj,
 } from "../../common/state/selectors";
 import {
   addToAllTasks,
@@ -28,24 +30,37 @@ import AllTaskContainer from "../../common/components/all-task-container/AllTask
 import { Switch, useRouteMatch, Route } from "react-router-dom";
 import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
 import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
-import { getAllProjects } from "../../common/state/slices/ProjectSlice";
+import {
+  getAllProjects,
+  rearrangeTaskInProjectAsync,
+} from "../../common/state/slices/ProjectSlice";
 import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
 import LabelContainer from "../../common/components/label-container/LabelContainer";
 import { getAllTags } from "../../common/state/slices/TagsSlice";
 import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
 import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
+import OnBoarding from "../onboarding/Onboarding";
+import AuthService from "../../common/API/network/AuthService";
 
 export default () => {
-  let alltasks = useSelector(selectAllTasks);
   let todaystasks = useSelector(selectTodaysTasks);
 
   let todaysTaskIds = useSelector(selectTodaysTaskIds);
   let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
 
+  let tasksObj = useSelector(selectTasksAsobj);
+
+  let projectsObj = useSelector(selectProjectsObj);
+
   let dispatch = useDispatch();
 
   let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
+
+  let projectId = AuthService.getInboxProjectId();
+
+  let allTaskIds = (projectsObj[projectId] && projectsObj[projectId].to) || [];
+  let alltasks = allTaskIds.map((item) => tasksObj[item]);
 
   useEffect(() => {
     dispatch(getAllTasks());
@@ -55,7 +70,6 @@ export default () => {
   }, []);
 
   let onDragEnd = useCallback((result) => {
-    console.log(result);
     if (result.destination && result.source) {
       if (
         result.destination.droppableId === result.source.droppableId &&
@@ -65,6 +79,40 @@ export default () => {
       }
 
       if (result.destination.droppableId === result.source.droppableId) {
+        if (result.source.droppableId === todaysTasksDropId) {
+          dispatch(
+            rearrangeTodaysTask({
+              source: result.source.index,
+              destination: result.destination.index,
+            })
+          );
+        } else {
+          let projectId = AuthService.getInboxProjectId();
+          let toCopy = JSON.parse(JSON.stringify(projectsObj[projectId].to));
+          let taskId = result.draggableId.split("task-")[1];
+
+          let source = {
+            isSection: false,
+            hid: projectId,
+            to: toCopy.splice(result.source.index, 1),
+          };
+          let destination = {
+            isSection: false,
+            hid: projectId,
+            to: toCopy.splice(result.destination.index, 0, taskId),
+          };
+
+          dispatch(
+            rearrangeTaskInProjectAsync({
+              source,
+              destination,
+              taskId: tasksObj[taskId]._id,
+              projectId: projectId,
+              isSame: true,
+            })
+          );
+        }
+
         let action =
           result.source.droppableId === todaysTasksDropId
             ? rearrangeTodaysTask
@@ -120,6 +168,7 @@ export default () => {
 
   return (
     <div className={styles["container"]}>
+      <OnBoarding />
       <div>
         <Navbar selected="1"></Navbar>
       </div>
@@ -185,8 +234,8 @@ export default () => {
                   >
                     <path
                       d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
-                      stroke="#7586E3"
-                      strokeWidth="1.06667"
+                      stroke="#3C50BE"
+                      strokeWidth="1.5"
                       strokeLinecap="round"
                     />
                   </svg>

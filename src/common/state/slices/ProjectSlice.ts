@@ -11,6 +11,7 @@ import {
   createSectionApi,
   rearrangeTaskApi,
 } from "../../API/network/ProjectApis";
+import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import {
   initialProjectsState,
@@ -30,18 +31,33 @@ export const createLocalProjectAsync = createAsyncThunk(
 export const createProjectAsync = createAsyncThunk(
   "create/project",
   async (obj: any, { dispatch }) => {
-    dispatch(createLocalProjectAsync(obj));
-
-    dispatch(setProjectModalState(false));
-
     if (AuthService.isLoggedIn()) {
       let bid = await createProjectApi(obj.project);
-      dispatch(
-        updateProjectAsync({
-          ...obj.project,
-          _id: bid,
-        })
-      );
+      if (bid) {
+        dispatch(
+          createLocalProjectAsync({
+            project: {
+              ...obj.project,
+              _id: bid,
+            },
+          })
+        );
+
+        dispatch(setProjectModalState(false));
+
+        if (obj.redirect) {
+          window.location.href = "/all/project/" + bid;
+        }
+      } else {
+        //show error message.
+      }
+
+      // dispatch(
+      //   updateProjectAsync({
+      //     ...obj.project,
+      //     _id: bid,
+      //   })
+      // );
     }
 
     return obj;
@@ -51,36 +67,34 @@ export const createProjectAsync = createAsyncThunk(
 export const createSectionAsync = createAsyncThunk(
   "create/section",
   async (obj: any, { dispatch }) => {
-    let sectionOrderCopy = JSON.parse(JSON.stringify(obj.project.so));
-    sectionOrderCopy.splice(obj.section.index, 0, obj.section.fid);
-
-    let sectionObj = {
-      ...obj.project.sections,
-      [obj.section.fid]: {
-        fid: obj.section.fid,
-        title: obj.section.title,
-        to: obj.section.to,
-      },
-    };
-
-    dispatch(
-      updateProjectAsync({
-        ...obj.project,
-        sections: sectionObj,
-        so: sectionOrderCopy,
-      })
-    );
-
     if (AuthService.isLoggedIn()) {
       let response = await createSectionApi(obj.project, obj.section);
       if (response && response.data && response.data.secId) {
-        sectionObj[obj.section.fid]["_id"] = response.data.secId;
+        let _id = response.data.secId;
+        let sectionObj = {
+          ...obj.project.sections,
+          [_id]: {
+            _id,
+            title: obj.section.title,
+            to: obj.section.to,
+          },
+        };
+        let sectionOrderCopy = JSON.parse(JSON.stringify(obj.project.so));
+        sectionOrderCopy.splice(obj.section.index, 0, _id);
+
+        dispatch(
+          updateLocalProjectAsync({
+            ...obj.project,
+            sections: sectionObj,
+            so: sectionOrderCopy,
+          })
+        );
       }
     }
   }
 );
 
-export const updateProjectAsync = createAsyncThunk(
+export const updateLocalProjectAsync = createAsyncThunk(
   "update/project",
   async (project, { dispatch }) => {
     dispatch(updateProject(project));
@@ -105,16 +119,60 @@ export const rearrangeTaskInProjectAsync = createAsyncThunk(
   }
 );
 
-export const addTaskToProject = createAsyncThunk(
+export const addTaskToProjectLocal = createAsyncThunk(
   "add/task/project",
   async (obj: any, { dispatch, getState }) => {
     let project = getState()["projects"].projects[obj.projectId];
     dispatch(
-      updateProjectAsync({
+      updateLocalProjectAsync({
         ...project,
-        to: [...project.taskOrder, obj.taskId],
+        to: [...project.to, obj.taskId],
       })
     );
+  }
+);
+
+export const removeTaskFromProject = createAsyncThunk(
+  "project/task/remove",
+  async (obj: any, { dispatch, getState }) => {
+    if (obj.projectId) {
+      let projectsObj = getState()["projects"].projects[obj.projectId];
+      if (projectsObj) {
+        if (obj.sectionId) {
+          if (projectsObj.sections[obj.sectionId]) {
+            let toCopy = JSON.parse(
+              JSON.stringify(projectsObj.sections[obj.sectionId].to)
+            );
+            let index = findIndex(toCopy, obj.taskId);
+            if (index !== -1) {
+              dispatch(
+                updateLocalProjectAsync({
+                  ...projectsObj,
+                  sections: {
+                    ...projectsObj.sections,
+                    [obj.sectionId]: {
+                      ...projectsObj.sections[obj.sectionId],
+                      to: toCopy.splice(index, 1),
+                    },
+                  },
+                })
+              );
+            }
+          }
+        } else {
+          let toCopy = JSON.parse(JSON.stringify(projectsObj.to));
+          let index = findIndex(toCopy, obj.taskId);
+          if (index !== -1) {
+            dispatch(
+              updateLocalProjectAsync({
+                ...projectsObj,
+                to: toCopy.splice(index, 1),
+              })
+            );
+          }
+        }
+      }
+    }
   }
 );
 
@@ -134,8 +192,11 @@ export const projectSlice = createSlice({
     builder
       .addCase(getAllProjects.fulfilled, (state: any, action: any) => {
         if (action.payload) {
-          state.projects = getObjFromArr(action.payload, "fid", true);
-          state.projectOrder = action.payload.map((i) => i.fid);
+          let pid = AuthService.getInboxProjectId();
+          state.projects = getObjFromArr(action.payload, "_id", true);
+          state.projectOrder = action.payload
+            .filter((i) => i._id !== AuthService.getInboxProjectId())
+            .map((i) => i._id);
         }
       })
       .addCase(createProjectAsync.fulfilled, (state: any, action: any) => {

@@ -11,7 +11,7 @@ export const POMO_LONG_BREAK_PAUSED_STATE = "pomo_long_break_paused";
 export const allTasksDropId = "id-2e";
 export const todaysTasksDropId = "id-1e";
 
-export let DEFAULT_WORK_TIME = 1 * 5;
+export let DEFAULT_WORK_TIME = 1 * 20;
 export let DEFAULT_BREAK_TIME = 60 * 5;
 export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
 
@@ -57,3 +57,6 @@ export const focusModeLSKey = "focusMode";
 //Extension actions
 export const ENABLE_FOCUS_MODE = "enableFocusMode";
 export const DISABLE_FOCUS_MODE = "disableFocusMode";
+
+//First User screen
+export const FIRST_USER_KEY = "firstUserKey";

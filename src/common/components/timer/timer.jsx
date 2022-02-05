@@ -7,7 +7,6 @@ import {
   selectTimer,
 } from "../../state/selectors";
 import {
-  completePomodoro,
   pauseTimerAsync,
   resumeTimerAsync,
   tickAsync,
@@ -37,7 +36,10 @@ import {
   Stop,
 } from "@material-ui/icons";
 import { getTimerString } from "../../utils/common";
-import { focusModeToggle } from "../../state/slices/GlobalSlice";
+import {
+  focusModeToggle,
+  hideFirstUserScreen,
+} from "../../state/slices/GlobalSlice";
 import {
   getTab,
   TAB_BREAK,
@@ -121,6 +123,7 @@ export default function Timer() {
       }
 
       startInterval();
+      dispatch(hideFirstUserScreen());
     }
   });
 
