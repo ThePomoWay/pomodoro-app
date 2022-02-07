@@ -52,6 +52,7 @@ export default () => {
       );
 
       dispatch(setEditProjectId(""));
+      setProjectTitle("");
     }
     if (projectTitle.length > 0) {
       let fid = generateUniqueId();

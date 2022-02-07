@@ -30,7 +30,7 @@ export function initIdb() {
           { keyPath: "key" }
         );
         let tagsObjectStore = db.createObjectStore(tagsObjectStoreName, {
-          keyPath: "_id",
+          keyPath: "fid",
         });
         let projectsObjectStore = db.createObjectStore(
           projectsObjectStoreName,
@@ -42,7 +42,7 @@ export function initIdb() {
 
         projectsObjectStore.add({
           _id: AuthService.getInboxProjectId(),
-          title: "inbox",
+          title: "Inbox",
           sections: {},
           so: [],
           to: [],

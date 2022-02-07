@@ -6,12 +6,12 @@ import {
 import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTagsAsObj } from "../../state/selectors";
+import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
 import {
-  markTaskAsComplete,
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
 } from "../../state/slices/TasksSlice";
+import { ExpandMoreIcon } from "../../svgs/ExpandMoreIcon";
 import TaskItem from "../task/task";
 import styles from "./CompletedTaskList.module.scss";
 
@@ -19,6 +19,7 @@ export default (props) => {
   let tasks = props.tasks;
   let dispatch = useDispatch();
   let tags = useSelector(selectTagsAsObj);
+  let projectsObj = useSelector(selectProjectsObj);
 
   const toggleTaskComplete = useCallback((task) => {
     if (task.isComplete) {
@@ -45,23 +46,13 @@ export default (props) => {
   if (tasks && tasks.length > 0) {
     return (
       <Accordion elevation={0}>
-        <AccordionSummary
-          expandIcon={
-            <ExpandMoreOutlined
-              style={{
-                width: "28px",
-                height: "28px",
-                position: "relative",
-                left: "-4px",
-              }}
-            />
-          }
-        >
-          <p className={styles["title"]}>Completed Task</p>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <p className={styles["title"]}>{props.title || "Completed Task"}</p>
           <span className={styles["summary"]}>
             {" "}
-            <span className={styles["completed"]}>{tasks.length}</span>{" "}
-            {props.totalTasks ? "out of " + props.totalTasks : "Completed"}{" "}
+            <span className={styles["completed"]}>{tasks.length}</span>
+            {/* {" "}
+            {props.totalTasks ? "out of " + props.totalTasks : "Completed"}{" "} */}
           </span>
         </AccordionSummary>
         <AccordionDetails>
@@ -72,6 +63,7 @@ export default (props) => {
                 task={item}
                 tags={tags}
                 onComplete={toggleTaskComplete}
+                projects={projectsObj}
               />
             ))}
           </div>

@@ -89,8 +89,13 @@
   }
 }
 
+.horizontal-rule {
+  margin-top: 52px;
+
+  border-top: 1px solid #cdd2f7;
+  margin-bottom: 16px;
+}
 .completed-tasks {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -21,7 +21,7 @@
 
     position: absolute;
     left: 20px;
-    top: 52px;
+    top: 42px;
 
     .task-tag-item {
       position: relative;
@@ -49,8 +49,11 @@
   font-size: 14px;
   line-height: 18px;
 
-  ::placeholder {
-    color: #e40000;
+  &::placeholder {
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #afafaf;
   }
 
   color: #171717;

@@ -17,22 +17,21 @@ import {
   markTaskAsInCompleteThunk,
   rearrangeTodaysTask,
 } from "../../state/slices/TasksSlice";
-import TaskItem from "../task/task";
-import { getTodaysDateFormatted } from "../../utils/date-utils";
+
 import { DailyStats } from "../daily-stats/DailyStats";
 import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
-import { Edit, MoreHorizRounded } from "@material-ui/icons";
 import { ClickAwayListener, Popper } from "@mui/material";
 import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { Alert } from "../alert/Alert";
+import { hideFirstUserScreen } from "../../state/slices/GlobalSlice";
 
 export function TodaysTaskContainer() {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
 
-  let hideFirstUserScreen = useSelector(selectHideFirstUserScreen);
+  let hideOnboardingScreen = useSelector(selectHideFirstUserScreen);
 
   let editTaskRef = useSelector(selectEditTaskRef);
 
@@ -76,7 +75,11 @@ export function TodaysTaskContainer() {
     setShowAlert(false);
   }, []);
 
-  if (!hideFirstUserScreen) {
+  let hideFirstScreen = () => {
+    dispatch(hideFirstUserScreen());
+  };
+
+  if (!hideOnboardingScreen) {
     return (
       <div className={styles["empty-state"]}>
         <span className={styles["welcome-title"]}>👋 Welcome to PomoPanda</span>
@@ -86,7 +89,7 @@ export function TodaysTaskContainer() {
             to do today and start the timer
           </div>
           <div>
-            <AddNewTask isTodaysTask={true} />
+            <AddNewTask isTodaysTask={true} onToggle={hideFirstScreen} />
           </div>
         </div>
         <div className={styles["timer"]}>
@@ -160,12 +163,17 @@ export function TodaysTaskContainer() {
           //             />
           //     ))}
           // </div>)
-          <div className={styles["completed-tasks"]}>
-            <CompletedTasksList
-              container="todays"
-              tasks={completedTasks}
-              totalTasks={tasks.length + completedTasks.length}
-            />
+
+          <div>
+            <div className={styles["horizontal-rule"]}></div>
+            <div className={styles["completed-tasks"]}>
+              <CompletedTasksList
+                container="todays"
+                title="Todays Completed Tasks"
+                tasks={completedTasks}
+                totalTasks={tasks.length + completedTasks.length}
+              />
+            </div>
           </div>
         )}
       </div>

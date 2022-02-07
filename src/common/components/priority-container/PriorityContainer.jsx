@@ -11,17 +11,16 @@ export default function PriorityContainer(props) {
 
   let tasks = useSelector(selectTasksFromPriority(priority));
 
-  if (!tasks.length) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className={styles["container"]}>
       <div className={styles["header"]}>
         {/* <Flag style={{ fill: priorityColorMap[priority] }} /> */}
         <h2 className="font-title">Priority {priority}</h2>
       </div>
-      <UndraggableList tasks={tasks} />
+      <UndraggableList
+        tasks={tasks}
+        emptyText={"No tasks found with this priority"}
+      />
     </div>
   );
 }

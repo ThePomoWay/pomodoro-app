@@ -30,6 +30,10 @@ import { SunIcon } from "../../svgs/SunIcon";
 import styles from "./task.module.scss";
 import { AddTaskIcon } from "../../svgs/AddTaskIcon";
 import { RemoveTaskIcon } from "../../svgs/RemoveTaskIcon";
+import { TickIcon } from "../../svgs/TickIcon";
+import { UncompleteIcon } from "../../svgs/UncompleteIcon";
+import { DeleteIcon } from "../../svgs/DeleteIcon";
+import { DismissTaskIcon } from "../../svgs/DismissTaskIcon";
 
 export default function TaskItem(props) {
   let task: Task = props.task;
@@ -198,78 +202,80 @@ export default function TaskItem(props) {
       } ${task.isCurrentTask ? styles["selected"] : ""}`}
       onClick={(e) => props.onClick && props.onClick(task)}
     >
-      <div className={styles["first-row"]}>
-        <span
-          className={`${styles["checkbox"]} ${
-            task.isComplete && styles["tick"]
-          }`}
-          onClick={(e) => {
-            toggleMarkAsComplete(e);
-          }}
-        >
+      <div className={styles["first-column"]}>
+        <div className={styles["first-row"]}>
           <span
-            value={!!task.isComplete}
-            defaultChecked={!!task.isComplete}
-            style={{ borderColor: priorityColorMap[task.priority] }}
-          />
-        </span>
-        <span className={styles["task-title"]}>{task.title}</span>
-      </div>
-      <div className={styles["second-row"]}>
-        {getEstimatedPomoHtml()}
-
-        {task.project.projectID &&
-          props.projects &&
-          props.projects[task.project.projectID] && (
-            <span className={styles["project"]}>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="3.25"
-                  y="1.25"
-                  width="9.5"
-                  height="13.5"
-                  rx="1.75"
-                  fill="white"
-                  stroke="black"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="5"
-                  y1="4.75"
-                  x2="11"
-                  y2="4.75"
-                  stroke="black"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="5"
-                  y1="7.75"
-                  x2="11"
-                  y2="7.75"
-                  stroke="black"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="5"
-                  y1="10.75"
-                  x2="11"
-                  y2="10.75"
-                  stroke="black"
-                  strokeWidth="0.5"
-                />
-              </svg>
-
-              {props.projects[task.project.projectID].title}
+            className={styles["checkbox"]}
+            onClick={(e) => {
+              toggleMarkAsComplete(e);
+            }}
+          >
+            <span
+              className={`${task.isComplete && styles["tick"]}`}
+              value={!!task.isComplete}
+              defaultChecked={!!task.isComplete}
+              style={{ borderColor: priorityColorMap[task.priority] }}
+            >
+              <TickIcon />
             </span>
-          )}
+          </span>
+          <span className={styles["task-title"]}>{task.title}</span>
+        </div>
+        <div className={styles["second-row"]}>
+          {getEstimatedPomoHtml()}
 
-        <span className={styles["tags"]}>
+          {task.project.projectID &&
+            props.projects &&
+            props.projects[task.project.projectID] && (
+              <span className={styles["project"]}>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="3.25"
+                    y="1.25"
+                    width="9.5"
+                    height="13.5"
+                    rx="1.75"
+                    fill="white"
+                    stroke="black"
+                    strokeWidth="0.5"
+                  />
+                  <line
+                    x1="5"
+                    y1="4.75"
+                    x2="11"
+                    y2="4.75"
+                    stroke="black"
+                    strokeWidth="0.5"
+                  />
+                  <line
+                    x1="5"
+                    y1="7.75"
+                    x2="11"
+                    y2="7.75"
+                    stroke="black"
+                    strokeWidth="0.5"
+                  />
+                  <line
+                    x1="5"
+                    y1="10.75"
+                    x2="11"
+                    y2="10.75"
+                    stroke="black"
+                    strokeWidth="0.5"
+                  />
+                </svg>
+
+                {props.projects[task.project.projectID].title}
+              </span>
+            )}
+
+          {/* <span className={styles["tags"]}> */}
           {Object.keys(props.tags).length >= task.labels.length &&
             task.labels.map((item, ind) => (
               <span
@@ -283,47 +289,79 @@ export default function TaskItem(props) {
                 #{props.tags[item].title}
               </span>
             ))}
+          {/* </span> */}
+        </div>
+      </div>
+      <div className={styles["second-column"]}>
+        <span className={styles["task-actions"]}>
+          {getCTA()}
+          <span className={`${styles["task-actions-round"]} ${styles["more"]}`}>
+            <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
+            <Popover
+              open={Boolean(anchorEl)}
+              id="more-options-popover"
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <div className="popper-container">
+                {!task.isComplete && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => {
+                      doEditTask();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <EditIcon style={{ width: "12px", height: "12px" }} />
+                    <span>Edit task</span>
+                  </div>
+                )}
+
+                {task.isComplete && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => {
+                      toggleMarkAsComplete();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <UncompleteIcon />
+                    <span>Uncomplete task</span>
+                  </div>
+                )}
+
+                {props.showDismissOption && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => {
+                      doDeleteTask();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <DismissTaskIcon />
+                    <span>Remove from todays tasks</span>
+                  </div>
+                )}
+
+                <div
+                  className="popper-item"
+                  onClick={(e) => {
+                    doDeleteTask();
+                    e.stopPropagation();
+                  }}
+                >
+                  <DeleteIcon />
+                  <span>Delete task</span>
+                </div>
+              </div>
+            </Popover>
+          </span>
         </span>
       </div>
-      <span className={styles["task-actions"]}>
-        {getCTA()}
-        <span className={`${styles["task-actions-round"]} ${styles["more"]}`}>
-          <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
-          <Popover
-            open={Boolean(anchorEl)}
-            id="more-options-popover"
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            <div className="popper-container">
-              <div
-                className="popper-item"
-                onClick={(e) => {
-                  doEditTask();
-                  e.stopPropagation();
-                }}
-              >
-                <EditOutlined></EditOutlined>
-                <span>Edit task</span>
-              </div>
-              <div
-                className="popper-item"
-                onClick={(e) => {
-                  doDeleteTask();
-                  e.stopPropagation();
-                }}
-              >
-                <Delete></Delete>
-                <span>Delete task</span>
-              </div>
-            </div>
-          </Popover>
-        </span>
-      </span>
 
       {task.isCurrentTask && (
         <div className={styles["selected-tag"]}> Working On</div>

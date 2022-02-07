@@ -90,7 +90,10 @@ export default function LabelContainer(props) {
           </div>
         </ClickAwayListener>
       </div>
-      <UndraggableList tasks={tasks} />
+      <UndraggableList
+        tasks={tasks}
+        emptyText={"No tasks found with this label."}
+      />
     </div>
   );
 }

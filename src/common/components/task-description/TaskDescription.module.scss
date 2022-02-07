@@ -33,6 +33,13 @@
   &:focus {
     outline: none;
   }
+
+  textarea::placeholder {
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #c5c9e3;
+  }
 }
 
 .description-value {
