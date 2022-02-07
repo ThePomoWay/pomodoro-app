@@ -1,4 +1,5 @@
 import { groupByDates } from "../utils/common";
+import { statsReducer } from "./reducers/StatsReducer";
 
 export const selectPomoState = (state) => state.timer.pomoState;
 export const selectTimer = (state) => state.timer.timerInSec;
@@ -101,3 +102,4 @@ export const selectUserInfo = (state) => state.user.user;
 
 //onboarding
 export const selectStep = (state) => state.onboarding.step;
+export const selectPasswordResetEmail = (state) => state.onboarding.passwordResetMail;

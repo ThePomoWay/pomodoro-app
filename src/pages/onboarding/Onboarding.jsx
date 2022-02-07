@@ -15,6 +15,8 @@ import { SignupForm } from "../../common/components/signup-form/SignupForm";
 import {LoginStep} from "./login/login-step";
 import { SignupStep1 } from "./signup/signup-step-1";
 import { SignupStep2 } from "./signup/signup-step-2";
+import {ForgotPasswordStep1} from "./forgot-password/forgot-password-step-1";
+import {ForgotPasswordStep2} from "./forgot-password/forgot-password-step-2";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -43,8 +45,8 @@ return (
 
                 {(step === 1 && (<LoginStep />)) || 
                 (step === 2 && (<SignupStep2 />)) || 
-                (step === 3 && (<LoginStep />)) || 
-                (step === 4 && (<LoginStep />)) }
+                (step === 3 && (<ForgotPasswordStep1 />)) || 
+                (step === 4 && (<ForgotPasswordStep2 />)) }
             </div>
     </Modal>
   );
