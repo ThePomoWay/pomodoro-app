@@ -33,6 +33,7 @@ import NewProjectContainer from "../../common/components/new-project-container/N
 import {
   getAllProjects,
   rearrangeTaskInProjectAsync,
+  updateLocalProjectAsync,
 } from "../../common/state/slices/ProjectSlice";
 import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
@@ -69,91 +70,105 @@ export default () => {
     dispatch(getAllTags());
   }, []);
 
-  let onDragEnd = useCallback((result) => {
-    if (result.destination && result.source) {
-      if (
-        result.destination.droppableId === result.source.droppableId &&
-        result.destination.index === result.source.index
-      ) {
-        return;
-      }
+  let onDragEnd = useCallback(
+    (result) => {
+      if (result.destination && result.source) {
+        if (
+          result.destination.droppableId === result.source.droppableId &&
+          result.destination.index === result.source.index
+        ) {
+          return;
+        }
 
-      if (result.destination.droppableId === result.source.droppableId) {
-        if (result.source.droppableId === todaysTasksDropId) {
+        if (result.destination.droppableId === result.source.droppableId) {
+          if (result.source.droppableId === todaysTasksDropId) {
+            dispatch(
+              rearrangeTodaysTask({
+                source: result.source.index,
+                destination: result.destination.index,
+              })
+            );
+          } else {
+            let projectId = AuthService.getInboxProjectId();
+            let projectCopy = JSON.parse(
+              JSON.stringify(projectsObj[projectId])
+            );
+
+            let taskId = result.draggableId.split("task-")[1];
+
+            let source = {
+              isSection: false,
+              hid: projectId,
+              to: [],
+            };
+            let destination = {
+              isSection: false,
+              hid: projectId,
+              to: [],
+            };
+
+            projectCopy.to.splice(result.source.index, 1);
+            source.to = projectCopy.to.map((item) => tasksObj[item]._id);
+
+            projectCopy.to.splice(result.destination.index, 0, taskId);
+            destination.to = projectCopy.to.map((item) => tasksObj[item].__id);
+
+            dispatch(
+              rearrangeTaskInProjectAsync({
+                source,
+                destination,
+                taskId: tasksObj[taskId]._id,
+                projectId: projectId,
+                isSame: true,
+              })
+            );
+
+            dispatch(updateLocalProjectAsync(projectCopy));
+          }
+
+          let action =
+            result.source.droppableId === todaysTasksDropId
+              ? rearrangeTodaysTask
+              : rearrangeAllTasks;
           dispatch(
-            rearrangeTodaysTask({
+            action({
               source: result.source.index,
               destination: result.destination.index,
             })
           );
         } else {
-          let projectId = AuthService.getInboxProjectId();
-          let toCopy = JSON.parse(JSON.stringify(projectsObj[projectId].to));
-          let taskId = result.draggableId.split("task-")[1];
+          let removeAction =
+            result.source.droppableId === todaysTasksDropId
+              ? removeFromTodaysTasks
+              : removeFromAllTasks;
+          let addAction;
+          let item;
 
-          let source = {
-            isSection: false,
-            hid: projectId,
-            to: toCopy.splice(result.source.index, 1),
-          };
-          let destination = {
-            isSection: false,
-            hid: projectId,
-            to: toCopy.splice(result.destination.index, 0, taskId),
-          };
+          if (result.destination.droppableId === todaysTasksDropId) {
+            addAction = addToTodaysTasks;
+            item = todaystasks[result.source.index].fid;
+          } else {
+            addAction = addToAllTasks;
+            item = alltasks[result.source.index].fid;
+          }
 
           dispatch(
-            rearrangeTaskInProjectAsync({
-              source,
-              destination,
-              taskId: tasksObj[taskId]._id,
-              projectId: projectId,
-              isSame: true,
+            removeAction({
+              index: result.source.index,
+            })
+          );
+
+          dispatch(
+            addAction({
+              index: result.destination.index,
+              item,
             })
           );
         }
-
-        let action =
-          result.source.droppableId === todaysTasksDropId
-            ? rearrangeTodaysTask
-            : rearrangeAllTasks;
-        dispatch(
-          action({
-            source: result.source.index,
-            destination: result.destination.index,
-          })
-        );
-      } else {
-        let removeAction =
-          result.source.droppableId === todaysTasksDropId
-            ? removeFromTodaysTasks
-            : removeFromAllTasks;
-        let addAction;
-        let item;
-
-        if (result.destination.droppableId === todaysTasksDropId) {
-          addAction = addToTodaysTasks;
-          item = todaystasks[result.source.index].fid;
-        } else {
-          addAction = addToAllTasks;
-          item = alltasks[result.source.index].fid;
-        }
-
-        dispatch(
-          removeAction({
-            index: result.source.index,
-          })
-        );
-
-        dispatch(
-          addAction({
-            index: result.destination.index,
-            item,
-          })
-        );
       }
-    }
-  }, []);
+    },
+    [projectsObj]
+  );
 
   const doRemoveTask = useCallback((task) => {
     dispatch(

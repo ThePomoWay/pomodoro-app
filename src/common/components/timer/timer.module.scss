@@ -21,8 +21,6 @@ $pomoLongBreakColor: radial-gradient(
 $waterBColor: #5394d8;
 
 .timer {
-  transition: all 1s ease-in-out;
-
   .blur-bg {
     z-index: 0;
     width: 130%;
@@ -128,6 +126,8 @@ $waterBColor: #5394d8;
     justify-self: center;
     margin-top: 52px;
     z-index: 1;
+
+    transition: all 1s ease-in-out;
 
     .box {
       height: 100%;
@@ -278,8 +278,8 @@ $waterBColor: #5394d8;
     cursor: pointer;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
     }
   }
 

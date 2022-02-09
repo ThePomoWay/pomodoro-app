@@ -18,6 +18,7 @@ import {
 import { updateTodaysTaskAPI } from "../../API/network/TodaysTaskApis";
 import { findIndex } from "../../utils/array-utils";
 import { getFormattedDate } from "../../utils/date-utils";
+import { playCompleteTaskSound } from "../../utils/sound-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import { updateLocalProjectAsync } from "./ProjectSlice";
@@ -144,6 +145,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
         completedOn: new Date().toISOString(),
       })
     );
+    playCompleteTaskSound();
 
     dispatch(removeFromTodaysTasks({ fid: obj.task.fid }));
     dispatch(addToCompletedTasks({ fid: obj.task.fid }));

@@ -8,7 +8,7 @@ export const initialProjectsState = {
 
 export const projectReducer = {
   createProject: (state, action) => {
-    state.projects[action.payload.fid] = action.payload;
+    state.projects[action.payload._id] = action.payload;
     state.projectOrder.push(action.payload._id);
   },
   updateProject: (state, action) => {

@@ -56,7 +56,6 @@ export default class AuthService {
 
   static async logout() {
     localStorage.removeItem(userAuthInfoLsKey);
-    await clearTasksInIDB();
     window.location.reload();
   }
 }

@@ -98,7 +98,7 @@ export default (props) => {
                     task={item}
                     key={item.fid}
                     index={index}
-                    dropId={props.dropId}
+                    dropId={"task-"}
                     projects={projectsObj}
                   />
                 );

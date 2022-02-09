@@ -1,0 +1,32 @@
+.toast {
+  padding: 12px 8px 12px 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 12px;
+  line-height: 16px;
+
+  .svg {
+    justify-self: flex-end;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &.success {
+    background: rgba(69, 218, 129, 0.3);
+    border: 1px solid #27a95b;
+    color: #238349;
+  }
+
+  &.error {
+  }
+}

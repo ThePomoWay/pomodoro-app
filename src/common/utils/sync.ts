@@ -37,28 +37,28 @@ export async function syncIdb() {
     let inboxId = AuthService.getInboxProjectId();
 
     let projects = await getAllProjectsFromIDB();
-    console.log(projects);
-    for (let project of projects) {
-      if (project._id === "inbox") {
-        store.dispatch(
-          createLocalProjectAsync({
-            ...project,
-            _id: AuthService.getInboxProjectId(),
-          })
-        );
+    // console.log(projects);
+    // for (let project of projects) {
+    //   if (project._id === "inbox") {
+    //     store.dispatch(
+    //       createLocalProjectAsync({
+    //         project: {
+    //           ...project,
+    //           _id: AuthService.getInboxProjectId(),
+    //         },
+    //       })
+    //     );
 
-        store.dispatch(deleteProjectAsync(project));
+    //     store.dispatch(deleteProjectAsync(project));
 
-        store.dispatch(getAllProjects());
-      }
-    }
-
-    store.dispatch(updateLocalProjectAsync());
+    //     store.dispatch(getAllProjects());
+    //   }
+    // }
 
     //Dump all local tasks to backend which were created before login
     for (let task of localTasks) {
       if (!task._id) {
-        task.project.projectId = inboxId;
+        task.project.projectID = inboxId;
         let response = await createTaskAPI(task);
         if (response && response.data && response.data.tid) {
           store.dispatch(
@@ -119,16 +119,13 @@ export async function syncProjects(taskArr) {
   if (response && response.data) {
     let res = await clearProjectsFromIDB();
     if (res && res.success) {
-      let res = await clearProjectsFromIDB();
-      if (res && res.success) {
-        let tasksObj = getObjFromArr(taskArr, "_id", true);
-        for (let project of response.data.projects) {
-          store.dispatch(
-            createLocalProjectAsync({
-              project: processBEProject(project, tasksObj),
-            })
-          );
-        }
+      let tasksObj = getObjFromArr(taskArr, "_id", true);
+      for (let project of response.data.projects) {
+        store.dispatch(
+          createLocalProjectAsync({
+            project: processBEProject(project, tasksObj),
+          })
+        );
       }
     }
   }

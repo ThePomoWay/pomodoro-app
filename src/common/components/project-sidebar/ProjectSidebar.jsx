@@ -38,10 +38,12 @@ export default () => {
 
   const getProjects = useCallback(() => {
     if (projectsOrder.length <= Object.keys(projectsObj).length) {
+      let inboxId = AuthService.getInboxProjectId();
       return (
         <div>
           {projectsOrder
             .filter((item) => projectsObj[item])
+            .filter((item) => item !== inboxId)
             .map((item, ind) => (
               <Link key={ind} to={`/all/project/${item}`}>
                 <div

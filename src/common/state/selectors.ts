@@ -16,6 +16,8 @@ export const selectNewLabelModal = (state) => state.global.labelModalOpen;
 export const selectHideFirstUserScreen = (state) =>
   state.global.hideFirstUserScreen;
 
+export const selectToastObj = (state) => state.global.toast;
+
 //todays tasks
 export const selectTodaysTasks = (state) =>
   state.tasks.todaysTasks

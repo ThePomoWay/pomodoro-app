@@ -4,7 +4,7 @@ import {
   tagsObjectStoreName,
   taskObjectStoreName,
   timerstateObjectStoreName,
-  todaysTasksObjectStoreName,
+  dbName,
 } from "./init";
 
 let db = null;
@@ -94,11 +94,14 @@ export function clearTasksInIDB() {
 }
 
 export function clearIDB() {
-  let transaction = db.transaction([
-    taskObjectStoreName,
-    timerstateObjectStoreName,
-    todaysTasksObjectStoreName,
-    tagsObjectStoreName,
-    projectsObjectStoreName,
-  ]);
+  return new Promise((res, rej) => {
+    db.close();
+    let request = indexedDB.deleteDatabase(dbName);
+    request.onsuccess = function () {
+      res();
+    };
+    request.onerror = function (err) {
+      rej(err);
+    };
+  });
 }

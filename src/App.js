@@ -13,6 +13,7 @@ import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
 import { init } from './common/state/slices/GlobalSlice';
+import { Toast } from './common/components/toast/Toast';
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
             <Homepage />
           </Route>
         </Switch>
+        <Toast />
     </Router>
   );
 }

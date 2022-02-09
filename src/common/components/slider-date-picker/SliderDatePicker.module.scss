@@ -1,0 +1,33 @@
+.container {
+  border: 1px solid #e5e8ff;
+  box-shadow: 0px 4px 6px rgba(213, 215, 234, 0.65);
+  border-radius: 8px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  .icon {
+    border-right: 1px solid #b9b9b9;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &:hover:not(.max) {
+      background-color: #ecf0ff;
+    }
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 400;
+    border-right: 1px solid #b9b9b9;
+    height: 100%;
+    padding: 0px 8px;
+    display: flex;
+    align-items: center;
+    width: 160px;
+    justify-content: center;
+  }
+}

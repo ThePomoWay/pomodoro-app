@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { clearIDB } from "../../API/indexed-db-ops/crud";
 import AuthService from "../../API/network/AuthService";
 import { googleLoginApi, registerApi } from "../../API/network/SignonApis";
 import {
@@ -51,6 +52,14 @@ export const signin = createAsyncThunk(
     }
 
     return response.data;
+  }
+);
+
+export const logout = createAsyncThunk(
+  "global/logout",
+  async (_, { dispatch }) => {
+    await clearIDB();
+    AuthService.logout();
   }
 );
 

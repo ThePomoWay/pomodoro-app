@@ -194,9 +194,7 @@ export const projectSlice = createSlice({
         if (action.payload) {
           let pid = AuthService.getInboxProjectId();
           state.projects = getObjFromArr(action.payload, "_id", true);
-          state.projectOrder = action.payload
-            .filter((i) => i._id !== AuthService.getInboxProjectId())
-            .map((i) => i._id);
+          state.projectOrder = action.payload.map((i) => i._id);
         }
       })
       .addCase(createProjectAsync.fulfilled, (state: any, action: any) => {

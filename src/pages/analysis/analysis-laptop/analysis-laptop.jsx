@@ -11,7 +11,12 @@ import {
   selectStats,
   selectUser,
 } from "../../../common/state/selectors/statsSelector";
-import { getPreviousMonday } from "../../../common/utils/date-utils";
+import {
+  getNextSunday,
+  getPreviousMonday,
+  getTodaysDateFormatted,
+  getWeekFormattedDate,
+} from "../../../common/utils/date-utils";
 import { getStatsAsync } from "../../../common/state/slices/StatsSlice";
 import { Streak } from "../../../common/svgs/streak";
 import { Statistics } from "../../../common/svgs/Stats";
@@ -21,6 +26,8 @@ import { TaskSvg } from "../../../common/svgs/TaskSvg";
 import { PauseStats } from "../../../common/svgs/PauseStats";
 import { Block } from "../../../common/svgs/Block";
 import OnBoarding from "../../onboarding/Onboarding";
+import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
+import { months } from "../../../common/utils/constants";
 
 const tabs = [
   {
@@ -38,6 +45,8 @@ export function AnalysisLaptop(props) {
   let [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   let [date, setDate] = useState(new Date());
+  let [weekDate, setWeekDate] = useState(new Date());
+  let [monthDate, setMonthDate] = useState(new Date());
 
   let stats = useSelector(selectStats);
   let oldStats = useSelector(selectOldStats);
@@ -45,10 +54,9 @@ export function AnalysisLaptop(props) {
 
   let dispatch = useDispatch();
 
-  let callStatsApi = useCallback((ind) => {
+  let callStatsApi = useCallback((ind, d) => {
     let startDate,
-      endDate = new Date().setHours(11, 59, 59, 999);
-    let d;
+      endDate = new Date(d).setHours(11, 59, 59, 999);
     if (ind === 0) {
       d = new Date(d);
       startDate = new Date(
@@ -59,13 +67,11 @@ export function AnalysisLaptop(props) {
       endDate = new Date(d).setHours(11, 59, 59, 999);
     }
     if (ind === 1) {
-      d = new Date();
       startDate = getPreviousMonday(
         new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7)
       );
     }
     if (ind === 2) {
-      d = new Date();
       startDate = new Date(d.getFullYear(), d.getMonth() - 1, 1);
     }
 
@@ -78,8 +84,15 @@ export function AnalysisLaptop(props) {
   }, []);
 
   let onTabChange = useCallback((ind) => {
+    let d = date;
+    if (ind == 1) {
+      d = weekDate;
+    }
+    if (ind == 2) {
+      d = monthDate;
+    }
     setSelectedTabIndex(ind);
-    callStatsApi(ind);
+    callStatsApi(ind, d);
   }, []);
 
   let getDiffSvg = useCallback((a, b) => {
@@ -114,6 +127,80 @@ export function AnalysisLaptop(props) {
     }
     return `Same as yesterday`;
   });
+
+  let getSliderText = () => {
+    let today = getTodaysDateFormatted();
+    if (selectedTabIndex === 1) {
+      if (today === getTodaysDateFormatted(new Date(weekDate))) {
+        return getWeekFormattedDate(new Date(getPreviousMonday())) + " - Today";
+      } else {
+        return `${getWeekFormattedDate(
+          getPreviousMonday(new Date(weekDate))
+        )} - ${getWeekFormattedDate(new Date(weekDate))}`;
+      }
+    }
+
+    return `${
+      months[new Date(monthDate).getMonth()]
+    }, ${monthDate.getFullYear()}`;
+  };
+
+  let onSlide = (action, step) => {
+    let date;
+    if (action === "increment") {
+      if (step === 0) {
+        date = new Date();
+        (selectedTabIndex === 1 && setWeekDate(date)) || setMonthDate(date);
+      } else if (selectedTabIndex === 1) {
+        let w = new Date(weekDate);
+
+        date = new Date(w.getFullYear(), w.getMonth(), w.getDay() + 7);
+
+        setWeekDate(date);
+      } else {
+        let m = new Date(monthDate);
+        date = new Date(m.getFullYear(), m.getMonth() + 2, -1);
+        setMonthDate(date);
+      }
+    } else {
+      if (selectedTabIndex === 1) {
+        let w = new Date(weekDate);
+        date = getNextSunday(
+          new Date(w.getFullYear(), w.getMonth(), w.getUTCDate() - 7)
+        );
+        setWeekDate(date);
+      } else {
+        let m = new Date(monthDate);
+        date = new Date(m.getFullYear(), m.getMonth(), -1);
+        setMonthDate(date);
+      }
+    }
+    callStatsApi(selectedTabIndex, date);
+  };
+
+  let getDatePickerHtml = () => {
+    if (selectedTabIndex === 0) {
+      return (
+        <div className={styles["date-picker"]}>
+          <DatePicker
+            label="Date"
+            value={date}
+            onChange={(newValue) => {
+              setDate(newValue);
+              console.log(newValue);
+              callStatsApi(selectedTabIndex, newValue);
+            }}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles["date-picker"]}>
+        <SliderDatePicker max={0} title={getSliderText()} onChange={onSlide} />
+      </div>
+    );
+  };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -170,17 +257,7 @@ export function AnalysisLaptop(props) {
               </h2>
 
               <TabsComponent tabs={tabs} onClick={onTabChange} />
-              {selectedTabIndex === 0 && (
-                <div className={styles["date-picker"]}>
-                  <DatePicker
-                    label="Date"
-                    value={date}
-                    onChange={(newValue) => {
-                      setDate(newValue);
-                    }}
-                  />
-                </div>
-              )}
+              {getDatePickerHtml()}
             </div>
 
             <div className={styles["daily-pomodoro"]}>

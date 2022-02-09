@@ -47,13 +47,15 @@ export default (props) => {
     return (
       <Accordion elevation={0}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <p className={styles["title"]}>{props.title || "Completed Task"}</p>
-          <span className={styles["summary"]}>
-            {" "}
-            <span className={styles["completed"]}>{tasks.length}</span>
-            {/* {" "}
+          <p className={styles["title"]}>
+            {props.title || "Completed Task"}{" "}
+            <span className={styles["completed"]}> ({tasks.length})</span>
+          </p>
+          {/* <span className={styles["summary"]}> */}{" "}
+          {/* <span className={styles["completed"]}>{tasks.length}</span> */}
+          {/* {" "}
             {props.totalTasks ? "out of " + props.totalTasks : "Completed"}{" "} */}
-          </span>
+          {/* </span> */}
         </AccordionSummary>
         <AccordionDetails>
           <div className={styles["tasklist"]}>

@@ -11,7 +11,7 @@ export const POMO_LONG_BREAK_PAUSED_STATE = "pomo_long_break_paused";
 export const allTasksDropId = "id-2e";
 export const todaysTasksDropId = "id-1e";
 
-export let DEFAULT_WORK_TIME = 1 * 20;
+export let DEFAULT_WORK_TIME = 60 * 25;
 export let DEFAULT_BREAK_TIME = 60 * 5;
 export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
 
@@ -49,6 +49,8 @@ export const months = [
   "November",
   "December",
 ];
+
+export const shortWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const EXTENSION_ID = "agbkeeoecdaegljhmkndleobgbimfoog";
 

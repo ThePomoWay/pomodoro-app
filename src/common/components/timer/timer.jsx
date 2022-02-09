@@ -25,16 +25,7 @@ import {
   POMO_BREAK_PAUSED_STATE,
 } from "../../utils/constants";
 import styles from "./timer.module.scss";
-import {
-  Pause,
-  PlayArrow,
-  PlayArrowOutlined,
-  Replay,
-  Replay10Outlined,
-  ReplayOutlined,
-  SkipNext,
-  Stop,
-} from "@material-ui/icons";
+import { SkipNext } from "@material-ui/icons";
 import { getTimerString } from "../../utils/common";
 import {
   focusModeToggle,
@@ -50,6 +41,7 @@ import {
 import { PlaySvg } from "../../svgs/Play";
 import { PauseSvg } from "../../svgs/PauseSvg";
 import { RewindSvg } from "../../svgs/Rewind";
+import { playTimerStartSound } from "../../utils/sound-utils";
 
 let timer = 0;
 
@@ -114,6 +106,7 @@ export default function Timer() {
             pomoState: getNextPomoState(state, ACTION_PLAY),
           })
         );
+        playTimerStartSound();
       } else {
         dispatch(
           updateTimerState({

@@ -277,18 +277,20 @@ export default function TaskItem(props) {
 
           {/* <span className={styles["tags"]}> */}
           {Object.keys(props.tags).length >= task.labels.length &&
-            task.labels.map((item, ind) => (
-              <span
-                key={ind}
-                className={styles["tags-small"]}
-                style={{
-                  borderColor: props.tags[item].color,
-                  color: props.tags[item].color,
-                }}
-              >
-                #{props.tags[item].title}
-              </span>
-            ))}
+            task.labels
+              .filter((item) => props.tags[item])
+              .map((item, ind) => (
+                <span
+                  key={ind}
+                  className={styles["tags-small"]}
+                  style={{
+                    borderColor: props.tags[item].color,
+                    color: props.tags[item].color,
+                  }}
+                >
+                  #{props.tags[item].title}
+                </span>
+              ))}
           {/* </span> */}
         </div>
       </div>

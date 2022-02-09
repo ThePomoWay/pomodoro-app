@@ -7,6 +7,12 @@ export const initialGlobalState = {
   projectModalOpen: false,
   labelModalOpen: false,
   hideFirstUserScreen: false,
+  toast: {
+    open: false,
+    msg: "Todays tasks have been deleted successfully",
+    duration: 5000,
+    type: "success",
+  },
 };
 
 export let globalReducer = {
@@ -44,5 +50,8 @@ export let globalReducer = {
   },
   setShowFirstUserState: (state, action) => {
     state.hideFirstUserScreen = action.payload;
+  },
+  setToast: (state, action) => {
+    state.toast = { ...state.toast, ...action.payload };
   },
 };

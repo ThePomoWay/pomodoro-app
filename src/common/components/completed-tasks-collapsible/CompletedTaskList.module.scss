@@ -4,8 +4,8 @@
   line-height: 24px;
   color: #000000;
 
-  position: relative;
-  left: 12px;
+  // position: relative;
+  // left: 12px;
 }
 
 .summary {
@@ -18,11 +18,11 @@
 
   align-self: center;
   margin-left: auto;
-  .completed {
-    color: #8a99e9;
-  }
 }
 
+.completed {
+  color: #8a99e9;
+}
 .tasklist {
   display: flex;
   flex-direction: column;
