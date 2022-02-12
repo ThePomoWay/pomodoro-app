@@ -3,7 +3,11 @@ import { Form, Field } from "react-final-form";
 import { useCallback } from "react";
 import { TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { login } from "../../state/slices/OnboardingSlice";
+import {
+  login,
+  initiatePasswordChange,
+  setStep,
+} from "../../state/slices/OnboardingSlice";
 
 export function LoginForm(props) {
   let formData = {
@@ -15,6 +19,10 @@ export function LoginForm(props) {
 
   let onSubmit = useCallback((vals) => {
     dispatch(login(vals));
+  });
+
+  let initiatePasswordChange = useCallback(() => {
+    dispatch(setStep(3));
   });
 
   return (
@@ -78,9 +86,7 @@ export function LoginForm(props) {
 
               <div
                 className={styles["forgot-pass"]}
-                onClick={(e) => {
-                  props.onChange && props.onChange();
-                }}
+                onClick={(e) => initiatePasswordChange()}
               >
                 {" "}
                 Forgot password?

@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
-import { loginApi, registerApi } from "../../API/network/SignonApis";
+import {
+  loginApi,
+  registerApi,
+  initiatePasswordChangeApi,
+  verifyPasswordResetOTP,
+} from "../../API/network/SignonApis";
 import {
   initialOnboardingState,
   onboardingReducer,
@@ -29,14 +34,33 @@ export const login = createAsyncThunk(
 
 export const registerCheck = createAsyncThunk(
   "onboarding/registerCheck",
-  async (email: any, { dispatch }) => {
+  async (obj: any, { dispatch }) => {
     // replace with api call
     let response = { data: null };
 
     if (!response.data) {
-      dispatch(setRegisterEmail(email));
+      dispatch(setRegisterEmail(obj));
       dispatch(setStep(2));
     }
+  }
+);
+
+export const initiatePasswordChange = createAsyncThunk(
+  "forgotPassword/sendMail",
+  async (obj: any, { dispatch }) => {
+    let response = await initiatePasswordChangeApi(obj);
+    if (response.data) {
+      dispatch(setPasswordResetMailId(obj.email));
+      dispatch(setStep(4));
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "forgotPassword/sendMail",
+  async (obj: any, { dispatch }) => {
+    let response = await verifyPasswordResetOTP(obj);
+    return response.data;
   }
 );
 
@@ -59,4 +83,5 @@ export let onboardingSlice = createSlice({
   },
 });
 
-export let { setRegisterEmail, setStep } = onboardingSlice.actions;
+export let { setRegisterEmail, setStep, setPasswordResetMailId } =
+  onboardingSlice.actions;

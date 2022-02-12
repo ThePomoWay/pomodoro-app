@@ -15,6 +15,8 @@ import { Close } from "@material-ui/icons";
 
 import { LoginStep } from "./login/login-step";
 import { SignupStep2 } from "./signup/signup-step-2";
+import { ForgotPasswordStep1 } from "./forgot-password/forgot-password-step-1";
+import { ForgotPasswordStep2 } from "./forgot-password/forgot-password-step-2";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -43,7 +45,10 @@ export default function OnBoarding(props) {
             {" "}
             <Close />{" "}
           </span>
-          {(step === 2 && <SignupStep2 />) || <LoginStep />}
+          {(step === 1 && <LoginStep />) ||
+            (step === 2 && <SignupStep2 />) ||
+            (step === 3 && <ForgotPasswordStep1 />) ||
+            (step === 4 && <ForgotPasswordStep2 />)}
         </div>
       </div>
     </Modal>
