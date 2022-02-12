@@ -1,15 +1,22 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   position: relative;
   width: 100%;
 
   .title {
-    align-self: flex-start;
-    font-weight: 900;
-    font-size: 18px;
-    line-height: 24px;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 36px;
+
+    display: flex;
+    align-items: center;
+    align-self: center;
+
+    .logo {
+      color: #566ee8;
+    }
+    color: #000000;
   }
 
   .welcome-text {
@@ -19,11 +26,14 @@
     color: #191e44;
   }
   .divider {
-    width: 100%;
-    border-top: 1px solid gray;
+    width: 50%;
+    border-top: 1px solid #d3daff;
     position: relative;
     display: flex;
     justify-content: center;
+    margin-top: 28px;
+
+    align-self: center;
 
     .divider-text {
       position: relative;
@@ -31,27 +41,32 @@
       padding: 6px;
       background-color: white;
       font-size: 18px;
-      color: gray;
+      color: #a0a8cf;
     }
   }
 
   .signup-text {
     align-self: center;
-    text-decoration: underline;
+
     font-size: 14px;
-    font-weight: 500;
+
     margin-top: 10px;
     cursor: pointer;
+
+    font-size: 14px;
+    line-height: 20px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1px;
+
+    color: #21328d;
   }
   .socials {
-    align-self: center;
-  }
-
-  .google {
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
-  .facebook {
-    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 25px;
   }
 }

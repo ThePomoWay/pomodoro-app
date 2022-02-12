@@ -9,6 +9,9 @@ import {
   selectTodaysTasks,
   selectProjectsObj,
   selectTasksAsobj,
+  selectDefaultTimes,
+  selectCompletedPomos,
+  selectCompletedTaskInProject,
 } from "../../common/state/selectors";
 import {
   addToAllTasks,
@@ -43,6 +46,11 @@ import PriorityContainer from "../../common/components/priority-container/Priori
 import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
 import OnBoarding from "../onboarding/Onboarding";
 import AuthService from "../../common/API/network/AuthService";
+import { getTimeText } from "../../common/utils/date-utils";
+import { getTimerState } from "../../common/state/slices/TimerSlice";
+import { ClickAwayListener, Popper } from "@material-ui/core";
+import { MoreHorizRounded } from "@material-ui/icons";
+import CompletedTasksList from "../../common/components/completed-tasks-collapsible/CompletedTasksList";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -53,21 +61,32 @@ export default () => {
   let tasksObj = useSelector(selectTasksAsobj);
 
   let projectsObj = useSelector(selectProjectsObj);
+  let cPomos = useSelector(selectCompletedPomos);
+  let defaults = useSelector(selectDefaultTimes);
 
   let dispatch = useDispatch();
 
   let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
+  let [showCompletedSection, setShowCompletedSection] = useState(false);
+  let [moreAnchorEl, setMoreAnchorEl] = useState(false);
+
+  let completedTasks = useSelector(
+    selectCompletedTaskInProject(AuthService.getInboxProjectId(), "")
+  );
 
   let projectId = AuthService.getInboxProjectId();
 
   let allTaskIds = (projectsObj[projectId] && projectsObj[projectId].to) || [];
-  let alltasks = allTaskIds.map((item) => tasksObj[item]);
+  let alltasks = allTaskIds
+    .filter((item) => tasksObj[item])
+    .map((item) => tasksObj[item]);
 
   useEffect(() => {
     dispatch(getAllTasks());
     dispatch(getTodaysTasks());
     dispatch(getAllProjects());
     dispatch(getAllTags());
+    dispatch(getTimerState());
   }, []);
 
   let onDragEnd = useCallback(
@@ -81,14 +100,7 @@ export default () => {
         }
 
         if (result.destination.droppableId === result.source.droppableId) {
-          if (result.source.droppableId === todaysTasksDropId) {
-            dispatch(
-              rearrangeTodaysTask({
-                source: result.source.index,
-                destination: result.destination.index,
-              })
-            );
-          } else {
+          if (result.source.droppableId !== todaysTasksDropId) {
             let projectId = AuthService.getInboxProjectId();
             let projectCopy = JSON.parse(
               JSON.stringify(projectsObj[projectId])
@@ -181,6 +193,24 @@ export default () => {
 
   let { path } = useRouteMatch();
 
+  let ePomos = 0;
+  for (let task of todaystasks) {
+    ePomos += task.epomo;
+  }
+  let estimatedTimeLeft = "";
+  if (ePomos > 0 && ePomos > cPomos) {
+    estimatedTimeLeft =
+      "~" + getTimeText(((ePomos - cPomos) * defaults.defaultWorkTime) / 60);
+  }
+
+  let onMoreClose = () => {
+    setMoreAnchorEl(null);
+  };
+
+  let onMoreAnchorClick = (e) => {
+    setMoreAnchorEl(e.currentTarget);
+  };
+
   return (
     <div className={styles["container"]}>
       <OnBoarding />
@@ -196,7 +226,61 @@ export default () => {
             <Switch>
               <Route exact path={path}>
                 <div className={styles["all-tasks-container"]}>
-                  <h2 className={styles["title"]}>Inbox</h2>
+                  <p className={styles["title"]}>
+                    <span>Inbox</span>
+                    <span>
+                      <ClickAwayListener onClickAway={onMoreClose}>
+                        <div>
+                          <MoreHorizRounded
+                            style={{ fill: "#7586E3", cursor: "pointer" }}
+                            onClick={onMoreAnchorClick}
+                          />
+                          <Popper
+                            open={Boolean(moreAnchorEl)}
+                            id="project-popover"
+                            anchorEl={moreAnchorEl}
+                            onClose={onMoreClose}
+                            position="bottom-left"
+                          >
+                            <div className="popper-container">
+                              <div
+                                className="popper-item"
+                                onClick={(e) => {
+                                  setShowCompletedSection(
+                                    !showCompletedSection
+                                  );
+                                  onMoreClose();
+                                }}
+                              >
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle
+                                    cx="6"
+                                    cy="6"
+                                    r="4"
+                                    stroke="#6A6F9A"
+                                    strokeWidth="0.7"
+                                  />
+                                  <path
+                                    d="M4.5 6L6 7.5L11 2.5"
+                                    stroke="#6A6F9A"
+                                    strokeWidth="0.7"
+                                  />
+                                </svg>
+                                {showCompletedSection ? "Hide" : "Show"}{" "}
+                                Completed Tasks
+                              </div>
+                            </div>
+                          </Popper>
+                        </div>
+                      </ClickAwayListener>
+                    </span>
+                  </p>
                   <div className={styles["add-task-btn"]}>
                     <AddNewTask isTodaysTask={false} />
                   </div>
@@ -205,6 +289,15 @@ export default () => {
                     tasks={alltasks}
                     container="all"
                   />
+                  {showCompletedSection && (
+                    <div className={styles["completed-section"]}>
+                      <CompletedTasksList
+                        container="projects"
+                        projectId={AuthService.getInboxProjectId()}
+                        tasks={completedTasks}
+                      />
+                    </div>
+                  )}
                 </div>
               </Route>
 
@@ -235,11 +328,11 @@ export default () => {
               }`}
               style={{ visibility: todaysTaskOpen ? "visible" : "hidden" }}
             >
-              <div
-                className={`${styles["todays-task-list"]}`}
-                onClick={(e) => setTodaysTaskOpen(false)}
-              >
-                <h2 className={styles["title"]}>
+              <div className={`${styles["todays-task-list"]}`}>
+                <h2
+                  className={styles["title"]}
+                  onClick={(e) => setTodaysTaskOpen(false)}
+                >
                   <svg
                     width="16"
                     height="16"
@@ -255,18 +348,28 @@ export default () => {
                     />
                   </svg>
                   Todays Tasks
+                  {estimatedTimeLeft && (
+                    <span className={styles["estimate-text"]}>
+                      ({estimatedTimeLeft})
+                    </span>
+                  )}
                 </h2>
 
-                {todaystasks.length > 0 &&
-                  ((
-                    <DraggableTaskList
-                      hidePlay={true}
-                      tasks={todaystasks}
-                      showRemoveBtn={true}
-                      doRemoveTask={doRemoveTask}
-                      dropId="id-1e"
-                    />
-                  ) || <p>Add tasks to Today's Tasks to see them here.</p>)}
+                {(todaystasks.length > 0 && (
+                  <DraggableTaskList
+                    hidePlay={true}
+                    tasks={todaystasks}
+                    showRemoveBtn={true}
+                    doRemoveTask={doRemoveTask}
+                    isEditable={false}
+                    dropId="id-1e"
+                    hideWorkingOn={true}
+                  />
+                )) || (
+                  <p className={styles["todays-empty"]}>
+                    Add all the tasks you intend to work on today!
+                  </p>
+                )}
               </div>
             </div>
             {!todaysTaskOpen && (

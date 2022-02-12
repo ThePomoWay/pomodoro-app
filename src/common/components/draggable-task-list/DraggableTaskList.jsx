@@ -73,11 +73,13 @@ export default (props) => {
                 editableTask.fid === item.fid
               ) {
                 return (
-                  <EditTaskContainer
-                    key={item.fid}
-                    task={item}
-                    saveTask={doSaveTask}
-                  />
+                  <div className={styles["edit-task-container"]}>
+                    <EditTaskContainer
+                      key={item.fid}
+                      task={item}
+                      saveTask={doSaveTask}
+                    />
+                  </div>
                 );
               }
               return (
@@ -90,8 +92,10 @@ export default (props) => {
                   index={index}
                   dropId={props.dropId}
                   onComplete={toggleCompletedTasks}
-                  onClick={markAsCurrent}
+                  onClick={doSetEditTask}
                   isEditable={props.isEditable}
+                  showRemoveBtn={props.showRemoveBtn}
+                  hideWorkingOn={props.hideWorkingOn}
                 />
               );
             })}

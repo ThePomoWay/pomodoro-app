@@ -13,11 +13,12 @@ import {
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
+import { validateAPIResponse } from "../../utils/validators";
 import {
   initialProjectsState,
   projectReducer,
 } from "../reducers/ProjectReducer";
-import { setProjectModalState } from "./GlobalSlice";
+import { setProjectModalState, setToast } from "./GlobalSlice";
 import { createLocalTaskThunk } from "./TasksSlice";
 
 export const createLocalProjectAsync = createAsyncThunk(
@@ -32,13 +33,17 @@ export const createProjectAsync = createAsyncThunk(
   "create/project",
   async (obj: any, { dispatch }) => {
     if (AuthService.isLoggedIn()) {
-      let bid = await createProjectApi(obj.project);
-      if (bid) {
+      let response = validateAPIResponse(
+        await createProjectApi(obj.project),
+        dispatch,
+        setToast
+      );
+      if (response.data.pid) {
         dispatch(
           createLocalProjectAsync({
             project: {
               ...obj.project,
-              _id: bid,
+              _id: response.data.pid,
             },
           })
         );
@@ -46,10 +51,8 @@ export const createProjectAsync = createAsyncThunk(
         dispatch(setProjectModalState(false));
 
         if (obj.redirect) {
-          window.location.href = "/all/project/" + bid;
+          window.location.href = "/all/project/" + response.data.pid;
         }
-      } else {
-        //show error message.
       }
 
       // dispatch(

@@ -25,6 +25,15 @@
       box-sizing: border-box;
       // box-shadow: inset -1px 3px 6px rgba(0, 0, 0, 0.12);
       border-radius: 10px;
+
+      font-size: 12px;
+      line-height: 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #bfbfbf;
     }
 
     .completed-pomo {

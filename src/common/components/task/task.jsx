@@ -21,8 +21,18 @@ import {
   markTaskAsInCompleteThunk,
   setEditTask,
 } from "../../state/slices/TasksSlice";
-import { initiatePomo } from "../../state/slices/TimerSlice";
-import { POMO_RUNNING_STATE, priorityColorMap } from "../../utils/constants";
+import {
+  initiatePomo,
+  pauseTimer,
+  pauseTimerAsync,
+  resumeTimerAsync,
+  updateTimerState,
+} from "../../state/slices/TimerSlice";
+import {
+  POMO_PAUSED_STATE,
+  POMO_RUNNING_STATE,
+  priorityColorMap,
+} from "../../utils/constants";
 import { EditIcon } from "../edit-icon/EditIcon";
 
 import { SunIcon } from "../../svgs/SunIcon";
@@ -34,6 +44,8 @@ import { TickIcon } from "../../svgs/TickIcon";
 import { UncompleteIcon } from "../../svgs/UncompleteIcon";
 import { DeleteIcon } from "../../svgs/DeleteIcon";
 import { DismissTaskIcon } from "../../svgs/DismissTaskIcon";
+import { TaskPauseIcon } from "../../svgs/TaskPauseIcon";
+import { TaskPlayIcon } from "../../svgs/TaskPlayIcon";
 
 export default function TaskItem(props) {
   let task: Task = props.task;
@@ -59,12 +71,23 @@ export default function TaskItem(props) {
     dispatch(deleteTaskThunk(task));
   }, [dispatch, task]);
 
-  const doPlayTask = useCallback(() => {
-    if (!task.isCurrentTask) {
-      dispatch(markTaskAsCurrent(task));
-      dispatch(initiatePomo());
+  const doPlayTask = () => {
+    dispatch(markTaskAsCurrent(task));
+    if (pomoState === POMO_PAUSED_STATE) {
+      dispatch(resumeTimerAsync());
+    } else {
+      dispatch(
+        updateTimerState({
+          pomoStartTime: Date.now(),
+          pomoState: POMO_RUNNING_STATE,
+        })
+      );
     }
-  }, [dispatch]);
+  };
+
+  const doPauseTask = () => {
+    dispatch(pauseTimerAsync());
+  };
 
   const doAddTask = useCallback(() => {
     props.doAddTask && props.doAddTask(task);
@@ -92,15 +115,17 @@ export default function TaskItem(props) {
           >
             {<AddTaskIcon />}
           </span>
-          <span
-            className={styles["task-actions-round"]}
-            onClick={(e) => {
-              doEditTask();
-              e.stopPropagation();
-            }}
-          >
-            {<EditIcon />}
-          </span>
+          {props.isEditable && (
+            <span
+              className={styles["task-actions-round"]}
+              onClick={(e) => {
+                doEditTask();
+                e.stopPropagation();
+              }}
+            >
+              {<EditIcon />}
+            </span>
+          )}
         </span>
       );
     }
@@ -117,33 +142,51 @@ export default function TaskItem(props) {
             {<RemoveTaskIcon />}
           </span>
 
-          <span
-            className={styles["task-actions-round"]}
-            onClick={(e) => {
-              doEditTask();
-              e.stopPropagation();
-            }}
-          >
-            {<EditIcon />}
-          </span>
+          {props.isEditable && (
+            <span
+              className={styles["task-actions-round"]}
+              onClick={(e) => {
+                doEditTask();
+                e.stopPropagation();
+              }}
+            >
+              {<EditIcon />}
+            </span>
+          )}
         </span>
       );
     }
     if (!props.hidePlay && props.isEditable) {
+      // return (
+      //   <span
+      //     className={styles["task-actions-round"]}
+      //     onClick={(e) => {
+      //       doEditTask();
+      //       e.stopPropagation();
+      //     }}
+      //   >
+      //     {<EditIcon />}
+      //   </span>
+      // );
       return (
-        <span
-          className={styles["task-actions-round"]}
-          onClick={(e) => {
-            doEditTask();
-            e.stopPropagation();
-          }}
-        >
-          {<EditIcon />}
+        <span className="task-actions-round edit">
+          {(task.isCurrentTask && isRunning && (
+            <TaskPauseIcon
+              onClick={(e) => {
+                doPauseTask();
+                e.stopPropagation();
+              }}
+            />
+          )) || (
+            <TaskPlayIcon
+              onClick={(e) => {
+                doPlayTask();
+                e.stopPropagation();
+              }}
+            />
+          )}
         </span>
       );
-      // return (<span className="task-actions-round edit" onClick={(e) => {doPlayTask(); e.stopPropagation()}}>
-      // { task.isCurrentTask && isRunning && (<TimelapseOutlined />) || (<PlayArrow></PlayArrow>) }
-      // </span>)
     }
     return <span></span>;
   });
@@ -199,7 +242,9 @@ export default function TaskItem(props) {
     <div
       className={`${styles["task"]} ${isEditable && styles["task-editable"]} ${
         task.isComplete && styles["task-completed"]
-      } ${task.isCurrentTask ? styles["selected"] : ""}`}
+      } ${
+        !props.hideWorkingOn && task.isCurrentTask ? styles["selected"] : ""
+      }`}
       onClick={(e) => props.onClick && props.onClick(task)}
     >
       <div className={styles["first-column"]}>
@@ -365,7 +410,7 @@ export default function TaskItem(props) {
         </span>
       </div>
 
-      {task.isCurrentTask && (
+      {task.isCurrentTask && !props.hideWorkingOn && (
         <div className={styles["selected-tag"]}> Working On</div>
       )}
     </div>

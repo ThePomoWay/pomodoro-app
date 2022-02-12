@@ -67,7 +67,7 @@ export default function EditTaskContainer(props) {
   );
   let [project, setProject] = useState(
     taskToBeEdited.project || {
-      projectID: props.defaultProjectId || "",
+      projectID: props.defaultProjectId || AuthService.getInboxProjectId(),
       secID: props.defaultSectionId || "",
     }
   );
@@ -241,6 +241,10 @@ export default function EditTaskContainer(props) {
       </div>
     );
   });
+
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
 
   return (
     <div>

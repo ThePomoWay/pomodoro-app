@@ -3,7 +3,6 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from "@material-ui/core";
-import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
@@ -45,7 +44,7 @@ export default (props) => {
 
   if (tasks && tasks.length > 0) {
     return (
-      <Accordion elevation={0}>
+      <Accordion elevation={0} defaultExpanded={true}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <p className={styles["title"]}>
             {props.title || "Completed Task"}{" "}

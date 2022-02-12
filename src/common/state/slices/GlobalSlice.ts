@@ -104,4 +104,5 @@ export const {
   setProjectModalState,
   setLabelModalState,
   setShowFirstUserState,
+  setToast,
 } = globalSlice.actions;

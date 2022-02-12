@@ -71,9 +71,11 @@ export default (props) => {
                         doAddTask={props.doAddTask}
                         doRemoveTask={props.doRemoveTask}
                         showCompletedSection={props.showCompletedSection}
+                        projects={props.projects}
                         defaultExpanded={
-                          props.defaultExpandedSectionId ===
-                          props.sections[item]._id
+                          // props.defaultExpandedSectionId ===
+                          // props.sections[item]._id
+                          true
                         }
                         dragHandleProps={provided.dragHandleProps}
                         onDelete={() => onDelete(item)}

@@ -26,7 +26,7 @@ import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { Alert } from "../alert/Alert";
 import { hideFirstUserScreen } from "../../state/slices/GlobalSlice";
 
-export function TodaysTaskContainer() {
+export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
@@ -128,6 +128,15 @@ export function TodaysTaskContainer() {
                   onClick={(e) => setShowAlert(true)}
                 >
                   <EditIconSvg /> Remove all tasks
+                </div>
+                <div
+                  className="popper-item"
+                  onClick={(e) => {
+                    props.toggleFullScreen && props.toggleFullScreen();
+                    onClose();
+                  }}
+                >
+                  <EditIconSvg /> Full screen
                 </div>
               </div>
             </Popper>

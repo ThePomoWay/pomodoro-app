@@ -13,6 +13,11 @@
 
   .todays-task-list {
     width: 100%;
+
+    .todays-empty {
+      color: rgb(105, 105, 105);
+      font-size: 14px;
+    }
   }
 
   .right-container {
@@ -34,7 +39,7 @@
       line-height: 20px;
 
       transition: all 0.4s ease-in-out 0.05s;
-      overflow: hidden;
+      overflow: scroll;
 
       color: #7581e2;
 
@@ -43,8 +48,15 @@
         align-items: center;
         cursor: pointer;
         margin-bottom: 16px;
+
         svg {
           margin-right: 8px;
+        }
+
+        .estimate-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #858585;
         }
       }
 
@@ -62,7 +74,6 @@
       top: 24px;
     }
   }
-
   .middle-container {
     grid-column: 6 / 19;
 
@@ -78,6 +89,9 @@
         font-weight: bold;
         font-size: 32px;
         line-height: 36px;
+
+        display: flex;
+        justify-content: space-between;
       }
 
       .add-task-btn {

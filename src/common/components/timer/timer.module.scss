@@ -24,9 +24,9 @@ $waterBColor: #5394d8;
   .blur-bg {
     z-index: 0;
     width: 130%;
-    height: 278px;
-    position: relative;
-    top: -145px;
+    height: 150px;
+    position: absolute;
+    bottom: -82px;
     left: -20px;
 
     .blur {

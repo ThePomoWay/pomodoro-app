@@ -21,7 +21,8 @@ import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
-import { updateLocalProjectAsync } from "./ProjectSlice";
+import { setToast } from "./GlobalSlice";
+import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectSlice";
 import { tickAsync } from "./TimerSlice";
 
 export const createLocalTaskThunk = createAsyncThunk(
@@ -130,6 +131,19 @@ export const deleteTaskThunk = createAsyncThunk(
     if (AuthService.isLoggedIn()) {
       deleteTaskAPI(task);
     }
+    dispatch(
+      removeTaskFromProject({
+        projectId: task.project.projectID,
+        sectionId: task.project.secID,
+        taskId: task.fid,
+      })
+    );
+    dispatch(
+      setToast({
+        msg: "Task was deleted successfully",
+        open: true,
+      })
+    );
     return response;
   }
 );

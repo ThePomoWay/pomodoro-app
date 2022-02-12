@@ -69,7 +69,7 @@ let getTotalTime = function (defaults, tab) {
   }
   return defaults.defaultLongBreakTime;
 };
-export default function Timer() {
+export default function Timer(props) {
   let timerSec = useSelector(selectTimer);
   let timerString = getTimerString(timerSec);
   let defaults = useSelector(selectDefaultTimes);
@@ -97,16 +97,27 @@ export default function Timer() {
     }
   };
 
+  //Remove interval on component unmount
+  useEffect(() => {
+    return () => {
+      if (startInterval) {
+        clearInterval(startInterval);
+      }
+    };
+  }, []);
+
   const doStartTimer = useCallback((isCta) => {
     if (!timer) {
       if (isCta) {
+        let nextState = getNextPomoState(state, ACTION_PLAY);
         dispatch(
           updateTimerState({
             pomoStartTime: Date.now(),
-            pomoState: getNextPomoState(state, ACTION_PLAY),
+            pomoState: nextState,
           })
         );
         playTimerStartSound();
+        props.onTimerStart && props.onTimerStart(nextState);
       } else {
         dispatch(
           updateTimerState({

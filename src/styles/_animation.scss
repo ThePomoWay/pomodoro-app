@@ -20,3 +20,17 @@
     transform: rotate(0deg);
   }
 }
+
+.delay {
+  animation: applyDelay 4s;
+}
+
+@keyframes applyDelay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

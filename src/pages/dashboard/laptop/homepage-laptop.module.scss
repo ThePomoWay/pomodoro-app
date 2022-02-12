@@ -9,13 +9,23 @@
   .taskList {
     display: grid;
 
-    padding: 20px 20px 0px 52px;
+    padding: 20px 0px 0px 52px;
+    margin-right: 13vw;
+    transition: flex 1s ease-in-out, margin-right 1s ease-in-out,
+      padding-left 1s ease-in-out;
+    flex: 2;
+    overflow: scroll;
+
+    &.shrink {
+      flex: 0.00000001;
+      margin-right: 0px;
+      padding-left: 0px;
+    }
   }
 }
 
 .main-content {
-  display: grid;
-  height: auto;
+  display: flex;
 
   height: calc(100vh - 56px);
 
@@ -26,13 +36,20 @@
 
   transition: all 1s ease-in;
 
+  position: relative;
+  .shrink-icon {
+    position: absolute;
+    right: 90px;
+    top: 30px;
+    cursor: pointer;
+  }
+
   .timer-container {
-    grid-column: 1 / 5;
     padding-left: 8vw;
 
     align-items: start;
 
-    transition: all 0.5s ease-in-out;
+    flex: 1;
 
     &.purple {
       background-color: #f5f7ff;
@@ -46,13 +63,25 @@
       background-color: #f3fcff;
     }
 
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
     .timer {
       margin-top: 94px;
       position: relative;
       right: 30px;
-      grid-column: 1 / 5;
+      width: 19.3vw;
+    }
+
+    .current-task {
+      margin-top: 40px;
+      width: calc(min(100%, 50vw));
+      position: relative;
+      right: 30px;
+      opacity: 0;
+
+      animation: slide-up 1s 0.5s ease-in-out forwards;
     }
   }
 
@@ -71,7 +100,6 @@
     }
 
     .taskList {
-      grid-column: 5 / 10;
       transition: 1s;
     }
   }
@@ -89,4 +117,15 @@
 
 .footer-container {
   z-index: 1;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }

@@ -100,6 +100,7 @@ export default (props) => {
                     index={index}
                     dropId={"task-"}
                     projects={projectsObj}
+                    hideWorkingOn={true}
                   />
                 );
               })}

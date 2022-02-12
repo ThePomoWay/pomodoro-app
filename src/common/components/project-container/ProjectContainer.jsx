@@ -43,8 +43,6 @@ import { setProjectModalState } from "../../state/slices/GlobalSlice";
 import { Alert } from "../alert/Alert";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
-let globalVar = "asdf";
-
 export function ProjectContainer(props) {
   let { projectId } = useParams();
 
@@ -75,7 +73,6 @@ export function ProjectContainer(props) {
   let [defaultExpandedSectionId, setDefaultExpandedSectionId] = useState("");
 
   let a = Date.now();
-  console.log("parennttt", a);
 
   const addTaskToProject = (task) => {
     if (task.fid) {
@@ -404,6 +401,7 @@ export function ProjectContainer(props) {
               projectId={projectVar._id || projectVar.fid}
               defaultExpandedSectionId={defaultExpandedSectionId}
               showCompletedSection={showCompletedSection}
+              projects={projectsObj}
             />
           ) || (
             <div className="flex flex-center">

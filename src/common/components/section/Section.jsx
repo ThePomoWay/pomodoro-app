@@ -1,9 +1,5 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  ClickAwayListener,
-} from "@material-ui/core";
+import { ClickAwayListener } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import {
   ExpandMoreOutlined,
   Menu,
@@ -97,9 +93,11 @@ export default (props) => {
         <Accordion
           elevation={0}
           onChange={(e) => setExpanded(!expanded)}
+          defaultExpanded={true}
           expanded={props.open || (!props.isDragging && expanded)}
         >
           <AccordionSummary
+            sx={{ flexDirection: "row-reverse" }}
             expandIcon={<ExpandMoreOutlined style={{ fill: "#4D61D1" }} />}
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -165,6 +163,7 @@ export default (props) => {
                         dropId={"task-"}
                         doAddTask={props.doAddTask}
                         onComplete={doCompleteTask}
+                        projects={props.projects}
                         doRemoveTask={props.doRemoveTask}
                       ></DraggableTaskItem>
                     ))}

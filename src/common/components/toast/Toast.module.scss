@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
+  z-index: 10000;
 
   position: fixed;
   bottom: 40px;
@@ -25,8 +26,18 @@
     background: rgba(69, 218, 129, 0.3);
     border: 1px solid #27a95b;
     color: #238349;
+
+    svg {
+      fill: #238349;
+    }
   }
 
-  &.error {
+  &.failure {
+    background: #da45454d;
+    border: 1px solid #a92727;
+    color: #832323;
+    svg {
+      fill: #832323;
+    }
   }
 }

@@ -35,7 +35,9 @@ export function DailyStats(props) {
                 <div
                   key={`pending-pomo-${index}`}
                   className={styles["estimated-pomo"]}
-                ></div>
+                >
+                  {index + cPomos + 1}
+                </div>
               ))}
           </div>
         </div>

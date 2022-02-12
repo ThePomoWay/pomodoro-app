@@ -52,3 +52,11 @@ export function getNextSunday(d = new Date()) {
   }
   return new Date(date.setDate(date.getDate() + (7 - date.getDay())));
 }
+
+export function getTimeText(mins) {
+  if (mins < 60) {
+    return mins + " mins";
+  }
+  let m = ((mins % 60) / 60).toFixed(1).substring(2);
+  return `${Math.floor(mins / 60)}.${m} hrs`;
+}
