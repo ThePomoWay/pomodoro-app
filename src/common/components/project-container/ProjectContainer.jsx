@@ -356,7 +356,10 @@ export function ProjectContainer(props) {
                                 index={index}
                                 onComplete={doCompleteTask}
                                 // onClick={doEditTask(index)}
-                                dropId={"task-" + tasks[item].fid}
+                                dropId={
+                                  "task-" +
+                                  ((tasks[item] && tasks[item].fid) || index)
+                                }
                                 projects={projectsObj}
                               ></DraggableTaskItem>
                             )

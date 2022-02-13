@@ -62,3 +62,10 @@ export const DISABLE_FOCUS_MODE = "disableFocusMode";
 
 //First User screen
 export const FIRST_USER_KEY = "firstUserKey";
+
+//Onboarding constants
+export const LOGIN_REGISTER_STEP = 1;
+export const LOGIN_STEP = 2;
+export const REGISTER_STEP = 3;
+export const FORGOT_PASSWORD_STEP_1 = 4;
+export const FORGOT_PASSWORD_STEP_2 = 5;

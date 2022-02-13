@@ -1,13 +1,10 @@
 import styles from "./LoginForm.module.scss";
 import { Form, Field } from "react-final-form";
-import { useCallback } from "react";
-import { TextField } from "@mui/material";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  login,
-  initiatePasswordChange,
-  setStep,
-} from "../../state/slices/OnboardingSlice";
+import { setStep, registerCheck } from "../../state/slices/OnboardingSlice";
+import { validateEmail } from "../../utils/validators";
+import { FORGOT_PASSWORD_STEP_1 } from "../../utils/constants";
 
 export function LoginForm(props) {
   let formData = {
@@ -15,14 +12,24 @@ export function LoginForm(props) {
     password: "",
   };
 
+  let [emailError, setEmailError] = useState(false);
+
   let dispatch = useDispatch();
 
   let onSubmit = useCallback((vals) => {
-    dispatch(login(vals));
+    if (validate(vals)) {
+      setEmailError("Please enter a valid email");
+    } else {
+      dispatch(registerCheck(vals.email));
+    }
+  });
+
+  let validate = useCallback((vals) => {
+    return !validateEmail(vals.email);
   });
 
   let initiatePasswordChange = useCallback(() => {
-    dispatch(setStep(3));
+    dispatch(setStep(FORGOT_PASSWORD_STEP_1));
   });
 
   return (
@@ -30,6 +37,7 @@ export function LoginForm(props) {
       {/* <span className={styles['welcome-subtext']}>sync your tasks, get daily statistics and more!</span> */}
       <Form
         onSubmit={onSubmit}
+        validate={validate}
         initialValues={{
           ...formData,
         }}
@@ -40,7 +48,7 @@ export function LoginForm(props) {
                 {(props) => (
                   <div>
                     <input
-                      className={styles["email"]}
+                      className="input"
                       name={props.input.name}
                       value={props.input.value}
                       onChange={props.input.onChange}
@@ -74,6 +82,8 @@ export function LoginForm(props) {
                     <Field name="notes" component="textarea" placeholder="Notes" />
                 </div> */}
 
+            {emailError && <p className={styles["error-text"]}>{emailError}</p>}
+
             <div className={styles["cta"]}>
               <button
                 className="btn btn-login"
@@ -81,7 +91,7 @@ export function LoginForm(props) {
                 disabled={submitting || pristine}
                 onClick={handleSubmit}
               >
-                Login
+                Continue
               </button>
 
               <div

@@ -13,8 +13,6 @@ import { FacebookIcon } from "../../../common/svgs/FacebookIcon";
 export function LoginStep(props) {
   let dispatch = useDispatch();
 
-  let [isLogin, setIsLogin] = useState(true);
-
   const responseGoogle = useCallback((response) => {
     console.log(response);
     dispatch(
@@ -88,9 +86,7 @@ export function LoginStep(props) {
         <span className={styles["divider-text"]}>or</span>
       </div>
 
-      {(isLogin && <LoginForm />) || (
-        <SignupStep1 onChange={() => setIsLogin(true)} />
-      )}
+      {<LoginForm />}
 
       {/* {isLogin && (
         <div

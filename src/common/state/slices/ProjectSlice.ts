@@ -147,6 +147,7 @@ export const removeTaskFromProject = createAsyncThunk(
               JSON.stringify(projectsObj.sections[obj.sectionId].to)
             );
             let index = findIndex(toCopy, obj.taskId);
+            toCopy.splice(index, 1);
             if (index !== -1) {
               dispatch(
                 updateLocalProjectAsync({
@@ -155,7 +156,7 @@ export const removeTaskFromProject = createAsyncThunk(
                     ...projectsObj.sections,
                     [obj.sectionId]: {
                       ...projectsObj.sections[obj.sectionId],
-                      to: toCopy.splice(index, 1),
+                      to: toCopy,
                     },
                   },
                 })
@@ -165,11 +166,12 @@ export const removeTaskFromProject = createAsyncThunk(
         } else {
           let toCopy = JSON.parse(JSON.stringify(projectsObj.to));
           let index = findIndex(toCopy, obj.taskId);
+          toCopy.splice(index, 1);
           if (index !== -1) {
             dispatch(
               updateLocalProjectAsync({
                 ...projectsObj,
-                to: toCopy.splice(index, 1),
+                to: toCopy,
               })
             );
           }

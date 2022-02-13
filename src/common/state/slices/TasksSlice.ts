@@ -121,16 +121,6 @@ export const unMarkTaskAsCurrent = createAsyncThunk(
 export const deleteTaskThunk = createAsyncThunk(
   "tasks/delete",
   async (task, { dispatch }) => {
-    dispatch(deleteTask(task));
-    let response = await deleteIDBTask(task);
-    dispatch(
-      removeFromTodaysTasks({
-        fid: task.fid,
-      })
-    );
-    if (AuthService.isLoggedIn()) {
-      deleteTaskAPI(task);
-    }
     dispatch(
       removeTaskFromProject({
         projectId: task.project.projectID,
@@ -138,6 +128,18 @@ export const deleteTaskThunk = createAsyncThunk(
         taskId: task.fid,
       })
     );
+    dispatch(
+      removeFromTodaysTasks({
+        fid: task.fid,
+      })
+    );
+    dispatch(deleteTask(task));
+    let response = await deleteIDBTask(task);
+
+    if (AuthService.isLoggedIn()) {
+      deleteTaskAPI(task);
+    }
+
     dispatch(
       setToast({
         msg: "Task was deleted successfully",

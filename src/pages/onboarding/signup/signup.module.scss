@@ -14,16 +14,34 @@
   }
 
   .welcome-text {
-    margin-top: 30px;
-    font-weight: 700;
-    font-size: 22px;
-    color: #191e44;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 36px;
+
+    margin-bottom: 24px;
+
+    display: flex;
+    gap: 16px;
+    align-items: center;
   }
 
   .form {
-    border: 1px solid #dfe4e7;
-    padding: 20px;
-    width: 90%;
+    width: 100%;
+
+    .error-text {
+      margin: 10px 0px;
+      color: rgb(248, 124, 124);
+      font-size: 12px;
+    }
+
+    .name {
+      // margin-bottom: 24px;
+    }
+
+    .password {
+      margin-top: 24px;
+      // margin-bottom: 12px;
+    }
   }
 
   .cta {

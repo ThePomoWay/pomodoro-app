@@ -17,6 +17,14 @@ import { LoginStep } from "./login/login-step";
 import { SignupStep2 } from "./signup/signup-step-2";
 import { ForgotPasswordStep1 } from "./forgot-password/forgot-password-step-1";
 import { ForgotPasswordStep2 } from "./forgot-password/forgot-password-step-2";
+import { LoginStep2 } from "./login/login-step-2";
+import {
+  FORGOT_PASSWORD_STEP_1,
+  FORGOT_PASSWORD_STEP_2,
+  LOGIN_REGISTER_STEP,
+  LOGIN_STEP,
+  REGISTER_STEP,
+} from "../../common/utils/constants";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -45,10 +53,11 @@ export default function OnBoarding(props) {
             {" "}
             <Close />{" "}
           </span>
-          {(step === 1 && <LoginStep />) ||
-            (step === 2 && <SignupStep2 />) ||
-            (step === 3 && <ForgotPasswordStep1 />) ||
-            (step === 4 && <ForgotPasswordStep2 />)}
+          {(step === LOGIN_REGISTER_STEP && <LoginStep />) ||
+            (step === LOGIN_STEP && <LoginStep2 />) ||
+            (step === REGISTER_STEP && <SignupStep2 />) ||
+            (step === FORGOT_PASSWORD_STEP_1 && <ForgotPasswordStep1 />) ||
+            (step === FORGOT_PASSWORD_STEP_2 && <ForgotPasswordStep2 />)}
         </div>
       </div>
     </Modal>

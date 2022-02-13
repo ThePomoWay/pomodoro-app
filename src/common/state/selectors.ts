@@ -106,4 +106,9 @@ export const selectUserInfo = (state) => state.user.user;
 
 //onboarding
 export const selectStep = (state) => state.onboarding.step;
-export const selectPasswordResetEmail = (state) => state.onboarding.passwordResetMail;
+export const selectPasswordResetEmail = (state) =>
+  state.onboarding.passwordResetMail;
+export const selectLoginPasswordError = (state) =>
+  state.onboarding.loginPasswordError;
+export const selectLoginName = (state) => state.onboarding.loginName;
+export const selectRegisterEmail = (state) => state.onboarding.registerEmail;

@@ -5,7 +5,13 @@ import {
   registerApi,
   initiatePasswordChangeApi,
   verifyPasswordResetOTP,
+  registerCheckApi,
 } from "../../API/network/SignonApis";
+import {
+  FORGOT_PASSWORD_STEP_2,
+  LOGIN_STEP,
+  REGISTER_STEP,
+} from "../../utils/constants";
 import {
   initialOnboardingState,
   onboardingReducer,
@@ -28,19 +34,28 @@ export const login = createAsyncThunk(
   "global/login",
   async (obj: any, { dispatch }) => {
     let response = await loginApi(obj);
+    if (response.status !== 200) {
+      dispatch(
+        setLoginPasswordError(response.data.msg || "Incorrect password")
+      );
+    }
     return response.data;
   }
 );
 
 export const registerCheck = createAsyncThunk(
   "onboarding/registerCheck",
-  async (obj: any, { dispatch }) => {
+  async (email: any, { dispatch }) => {
     // replace with api call
-    let response = { data: null };
+    let response = await registerCheckApi(email);
 
-    if (!response.data) {
-      dispatch(setRegisterEmail(obj));
-      dispatch(setStep(2));
+    if (response.data && response.data.uid) {
+      dispatch(setRegisterEmail(email));
+      dispatch(setLoginName(response.data.name));
+      dispatch(setStep(LOGIN_STEP));
+    } else {
+      dispatch(setRegisterEmail(email));
+      dispatch(setStep(REGISTER_STEP));
     }
   }
 );
@@ -51,7 +66,7 @@ export const initiatePasswordChange = createAsyncThunk(
     let response = await initiatePasswordChangeApi(obj);
     if (response.data) {
       dispatch(setPasswordResetMailId(obj.email));
-      dispatch(setStep(4));
+      dispatch(setStep(FORGOT_PASSWORD_STEP_2));
     }
   }
 );
@@ -83,5 +98,10 @@ export let onboardingSlice = createSlice({
   },
 });
 
-export let { setRegisterEmail, setStep, setPasswordResetMailId } =
-  onboardingSlice.actions;
+export let {
+  setRegisterEmail,
+  setStep,
+  setPasswordResetMailId,
+  setLoginName,
+  setLoginPasswordError,
+} = onboardingSlice.actions;
