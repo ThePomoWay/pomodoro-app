@@ -40,6 +40,22 @@ export function getDaysDiff(a, b) {
   return diff / (1000 * 3600 * 24);
 }
 
+export function getMinsDiff(a, b) {
+  let diff = Math.abs(new Date(b).getTime() - new Date(a).getTime());
+  return diff / 1000;
+}
+
+export function getHourText(hour) {
+  let st = "AM";
+  if (hour > 11) {
+    if (hour > 12) {
+      hour %= 12;
+    }
+    st = "PM";
+  }
+  return hour + ":00" + st;
+}
+
 export function getPreviousMonday(date = new Date()) {
   let d = new Date(date);
   return d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
@@ -59,4 +75,9 @@ export function getTimeText(mins) {
   }
   let m = ((mins % 60) / 60).toFixed(1).substring(2);
   return `${Math.floor(mins / 60)}.${m} hrs`;
+}
+
+export function daysInMonth(date) {
+  date = new Date(date);
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 }

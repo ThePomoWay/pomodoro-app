@@ -58,8 +58,8 @@ export const signin = createAsyncThunk(
 export const logout = createAsyncThunk(
   "global/logout",
   async (_, { dispatch }) => {
-    await clearIDB();
     AuthService.logout();
+    await clearIDB();
   }
 );
 

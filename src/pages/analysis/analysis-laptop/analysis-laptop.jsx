@@ -28,6 +28,7 @@ import { Block } from "../../../common/svgs/Block";
 import OnBoarding from "../../onboarding/Onboarding";
 import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
 import { months } from "../../../common/utils/constants";
+import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
 
 const tabs = [
   {
@@ -56,7 +57,8 @@ export function AnalysisLaptop(props) {
 
   let callStatsApi = useCallback((ind, d) => {
     let startDate,
-      endDate = new Date(d).setHours(11, 59, 59, 999);
+      mid,
+      endDate = new Date(d).setHours(23, 59, 59, 999);
     if (ind === 0) {
       d = new Date(d);
       startDate = new Date(
@@ -64,21 +66,28 @@ export function AnalysisLaptop(props) {
         d.getMonth(),
         d.getDate() - 1
       ).setHours(0, 0, 0, 0);
-      endDate = new Date(d).setHours(11, 59, 59, 999);
+      endDate = new Date(d).setHours(23, 59, 59, 999);
+
+      mid = new Date(d).setHours(0, 0, 0, 0);
     }
     if (ind === 1) {
       startDate = getPreviousMonday(
         new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7)
       );
+      mid = getPreviousMonday(
+        new Date(d.getFullYear(), d.getMonth(), d.getDate())
+      );
     }
     if (ind === 2) {
       startDate = new Date(d.getFullYear(), d.getMonth() - 1, 1);
+      mid = new Date(d.getFullYear(), d.getMonth(), 1);
     }
 
     dispatch(
       getStatsAsync({
         from: startDate,
         to: endDate,
+        mid,
       })
     );
   }, []);
@@ -306,11 +315,11 @@ export function AnalysisLaptop(props) {
                 <TaskSvg />
                 <div className={styles["task-stats"]}>
                   <div className={styles["task-stats-count"]}>
-                    <p className="font-medium">12</p>
+                    <p className="font-medium">{stats.comp || 0}</p>
                     <p className="font-normal">Completed Tasks</p>
-                    <p className={`font-info ${styles["view-completed"]}`}>
+                    {/* <p className={`font-info ${styles["view-completed"]}`}>
                       View all Completed Tasks
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </div>
@@ -322,12 +331,12 @@ export function AnalysisLaptop(props) {
                   <PauseStats />
                   <div className={styles["pauses-stats"]}>
                     <p className="font-medium">
-                      {stats.p} {getDiffSvg(oldStats.p, stats.p)}
+                      {stats.ps} {getDiffSvg(oldStats.ps, stats.ps)}
                     </p>
 
                     <p className="font-normal">Pauses</p>
                     <p className="font-info">
-                      {getDiffText(oldStats.p, stats.p)}
+                      {getDiffText(oldStats.ps, stats.ps)}
                     </p>
                   </div>
                 </div>
@@ -348,9 +357,29 @@ export function AnalysisLaptop(props) {
             </div>
 
             <div className={styles["focused-time-container"]}>
-              <h2 className="font-sub-heading">Most Focused Time</h2>
-              <div className="chart">//chart</div>
+              <h2 className="font-sub-heading">Most focused time of the day</h2>
+              <div className="chart">
+                <AnalysisCharts chartsData={stats.dailyDistributionData} />
+              </div>
             </div>
+
+            {selectedTabIndex > 0 && (
+              <div className={styles["focused-time-container"]}>
+                <h2 className="font-sub-heading">Pomodoros Completed</h2>
+                <div className="chart">
+                  <AnalysisCharts chartsData={stats.pomosCompletedGraph} />
+                </div>
+              </div>
+            )}
+
+            {selectedTabIndex > 0 && (
+              <div className={styles["focused-time-container"]}>
+                <h2 className="font-sub-heading">Tasks Completed</h2>
+                <div className="chart">
+                  <AnalysisCharts chartsData={stats.completedTasksGraph} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

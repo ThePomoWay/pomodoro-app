@@ -77,7 +77,7 @@ export default () => {
     <div>
       <div className={styles["project-sidebar"]}>
         <ProjectSidenavIcon />
-        Projects
+        Lists
         <span
           onClick={(e) => setProjectExpanded(!projectExpanded)}
           className={`${styles["accordion"]} ${

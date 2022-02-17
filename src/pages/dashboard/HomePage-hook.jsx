@@ -63,7 +63,7 @@ export default function useHomepage() {
     } else if (isTimerFullScreen) {
       setIsTimerFullScreen(false);
     }
-  }, [pomoState]);
+  }, []);
 
   return {
     showSidebar,
@@ -72,5 +72,6 @@ export default function useHomepage() {
     timerBgColor,
     isTimerFullScreen,
     toggleFullScreen,
+    setIsTimerFullScreen,
   };
 }

@@ -12,8 +12,21 @@ import useHomepage from "../HomePage-hook";
 import styles from "./homepage-laptop.module.scss";
 
 export function HomepageLaptop() {
-  let { showSidebar, timerBgColor, isTimerFullScreen, toggleFullScreen } =
-    useHomepage();
+  let {
+    showSidebar,
+    timerBgColor,
+    isTimerFullScreen,
+    toggleFullScreen,
+    setIsTimerFullScreen,
+  } = useHomepage();
+
+  let onTimerStart = () => {
+    setIsTimerFullScreen(true);
+  };
+
+  let onPause = () => {
+    setIsTimerFullScreen(false);
+  };
 
   return (
     <div className={styles["container"]}>
@@ -34,7 +47,11 @@ export function HomepageLaptop() {
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
           <div className={`${styles["timer"]}`}>
-            <Timer></Timer>
+            <Timer
+              onTimerStart={onTimerStart}
+              onPause={onPause}
+              onReset={(e) => setIsTimerFullScreen(false)}
+            ></Timer>
           </div>
           {isTimerFullScreen && (
             <div className={styles["current-task"]}>

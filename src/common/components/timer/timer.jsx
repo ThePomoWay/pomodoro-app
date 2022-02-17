@@ -117,7 +117,6 @@ export default function Timer(props) {
           })
         );
         playTimerStartSound();
-        props.onTimerStart && props.onTimerStart(nextState);
       } else {
         dispatch(
           updateTimerState({
@@ -128,6 +127,8 @@ export default function Timer(props) {
 
       startInterval();
       dispatch(hideFirstUserScreen());
+
+      props.onTimerStart && props.onTimerStart();
     }
   });
 
@@ -136,6 +137,8 @@ export default function Timer(props) {
       clearInterval(timer);
       timer = 0;
     }
+
+    props.onPause && props.onPause();
     dispatch(pauseTimerAsync());
     // dispatch(updateTimerState({
     //     pomoState: getNextPomoState(state, ACTION_PAUSE),
@@ -152,6 +155,7 @@ export default function Timer(props) {
       clearInterval(timer);
       timer = 0;
     }
+    props.onReset && props.onReset();
     dispatch(
       updateTimerState({
         pomoState: getNextPomoState(state, ACTION_STOP),
@@ -272,7 +276,13 @@ export default function Timer(props) {
     //     dispatch(updateNextState());
     // }
 
-    if (state === POMO_RUNNING_STATE && !timer && timerSec > 0) {
+    if (
+      (state === POMO_RUNNING_STATE ||
+        state === POMO_BREAK_RUNNING_STATE ||
+        state === POMO_LONG_BREAK_RUNNING_STATE) &&
+      !timer &&
+      timerSec > 0
+    ) {
       doStartTimer(false);
     }
 
