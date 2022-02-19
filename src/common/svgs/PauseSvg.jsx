@@ -7,7 +7,7 @@ export function PauseSvg() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_303_7278)">
+      <g clipPath="url(#clip0_303_7278)">
         <g filter="url(#filter0_d_303_7278)">
           <rect x="7" y="5" width="3" height="14" rx="1.5" fill="white" />
           <rect x="14" y="5" width="3" height="14" rx="1.5" fill="white" />

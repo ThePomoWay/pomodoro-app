@@ -8,14 +8,21 @@ import {
 import AuthService from "../../API/network/AuthService";
 import { updateTimerStatsAPI } from "../../API/network/StatsApis";
 import {
+  actionStateMap,
+  getTab,
+  getTimerInSec,
+} from "../../components/timer/timer-utils";
+import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
   POMO_BREAK_IDLE_STATE,
   POMO_BREAK_PAUSED_STATE,
+  POMO_BREAK_RUNNING_STATE,
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
   POMO_LONG_BREAK_PAUSED_STATE,
+  POMO_LONG_BREAK_RUNNING_STATE,
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
   STATS_TYPE_COMPLETE,
@@ -29,12 +36,41 @@ import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksSlice";
 
 export let getTimerState = createAsyncThunk(
   "timer/getState",
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
     let formattedDate = getFormattedDate();
-    let response = await getTimerStateFromIdb(formattedDate);
+    let response = <any>await getTimerStateFromIdb(formattedDate);
     if (!response) {
       dispatch(updateTimerState({ create: true }));
+    } else {
+      let timerState = getState()["timer"];
+      let defaultTotalTime = "";
+      if (timerState.pomoState.includes("long_break")) {
+        defaultTotalTime = timerState.defaultLongBreakTime;
+      } else if (timerState.pomoState.includes("break")) {
+        defaultTotalTime = timerState.defaultBreakTime;
+      } else {
+        defaultTotalTime = timerState.defaultWorkTime;
+      }
+
+      if (
+        response.pomoState === POMO_RUNNING_STATE ||
+        response.pomoState === POMO_BREAK_RUNNING_STATE ||
+        response.pomoState === POMO_LONG_BREAK_RUNNING_STATE
+      ) {
+        let timerInSec = getTimerInSec(
+          defaultTotalTime,
+          timerState.pomoStartTime,
+          timerState.psec
+        );
+
+        if (timerInSec <= 0) {
+          timerInSec = 0;
+          // dispatch(tickAsync());
+        }
+        response.timerInSec = timerInSec;
+      }
     }
+
     return response;
   }
 );
@@ -164,19 +200,41 @@ export let tickAsync = createAsyncThunk(
     } else if (timerState.pomoState.includes("break")) {
       defaultTotalTime = timerState.defaultBreakTime;
     }
-    let diff = Math.floor(
-      (Date.now() - timerState.pomoStartTime + timerState.psec) / 1000
-    );
 
-    let timerSec = defaultTotalTime - diff + timerState.psec;
+    let timerSec = getTimerInSec(
+      defaultTotalTime,
+      timerState.pomoStartTime,
+      timerState.psec
+    );
     if (timerSec <= 0) {
       dispatch(setTimerSec(0));
-      dispatch(completePomodoro());
+
+      if (timerState.pomoState === POMO_RUNNING_STATE) {
+        dispatch(completePomodoro());
+      } else {
+        dispatch(updateNextState());
+      }
     } else {
-      dispatch(setTimerSec(defaultTotalTime - diff + timerState.psec));
+      dispatch(setTimerSec(timerSec));
       // dispatch(incrementCurTaskCsec());
       dispatch(setPomoSummary(pomoSummary));
     }
+  }
+);
+
+export const startTimerAsync = createAsyncThunk(
+  "timer/start",
+  (_, { dispatch, getState }) => {
+    let timerState = getState()["timer"];
+    let date = new Date();
+    dispatch(
+      updateTimerState({
+        pomoStartTime: date.getTime(),
+        pomoState: actionStateMap[getTab(timerState.pomoState)].play,
+        psec: 0,
+        lastResumeTime: date.toISOString(),
+      })
+    );
   }
 );
 
@@ -205,6 +263,7 @@ export const pauseTimerAsync = createAsyncThunk(
       updateTimerState({
         pomoState: nextState,
         ptime: new Date().toISOString(),
+        psec: timerState.psec,
       })
     );
   }
@@ -222,7 +281,7 @@ export const resumeTimerAsync = createAsyncThunk(
     dispatch(
       updateTimerState({
         ...timerState,
-        pomoState: POMO_RUNNING_STATE,
+        pomoState: actionStateMap[getTab(timerState.pomoState)].play,
         psec: pausedSec,
         lastResumeTime: new Date().toISOString(),
       })
@@ -284,31 +343,25 @@ export const timerSlice = createSlice({
           state.pomoStartTime = action.payload.pomoStartTime;
           state.psec = action.payload.psec;
           state.ptime = action.payload.ptime;
+          state.lastResumeTime = action.payload.lastResumeTime;
+          state.pomoSummary = action.payload.pomoSummary;
 
-          let defaultTotalTime = 0;
+          state.timerInSec = action.payload.timerInSec;
 
-          if (state.pomoState.includes("long_break")) {
-            defaultTotalTime = state.defaultLongBreakTime;
-          } else if (state.pomoState.includes("break")) {
-            defaultTotalTime = state.defaultBreakTime;
-          } else {
-            defaultTotalTime = state.defaultWorkTime;
-          }
-
-          if (state.pomoState.includes("running")) {
-            let diff = Math.floor(
-              (Date.now() - action.payload.pomoStartTime) / 1000
-            );
-            if (diff < defaultTotalTime) {
-              state.timerInSec = defaultTotalTime - diff;
-            } else {
-              //update next state. Maybe this should be in thunk instead
-            }
-          } else if (state.pomoState.includes("paused")) {
-            state.timerInSec = action.payload.timerInSec;
-          } else {
-            state.timerInSec = defaultTotalTime;
-          }
+          // if (state.pomoState.includes("running")) {
+          //   let diff = Math.floor(
+          //     (Date.now() - action.payload.pomoStartTime) / 1000
+          //   );
+          //   if (diff < defaultTotalTime) {
+          //     state.timerInSec = defaultTotalTime - diff;
+          //   } else {
+          //     //update next state. Maybe this should be in thunk instead
+          //   }
+          // } else if (state.pomoState.includes("paused")) {
+          //   state.timerInSec = action.payload.timerInSec;
+          // } else {
+          //   state.timerInSec = defaultTotalTime;
+          // }
         }
       })
       .addCase(updateTimerState.fulfilled, (state, action) => {

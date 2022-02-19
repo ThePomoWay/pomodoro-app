@@ -156,6 +156,10 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
   "task/markAsComplete",
   async (obj: any, { dispatch, getState }) => {
     let completedOn = new Date().toISOString();
+
+    if (obj.task && obj.task.isCurrentTask) {
+      dispatch(setCurrentTaskRef(""));
+    }
     dispatch(
       updateLocalTaskThunk({
         ...obj.task,
@@ -464,4 +468,5 @@ export const {
   removeFromAllTasks,
   addToCompletedTasks,
   removeFromCompletedTasks,
+  setCurrentTaskRef,
 } = tasksSlice.actions;

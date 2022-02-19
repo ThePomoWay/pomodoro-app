@@ -7,6 +7,7 @@ import { openOnboardingModal } from "../../../state/slices/GlobalSlice";
 import { selectUserInfo } from "../../../state/selectors";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 import { SunIcon } from "../../../svgs/SunIcon";
+import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
 
 let navItems = [
   {
@@ -111,11 +112,12 @@ export default function NavbarDesktop(props) {
 
         <div className={styles["right-nav"]}>
           {/* <div>
-                        <span className={styles['manage-focus']}>Manage Focus</span>
-                    </div>
-                    <div>
-                        <button className='btn btn-premium'>Premium</button>
-                    </div> */}
+            <span className={styles["manage-focus"]}>Manage Focus</span>
+          </div> */}
+          <ThemeDropdown />
+          <div>
+            <button className="btn btn-premium">Premium</button>
+          </div>
 
           {(isLoggedIn && <ProfileDropdown />) || (
             <div

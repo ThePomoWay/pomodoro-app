@@ -42,8 +42,7 @@ export default function TaskDescription(props) {
   });
 
   let onChangeValue = useCallback((e) => {
-    setValue(e.target.value);
-    props.onChange && props.onChange(value);
+    props.onChange && props.onChange(e.target.value);
   });
   if (isBulleted) {
     let splitValue = value.split("\n");
@@ -69,10 +68,10 @@ export default function TaskDescription(props) {
   return (
     <div className={styles["description-value"]}>
       <div className={styles["desc-input"]}>
-        <textarea
+        <input
           placeholder="Enter Task description here"
           onChange={onChangeValue}
-          value={value}
+          value={props.value}
         />
       </div>
     </div>

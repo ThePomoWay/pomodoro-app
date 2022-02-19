@@ -1,10 +1,10 @@
 .task {
   padding: 12px 12px 10px 14px;
   width: 100%;
-  border: 0.5px solid #f4f4f4;
+  border: var(--task-border);
   box-sizing: border-box;
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--bg-task-theme);
   min-height: 58px;
   max-height: auto;
 
@@ -107,7 +107,7 @@
   }
 
   &.selected {
-    background-color: #ffffff;
+    background-color: var(--bg-task-theme);
 
     // box-shadow: inset 0px 2px 9px #d0d6f6;
 

@@ -6,6 +6,7 @@ import { store } from './common/state/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import addExtensionListeners from './common/utils/extension-utils';
+import { ApplyTheme } from './common/components/apply-theme/ApplyTheme';
 
 const rootElement = document.getElementById("root");
 
@@ -19,7 +20,9 @@ const rootElement = document.getElementById("root");
 // } else {
   render((
     <Provider store={store}>
+      <ApplyTheme>
       <App />
+      </ApplyTheme>
     </Provider>
   ), rootElement);
 // }

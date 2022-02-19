@@ -10,7 +10,7 @@ import TaskItem from "../task/task";
 
 import styles from "./currentTask.module.scss";
 
-export default function CurrentTask() {
+export default function CurrentTask(props) {
   let currentTask = useSelector(selectCurrentTask);
   let tagsObj = useSelector(selectTagsAsObj);
   let projectsObj = useSelector(selectProjectsObj);
@@ -20,7 +20,13 @@ export default function CurrentTask() {
   return (
     <div className={styles["content"]}>
       <p className={styles["title"]}>Working On</p>
-      <TaskItem task={currentTask} projects={projectsObj} tags={tagsObj} />
+      <TaskItem
+        onComplete={props.onComplete}
+        task={currentTask}
+        projects={projectsObj}
+        tags={tagsObj}
+        hideMoreOptions={true}
+      />
     </div>
   );
 }

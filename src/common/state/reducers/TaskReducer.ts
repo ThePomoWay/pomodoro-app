@@ -114,4 +114,7 @@ export let taskReducer = {
   setEditTask: (state, action) => {
     state.editTaskRef = action.payload;
   },
+  setCurrentTaskRef: (state, action) => {
+    state.currentTaskRef = action.payload;
+  },
 };

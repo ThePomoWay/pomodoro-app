@@ -342,46 +342,61 @@ export default function TaskItem(props) {
       <div className={styles["second-column"]}>
         <span className={styles["task-actions"]}>
           {getCTA()}
-          <span className={`${styles["task-actions-round"]} ${styles["more"]}`}>
-            <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
-            <Popover
-              open={Boolean(anchorEl)}
-              id="more-options-popover"
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
+          {!props.hideMoreOptions && (
+            <span
+              className={`${styles["task-actions-round"]} ${styles["more"]}`}
             >
-              <div className="popper-container">
-                {!task.isComplete && (
-                  <div
-                    className="popper-item"
-                    onClick={(e) => {
-                      doEditTask();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <EditIcon style={{ width: "12px", height: "12px" }} />
-                    <span>Edit task</span>
-                  </div>
-                )}
+              <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
+              <Popover
+                open={Boolean(anchorEl)}
+                id="more-options-popover"
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <div className="popper-container">
+                  {!task.isComplete && (
+                    <div
+                      className="popper-item"
+                      onClick={(e) => {
+                        doEditTask();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <EditIcon style={{ width: "12px", height: "12px" }} />
+                      <span>Edit task</span>
+                    </div>
+                  )}
 
-                {task.isComplete && (
-                  <div
-                    className="popper-item"
-                    onClick={(e) => {
-                      toggleMarkAsComplete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <UncompleteIcon />
-                    <span>Uncomplete task</span>
-                  </div>
-                )}
+                  {task.isComplete && (
+                    <div
+                      className="popper-item"
+                      onClick={(e) => {
+                        toggleMarkAsComplete();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <UncompleteIcon />
+                      <span>Uncomplete task</span>
+                    </div>
+                  )}
 
-                {props.showDismissOption && (
+                  {props.showDismissOption && (
+                    <div
+                      className="popper-item"
+                      onClick={(e) => {
+                        doDeleteTask();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <DismissTaskIcon />
+                      <span>Remove from todays tasks</span>
+                    </div>
+                  )}
+
                   <div
                     className="popper-item"
                     onClick={(e) => {
@@ -389,24 +404,13 @@ export default function TaskItem(props) {
                       e.stopPropagation();
                     }}
                   >
-                    <DismissTaskIcon />
-                    <span>Remove from todays tasks</span>
+                    <DeleteIcon />
+                    <span>Delete task</span>
                   </div>
-                )}
-
-                <div
-                  className="popper-item"
-                  onClick={(e) => {
-                    doDeleteTask();
-                    e.stopPropagation();
-                  }}
-                >
-                  <DeleteIcon />
-                  <span>Delete task</span>
                 </div>
-              </div>
-            </Popover>
-          </span>
+              </Popover>
+            </span>
+          )}
         </span>
       </div>
 

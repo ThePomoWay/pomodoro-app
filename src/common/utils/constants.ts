@@ -11,9 +11,9 @@ export const POMO_LONG_BREAK_PAUSED_STATE = "pomo_long_break_paused";
 export const allTasksDropId = "id-2e";
 export const todaysTasksDropId = "id-1e";
 
-export let DEFAULT_WORK_TIME = 1 * 5;
-export let DEFAULT_BREAK_TIME = 60 * 5;
-export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
+export let DEFAULT_WORK_TIME = 1 * 10;
+export let DEFAULT_BREAK_TIME = 1 * 10;
+export let DEFAULT_LONG_BREAK_TIME = 1 * 10;
 
 //stats
 export const STATS_TYPE_COMPLETE = "complete";
@@ -69,3 +69,7 @@ export const LOGIN_STEP = 2;
 export const REGISTER_STEP = 3;
 export const FORGOT_PASSWORD_STEP_1 = 4;
 export const FORGOT_PASSWORD_STEP_2 = 5;
+
+//Theme constants
+export const THEME_LIGHT = "light";
+export const THEME_DARK = "dark";

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
 import Footer from "../../../common/components/footer/footer";
 import Navbar from "../../../common/components/navbar/Navbar";
 import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
 import Timer from "../../../common/components/timer/timer";
+import { markTaskAsCompleteThunk } from "../../../common/state/slices/TasksSlice";
 import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
 import { POMO_RUNNING_STATE } from "../../../common/utils/constants";
 import OnBoarding from "../../onboarding/Onboarding";
@@ -20,11 +22,18 @@ export function HomepageLaptop() {
     setIsTimerFullScreen,
   } = useHomepage();
 
+  let dispatch = useDispatch();
+
   let onTimerStart = () => {
     setIsTimerFullScreen(true);
   };
 
   let onPause = () => {
+    setIsTimerFullScreen(false);
+  };
+
+  let onTaskComplete = (task) => {
+    dispatch(markTaskAsCompleteThunk({ task }));
     setIsTimerFullScreen(false);
   };
 
@@ -55,7 +64,7 @@ export function HomepageLaptop() {
           </div>
           {isTimerFullScreen && (
             <div className={styles["current-task"]}>
-              <CurrentTask />
+              <CurrentTask onComplete={onTaskComplete} />
             </div>
           )}
         </div>

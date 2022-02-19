@@ -263,7 +263,7 @@ export default function EditTaskContainer(props) {
           <TaskDescription
             onChange={(e) => setDescription(e)}
             isBulleted={isBulleted}
-            value={taskToBeEdited.description}
+            value={description}
           />
         </div>
 

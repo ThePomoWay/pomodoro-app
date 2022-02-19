@@ -1,3 +1,5 @@
+import { THEME_LIGHT } from "../../utils/constants";
+
 export const initialGlobalState = {
   focusMode: false,
   showAddTaskBtn: false,
@@ -13,6 +15,7 @@ export const initialGlobalState = {
     duration: 5000,
     type: "success",
   },
+  theme: THEME_LIGHT,
 };
 
 export let globalReducer = {
@@ -53,5 +56,8 @@ export let globalReducer = {
   },
   setToast: (state, action) => {
     state.toast = { ...state.toast, ...action.payload };
+  },
+  setTheme: (state, action) => {
+    state.theme = action.payload;
   },
 };

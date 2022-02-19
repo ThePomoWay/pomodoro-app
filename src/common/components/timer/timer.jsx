@@ -9,6 +9,7 @@ import {
 import {
   pauseTimerAsync,
   resumeTimerAsync,
+  startTimerAsync,
   tickAsync,
   updateNextState,
   updateTimerState,
@@ -91,7 +92,6 @@ export default function Timer(props) {
       timer = setInterval(() => {
         if (timerSecRef.current > 0) {
           dispatch(tickAsync());
-          console.log(timerSecRef.current);
         }
       }, 1000);
     }
@@ -108,22 +108,9 @@ export default function Timer(props) {
 
   const doStartTimer = useCallback((isCta) => {
     if (!timer) {
-      if (isCta) {
-        let nextState = getNextPomoState(state, ACTION_PLAY);
-        dispatch(
-          updateTimerState({
-            pomoStartTime: Date.now(),
-            pomoState: nextState,
-          })
-        );
-        playTimerStartSound();
-      } else {
-        dispatch(
-          updateTimerState({
-            pomoState: getNextPomoState(state, ACTION_PLAY),
-          })
-        );
-      }
+      let nextState = getNextPomoState(state, ACTION_PLAY);
+      dispatch(startTimerAsync());
+      playTimerStartSound();
 
       startInterval();
       dispatch(hideFirstUserScreen());
@@ -254,7 +241,7 @@ export default function Timer(props) {
       ) {
         return (
           <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={(e) => doStartTimer(false)}>
+            <span onClick={(e) => doResumeTimer(false)}>
               {" "}
               <PlaySvg />
             </span>
@@ -283,7 +270,9 @@ export default function Timer(props) {
       !timer &&
       timerSec > 0
     ) {
-      doStartTimer(false);
+      startInterval();
+
+      props.onTimerStart && props.onTimerStart();
     }
 
     if (state === POMO_PAUSED_STATE && timer) {
@@ -298,6 +287,10 @@ export default function Timer(props) {
     ) {
       clearInterval(timer);
       timer = 0;
+    }
+
+    if (timerSec <= 0) {
+      dispatch(tickAsync());
     }
   }, [timerSec, state]);
 

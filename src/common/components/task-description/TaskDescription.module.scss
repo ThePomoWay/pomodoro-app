@@ -34,18 +34,24 @@
     outline: none;
   }
 
-  textarea::placeholder {
+  input::placeholder {
     font-size: 14px;
     line-height: 16px;
 
     color: #c5c9e3;
+  }
+
+  input {
+    outline: none;
+    border: none;
+    width: 100%;
   }
 }
 
 .description-value {
   height: 32px;
   padding: 0px 20px;
-  textarea {
+  input {
     resize: none;
     outline: none;
     border: none;

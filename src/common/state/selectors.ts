@@ -19,6 +19,8 @@ export const selectHideFirstUserScreen = (state) =>
 
 export const selectToastObj = (state) => state.global.toast;
 
+export const selectTheme = (state) => state.global.theme;
+
 //todays tasks
 export const selectTodaysTasks = (state) =>
   state.tasks.todaysTasks

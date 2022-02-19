@@ -105,4 +105,5 @@ export const {
   setLabelModalState,
   setShowFirstUserState,
   setToast,
+  setTheme,
 } = globalSlice.actions;

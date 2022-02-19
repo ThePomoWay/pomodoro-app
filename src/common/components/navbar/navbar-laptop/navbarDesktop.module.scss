@@ -1,8 +1,12 @@
 .navbar {
   padding: 18px 18px 0px 18px;
   height: 38px;
+
+  color: var(--text-theme);
+
+  background-color: var(--bg-theme);
   .navbar-content {
-    border-bottom: 0.5px solid #cacaca;
+    border-bottom: var(--border-navbar-theme);
     box-sizing: border-box;
     height: 38px;
     flex: 0 auto;
@@ -60,7 +64,7 @@
       cursor: pointer;
 
       text-decoration: none;
-      color: black;
+      color: var(--text-theme);
 
       svg {
         margin-right: 9.5px;
