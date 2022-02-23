@@ -80,7 +80,18 @@ export function processStatsRange(
     ps: 0,
     ft: [],
     comp: completedTasks.length,
-    dailyDistributionData: {},
+    dailyDistributionData: {
+      labels: [...Array(24)].map((item, index) => {
+        return getHourText(index);
+      }),
+      datasets: [
+        {
+          data: [...Array(24)].map((item) => 0),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+        },
+      ],
+    },
     pomosCompletedGraph: {
       labels:
         type === "weekly"

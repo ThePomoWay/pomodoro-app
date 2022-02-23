@@ -44,7 +44,7 @@ export function getTab(state) {
 }
 
 export function getTimerInSec(defaultTotalTime, pomoStartTime, psec) {
-  let diff = Math.round((Date.now() - pomoStartTime + psec) / 1000);
+  let diff = (Date.now() - pomoStartTime) / 1000;
 
-  return defaultTotalTime - diff + psec;
+  return Math.ceil(defaultTotalTime - diff + psec);
 }

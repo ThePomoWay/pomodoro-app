@@ -1,7 +1,9 @@
 import { Add, Done, Label } from "@material-ui/icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AuthService from "../../API/network/AuthService";
 import { selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
+import { openOnboardingModal } from "../../state/slices/GlobalSlice";
 import { createTagThunk } from "../../state/slices/TagsSlice";
 import { generateUniqueId, getObjFromArr } from "../../utils/common";
 import { tagColorPalette } from "../../utils/constants";
@@ -147,6 +149,29 @@ export default function AddTagContainer(props) {
       setCreateLabelView(true);
     }
   });
+
+  let onLogin = () => {
+    dispatch(openOnboardingModal());
+  };
+
+  if (!AuthService.isLoggedIn()) {
+    return (
+      <div className="popover">
+        <div className="popover-title">
+          <p>
+            <a
+              href="javascript:void(0)"
+              className={styles["login"]}
+              onClick={(e) => onLogin()}
+            >
+              Login
+            </a>{" "}
+            to create and add tags
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles["tags-container"]} popover`}>

@@ -19,7 +19,7 @@ ChartJS.register(
 );
 
 export function AnalysisCharts({ chartsData, minY }) {
-  if (chartsData) {
+  if (chartsData && Object.keys(chartsData).length > 0) {
     return (
       <div>
         <Line

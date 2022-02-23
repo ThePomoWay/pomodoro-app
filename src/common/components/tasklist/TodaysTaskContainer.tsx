@@ -89,7 +89,11 @@ export function TodaysTaskContainer(props) {
             to do today and start the timer
           </div>
           <div>
-            <AddNewTask isTodaysTask={true} onToggle={hideFirstScreen} />
+            <AddNewTask
+              isTodaysTask={true}
+              onToggle={hideFirstScreen}
+              onSave={props.onSave}
+            />
           </div>
         </div>
         <div className={styles["timer"]}>
@@ -157,7 +161,11 @@ export function TodaysTaskContainer(props) {
           />
         </DragDropContext>
         <div className={styles["add-new-task"]}>
-          <AddNewTask isTodaysTask={true} isOpen={!!editTaskRef}></AddNewTask>
+          <AddNewTask
+            isTodaysTask={true}
+            isOpen={!!editTaskRef}
+            onSave={props.onSave}
+          ></AddNewTask>
         </div>
 
         {completedTasks.length > 0 && (

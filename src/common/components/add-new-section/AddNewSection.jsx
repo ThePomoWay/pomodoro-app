@@ -22,13 +22,20 @@ export default (props) => {
     e.key === "Enter" && onSaveSection();
   });
 
+  let expandEditSection = () => {
+    setShowEditSection(true);
+    if (props.isLastSection) {
+      props.scroll && props.scroll();
+    }
+  };
+
   if (!showEditSection) {
     return (
       <div
         className={`${styles["new-section"]} ${
           props.showOnHover && styles["hover"]
         }`}
-        onClick={(e) => setShowEditSection(true)}
+        onClick={(e) => expandEditSection()}
       >
         <div className={styles["border"]}></div>
         <span className={`${styles["title"]} flex flex-center`}>

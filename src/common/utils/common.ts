@@ -91,6 +91,17 @@ export function getObjFromArr(arr, key?, putValues = false) {
   return returnObj;
 }
 
+export function scrollToEndOfContainer(domElem, offset = 0) {
+  if (domElem) {
+    if (window.innerHeight < domElem.scrollHeight) {
+      setTimeout(() => {
+        domElem.scrollTop =
+          domElem.scrollHeight - window.innerHeight + 56 + offset;
+      }, 10);
+    }
+  }
+}
+
 export function allowOnlyOneTab(redirectUrl, ogUrl) {
   let openTabs = Number(localStorage.openTabs);
   if (!openTabs) {

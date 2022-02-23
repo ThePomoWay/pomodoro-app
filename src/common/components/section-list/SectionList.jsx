@@ -42,6 +42,8 @@ export default (props) => {
         showOnHover={props.order.length > 0}
         onSave={onCreateSection}
         index={0}
+        isLastSection={true}
+        scroll={props.scroll}
       ></AddNewSection>
 
       <Droppable droppableId="id-section" type="section">
@@ -85,6 +87,8 @@ export default (props) => {
                         showOnHover={true}
                         onSave={onCreateSection}
                         index={index + 1}
+                        isLastSection={index + 1 === props.order.length}
+                        scroll={props.scroll}
                       ></AddNewSection>
                     </div>
                   )}

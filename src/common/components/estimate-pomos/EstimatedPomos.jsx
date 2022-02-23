@@ -57,7 +57,7 @@ export default (props) => {
         </div>
       ))}
 
-      <Popover
+      {/* <Popover
         open={Boolean(anchorEl)}
         id="more-options-popover"
         anchorEl={anchorEl}
@@ -104,8 +104,14 @@ export default (props) => {
             />
           </svg>
         </div>
-      </Popover>
-      <span className={styles["add"]} onClick={onPopoverOpen}>
+      </Popover> */}
+      <span
+        className={styles["add"]}
+        onClick={(e) => {
+          incrementMaxPomos();
+          setCheckedPomos(defaultPomos + 1);
+        }}
+      >
         <Add style={{ width: "16px", height: "16px" }} />
       </span>
     </span>

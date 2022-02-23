@@ -70,7 +70,9 @@ export function getNextSunday(d = new Date()) {
 }
 
 export function getTimeText(mins) {
+  mins = mins.toFixed(1);
   if (mins < 60) {
+    mins = Number(mins).toFixed(2);
     return mins + " mins";
   }
   let m = ((mins % 60) / 60).toFixed(1).substring(2);

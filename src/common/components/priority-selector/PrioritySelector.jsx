@@ -1,8 +1,11 @@
 import { Done, Label } from "@material-ui/icons";
 import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import AuthService from "../../API/network/AuthService";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
 import { priorityColorMap } from "../../utils/constants";
 import styles from "./PrioritySelector.module.scss";
+import { openOnboardingModal } from "../../state/slices/GlobalSlice";
 
 export function PrioritySelector(props) {
   let priorities = priorityColorMap;
@@ -12,6 +15,30 @@ export function PrioritySelector(props) {
   const onPriorityClick = useCallback((item) => {
     props.onChange && props.onChange(item);
   });
+
+  let dispatch = useDispatch();
+  let onLogin = () => {
+    dispatch(openOnboardingModal());
+  };
+
+  if (!AuthService.isLoggedIn()) {
+    return (
+      <div className="popover">
+        <div className="popover-title">
+          <p>
+            <a
+              href="javascript:void(0)"
+              className={styles["login"]}
+              onClick={(e) => onLogin()}
+            >
+              Login
+            </a>{" "}
+            to add priority
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles["container"]} popover`}>

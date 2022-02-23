@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
 import Navbar from "../../common/components/navbar/Navbar";
@@ -27,7 +27,10 @@ import { todaysTasksDropId } from "../../common/utils/constants";
 import { DragDropContext } from "react-beautiful-dnd";
 
 import styles from "./AllTasks.module.scss";
-import { getObjFromArr } from "../../common/utils/common";
+import {
+  getObjFromArr,
+  scrollToEndOfContainer,
+} from "../../common/utils/common";
 import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
 
 import { Switch, useRouteMatch, Route } from "react-router-dom";
@@ -63,6 +66,8 @@ export default () => {
   let projectsObj = useSelector(selectProjectsObj);
   let cPomos = useSelector(selectCompletedPomos);
   let defaults = useSelector(selectDefaultTimes);
+
+  let containerRef = useRef(null);
 
   let dispatch = useDispatch();
 
@@ -211,6 +216,12 @@ export default () => {
     setMoreAnchorEl(e.currentTarget);
   };
 
+  let scrollToView = () => {
+    if (containerRef.current) {
+      scrollToEndOfContainer(containerRef.current);
+    }
+  };
+
   return (
     <div className={styles["container"]}>
       <OnBoarding />
@@ -222,11 +233,11 @@ export default () => {
           <AllTaskSidebar></AllTaskSidebar>
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className={styles["middle-container"]}>
+          <div className={styles["middle-container"]} ref={containerRef}>
             <Switch>
               <Route exact path={path}>
                 <div className={styles["all-tasks-container"]}>
-                  <p className={styles["title"]}>
+                  <div className={styles["title"]}>
                     <span>Inbox</span>
                     <span>
                       <ClickAwayListener onClickAway={onMoreClose}>
@@ -280,9 +291,9 @@ export default () => {
                         </div>
                       </ClickAwayListener>
                     </span>
-                  </p>
+                  </div>
                   <div className={styles["add-task-btn"]}>
-                    <AddNewTask isTodaysTask={false} />
+                    <AddNewTask isTodaysTask={false} onSave={scrollToView} />
                   </div>
                   <AllTaskContainer
                     todaysTasksIds={todaysTaskIdsObj}
@@ -306,7 +317,7 @@ export default () => {
               </Route>
 
               <Route path={`${path}/project/:projectId`}>
-                <ProjectContainer />
+                <ProjectContainer scroll={scrollToView} />
               </Route>
 
               <Route exact path={`${path}/labels`}>

@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
 import Footer from "../../../common/components/footer/footer";
 import Navbar from "../../../common/components/navbar/Navbar";
 import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
 import Timer from "../../../common/components/timer/timer";
+import {
+  getTab,
+  TAB_POMODORO,
+} from "../../../common/components/timer/timer-utils";
 import { markTaskAsCompleteThunk } from "../../../common/state/slices/TasksSlice";
+import { pauseTimerAsync } from "../../../common/state/slices/TimerSlice";
 import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
+import { scrollToEndOfContainer } from "../../../common/utils/common";
 import { POMO_RUNNING_STATE } from "../../../common/utils/constants";
 import OnBoarding from "../../onboarding/Onboarding";
 import useHomepage from "../HomePage-hook";
@@ -20,9 +26,11 @@ export function HomepageLaptop() {
     isTimerFullScreen,
     toggleFullScreen,
     setIsTimerFullScreen,
+    pomoState,
   } = useHomepage();
 
   let dispatch = useDispatch();
+  let containerRef = useRef();
 
   let onTimerStart = () => {
     setIsTimerFullScreen(true);
@@ -34,7 +42,14 @@ export function HomepageLaptop() {
 
   let onTaskComplete = (task) => {
     dispatch(markTaskAsCompleteThunk({ task }));
+    dispatch(pauseTimerAsync());
     setIsTimerFullScreen(false);
+  };
+
+  let scrollContainer = () => {
+    if (containerRef.current) {
+      scrollToEndOfContainer(containerRef.current, -100);
+    }
   };
 
   return (
@@ -62,19 +77,21 @@ export function HomepageLaptop() {
               onReset={(e) => setIsTimerFullScreen(false)}
             ></Timer>
           </div>
-          {isTimerFullScreen && (
+          {isTimerFullScreen && getTab(pomoState) === TAB_POMODORO && (
             <div className={styles["current-task"]}>
               <CurrentTask onComplete={onTaskComplete} />
             </div>
           )}
         </div>
         <div
+          ref={containerRef}
           className={`${styles["taskList"]} ${
             isTimerFullScreen && styles["shrink"]
           }`}
         >
           <TodaysTaskContainer
             toggleFullScreen={toggleFullScreen}
+            onSave={scrollContainer}
           ></TodaysTaskContainer>
         </div>
         {/* <div className="sidebar-container">

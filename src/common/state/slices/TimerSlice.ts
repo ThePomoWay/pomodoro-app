@@ -277,7 +277,7 @@ export const resumeTimerAsync = createAsyncThunk(
     //assumes ptime is present.
     let pausedSec =
       timerState.psec +
-      Math.round((Date.now() - new Date(timerState.ptime).getTime()) / 1000);
+      (Date.now() - new Date(timerState.ptime).getTime()) / 1000;
     dispatch(
       updateTimerState({
         ...timerState,

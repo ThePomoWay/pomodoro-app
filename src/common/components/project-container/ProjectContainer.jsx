@@ -405,6 +405,7 @@ export function ProjectContainer(props) {
               defaultExpandedSectionId={defaultExpandedSectionId}
               showCompletedSection={showCompletedSection}
               projects={projectsObj}
+              scroll={props.scroll}
             />
           ) || (
             <div className="flex flex-center">

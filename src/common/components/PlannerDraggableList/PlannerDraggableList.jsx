@@ -47,12 +47,12 @@ export default (props) => {
         _id: task._id,
       })
     );
-    dispatch(
-      removeTaskFromProject({
-        projectId: AuthService.getInboxProjectId(),
-        taskId: task.fid,
-      })
-    );
+    // dispatch(
+    //   removeTaskFromProject({
+    //     projectId: AuthService.getInboxProjectId(),
+    //     taskId: task.fid,
+    //   })
+    // );
   });
 
   const doSetEditTask = useCallback((item) => {

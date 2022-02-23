@@ -96,6 +96,7 @@ export default (props) => {
                   isEditable={props.isEditable}
                   showRemoveBtn={props.showRemoveBtn}
                   hideWorkingOn={props.hideWorkingOn}
+                  doRemoveTask={props.doRemoveTask}
                 />
               );
             })}

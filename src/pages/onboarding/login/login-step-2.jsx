@@ -30,10 +30,10 @@ export function LoginStep2(props) {
   };
 
   let validate = useCallback((vals) => {
-    return vals.password.length < 4;
+    return vals.password && vals.password.length < 4;
   });
   let onSubmit = useCallback((vals) => {
-    if (vals.password.length >= 4) {
+    if (vals.password && vals.password.length >= 4) {
       dispatch(
         login({
           email,

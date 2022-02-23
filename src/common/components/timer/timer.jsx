@@ -87,10 +87,21 @@ export default function Timer(props) {
   let state = useSelector(selectPomoState);
   let dispatch = useDispatch();
 
+  useEffect(() => {
+    if (state.includes("running")) {
+      document.title = timerString + " Left";
+    } else {
+      document.title = "PomoPanda - Improve your productivity!";
+    }
+  }, [timerString, state]);
+
   const startInterval = () => {
     if (!timer) {
       timer = setInterval(() => {
-        if (timerSecRef.current > 0) {
+        if (timerSecRef.current === 1) {
+          dispatch(tickAsync());
+          clearInterval(timer);
+        } else if (timerSecRef.current > 0) {
           dispatch(tickAsync());
         }
       }, 1000);
@@ -100,8 +111,8 @@ export default function Timer(props) {
   //Remove interval on component unmount
   useEffect(() => {
     return () => {
-      if (startInterval) {
-        clearInterval(startInterval);
+      if (timer) {
+        clearInterval(timer);
       }
     };
   }, []);
@@ -114,9 +125,9 @@ export default function Timer(props) {
 
       startInterval();
       dispatch(hideFirstUserScreen());
-
-      props.onTimerStart && props.onTimerStart();
     }
+
+    props.onTimerStart && props.onTimerStart();
   });
 
   const doPauseTimer = useCallback(() => {
@@ -135,6 +146,8 @@ export default function Timer(props) {
   const doResumeTimer = useCallback(() => {
     dispatch(resumeTimerAsync());
     setTimeout(startInterval, 0);
+
+    props.onTimerStart && props.onTimerStart();
   });
 
   const doStopTimer = useCallback(() => {
@@ -289,7 +302,7 @@ export default function Timer(props) {
       timer = 0;
     }
 
-    if (timerSec <= 0) {
+    if (timerSec <= 0 && !timer) {
       dispatch(tickAsync());
     }
   }, [timerSec, state]);

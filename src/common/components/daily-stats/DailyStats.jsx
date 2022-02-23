@@ -1,11 +1,17 @@
 import { useSelector } from "react-redux";
-import { selectCompletedPomos, selectTodaysTasks } from "../../state/selectors";
+import {
+  selectCompletedPomos,
+  selectDefaultTimes,
+  selectTodaysTasks,
+} from "../../state/selectors";
+import { getTimeText } from "../../utils/date-utils";
 
 import styles from "./DailyStats.module.scss";
 
 export function DailyStats(props) {
   let todaysTasks = useSelector(selectTodaysTasks);
   let cPomos = useSelector(selectCompletedPomos);
+  let defaults = useSelector(selectDefaultTimes);
 
   let ePomos = 0;
   for (let task of todaysTasks) {
@@ -19,7 +25,7 @@ export function DailyStats(props) {
           You haven't added estimates yet.
         </span>
       )) || (
-        <div className="flex">
+        <div className="flex" style={{ width: "100%" }}>
           <span className={styles["title"]}>Pomodoros </span>
           <div className={styles["circles"]}>
             {[...Array(cPomos)].map((item, index) => (
@@ -40,6 +46,13 @@ export function DailyStats(props) {
                 </div>
               ))}
           </div>
+
+          {ePomos > cPomos && (
+            <div className={styles["apprx-time"]}>
+              ~
+              {getTimeText(((ePomos - cPomos) * defaults.defaultWorkTime) / 60)}
+            </div>
+          )}
         </div>
       )}
     </div>

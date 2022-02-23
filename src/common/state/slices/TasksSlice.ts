@@ -23,7 +23,7 @@ import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
-import { setToast } from "./GlobalSlice";
+import { openOnboardingModal, setToast } from "./GlobalSlice";
 import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectSlice";
 import { tickAsync } from "./TimerSlice";
 
@@ -155,77 +155,81 @@ export const deleteTaskThunk = createAsyncThunk(
 export const markTaskAsCompleteThunk = createAsyncThunk(
   "task/markAsComplete",
   async (obj: any, { dispatch, getState }) => {
-    let completedOn = new Date().toISOString();
+    if (!AuthService.isLoggedIn()) {
+      dispatch(openOnboardingModal());
+    } else {
+      let completedOn = new Date().toISOString();
 
-    if (obj.task && obj.task.isCurrentTask) {
-      dispatch(setCurrentTaskRef(""));
-    }
-    dispatch(
-      updateLocalTaskThunk({
-        ...obj.task,
-        isComplete: true,
-        isCurrentTask: false,
-        completedOn,
-      })
-    );
-    playCompleteTaskSound();
-
-    dispatch(removeFromTodaysTasks({ fid: obj.task.fid }));
-    dispatch(addToCompletedTasks({ fid: obj.task.fid }));
-
-    if (AuthService.isLoggedIn()) {
-      let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
-      let completedTaskResponse = await markTaskAsCompleteApi(
-        { project: obj.task.project },
-        obj.task.fid in todaysTasksObj,
-        completedOn,
-        obj.task._id
-      );
-      if (completedTaskResponse.status !== 200) {
-        dispatch(
-          setToast({
-            open: true,
-            msg: completedTaskResponse.data.msg,
-            duration: 5000,
-            type: "error",
-          })
-        );
+      if (obj.task && obj.task.isCurrentTask) {
+        dispatch(setCurrentTaskRef(""));
       }
-    }
-
-    let project = getState()["projects"].projects[obj.task.project.projectID];
-
-    let taskOrderCopy = [...project.to];
-    if (obj.task.project.secID) {
-      taskOrderCopy = [...project.sections[obj.task.project.secID].to];
-
-      taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
-      //let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
-      //@ts-ignore
       dispatch(
-        updateLocalProjectAsync({
-          ...project,
-          sections: {
-            ...project.sections,
-            [obj.task.project.secID]: {
-              ...project.sections[obj.task.project.secID],
-              to: taskOrderCopy,
-            },
-          },
+        updateLocalTaskThunk({
+          ...obj.task,
+          isComplete: true,
+          isCurrentTask: false,
+          completedOn,
         })
       );
-    } else {
-      let index = <number>findIndex(taskOrderCopy, obj.task.fid);
-      if (index !== -1) {
-        taskOrderCopy.splice(index, 1);
-        //let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
+      playCompleteTaskSound();
 
+      dispatch(removeFromTodaysTasks({ fid: obj.task.fid }));
+      dispatch(addToCompletedTasks({ fid: obj.task.fid }));
+
+      if (AuthService.isLoggedIn()) {
+        let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
+        let completedTaskResponse = await markTaskAsCompleteApi(
+          { project: obj.task.project },
+          obj.task.fid in todaysTasksObj,
+          completedOn,
+          obj.task._id
+        );
+        if (completedTaskResponse.status !== 200) {
+          dispatch(
+            setToast({
+              open: true,
+              msg: completedTaskResponse.data.msg,
+              duration: 5000,
+              type: "error",
+            })
+          );
+        }
+      }
+
+      let project = getState()["projects"].projects[obj.task.project.projectID];
+
+      let taskOrderCopy = [...project.to];
+      if (obj.task.project.secID) {
+        taskOrderCopy = [...project.sections[obj.task.project.secID].to];
+
+        taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
+        //let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
+        //@ts-ignore
         dispatch(
           updateLocalProjectAsync({
             ...project,
-            to: taskOrderCopy,
+            sections: {
+              ...project.sections,
+              [obj.task.project.secID]: {
+                ...project.sections[obj.task.project.secID],
+                to: taskOrderCopy,
+              },
+            },
           })
         );
+      } else {
+        let index = <number>findIndex(taskOrderCopy, obj.task.fid);
+        if (index !== -1) {
+          taskOrderCopy.splice(index, 1);
+          //let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
+
+          dispatch(
+            updateLocalProjectAsync({
+              ...project,
+              to: taskOrderCopy,
+            })
+          );
+        }
       }
     }
   }
