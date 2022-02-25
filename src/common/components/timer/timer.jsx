@@ -101,6 +101,7 @@ export default function Timer(props) {
         if (timerSecRef.current === 1) {
           dispatch(tickAsync());
           clearInterval(timer);
+          timer = 0;
         } else if (timerSecRef.current > 0) {
           dispatch(tickAsync());
         }
@@ -113,6 +114,7 @@ export default function Timer(props) {
     return () => {
       if (timer) {
         clearInterval(timer);
+        timer = 0;
       }
     };
   }, []);

@@ -1,51 +1,80 @@
 import { initIdb, todaysTasksObjectStoreName } from "./init";
 
-let db=null;
+let db = null;
 
-let key = "_TodaysTasks"
+let key = "_TodaysTasks";
 
-initIdb().then(dbObj => {
-    db = dbObj;
+initIdb().then((dbObj) => {
+  db = dbObj;
 
-    let transaction = db.transaction(todaysTasksObjectStoreName).objectStore(todaysTasksObjectStoreName).get(key);
-    transaction.onsuccess = function(event) {
-        
-        if(!event.target.result) {
-            db.transaction(todaysTasksObjectStoreName, 'readwrite').objectStore(todaysTasksObjectStoreName).add({
-                key,
-                value: []
-            })
-        }
+  let transaction = db
+    .transaction(todaysTasksObjectStoreName)
+    .objectStore(todaysTasksObjectStoreName)
+    .get(key);
+  transaction.onsuccess = function (event) {
+    if (!event.target.result) {
+      db.transaction(todaysTasksObjectStoreName, "readwrite")
+        .objectStore(todaysTasksObjectStoreName)
+        .add({
+          key,
+          value: [],
+        });
     }
+  };
 });
 
 export function getTodaysTasksFromIdb() {
-    return new Promise((res, rej) => {
-        initIdb().then(() => {
-            let transaction = db.transaction(todaysTasksObjectStoreName).objectStore(todaysTasksObjectStoreName).get(key);
+  return new Promise((res, rej) => {
+    initIdb().then(() => {
+      let transaction = db
+        .transaction(todaysTasksObjectStoreName)
+        .objectStore(todaysTasksObjectStoreName)
+        .get(key);
 
-            transaction.onsuccess = function(event) {
-                res(event.target.result.value);
-            }
-        })
-    })
+      transaction.onsuccess = function (event) {
+        res((event.target.result && event.target.result.value) || []);
+      };
+    });
+  });
 }
 
 export function updateTodaysTasksInIdb(obj) {
-    return new Promise((resolve, reject) => {
-        let taskObjStore = db.transaction(todaysTasksObjectStoreName, "readwrite").objectStore(todaysTasksObjectStoreName);
+  return new Promise((resolve, reject) => {
+    let taskObjStore = db
+      .transaction(todaysTasksObjectStoreName, "readwrite")
+      .objectStore(todaysTasksObjectStoreName);
 
-        taskObjStore.put({
-            key,
-            value: obj
-        });
-        taskObjStore.transaction.oncomplete = function(event) {
-            resolve({
-                success: true
-            });
-        }
-        taskObjStore.transaction.onerror = function(event) {
-            console.log(event);
-        }
-    })
+    taskObjStore.put({
+      key,
+      value: obj,
+    });
+    taskObjStore.transaction.oncomplete = function (event) {
+      resolve({
+        success: true,
+      });
+    };
+    taskObjStore.transaction.onerror = function (event) {
+      console.log(event);
+    };
+  });
+}
+
+export function clearTodaysTasksFromIDB() {
+  return new Promise((res, rej) => {
+    initIdb().then(() => {
+      let transaction = db.transaction(todaysTasksObjectStoreName, "readwrite");
+
+      let objectStore = transaction.objectStore(todaysTasksObjectStoreName);
+
+      transaction.onerror = function (event) {
+        rej(event);
+      };
+
+      let objRequest = objectStore.clear();
+
+      objRequest.onsuccess = function (event) {
+        res({ success: true, msg: "Cleared Successfully" });
+      };
+    });
+  });
 }

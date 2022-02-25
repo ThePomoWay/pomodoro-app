@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { selectTagsAsArr } from "../../state/selectors";
 import { Link } from "react-router-dom";
 import styles from "./PrioritiesSidebar.module.scss";
-import { priorityColorMap } from "../../utils/constants";
+import { priorityColorMap, priorityName } from "../../utils/constants";
 
 export function PrioritySidebar(props) {
   let [priorityExpanded, setPriorityExpanded] = useState(true);
@@ -30,7 +30,8 @@ export function PrioritySidebar(props) {
                 selectedPriority === index + 1 && styles["selected"]
               }`}
             >
-              <Flag style={{ fill: priorities[index + 1] }} />P{index + 1}
+              <Flag style={{ fill: priorities[index + 1] }} />
+              {priorityName[index]}
             </div>
           </Link>
         ))}

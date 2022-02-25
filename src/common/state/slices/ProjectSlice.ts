@@ -9,6 +9,7 @@ import AuthService from "../../API/network/AuthService";
 import {
   createProjectApi,
   createSectionApi,
+  deleteProjectApi,
   rearrangeTaskApi,
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
@@ -77,7 +78,7 @@ export const createSectionAsync = createAsyncThunk(
         let sectionObj = {
           ...obj.project.sections,
           [_id]: {
-            _id,
+            secID: _id,
             title: obj.section.title,
             to: obj.section.to,
           },
@@ -109,8 +110,12 @@ export const updateLocalProjectAsync = createAsyncThunk(
 export const deleteProjectAsync = createAsyncThunk(
   "delete/project",
   async (project, { dispatch }) => {
+    if (AuthService.isLoggedIn()) {
+      await deleteProjectApi(project);
+    }
     dispatch(deleteProject(project));
     let response = await deleteIDBproject(project);
+
     return response;
   }
 );

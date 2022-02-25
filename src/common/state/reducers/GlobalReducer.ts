@@ -57,6 +57,13 @@ export let globalReducer = {
   setToast: (state, action) => {
     state.toast = { ...state.toast, ...action.payload };
   },
+  showSuccessToast: (state, action) => {
+    state.toast = {
+      ...state.toast,
+      open: true,
+      msg: action.payload,
+    };
+  },
   setTheme: (state, action) => {
     state.theme = action.payload;
   },

@@ -1,6 +1,10 @@
 import { getFormattedDate } from "../../utils/date-utils";
 import AuthService from "./AuthService";
-import { getStatsEndpoint, updateStatsEndpoint } from "./Endpoints";
+import {
+  getStatsEndpoint,
+  updateMultipleStatsEndpoint,
+  updateStatsEndpoint,
+} from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
 export function updateTimerStatsAPI(
@@ -27,6 +31,14 @@ export function updateTimerStatsAPI(
       pomoSummary,
     }
   );
+}
+
+export function updateMultipleTimerStatsAPI(body) {
+  let endpoint = updateMultipleStatsEndpoint.replace(
+    "{userId}",
+    AuthService.getUserId()
+  );
+  return NetworkService.post(endpoint, {}, body);
 }
 
 export function getStatsApi(from, till) {

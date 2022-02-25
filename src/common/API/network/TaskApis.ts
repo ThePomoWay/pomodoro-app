@@ -1,6 +1,7 @@
 import AuthService from "./AuthService";
 import {
   addToTodaysTasksEndpoint,
+  createMultipleTasksEndpoint,
   createTaskEndpoint,
   deleteTaskEndpoint,
   getAllTasksEndpoint,
@@ -39,6 +40,15 @@ export function createTaskAPI(taskObj) {
   );
 
   return NetworkService.post(endpoint, {}, taskObj);
+}
+
+export function createMultipleTaskAPI(tasksArr) {
+  let endpoint = createMultipleTasksEndpoint.replace(
+    "{userId}",
+    AuthService.getUserId()
+  );
+
+  return NetworkService.post(endpoint, {}, { tasks: tasksArr });
 }
 
 export function deleteTaskAPI(taskObj) {

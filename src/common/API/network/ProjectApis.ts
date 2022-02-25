@@ -37,7 +37,7 @@ export function createProjectApi(project) {
 export function deleteProjectApi(project) {
   let endpoint = deleteProjectEndpoint
     .replace("{userId}", AuthService.getUserId())
-    .replace("{projectId}", project.id);
+    .replace("{projectId}", project._id);
 
   return NetworkService.delete(endpoint);
 }

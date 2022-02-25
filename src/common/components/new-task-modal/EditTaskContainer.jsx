@@ -79,9 +79,15 @@ export default function EditTaskContainer(props) {
   let [selectedTags, setSelectedTags] = useState(taskToBeEdited.labels || []);
 
   useEffect(() => {
-    if (ref) {
+    if (ref && ref.current) {
       ref.current.textContent = taskToBeEdited.title || "";
-      setEndOfContentEditable(ref.current);
+
+      ref.current.focus();
+      ref.current.setSelectionRange(
+        ref.current.value.length,
+        ref.current.value.length
+      );
+      // setEndOfContentEditable(ref.current);
     }
   }, []);
 
@@ -242,9 +248,11 @@ export default function EditTaskContainer(props) {
     );
   });
 
-  useEffect(() => {
-    ref.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   ref.current.focus();
+
+  //   setEndOfContentEditable(ref.current);
+  // });
 
   return (
     <div>

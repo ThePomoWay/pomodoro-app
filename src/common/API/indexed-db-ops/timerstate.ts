@@ -1,55 +1,80 @@
 import { initIdb, timerstateObjectStoreName } from "./init";
 
-let db=null;
+let db = null;
 
-initIdb().then(dbObj => {
-    db = dbObj;
+initIdb().then((dbObj) => {
+  db = dbObj;
 });
 
 export function getTimerStateFromIdb(date) {
-    return new Promise((res, rej) => {
-        initIdb().then(() => {
-            let transaction = db.transaction(timerstateObjectStoreName).objectStore(timerstateObjectStoreName).get(date);
+  return new Promise((res, rej) => {
+    initIdb().then(() => {
+      let transaction = db
+        .transaction(timerstateObjectStoreName)
+        .objectStore(timerstateObjectStoreName)
+        .get(date);
 
-            transaction.onsuccess = function(event) {
-                res(event.target.result);
-            }
-        })
-    })
+      transaction.onsuccess = function (event) {
+        res(event.target.result);
+      };
+    });
+  });
 }
 
 export function createTimerStateIdb(obj) {
-    return new Promise((resolve, reject) => {
-        let transaction = db.transaction(timerstateObjectStoreName, "readwrite")
-        let taskObjStore = transaction.objectStore(timerstateObjectStoreName);
+  return new Promise((resolve, reject) => {
+    let transaction = db.transaction(timerstateObjectStoreName, "readwrite");
+    let taskObjStore = transaction.objectStore(timerstateObjectStoreName);
 
-        taskObjStore.add(obj);
-        taskObjStore.transaction.oncomplete = function(event) {
-            resolve({
-                success: true
-            });
-        }
-        taskObjStore.onerror = function(event) {
-            console.log(event);
-        }
-        transaction.onerror = function(event) {
-            console.error(event);
-        }
-    })
+    taskObjStore.add(obj);
+    taskObjStore.transaction.oncomplete = function (event) {
+      resolve({
+        success: true,
+      });
+    };
+    taskObjStore.onerror = function (event) {
+      console.log(event);
+    };
+    transaction.onerror = function (event) {
+      console.error(event);
+    };
+  });
 }
 
 export function updateTimerStateIdb(obj) {
-    return new Promise((resolve, reject) => {
-        let taskObjStore = db.transaction(timerstateObjectStoreName, "readwrite").objectStore(timerstateObjectStoreName);
+  return new Promise((resolve, reject) => {
+    let taskObjStore = db
+      .transaction(timerstateObjectStoreName, "readwrite")
+      .objectStore(timerstateObjectStoreName);
 
-        taskObjStore.put(obj);
-        taskObjStore.transaction.oncomplete = function(event) {
-            resolve({
-                success: true
-            });
-        }
-        taskObjStore.transaction.onerror = function(event) {
-            console.log(event);
-        }
-    })
+    taskObjStore.put(obj);
+    taskObjStore.transaction.oncomplete = function (event) {
+      resolve({
+        success: true,
+      });
+    };
+    taskObjStore.transaction.onerror = function (event) {
+      console.log(event);
+    };
+  });
+}
+
+export function clearTimerStateFromIDB() {
+  return new Promise((res, rej) => {
+    initIdb().then(() => {
+      let transaction = db.transaction(timerstateObjectStoreName, "readwrite");
+
+      let objectStore = transaction.objectStore(timerstateObjectStoreName);
+
+      transaction.onerror = function (event) {
+        rej(event);
+      };
+
+      let objRequest = objectStore.clear();
+
+      objRequest.onsuccess = function (event) {
+        res({ success: true, msg: "Cleared Successfully" });
+      };
+    });
+  });
 }

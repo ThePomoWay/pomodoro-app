@@ -6,6 +6,10 @@ import {
   timerstateObjectStoreName,
   dbName,
 } from "./init";
+import { clearProjectsFromIDB } from "./projectCrud";
+import { clearTagsFromIDB } from "./tagsCrud";
+import { clearTimerStateFromIDB } from "./timerstate";
+import { clearTodaysTasksFromIDB } from "./todaysTasks";
 
 let db = null;
 
@@ -95,13 +99,11 @@ export function clearTasksInIDB() {
 
 export function clearIDB() {
   return new Promise((res, rej) => {
-    db.close();
-    let request = indexedDB.deleteDatabase(dbName);
-    request.onsuccess = function () {
-      res();
-    };
-    request.onerror = function (err) {
-      rej(err);
-    };
+    clearTasksInIDB()
+      .then(clearProjectsFromIDB)
+      .then(clearTagsFromIDB)
+      .then(clearTodaysTasksFromIDB)
+      .then(clearTimerStateFromIDB)
+      .then(res);
   });
 }

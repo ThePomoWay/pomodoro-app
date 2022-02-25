@@ -99,7 +99,7 @@ export function ProjectContainer(props) {
         ...projectVar,
         sections: {
           ...projectVar.sections,
-          [section._id]: {
+          [section.secID]: {
             ...section,
             to: [...section.to, task.fid],
           },
@@ -147,7 +147,7 @@ export function ProjectContainer(props) {
             projectCopy.sections[sectionId].to.splice(result.source.index, 1);
 
             source.isSection = true;
-            source.hid = projectCopy.sections[sectionId]._id;
+            source.hid = projectCopy.sections[sectionId].secID;
             source.to = projectCopy.sections[sectionId].to;
           }
         }
@@ -169,7 +169,7 @@ export function ProjectContainer(props) {
             );
 
             destination.isSection = true;
-            destination.hid = projectCopy.sections[sectionId]._id;
+            destination.hid = projectCopy.sections[sectionId].secID;
             destination.to = projectCopy.sections[sectionId].to;
           }
           setDefaultExpandedSectionId(sectionId);
@@ -281,6 +281,10 @@ export function ProjectContainer(props) {
     dispatch(setEditTask(""));
   });
 
+  let doEditTask = (task) => {
+    dispatch(setEditTask(task.fid));
+  };
+
   if (projectVar) {
     let totalTasks = projectVar.to.length;
     for (let sectionId of projectVar.so) {
@@ -332,12 +336,15 @@ export function ProjectContainer(props) {
               <Droppable droppableId={PROJECT_DROPPABLE_ID} type="task">
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {totalTasks > 0 && (
+                    {(projectVar.to && projectVar.to.length > 0 && (
                       <div className={styles["task-list"]}>
                         {projectVar.to.map((item, index) => {
                           return (
                             (item === editTaskRef && (
-                              <div className={styles["edit-task-container"]}>
+                              <div
+                                className={styles["edit-task-container"]}
+                                key={"task-edit-" + index}
+                              >
                                 <EditTaskContainer
                                   defaultProjectId={projectVar._id}
                                   saveTask={doSaveTask}
@@ -355,18 +362,15 @@ export function ProjectContainer(props) {
                                 key={item}
                                 index={index}
                                 onComplete={doCompleteTask}
-                                // onClick={doEditTask(index)}
-                                dropId={
-                                  "task-" +
-                                  ((tasks[item] && tasks[item].fid) || index)
-                                }
+                                onClick={doEditTask}
+                                dropId={"task-"}
                                 projects={projectsObj}
                               ></DraggableTaskItem>
                             )
                           );
                         })}
                       </div>
-                    )}
+                    )) || <div style={{ width: "100%", height: "20px" }}></div>}
                     {provided.placeholder}
                   </div>
                 )}

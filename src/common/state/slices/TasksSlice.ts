@@ -16,14 +16,17 @@ import {
   markTaskAsCompleteApi,
   updateTaskAPI,
 } from "../../API/network/TaskApis";
-import { updateTodaysTaskAPI } from "../../API/network/TodaysTaskApis";
+import {
+  removeFromTodaysTasksApi,
+  updateTodaysTaskAPI,
+} from "../../API/network/TodaysTaskApis";
 import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
 import { getAllTasks } from "../async";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
-import { openOnboardingModal, setToast } from "./GlobalSlice";
+import { openOnboardingModal, setToast, showSuccessToast } from "./GlobalSlice";
 import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectSlice";
 import { tickAsync } from "./TimerSlice";
 
@@ -133,6 +136,7 @@ export const deleteTaskThunk = createAsyncThunk(
     dispatch(
       removeFromTodaysTasks({
         fid: task.fid,
+        _id: task._id,
       })
     );
     dispatch(deleteTask(task));
@@ -171,6 +175,8 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
           completedOn,
         })
       );
+
+      dispatch(showSuccessToast("Kudos! 1 task completed!"));
       playCompleteTaskSound();
 
       dispatch(removeFromTodaysTasks({ fid: obj.task.fid }));
@@ -380,6 +386,14 @@ export const addToTodaysTaskLocal = createAsyncThunk(
   }
 );
 
+export const setTodaysTaskLocal = createAsyncThunk(
+  "tasks/today/set",
+  async (taskIdArr: any, { dispatch }) => {
+    updateTodaysTasksInIdb(taskIdArr);
+    dispatch(updateTodaysTasks(taskIdArr));
+  }
+);
+
 export const addToTodaysTasks = createAsyncThunk(
   "tasks/todays/rearrange",
   async (obj: any, { getState, dispatch }) => {
@@ -405,6 +419,10 @@ export const removeFromTodaysTasks = createAsyncThunk(
       if (index !== -1) {
         todaysTasks.splice(index, 1);
       }
+    }
+
+    if (AuthService.isLoggedIn() && payload._id) {
+      await removeFromTodaysTasksApi(payload._id);
     }
 
     updateTodaysTasksInIdb(todaysTasks);

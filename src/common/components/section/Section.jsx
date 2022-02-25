@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCompletedTaskInProject,
+  selectEditTaskRef,
   selectTagsAsObj,
   selectTasksAsobj,
   selectTodaysTaskIds,
@@ -25,6 +26,8 @@ import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksLis
 import {
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
+  setEditTask,
+  updateTaskThunk,
 } from "../../state/slices/TasksSlice";
 import { Popper } from "@mui/material";
 import { SectionMoreOptions } from "../section-more-options/SectionMoreOptions";
@@ -36,8 +39,10 @@ export default (props) => {
   let tags = useSelector(selectTagsAsObj);
   let todaysTaskIdsObj = getObjFromArr(useSelector(selectTodaysTaskIds));
 
+  let editTaskRef = useSelector(selectEditTaskRef);
+
   let completedTasks = useSelector(
-    selectCompletedTaskInProject(props.projectId, props.section._id)
+    selectCompletedTaskInProject(props.projectId, props.section.secID)
   );
 
   let dispatch = useDispatch();
@@ -59,7 +64,7 @@ export default (props) => {
           task,
           container: "projects",
           projectId: props.projectId,
-          sectionId: props.section._id,
+          sectionId: props.section.secID,
         })
       );
     } else {
@@ -68,7 +73,7 @@ export default (props) => {
           task,
           container: "projects",
           projectId: props.projectId,
-          sectionId: props.section._id,
+          sectionId: props.section.secID,
         })
       );
     }
@@ -82,6 +87,19 @@ export default (props) => {
     setMoreAnchorEl(e.currentTarget);
     e.stopPropagation();
   });
+
+  let doSaveTask = (task) => {
+    if (task && task.fid) {
+      dispatch(updateTaskThunk(task));
+    }
+    dispatch(setEditTask(""));
+  };
+
+  let doEditTask = (task) => {
+    if (task && task.fid) {
+      dispatch(setEditTask(task.fid));
+    }
+  };
 
   const onEditSection = useCallback((e) => {});
 
@@ -147,26 +165,44 @@ export default (props) => {
           <AccordionDetails>
             <div className={styles["section-task-list"]}>
               <Droppable
-                droppableId={SECTION_DROPPABLE_ID + section._id}
+                droppableId={SECTION_DROPPABLE_ID + section.secID}
                 type="task"
               >
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {props.section.to.map((item, index) => (
-                      <DraggableTaskItem
-                        showAddBtn={!(item in todaysTaskIdsObj)}
-                        showRemoveBtn={item in todaysTaskIdsObj}
-                        tags={tags}
-                        task={tasks[item]}
-                        key={item}
-                        index={index}
-                        dropId={"task-"}
-                        doAddTask={props.doAddTask}
-                        onComplete={doCompleteTask}
-                        projects={props.projects}
-                        doRemoveTask={props.doRemoveTask}
-                      ></DraggableTaskItem>
-                    ))}
+                    {props.section.to.map((item, index) => {
+                      return (
+                        (item === editTaskRef && (
+                          <div className={styles["edit-task-container"]}>
+                            <EditTaskContainer
+                              defaultProjectId={props.projectId}
+                              defaultSectionId={props.section.secID}
+                              saveTask={doSaveTask}
+                              task={tasks[item]}
+                            />
+                          </div>
+                        )) || (
+                          <DraggableTaskItem
+                            showAddBtn={!(item in todaysTaskIdsObj)}
+                            showRemoveBtn={item in todaysTaskIdsObj}
+                            tags={tags}
+                            task={tasks[item]}
+                            key={item}
+                            index={index}
+                            dropId={"task-"}
+                            doAddTask={props.doAddTask}
+                            onComplete={doCompleteTask}
+                            projects={props.projects}
+                            doRemoveTask={props.doRemoveTask}
+                            onClick={doEditTask}
+                          ></DraggableTaskItem>
+                        )
+                      );
+                    })}
+                    {(!props.section.to || !props.section.to.length) && (
+                      <div style={{ width: "100%", height: "20px" }}></div>
+                    )}
+
                     {provided.placeholder}
                   </div>
                 )}
@@ -175,14 +211,14 @@ export default (props) => {
               <AddNewTask
                 onSave={addTaskToSection}
                 defaultProjectId={props.projectId}
-                defaultSectionId={props.section._id}
+                defaultSectionId={props.section.secID}
                 viewOnlyProject={true}
               />
               {props.showCompletedSection && (
                 <CompletedTasksList
                   tasks={completedTasks}
                   projectId={props.projectId}
-                  sectionId={props.section._id}
+                  sectionId={props.section.secID}
                   container="projects"
                 />
               )}

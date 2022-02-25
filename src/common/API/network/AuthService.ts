@@ -57,6 +57,6 @@ export default class AuthService {
   static async logout() {
     localStorage.removeItem(userAuthInfoLsKey);
     localStorage.removeItem(justLoggedInKey);
-    window.location.reload();
+    window.location.href = "/";
   }
 }

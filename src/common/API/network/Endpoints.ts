@@ -8,6 +8,7 @@ export const markTaskAsCompleteEndpoint =
 export const markTaskAsIncompleteEndpoint =
   "v1/user/{userId}/task/{taskId}/incomplete";
 export const getAllTasksEndpoint = "v1/user/{userId}/tasks";
+export const createMultipleTasksEndpoint = "v1/user/{userId}/multiple-tasks";
 
 //Todays Task APIs
 export const addToTodaysTasksEndpoint = "v1/user/{userId}/today/{taskId}";
@@ -41,6 +42,7 @@ export const registerCheckEndpoint = "v1/get-email-info";
 
 //Stats APIs
 export const updateStatsEndpoint = "v1/users/{userId}/stats";
+export const updateMultipleStatsEndpoint = "v1/users/{userId}/multiple-stats";
 export const getStatsEndpoint = updateStatsEndpoint;
 
 //User APIs
@@ -51,3 +53,6 @@ export const getAllTagsEndpoint = "v1/users/{userId}/labels";
 export const createTagEndpoint = "v1/users/{userId}/labels";
 export const updateTagEndpoint = "v1/users/{userId}/labels/{labelId}";
 export const deleteTagEndpoint = "v1/users/{userId}/labels/{labelId}";
+
+// sync APIs
+export const syncEndpoint = "v1/users/{userId}/sync";

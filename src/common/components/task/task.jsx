@@ -75,7 +75,7 @@ export default function TaskItem(props) {
     dispatch(markTaskAsCurrent(task));
     if (pomoState === POMO_PAUSED_STATE) {
       dispatch(resumeTimerAsync());
-    } else {
+    } else if (pomoState !== POMO_RUNNING_STATE) {
       dispatch(
         updateTimerState({
           pomoStartTime: Date.now(),
@@ -321,7 +321,8 @@ export default function TaskItem(props) {
             )}
 
           {/* <span className={styles["tags"]}> */}
-          {Object.keys(props.tags).length >= task.labels.length &&
+          {task.labels &&
+            Object.keys(props.tags).length >= task.labels.length &&
             task.labels
               .filter((item) => props.tags[item])
               .map((item, ind) => (

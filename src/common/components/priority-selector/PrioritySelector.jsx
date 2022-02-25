@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
-import { priorityColorMap } from "../../utils/constants";
+import { priorityColorMap, priorityName } from "../../utils/constants";
 import styles from "./PrioritySelector.module.scss";
 import { openOnboardingModal } from "../../state/slices/GlobalSlice";
 
@@ -53,7 +53,7 @@ export function PrioritySelector(props) {
         >
           <PriorityFlag style={{ fill: priorities[index + 1] }} />
 
-          <span>Priority {index + 1}</span>
+          <span> {priorityName[index]}</span>
           {selected === index + 1 && <Done className="popover-select-tick" />}
         </div>
       ))}

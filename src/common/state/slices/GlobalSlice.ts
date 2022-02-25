@@ -58,8 +58,8 @@ export const signin = createAsyncThunk(
 export const logout = createAsyncThunk(
   "global/logout",
   async (_, { dispatch }) => {
-    AuthService.logout();
     await clearIDB();
+    AuthService.logout();
   }
 );
 
@@ -105,5 +105,6 @@ export const {
   setLabelModalState,
   setShowFirstUserState,
   setToast,
+  showSuccessToast,
   setTheme,
 } = globalSlice.actions;

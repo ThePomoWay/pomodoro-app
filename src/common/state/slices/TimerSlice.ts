@@ -161,6 +161,7 @@ export let updateNextState = createAsyncThunk(
           ptime: "",
           lastResumeTime: "",
           psec: 0,
+          pomoSummary: {},
         })
       );
 
@@ -170,6 +171,7 @@ export let updateNextState = createAsyncThunk(
         updateTimerState({
           pomoState: POMO_IDLE_STATE,
           timerInSec: DEFAULT_WORK_TIME,
+          pomoSummary: {},
         })
       );
     }
@@ -184,12 +186,14 @@ export let tickAsync = createAsyncThunk(
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
 
-    let curTaskId = taskState.currentTaskRef;
-    if (curTaskId) {
-      if (!pomoSummary[curTaskId]) {
-        pomoSummary[curTaskId] = 1;
-      } else {
-        pomoSummary[curTaskId] += 1;
+    if (timerState.pomoState === POMO_RUNNING_STATE) {
+      let curTaskId = taskState.currentTaskRef;
+      if (curTaskId) {
+        if (!pomoSummary[curTaskId]) {
+          pomoSummary[curTaskId] = 2;
+        } else {
+          pomoSummary[curTaskId] += 1;
+        }
       }
     }
 
@@ -251,6 +255,14 @@ export const pauseTimerAsync = createAsyncThunk(
         STATS_TYPE_PAUSED,
         false
       );
+    } else {
+      pushToStatsUpdateQueueIDB(
+        timerState.lastResumeTime ||
+          new Date(timerState.pomoStartTime).toISOString(),
+        new Date().toISOString(),
+        STATS_TYPE_PAUSED,
+        false
+      );
     }
     let nextState = POMO_PAUSED_STATE;
     if (timerState.pomoState.includes("long_break")) {
@@ -298,7 +310,7 @@ export const completePomodoro = createAsyncThunk(
     let summary = [];
     for (let taskId in pomoSummary) {
       summary.push({
-        tid: taskState.tasks[taskId]._id,
+        tid: taskState.tasks[taskId]._id || taskState.tasks[taskId].fid,
         csec: pomoSummary[taskId],
       });
     }
@@ -314,16 +326,18 @@ export const completePomodoro = createAsyncThunk(
           false,
           summary
         );
-        dispatch(setPomoSummary({}));
       } else {
         pushToStatsUpdateQueueIDB(
           timerState.lastResumeTime ||
             new Date(timerState.pomoStartTime).toISOString(),
-          new Date().toISOString,
+          new Date().toISOString(),
           STATS_TYPE_COMPLETE,
-          false
+          false,
+          summary
         );
       }
+
+      dispatch(setPomoSummary({}));
     }
 
     dispatch(updateNextState());

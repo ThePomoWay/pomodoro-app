@@ -3,13 +3,13 @@ import { getObjFromArr } from "./common";
 
 export function processBEProject(project, taskObj) {
   let sectionIdMap = getObjFromArr(project.sections || [], "secID", true);
-  let so = [];
+
   let to = [];
 
   if (project.so) {
-    so = project.so
-      .map((item) => sectionIdMap[item] && sectionIdMap[item].fid)
-      .filter((i) => i);
+    // so = project.so
+    //   .map((item) => sectionIdMap[item] && sectionIdMap[item].fid)
+    //   .filter((i) => i);
 
     for (let section of project.sections) {
       section.to =
@@ -27,10 +27,13 @@ export function processBEProject(project, taskObj) {
       .filter((i) => i);
   }
 
+  let so = project.so || [];
+
   return {
     ...project,
     sections:
-      (project.sections && getObjFromArr(project.sections, "fid", true)) || [],
+      (project.sections && getObjFromArr(project.sections, "secID", true)) ||
+      [],
     to,
     so,
   };

@@ -1,16 +1,27 @@
+import { debug } from "console";
 import { getTasks } from "../API/APIService";
 import { clearTasksInIDB } from "../API/indexed-db-ops/crud";
 import {
   clearProjectsFromIDB,
   getAllProjectsFromIDB,
 } from "../API/indexed-db-ops/projectCrud";
+import {
+  getStatsQueue,
+  statsQueueLSKey,
+} from "../API/indexed-db-ops/statsQueue";
 import { clearTagsFromIDB } from "../API/indexed-db-ops/tagsCrud";
-import { getTodaysTasksFromIdb } from "../API/indexed-db-ops/todaysTasks";
+import {
+  clearTodaysTasksFromIDB,
+  getTodaysTasksFromIdb,
+} from "../API/indexed-db-ops/todaysTasks";
 import AuthService from "../API/network/AuthService";
 import { getAllProjectsApi } from "../API/network/ProjectApis";
+import { updateMultipleTimerStatsAPI } from "../API/network/StatsApis";
 import { GetAllTagsApi } from "../API/network/TagsApis";
+import { getSyncAPI } from "../API/network/SyncApi";
 import {
   addToTodaysTaskAPI,
+  createMultipleTaskAPI,
   createTaskAPI,
   getAllTasksApi,
 } from "../API/network/TaskApis";
@@ -23,12 +34,14 @@ import {
 import { createLocalTagThunk } from "../state/slices/TagsSlice";
 import {
   createLocalTaskThunk,
+  setTodaysTaskLocal,
   updateLocalTaskThunk,
 } from "../state/slices/TasksSlice";
 import { store } from "../state/store";
 import { getObjFromArr } from "./common";
 import { processBEProject } from "./project-helper-utils";
 import { processBETask } from "./task-helper-utils";
+import { updateTimerState } from "../state/slices/TimerSlice";
 
 export async function syncIdb() {
   if (AuthService.isJustLoggedIn()) {
@@ -36,7 +49,103 @@ export async function syncIdb() {
 
     let inboxId = AuthService.getInboxProjectId();
 
-    let projects = await getAllProjectsFromIDB();
+    let userInfo = AuthService.getUserAuthInfo();
+
+    if (userInfo.isNew) {
+      //push local updates to server. If not new user then only sync be with local.
+
+      //Dump all local tasks to backend which were created before login
+      let tasksArr = [];
+
+      let todaysTasks: any = getObjFromArr(await getTodaysTasksFromIdb());
+      for (let task of localTasks) {
+        if (!task._id) {
+          task.project.projectID = inboxId;
+          if (task.fid in todaysTasks) {
+            task.isToday = true;
+          }
+          tasksArr.push(task);
+        }
+      }
+
+      let tasksObj = getObjFromArr(localTasks, "fid", true);
+      if (tasksArr.length > 0) {
+        let response = await createMultipleTaskAPI(tasksArr);
+        if (response && response.data && response.data.taskMap) {
+          for (let fid in response.data.taskMap) {
+            if (tasksObj[fid]) {
+              tasksObj[fid]._id = response.data.taskMap[fid];
+              store.dispatch(updateLocalTaskThunk(tasksObj[fid]));
+            }
+          }
+        } else {
+          console.error("Couldn't sync tasks");
+          return false;
+        }
+      }
+
+      //Push stats update queue
+      let statsUpdateQueue = getStatsQueue();
+
+      for (let item of statsUpdateQueue) {
+        if (item.pomoSummary && item.pomoSummary.length > 0) {
+          for (let stat of item.pomoSummary) {
+            if (stat.tid && tasksObj[stat.tid] && tasksObj[stat.tid]._id) {
+              stat.tid = tasksObj[stat.tid]._id;
+            }
+          }
+        }
+      }
+
+      let statsResponse = await updateMultipleTimerStatsAPI({
+        stats: statsUpdateQueue,
+      });
+      if (statsResponse.status !== 200) {
+        console.error("Couldn't sync stats");
+      } else {
+        localStorage.removeItem(statsQueueLSKey);
+      }
+    } else {
+      let syncResponse = await getSyncAPI();
+      if (syncResponse.status === 200) {
+        await clearTasksInIDB();
+        await clearTodaysTasksFromIDB();
+
+        let tasksArr = syncResponse.data.tasks;
+        for (let task of tasksArr) {
+          task.fid = task._id;
+          if (!task.labels) {
+            task.labels = [];
+          }
+          store.dispatch(updateLocalTaskThunk(task));
+        }
+
+        let tasksObj = getObjFromArr(tasksArr, "_id", true);
+
+        //sync todays tasks
+        if (
+          syncResponse.data.todaysTasks &&
+          syncResponse.data.todaysTasks.taskIDs
+        ) {
+          syncResponse.data.todaysTasks.taskIDs =
+            syncResponse.data.todaysTasks.taskIDs.filter((i) => !!tasksObj[i]);
+          store.dispatch(
+            setTodaysTaskLocal(syncResponse.data.todaysTasks.taskIDs)
+          );
+        }
+
+        syncTags(syncResponse.data.labels);
+        // await syncTasks();
+        syncProjects(syncResponse.data.projects, tasksObj);
+
+        let completedPomos = syncResponse.data.dailyStat.p;
+        store.dispatch(updateTimerState({ completedPomos }));
+      } else {
+        console.error("Couldn't sync");
+      }
+    }
+
+    // let projects = await getAllProjectsFromIDB();
     // console.log(projects);
     // for (let project of projects) {
     //   if (project._id === "inbox") {
@@ -55,44 +164,23 @@ export async function syncIdb() {
     //   }
     // }
 
-    //Dump all local tasks to backend which were created before login
-    for (let task of localTasks) {
-      if (!task._id) {
-        task.project.projectID = inboxId;
-        let response = await createTaskAPI(task);
-        if (response && response.data && response.data.tid) {
-          store.dispatch(
-            updateLocalTaskThunk({ ...task, _id: response.data.tid })
-          );
-        } else {
-          console.error("Couldn't sync");
-          return false;
-        }
-      }
-    }
-
     //Dump todays task container to be
-    let todaysTasks: any = await getTodaysTasksFromIdb();
-    let tasksObj = getObjFromArr(await getTasks(), "fid", true);
+    // let tasksObj = getObjFromArr(await getTasks(), "fid", true);
 
-    let beTodaysTasks = todaysTasks
-      .map((item) => tasksObj[item] && tasksObj[item]._id)
-      .filter((i) => i);
+    // let beTodaysTasks = todaysTasks
+    //   .map((item) => tasksObj[item] && tasksObj[item]._id)
+    //   .filter((i) => i);
 
-    for (let taskId of beTodaysTasks) {
-      let response = await addToTodaysTaskAPI(taskId);
-      if (!response || response.status !== 200) {
-        console.error("Error when syncing today's tasks");
-        return false;
-      }
-    }
+    // for (let taskId of beTodaysTasks) {
+    //   let response = await addToTodaysTaskAPI(taskId);
+    //   if (!response || response.status !== 200) {
+    //     console.error("Error when syncing today's tasks");
+    //     return false;
+    //   }
+    // }
     // let response = await updateTodaysTaskAPI(beTodaysTasks);
 
     //dump BE database to IDB
-    await syncTags();
-    await syncTasks();
-    let tasks = await getTasks();
-    syncProjects(tasks);
 
     AuthService.setJustLoggedIn(false);
   }
@@ -114,31 +202,24 @@ export async function syncTasks() {
   }
 }
 
-export async function syncProjects(taskArr) {
-  let response = await getAllProjectsApi();
-  if (response && response.data) {
+export async function syncProjects(projects, tasksObj) {
+  if (projects && projects.length > 0) {
     let res = await clearProjectsFromIDB();
-    if (res && res.success) {
-      let tasksObj = getObjFromArr(taskArr, "_id", true);
-      for (let project of response.data.projects) {
-        store.dispatch(
-          createLocalProjectAsync({
-            project: processBEProject(project, tasksObj),
-          })
-        );
-      }
+    for (let project of projects) {
+      store.dispatch(
+        createLocalProjectAsync({
+          project: processBEProject(project, tasksObj),
+        })
+      );
     }
   }
 }
 
-export async function syncTags() {
-  let response = await GetAllTagsApi();
-  if (response && response.data) {
+export async function syncTags(tags) {
+  if (tags && tags.length > 0) {
     let res = await clearTagsFromIDB();
-    if (res.success) {
-      for (let tag of response.data) {
-        store.dispatch(createLocalTagThunk(tag));
-      }
+    for (let tag of tags) {
+      store.dispatch(createLocalTagThunk(tag));
     }
   }
 }

@@ -53,8 +53,8 @@ export default (props) => {
               props.sections &&
               props.order.map((item, index) => (
                 <Draggable
-                  key={props.sections[item]._id}
-                  draggableId={props.sections[item]._id}
+                  key={props.sections[item].secID}
+                  draggableId={props.sections[item].secID}
                   index={index}
                 >
                   {(provided) => (
