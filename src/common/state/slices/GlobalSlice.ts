@@ -52,7 +52,7 @@ export const signin = createAsyncThunk(
     if (obj.mode === "google") {
       response = await googleLoginApi(obj.data);
     } else if (obj.mode === "facebook") {
-      response = await facebookLoginApi(obj);
+      response = await facebookLoginApi(obj.data);
     }
 
     return response.data;
