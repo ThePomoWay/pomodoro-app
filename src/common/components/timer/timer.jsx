@@ -43,8 +43,11 @@ import { PlaySvg } from "../../svgs/Play";
 import { PauseSvg } from "../../svgs/PauseSvg";
 import { RewindSvg } from "../../svgs/Rewind";
 import { playTimerStartSound } from "../../utils/sound-utils";
-
-let timer = 0;
+import {
+  CLEAR_INTERVAL,
+  sendWorkerMsg,
+  START_INTERVAL,
+} from "../../utils/worker-util";
 
 const ACTION_PLAY = "play";
 const ACTION_PAUSE = "pause";
@@ -96,47 +99,28 @@ export default function Timer(props) {
   }, [timerString, state]);
 
   const startInterval = () => {
-    if (!timer) {
-      timer = setInterval(() => {
-        if (timerSecRef.current === 1) {
-          dispatch(tickAsync());
-          clearInterval(timer);
-          timer = 0;
-        } else if (timerSecRef.current > 0) {
-          dispatch(tickAsync());
-        }
-      }, 1000);
-    }
+    sendWorkerMsg(START_INTERVAL);
   };
 
   //Remove interval on component unmount
   useEffect(() => {
     return () => {
-      if (timer) {
-        clearInterval(timer);
-        timer = 0;
-      }
+      sendWorkerMsg(CLEAR_INTERVAL);
     };
   }, []);
 
   const doStartTimer = useCallback((isCta) => {
-    if (!timer) {
-      let nextState = getNextPomoState(state, ACTION_PLAY);
-      dispatch(startTimerAsync());
-      playTimerStartSound();
+    dispatch(startTimerAsync());
+    playTimerStartSound();
 
-      startInterval();
-      dispatch(hideFirstUserScreen());
-    }
+    startInterval();
+    dispatch(hideFirstUserScreen());
 
     props.onTimerStart && props.onTimerStart();
   });
 
   const doPauseTimer = useCallback(() => {
-    if (timer) {
-      clearInterval(timer);
-      timer = 0;
-    }
+    sendWorkerMsg(CLEAR_INTERVAL);
 
     props.onPause && props.onPause();
     dispatch(pauseTimerAsync());
@@ -153,10 +137,8 @@ export default function Timer(props) {
   });
 
   const doStopTimer = useCallback(() => {
-    if (timer) {
-      clearInterval(timer);
-      timer = 0;
-    }
+    sendWorkerMsg(CLEAR_INTERVAL);
+
     props.onReset && props.onReset();
     dispatch(
       updateTimerState({
@@ -169,10 +151,8 @@ export default function Timer(props) {
   });
 
   const doSkipBreak = useCallback(() => {
-    if (timer) {
-      clearInterval(timer);
-      timer = 0;
-    }
+    sendWorkerMsg(CLEAR_INTERVAL);
+
     dispatch(updateNextState());
   });
   const getCTA = useCallback(
@@ -282,7 +262,6 @@ export default function Timer(props) {
       (state === POMO_RUNNING_STATE ||
         state === POMO_BREAK_RUNNING_STATE ||
         state === POMO_LONG_BREAK_RUNNING_STATE) &&
-      !timer &&
       timerSec > 0
     ) {
       startInterval();
@@ -290,21 +269,19 @@ export default function Timer(props) {
       props.onTimerStart && props.onTimerStart();
     }
 
-    if (state === POMO_PAUSED_STATE && timer) {
+    if (state === POMO_PAUSED_STATE) {
       doPauseTimer();
     }
 
     if (
-      (state === POMO_BREAK_IDLE_STATE ||
-        state === POMO_IDLE_STATE ||
-        state === POMO_LONG_BREAK_IDLE_STATE) &&
-      timer
+      state === POMO_BREAK_IDLE_STATE ||
+      state === POMO_IDLE_STATE ||
+      state === POMO_LONG_BREAK_IDLE_STATE
     ) {
-      clearInterval(timer);
-      timer = 0;
+      sendWorkerMsg(CLEAR_INTERVAL);
     }
 
-    if (timerSec <= 0 && !timer) {
+    if (timerSec <= 0) {
       dispatch(tickAsync());
     }
   }, [timerSec, state]);

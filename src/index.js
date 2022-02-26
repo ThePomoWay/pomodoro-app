@@ -7,9 +7,11 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import addExtensionListeners from './common/utils/extension-utils';
 import { ApplyTheme } from './common/components/apply-theme/ApplyTheme';
+import { registerWorkerEvent } from './common/utils/worker-util';
 
 const rootElement = document.getElementById("root");
 
+registerWorkerEvent();
 
 // if (rootElement.hasChildNodes()) {
 //   hydrate((<React.StrictMode>

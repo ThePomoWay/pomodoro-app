@@ -32,7 +32,7 @@ export function LoginStep(props) {
     dispatch(
       signin({
         mode: "facebook",
-        data: response.tokenObj.access_token,
+        data: response.accessToken,
       })
     );
   });
