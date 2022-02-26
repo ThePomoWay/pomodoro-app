@@ -5,6 +5,7 @@ import {
   resetPassword,
   requestPasswordChangeOTP,
   registerCheckEndpoint,
+  facebookLoginEndpoint,
 } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
@@ -13,6 +14,14 @@ export function googleLoginApi(tokenObj) {
     googleLoginEndpoint,
     {},
     { tokenId: tokenObj.tokenId }
+  );
+}
+
+export function facebookLoginApi(accessToken) {
+  return NetworkService.post(
+    facebookLoginEndpoint,
+    {},
+    { tokenId: accessToken }
   );
 }
 

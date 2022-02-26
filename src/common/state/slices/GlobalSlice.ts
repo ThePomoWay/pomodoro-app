@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { clearIDB } from "../../API/indexed-db-ops/crud";
 import AuthService from "../../API/network/AuthService";
-import { googleLoginApi, registerApi } from "../../API/network/SignonApis";
+import {
+  facebookLoginApi,
+  googleLoginApi,
+  registerApi,
+} from "../../API/network/SignonApis";
 import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
@@ -47,8 +51,8 @@ export const signin = createAsyncThunk(
     let response;
     if (obj.mode === "google") {
       response = await googleLoginApi(obj.data);
-    } else if (obj.mode === "fb") {
-    } else if (obj.mode === "email") {
+    } else if (obj.mode === "facebook") {
+      response = await facebookLoginApi(obj);
     }
 
     return response.data;
