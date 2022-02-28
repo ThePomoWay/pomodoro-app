@@ -42,14 +42,13 @@ export let getTimerState = createAsyncThunk(
     if (!response) {
       dispatch(updateTimerState({ create: true }));
     } else {
-      let timerState = getState()["timer"];
       let defaultTotalTime = "";
-      if (timerState.pomoState.includes("long_break")) {
-        defaultTotalTime = timerState.defaultLongBreakTime;
-      } else if (timerState.pomoState.includes("break")) {
-        defaultTotalTime = timerState.defaultBreakTime;
+      if (response.pomoState.includes("long_break")) {
+        defaultTotalTime = response.defaultLongBreakTime;
+      } else if (response.pomoState.includes("break")) {
+        defaultTotalTime = response.defaultBreakTime;
       } else {
-        defaultTotalTime = timerState.defaultWorkTime;
+        defaultTotalTime = response.defaultWorkTime;
       }
 
       if (
@@ -59,8 +58,8 @@ export let getTimerState = createAsyncThunk(
       ) {
         let timerInSec = getTimerInSec(
           defaultTotalTime,
-          timerState.pomoStartTime,
-          timerState.psec
+          response.pomoStartTime,
+          response.psec
         );
 
         if (timerInSec <= 0) {

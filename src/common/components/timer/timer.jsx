@@ -284,7 +284,7 @@ export default function Timer(props) {
     if (timerSec <= 0) {
       dispatch(tickAsync());
     }
-  }, [timerSec, state]);
+  }, [state]);
 
   let tab = getTab(state);
 
