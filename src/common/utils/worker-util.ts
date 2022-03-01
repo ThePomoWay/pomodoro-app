@@ -1,7 +1,7 @@
 import { tickAsync } from "../state/slices/TimerSlice";
 import { store } from "../state/store";
 
-export const worker = new Worker("worker.js");
+export const worker = new Worker("/worker.js");
 export const START_INTERVAL = "startInterval";
 export const CLEAR_INTERVAL = "clearInterval";
 
