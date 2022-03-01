@@ -428,9 +428,11 @@ export default function Timer(props) {
                     </div> */}
         {getCTA(state)}
       </div>
-      <div className={`${styles["blur-bg"]} ${styles[tab]}`}>
-        <div className={styles["blur"]}></div>
-      </div>
+      {!props.hideBlur && (
+        <div className={`${styles["blur-bg"]} ${styles[tab]}`}>
+          <div className={styles["blur"]}></div>
+        </div>
+      )}
 
       {/* <div className={styles["focus-mode"]}>
         <span>Focus Mode</span>

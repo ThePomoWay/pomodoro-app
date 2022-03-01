@@ -3,6 +3,7 @@ export function CustomSlider(props) {
     <label className="switch">
       <input
         type="checkbox"
+        checked={props.value}
         onChange={(e) => {
           props.onChange && props.onChange(e);
         }}

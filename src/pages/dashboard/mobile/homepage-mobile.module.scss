@@ -1,0 +1,22 @@
+.container {
+  width: 100vw;
+  .main-content {
+    padding: 30px;
+
+    .timer {
+      height: 100vh;
+    }
+
+    &.purple {
+      background-color: var(--bg-work-mobile);
+    }
+
+    &.pink {
+      background-color: var(--bg-break-mobile);
+    }
+
+    &.cyan {
+      background-color: var(--bg-long-break-mobile);
+    }
+  }
+}

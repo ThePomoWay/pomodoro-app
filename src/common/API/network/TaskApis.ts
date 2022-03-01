@@ -7,6 +7,7 @@ import {
   getAllTasksEndpoint,
   getTodaysTaskEndpoint,
   markTaskAsCompleteEndpoint,
+  markTaskAsIncompleteEndpoint,
   updateTaskEndpoint,
   updateTodaysTasksEndpoint,
 } from "./Endpoints";
@@ -70,4 +71,11 @@ export function markTaskAsCompleteApi(taskObj, today, completedOn, taskId) {
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskId);
   return NetworkService.post(endpoint, { today, completedOn }, taskObj);
+}
+
+export function markTaskAsInCompleteApi(taskObj, today, taskId) {
+  let endpoint = markTaskAsIncompleteEndpoint
+    .replace("{userId}", AuthService.getUserId())
+    .replace("{taskId}", taskId);
+  return NetworkService.post(endpoint, { today }, taskObj);
 }

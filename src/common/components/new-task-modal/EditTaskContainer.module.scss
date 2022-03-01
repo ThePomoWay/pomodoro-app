@@ -82,6 +82,9 @@
   justify-content: space-between;
   display: flex;
   align-items: center;
+  &-mobile {
+    margin-top: auto;
+  }
 
   .border-round {
     border: 1px solid gray;

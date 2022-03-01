@@ -14,6 +14,7 @@ import {
   createTaskAPI,
   deleteTaskAPI,
   markTaskAsCompleteApi,
+  markTaskAsInCompleteApi,
   updateTaskAPI,
 } from "../../API/network/TaskApis";
 import {
@@ -259,6 +260,24 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
 
     let project = getState()["projects"].projects[obj.task.project.projectID];
     let taskOrderCopy = [...project.to, obj.task.fid];
+
+    if (AuthService.isLoggedIn()) {
+      let response = await markTaskAsInCompleteApi(
+        { project: obj.task.project },
+        obj.container === "todays",
+        obj.task._id
+      );
+      if (response.status !== 200) {
+        dispatch(
+          setToast({
+            open: true,
+            msg: response.data.msg,
+            duration: 5000,
+            type: "error",
+          })
+        );
+      }
+    }
 
     if (obj.task.project.secID) {
       taskOrderCopy = [

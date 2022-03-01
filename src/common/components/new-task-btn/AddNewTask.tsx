@@ -1,11 +1,13 @@
 import { Add } from "@material-ui/icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import AuthService from "../../API/network/AuthService";
 import { addTaskToProjectLocal } from "../../state/slices/ProjectSlice";
 import { createTaskThunk } from "../../state/slices/TasksSlice";
 import { AddIcon } from "../../svgs/AddIcon";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
+import EditTaskContainerMobile from "../new-task-modal/EditTaskContainerMobile";
 
 import styles from "./AddNewTask.module.scss";
 
@@ -13,6 +15,14 @@ export function AddNewTask(props) {
   const dispatch = useDispatch();
 
   let [showBtn, setShowBtn] = useState(!props.isOpen || true);
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 0px)",
+  });
+
+  const isBigScreen = useMediaQuery({
+    query: "(min-device-width: 1201px )",
+  });
 
   useEffect(() => {
     if (props.isOpen) {
@@ -60,5 +70,9 @@ export function AddNewTask(props) {
       </button>
     );
   }
-  return <EditTaskContainer saveTask={doSaveTask} {...props} />;
+
+  if (isBigScreen) {
+    return <EditTaskContainer saveTask={doSaveTask} {...props} />;
+  }
+  return <EditTaskContainerMobile saveTask={doSaveTask} {...props} />;
 }

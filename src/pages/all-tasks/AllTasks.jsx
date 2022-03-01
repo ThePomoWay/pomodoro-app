@@ -12,6 +12,7 @@ import {
   selectDefaultTimes,
   selectCompletedPomos,
   selectCompletedTaskInProject,
+  selectLastAllTaskUrl,
 } from "../../common/state/selectors";
 import {
   addToAllTasks,
@@ -55,6 +56,9 @@ import { ClickAwayListener, Popper } from "@material-ui/core";
 import { MoreHorizRounded } from "@material-ui/icons";
 import CompletedTasksList from "../../common/components/completed-tasks-collapsible/CompletedTasksList";
 
+import { useHistory } from "react-router-dom";
+import { setLastAllTaskUrl } from "../../common/state/slices/GlobalSlice";
+
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
 
@@ -78,6 +82,22 @@ export default () => {
   let completedTasks = useSelector(
     selectCompletedTaskInProject(AuthService.getInboxProjectId(), "")
   );
+
+  let lastUrl = useSelector(selectLastAllTaskUrl);
+  let history = useHistory();
+  useEffect(() => {
+    return history.listen((location, action) => {
+      if (location.pathname.startsWith("/all")) {
+        dispatch(setLastAllTaskUrl(location.pathname));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (window.location.pathname !== lastUrl) {
+      history.push(lastUrl);
+    }
+  }, []);
 
   let projectId = AuthService.getInboxProjectId();
 

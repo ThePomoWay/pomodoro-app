@@ -114,10 +114,10 @@ export default function NavbarDesktop(props) {
           {/* <div>
             <span className={styles["manage-focus"]}>Manage Focus</span>
           </div> */}
-          <ThemeDropdown />
+          {/* <ThemeDropdown />
           <div>
             <button className="btn btn-premium">Premium</button>
-          </div>
+          </div> */}
 
           {(isLoggedIn && <ProfileDropdown />) || (
             <div

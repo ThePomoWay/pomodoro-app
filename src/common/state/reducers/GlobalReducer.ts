@@ -1,4 +1,9 @@
-import { THEME_LIGHT } from "../../utils/constants";
+import {
+  DEFAULT_BREAK_TIME,
+  DEFAULT_LONG_BREAK_TIME,
+  DEFAULT_WORK_TIME,
+  THEME_LIGHT,
+} from "../../utils/constants";
 
 export const initialGlobalState = {
   focusMode: false,
@@ -16,6 +21,14 @@ export const initialGlobalState = {
     type: "success",
   },
   theme: THEME_LIGHT,
+  userPreferences: {
+    defaultWorkTime: DEFAULT_WORK_TIME,
+    defaultBreakTime: DEFAULT_BREAK_TIME,
+    defaultLongBreakTime: DEFAULT_LONG_BREAK_TIME,
+    autoplayPomo: false,
+    autoplayBreak: false,
+  },
+  lastAllTaskUrl: "/all",
 };
 
 export let globalReducer = {
@@ -66,5 +79,11 @@ export let globalReducer = {
   },
   setTheme: (state, action) => {
     state.theme = action.payload;
+  },
+  setUserPreferences: (state, action) => {
+    state.userPreferences = { ...state.userPreferences, ...action.payload };
+  },
+  setLastAllTaskUrl: (state, action) => {
+    state.lastAllTaskUrl = action.payload;
   },
 };

@@ -1,5 +1,11 @@
 import { Checkbox, Slider } from "@mui/material";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectDefaultTimes,
+  selectUserPreferences,
+} from "../../state/selectors";
+import { updateUserPref } from "../../state/slices/GlobalSlice";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 
 import styles from "./ClockSettings.module.scss";
@@ -12,7 +18,39 @@ import {
 export function ClockSettings(props) {
   let isAutoBreakEnabled = true;
 
-  const enableAutoBreak = useCallback(() => {});
+  let defaultSettings = useSelector(selectUserPreferences);
+
+  let [workTime, setWorkTime] = useState(defaultSettings.defaultWorkTime / 60);
+  let [breakTime, setBreakTime] = useState(
+    defaultSettings.defaultBreakTime / 60
+  );
+  let [longBreakTime, setLongBreakTime] = useState(
+    defaultSettings.defaultLongBreakTime / 60
+  );
+  let [autoBreak, setAutoBreak] = useState(defaultSettings.autoplayBreak);
+  let [autoPlay, setAutoPlay] = useState(defaultSettings.autoplayPomo);
+
+  useEffect(() => {
+    setWorkTime(defaultSettings.defaultWorkTime / 60);
+    setBreakTime(defaultSettings.defaultBreakTime / 60);
+    setLongBreakTime(defaultSettings.defaultLongBreakTime / 60);
+    setAutoPlay(defaultSettings.autoplayPomo);
+    setAutoBreak(defaultSettings.autoplayBreak);
+  }, [defaultSettings]);
+
+  let dispatch = useDispatch();
+
+  let onSave = () => {
+    dispatch(
+      updateUserPref({
+        defaultWorkTime: workTime * 60,
+        defaultBreakTime: breakTime * 60,
+        defaultLongBreakTime: longBreakTime * 60,
+        autoplayPomo: autoPlay,
+        autoplayBreak: autoBreak,
+      })
+    );
+  };
 
   return (
     <div>
@@ -26,13 +64,14 @@ export function ClockSettings(props) {
 
         <div className={styles["slider"]}>
           <Slider
-            aria-label="Temperature"
-            defaultValue={25}
+            aria-label="Work Time"
+            value={workTime}
             valueLabelDisplay="off"
             step={5}
             marks={pomoMarks}
             min={25}
             max={45}
+            onChange={(_, val) => setWorkTime(val)}
           />
         </div>
       </div>
@@ -42,13 +81,14 @@ export function ClockSettings(props) {
         </span>
         <div className={styles["slider"]}>
           <Slider
-            aria-label="Temperature"
-            defaultValue={5}
+            aria-label="Break Time"
+            value={breakTime}
             valueLabelDisplay="off"
             step={5}
             marks={pomoBreakMarks}
             min={5}
             max={20}
+            onChange={(_, val) => setBreakTime(val)}
           />
         </div>
       </div>
@@ -58,26 +98,38 @@ export function ClockSettings(props) {
         </span>
         <div className={styles["slider"]}>
           <Slider
-            aria-label="Temperature"
-            defaultValue={15}
+            aria-label="Long Break Time"
+            value={longBreakTime}
             valueLabelDisplay="off"
             step={5}
             marks={pomoLongBreakMarks}
             min={15}
             max={30}
+            onChange={(_, val) => setLongBreakTime(val)}
           />
         </div>
       </div>
 
       <div className={styles["checkbox"]}>
+        <span className="font-sub-heading">Enable auto start pomodoro: </span>
+        <CustomSlider
+          value={autoPlay}
+          onChange={() => setAutoPlay(!autoPlay)}
+        />
+      </div>
+      <div className={styles["checkbox"]}>
         <span className="font-sub-heading">Enable auto start break: </span>
-        <CustomSlider />
+        <CustomSlider
+          value={autoBreak}
+          onChange={() => {
+            setAutoBreak(!autoBreak);
+          }}
+        />
       </div>
 
-      <div className={styles["checkbox"]}>
-        <span className="font-sub-heading">Enable auto start pomodoro: </span>
-        <CustomSlider />
-      </div>
+      <button className="btn btn-save" onClick={onSave}>
+        Save Settings
+      </button>
     </div>
   );
 }

@@ -1,4 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getFromCollection } from "../../API/indexed-db-ops/indexedDbCrudWrapper";
+import {
+  userPreferencesObjectKey,
+  userPreferencesObjectStoreName,
+} from "../../API/indexed-db-ops/init";
 import { pushToStatsUpdateQueueIDB } from "../../API/indexed-db-ops/statsQueue";
 import {
   createTimerStateIdb,
@@ -39,16 +44,23 @@ export let getTimerState = createAsyncThunk(
   async (_, { dispatch, getState }) => {
     let formattedDate = getFormattedDate();
     let response = <any>await getTimerStateFromIdb(formattedDate);
+    let userPreference = <any>(
+      await getFromCollection(
+        userPreferencesObjectStoreName,
+        false,
+        userPreferencesObjectKey
+      )
+    );
     if (!response) {
       dispatch(updateTimerState({ create: true }));
     } else {
       let defaultTotalTime = "";
       if (response.pomoState.includes("long_break")) {
-        defaultTotalTime = response.defaultLongBreakTime;
+        defaultTotalTime = userPreference.defaultLongBreakTime;
       } else if (response.pomoState.includes("break")) {
-        defaultTotalTime = response.defaultBreakTime;
+        defaultTotalTime = userPreference.defaultBreakTime;
       } else {
-        defaultTotalTime = response.defaultWorkTime;
+        defaultTotalTime = userPreference.defaultWorkTime;
       }
 
       if (
@@ -67,6 +79,8 @@ export let getTimerState = createAsyncThunk(
           // dispatch(tickAsync());
         }
         response.timerInSec = timerInSec;
+      } else {
+        response.timerInSec = defaultTotalTime;
       }
     }
 
@@ -136,6 +150,7 @@ export let updateNextState = createAsyncThunk(
   "timer/nextstate",
   async (_, { getState, dispatch }) => {
     let state = getState()["timer"];
+    let userPreference = getState()["global"].userPreferences;
     playAlarmSound();
     if (state.pomoState === POMO_RUNNING_STATE) {
       let completedPomos = state.completedPomos + 1;
@@ -145,34 +160,75 @@ export let updateNextState = createAsyncThunk(
           : POMO_BREAK_IDLE_STATE;
       let nextTimerInSec =
         nextState === POMO_LONG_BREAK_IDLE_STATE
-          ? DEFAULT_LONG_BREAK_TIME
-          : DEFAULT_BREAK_TIME;
+          ? userPreference.defaultLongBreakTime
+          : userPreference.defaultBreakTime;
 
       // if(AuthService.isLoggedIn()) {
       //     updateTimerStatsAPI(new Date(state.pomoStartTime).toISOString(), new Date().toISOString(), 'complete', false);
       // }
 
-      dispatch(
-        updateTimerState({
-          pomoState: nextState,
-          timerInSec: nextTimerInSec,
-          completedPomos,
-          ptime: "",
-          lastResumeTime: "",
-          psec: 0,
-          pomoSummary: {},
-        })
-      );
+      if (userPreference.autoplayBreak) {
+        nextState =
+          nextState === POMO_LONG_BREAK_IDLE_STATE
+            ? POMO_LONG_BREAK_RUNNING_STATE
+            : POMO_BREAK_RUNNING_STATE;
+
+        let date = new Date();
+        dispatch(
+          updateTimerState({
+            pomoStartTime: date.getTime(),
+            pomoState: nextState,
+            psec: 0,
+            lastResumeTime: date.toISOString(),
+            completedPomos,
+
+            timerInSec: nextTimerInSec,
+
+            ptime: "",
+            pomoSummary: {},
+          })
+        );
+      } else {
+        dispatch(
+          updateTimerState({
+            pomoState: nextState,
+            timerInSec: nextTimerInSec,
+            completedPomos,
+            ptime: "",
+            lastResumeTime: "",
+            psec: 0,
+            pomoSummary: {},
+          })
+        );
+      }
 
       dispatch(incrementCurTaskCpomo());
     } else {
-      dispatch(
-        updateTimerState({
-          pomoState: POMO_IDLE_STATE,
-          timerInSec: DEFAULT_WORK_TIME,
-          pomoSummary: {},
-        })
-      );
+      let nextState = POMO_IDLE_STATE;
+      if (userPreference.autoplayPomo) {
+        nextState = POMO_RUNNING_STATE;
+        let date = new Date();
+
+        dispatch(
+          updateTimerState({
+            pomoStartTime: date.getTime(),
+            pomoState: nextState,
+            psec: 0,
+            lastResumeTime: date.toISOString(),
+            timerInSec: userPreference.defaultWorkTime,
+            ptime: "",
+            pomoSummary: {},
+          })
+        );
+      } else {
+        dispatch(
+          updateTimerState({
+            pomoState: nextState,
+            timerInSec: DEFAULT_WORK_TIME,
+            pomoSummary: {},
+          })
+        );
+      }
     }
   }
 );
@@ -182,6 +238,7 @@ export let tickAsync = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     let timerState = getState()["timer"];
     let taskState = getState()["tasks"];
+    let userPreference = getState()["global"].userPreferences;
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
 
@@ -196,12 +253,12 @@ export let tickAsync = createAsyncThunk(
       }
     }
 
-    let defaultTotalTime = timerState.defaultWorkTime;
+    let defaultTotalTime = userPreference.defaultWorkTime;
 
     if (timerState.pomoState.includes("long_break")) {
-      defaultTotalTime = timerState.defaultLongBreakTime;
+      defaultTotalTime = userPreference.defaultLongBreakTime;
     } else if (timerState.pomoState.includes("break")) {
-      defaultTotalTime = timerState.defaultBreakTime;
+      defaultTotalTime = userPreference.defaultBreakTime;
     }
 
     let timerSec = getTimerInSec(
@@ -392,11 +449,9 @@ export const timerSlice = createSlice({
 });
 
 export const {
-  completedPomo,
   setTimerSec,
   initiateBreak,
   initiatePomo,
-  resetTimer,
   pauseTimer,
   completeBreak,
   setPomoState,

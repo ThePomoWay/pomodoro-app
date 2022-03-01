@@ -1,11 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { clearIDB } from "../../API/indexed-db-ops/crud";
-import AuthService from "../../API/network/AuthService";
 import {
-  facebookLoginApi,
-  googleLoginApi,
-  registerApi,
-} from "../../API/network/SignonApis";
+  getFromCollection,
+  updateCollectionIdb,
+} from "../../API/indexed-db-ops/indexedDbCrudWrapper";
+import {
+  userPreferencesObjectKey,
+  userPreferencesObjectStoreName,
+} from "../../API/indexed-db-ops/init";
+import AuthService from "../../API/network/AuthService";
+import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
@@ -15,10 +19,17 @@ import {
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { globalReducer, initialGlobalState } from "../reducers/GlobalReducer";
 
-export let init = createAsyncThunk("global/init", (_, { dispatch }) => {
+export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
     setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
   );
+
+  let defaults = await getFromCollection(
+    userPreferencesObjectStoreName,
+    false,
+    userPreferencesObjectKey
+  );
+  dispatch(setUserPreferences(defaults));
 });
 
 export let hideFirstUserScreen = createAsyncThunk(
@@ -83,6 +94,20 @@ export const focusModeToggle = createAsyncThunk(
   }
 );
 
+export const updateUserPref = createAsyncThunk(
+  "global/settings/update",
+  async (obj: any, { dispatch, getState }) => {
+    let userPreferences = getState()["global"].userPreferences;
+    let updateObj = { ...userPreferences, ...obj };
+    await updateCollectionIdb(userPreferencesObjectStoreName, {
+      key: userPreferencesObjectKey,
+      ...updateObj,
+    });
+    dispatch(showSuccessToast(obj.msg || "Settings updated Successfully"));
+    dispatch(setUserPreferences(updateObj));
+  }
+);
+
 export const globalSlice = createSlice({
   name: "global",
   initialState: initialGlobalState,
@@ -111,4 +136,6 @@ export const {
   setToast,
   showSuccessToast,
   setTheme,
+  setUserPreferences,
+  setLastAllTaskUrl,
 } = globalSlice.actions;

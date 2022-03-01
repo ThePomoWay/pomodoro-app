@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {  BrowserRouter as Router , Switch, Route } from 'react-router-dom';
 import './App.scss';
@@ -12,8 +12,10 @@ import AnalysisPage from './pages/analysis/Analysispage';
 import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
-import { init } from './common/state/slices/GlobalSlice';
+import { init, setLastAllTaskUrl } from './common/state/slices/GlobalSlice';
 import { Toast } from './common/components/toast/Toast';
+
+import { useHistory } from "react-router-dom";
 
 function App() {
 
@@ -23,6 +25,9 @@ function App() {
   }
 
   dispatch(init());
+  let history = useHistory();
+
+  
 
   if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();

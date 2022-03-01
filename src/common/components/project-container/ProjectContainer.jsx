@@ -39,7 +39,10 @@ import { AddNewTask } from "../new-task-btn/AddNewTask";
 import { MoreHorizRounded } from "@material-ui/icons";
 import { ClickAwayListener, Popper } from "@material-ui/core";
 import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
-import { setProjectModalState } from "../../state/slices/GlobalSlice";
+import {
+  setLastAllTaskUrl,
+  setProjectModalState,
+} from "../../state/slices/GlobalSlice";
 import { Alert } from "../alert/Alert";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
@@ -284,6 +287,10 @@ export function ProjectContainer(props) {
   let doEditTask = (task) => {
     dispatch(setEditTask(task.fid));
   };
+
+  useEffect(() => {
+    dispatch(setLastAllTaskUrl(window.location.pathname));
+  }, []);
 
   if (projectVar) {
     let totalTasks = projectVar.to.length;

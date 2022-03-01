@@ -96,11 +96,13 @@ export const selectDefaultBreakTime = (state) => state.timer.defaultBreakTime;
 
 export const selectDefaultTimes = (state) => {
   return {
-    defaultWorkTime: state.timer.defaultWorkTime,
-    defaultBreakTime: state.timer.defaultBreakTime,
-    defaultLongBreakTime: state.timer.defaultLongBreakTime,
+    defaultWorkTime: state.global.userPreferences.defaultWorkTime,
+    defaultBreakTime: state.global.userPreferences.defaultBreakTime,
+    defaultLongBreakTime: state.global.userPreferences.defaultLongBreakTime,
   };
 };
+
+export const selectUserPreferences = (state) => state.global.userPreferences;
 
 //Select user info
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
@@ -114,3 +116,5 @@ export const selectLoginPasswordError = (state) =>
   state.onboarding.loginPasswordError;
 export const selectLoginName = (state) => state.onboarding.loginName;
 export const selectRegisterEmail = (state) => state.onboarding.registerEmail;
+
+export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;

@@ -22,10 +22,10 @@ export default function Settings(props) {
         <div className={styles["settings"]}>
           <Switch>
             <Route exact path={path}>
-              <ProfileSettings />
+              <ClockSettings />
             </Route>
             <Route exact path={`${path}/timer`}>
-              <ClockSettings />
+              <ProfileSettings />
             </Route>
             <Route exact path={`${path}/sound`}>
               <SoundSettings />

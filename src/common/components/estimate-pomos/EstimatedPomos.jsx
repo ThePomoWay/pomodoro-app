@@ -112,7 +112,7 @@ export default (props) => {
           setCheckedPomos(defaultPomos + 1);
         }}
       >
-        <Add style={{ width: "16px", height: "16px" }} />
+        {!props.hideAdd && <Add style={{ width: "16px", height: "16px" }} />}
       </span>
     </span>
   );

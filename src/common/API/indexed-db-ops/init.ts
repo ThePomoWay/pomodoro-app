@@ -1,4 +1,9 @@
 import { generateUniqueId } from "../../utils/common";
+import {
+  DEFAULT_BREAK_TIME,
+  DEFAULT_LONG_BREAK_TIME,
+  DEFAULT_WORK_TIME,
+} from "../../utils/constants";
 import AuthService from "../network/AuthService";
 
 export const dbName = "pomo-app";
@@ -7,6 +12,9 @@ export const timerstateObjectStoreName = "timerState";
 export const todaysTasksObjectStoreName = "todaysTasks";
 export const tagsObjectStoreName = "tags";
 export const projectsObjectStoreName = "projects";
+
+export const userPreferencesObjectStoreName = "userPref";
+export const userPreferencesObjectKey = "key";
 
 let promise = null;
 export function initIdb() {
@@ -37,6 +45,11 @@ export function initIdb() {
           { keyPath: "_id" }
         );
 
+        let userPreferencesObjectStore = db.createObjectStore(
+          userPreferencesObjectStoreName,
+          { keyPath: userPreferencesObjectKey }
+        );
+
         taskObjStore.createIndex("fid", "fid", { unique: true });
         timerStateObjStore.createIndex("date", "date", { unique: true });
 
@@ -52,6 +65,16 @@ export function initIdb() {
         todaysTasksObjStore.add({
           key: "_TodaysTasks",
           value: [],
+        });
+
+        userPreferencesObjectStore.add({
+          key: userPreferencesObjectKey,
+
+          defaultWorkTime: DEFAULT_WORK_TIME,
+          defaultBreakTime: DEFAULT_BREAK_TIME,
+          defaultLongBreakTime: DEFAULT_LONG_BREAK_TIME,
+          autoplayPomo: false,
+          autoplayBreak: false,
         });
       };
 

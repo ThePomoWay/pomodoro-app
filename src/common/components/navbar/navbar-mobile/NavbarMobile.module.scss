@@ -1,0 +1,52 @@
+.navbar {
+  height: 20px;
+  padding: 10px;
+  border-bottom: 0.5px solid #cacaca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .title {
+    margin-left: 6px;
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 24px;
+    position: absolute;
+    left: 6px;
+  }
+
+  .link-item {
+    justify-self: center;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    text-decoration: none;
+    color: var(--text-theme);
+
+    svg {
+      margin-right: 2px;
+    }
+  }
+
+  .selected {
+    color: #4b60ce;
+    font-weight: 500;
+  }
+
+  .right-container {
+    justify-self: flex-end;
+    position: absolute;
+    right: 4px;
+  }
+}
