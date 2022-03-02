@@ -6,7 +6,7 @@ import { HomepageMobile } from "./mobile/homepage-view-xs";
 export default function Homepage() {
   usePageTracking();
   const isMobileDevice = useMediaQuery({
-    query: "(max-device-width: 0px)",
+    query: "(max-device-width: 1224px)",
   });
 
   const isDesktop = useMediaQuery({
