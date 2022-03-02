@@ -44,12 +44,12 @@ export function PrioritySidebar(props) {
       <div className={styles["priorities-sidebar"]}>
         <FlagOutlined />
         Priorities
-        <span
+        {/* <span
           onClick={(e) => setPriorityExpanded(!priorityExpanded)}
           className={`${styles["accordion"]} ${
             priorityExpanded ? "up-arrow" : "down-arrow"
           }`}
-        ></span>
+        ></span> */}
       </div>
       <div className={styles["priorities-sidebar-second"]}>
         {priorityExpanded && getPriorities()}

@@ -35,7 +35,7 @@ import {
 } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
-import { playAlarmSound } from "../../utils/sound-utils";
+import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksSlice";
 
@@ -295,6 +295,7 @@ export const startTimerAsync = createAsyncThunk(
         lastResumeTime: date.toISOString(),
       })
     );
+    playTimerStartSound();
   }
 );
 

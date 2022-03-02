@@ -79,7 +79,7 @@ export default () => {
   usePageTracking();
 
   let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
-  let [showCompletedSection, setShowCompletedSection] = useState(false);
+  let [showCompletedSection, setShowCompletedSection] = useState(true);
   let [moreAnchorEl, setMoreAnchorEl] = useState(false);
 
   let completedTasks = useSelector(

@@ -111,7 +111,6 @@ export default function Timer(props) {
 
   const doStartTimer = useCallback((isCta) => {
     dispatch(startTimerAsync());
-    playTimerStartSound();
 
     startInterval();
     dispatch(hideFirstUserScreen());

@@ -46,6 +46,7 @@ import { DeleteIcon } from "../../svgs/DeleteIcon";
 import { DismissTaskIcon } from "../../svgs/DismissTaskIcon";
 import { TaskPauseIcon } from "../../svgs/TaskPauseIcon";
 import { TaskPlayIcon } from "../../svgs/TaskPlayIcon";
+import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 
 export default function TaskItem(props) {
   let task: Task = props.task;
@@ -80,8 +81,12 @@ export default function TaskItem(props) {
         updateTimerState({
           pomoStartTime: Date.now(),
           pomoState: POMO_RUNNING_STATE,
+          psec: 0,
+          lastResumeTime: new Date().toISOString(),
         })
       );
+
+      playTimerStartSound();
     }
   };
 

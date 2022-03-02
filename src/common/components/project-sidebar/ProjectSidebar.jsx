@@ -79,22 +79,16 @@ export default () => {
         <ProjectSidenavIcon />
         Lists
         <span
-          onClick={(e) => setProjectExpanded(!projectExpanded)}
-          className={`${styles["accordion"]} ${
-            projectExpanded ? styles["up"] : styles["down"]
-          }`}
+          onClick={(e) => openNewProjectModal()}
+          className={`${styles["accordion"]}`}
         >
-          <AccordionIcon />
+          <Add />
         </span>
       </div>
       <div className={styles["project-sidebar-second"]}>
-        <div
-          className={`${styles["sidebar-row"]} ${styles["create-project"]}`}
-          onClick={(e) => openNewProjectModal()}
-        >
-          <Add />
+        {/* <div className={`${styles["sidebar-row"]} ${styles["create-project"]}`}>
           Create a project
-        </div>
+        </div> */}
         {projectExpanded && getProjects()}
       </div>
     </div>

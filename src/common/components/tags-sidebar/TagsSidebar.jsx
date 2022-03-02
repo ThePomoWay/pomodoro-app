@@ -82,21 +82,15 @@ export function TagsSidebar(props) {
         </svg>
         Labels
         <span
-          onClick={(e) => setTagExpanded(!tagExpanded)}
-          className={`${styles["accordion"]} ${
-            tagExpanded ? "up-arrow" : "down-arrow"
-          }`}
-        ></span>
+          onClick={onNewLabelModalOpen}
+          className={`${styles["accordion"]}`}
+        >
+          <Add />
+        </span>
       </div>
 
       <div className={styles["tags-sidebar-second"]}>
-        <div
-          className={`${styles["sidebar-row"]}`}
-          onClick={onNewLabelModalOpen}
-        >
-          <Add />
-          Create a Label
-        </div>
+        {/* <div className={`${styles["sidebar-row"]}`}>Create a Label</div> */}
 
         {tagExpanded && getTags()}
       </div>

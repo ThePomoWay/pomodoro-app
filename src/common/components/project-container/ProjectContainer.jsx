@@ -67,7 +67,7 @@ export function ProjectContainer(props) {
   let [showEditTaskContainer, setShowEditTaskContainer] = useState(false);
   let [isDragging, setIsDragging] = useState(false);
   let [isTaskDragging, setIsTaskDragging] = useState(false);
-  let [showCompletedSection, setShowCompletedSection] = useState(false);
+  let [showCompletedSection, setShowCompletedSection] = useState(true);
 
   let editTaskRef = useSelector(selectEditTaskRef);
 

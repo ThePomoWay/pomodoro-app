@@ -11,7 +11,7 @@ const usePageTracking = () => {
       if (!window.location.href.includes("beta")) {
         ReactGA.initialize("UA-000000000-0");
       } else {
-        ReactGA.initialize("G-HGTPJS6PE3");
+        ReactGA.initialize("UA-212261258-1");
       }
       setInitialized(true);
     }
