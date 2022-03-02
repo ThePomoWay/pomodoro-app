@@ -12,22 +12,20 @@ import AnalysisPage from './pages/analysis/Analysispage';
 import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
-import { init, setLastAllTaskUrl } from './common/state/slices/GlobalSlice';
+import { init } from './common/state/slices/GlobalSlice';
 import { Toast } from './common/components/toast/Toast';
 
-import { useHistory } from "react-router-dom";
 
 function App() {
 
   let dispatch = useDispatch();
+  
   if(AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
   }
 
-  dispatch(init());
-  let history = useHistory();
 
-  
+  dispatch(init());
 
   if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
@@ -36,9 +34,7 @@ function App() {
   return (
     <Router>
       <Switch>
-          {/* <Route path="/onboarding">
-            <OnBoarding />
-          </Route> */}
+         
           <Route path="/closetabs">
             <CloseTabs></CloseTabs>
           </Route>

@@ -11,11 +11,9 @@ export default function Navbar(props) {
     query: "(min-device-width: 1200px)",
   });
 
-  if (isDesktop) {
+  if (!isMobileDevice) {
     return <NavbarDesktop {...props} />;
   }
 
-  if (isMobileDevice) {
-    return <NavbarMobile {...props} />;
-  }
+  return <NavbarMobile {...props} />;
 }

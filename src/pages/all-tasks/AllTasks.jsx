@@ -58,6 +58,7 @@ import CompletedTasksList from "../../common/components/completed-tasks-collapsi
 
 import { useHistory } from "react-router-dom";
 import { setLastAllTaskUrl } from "../../common/state/slices/GlobalSlice";
+import usePageTracking from "../../usePageTracking";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -74,6 +75,8 @@ export default () => {
   let containerRef = useRef(null);
 
   let dispatch = useDispatch();
+
+  usePageTracking();
 
   let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
   let [showCompletedSection, setShowCompletedSection] = useState(false);
