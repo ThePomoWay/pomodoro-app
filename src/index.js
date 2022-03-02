@@ -34,3 +34,6 @@ registerWorkerEvent();
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 addExtensionListeners();
+if(process.env.REACT_APP_API_ENV === 'alpha') {
+  gtag('config', 'G-HGTPJS6PE3');
+}
