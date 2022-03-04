@@ -1,5 +1,4 @@
 import env from "../../../env";
-import { setToast } from "../../state/slices/GlobalSlice";
 import { store } from "../../state/store";
 import AuthService from "./AuthService";
 import { isSyncRequired, getSyncInfo, syncSuccessful} from "../../offlineSync/offlineSync";
@@ -35,8 +34,8 @@ function throwNetworkErrorToast() {
 
 export class NetworkService {
   static sync() {
-    if (!isSyncRequired) {
-      return
+    if (!isSyncRequired()) {
+      return Promise.resolve()
     }
 
     const syncOfflineDataEndpoint = "v1/users/{userId}/sync-offline-data"
