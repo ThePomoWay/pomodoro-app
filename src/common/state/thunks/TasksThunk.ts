@@ -26,6 +26,7 @@ import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
+import { saveTaskInOfflineStore, task_complete, task_create, task_delete, task_update } from "../../offlineSync/offlineSync";
 
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import {
@@ -87,6 +88,8 @@ export const createTaskThunk = createAsyncThunk(
           if (payload.isTodaysTask) {
             addToTodaysTaskAPI(response.data.tid);
           }
+        } else {
+          saveTaskInOfflineStore(task, task_create)
         }
       });
     }
@@ -109,7 +112,17 @@ export const updateTaskThunk = createAsyncThunk(
     dispatch(updateLocalTaskThunk(task));
 
     if (AuthService.isLoggedIn()) {
-      updateTaskAPI(task);
+      if (task._id !== "") {
+        updateTaskAPI(task).then((res) => {
+          if (res.status !== 200) {
+            // TODO : should we also use navigator to check if user is offline
+            // TODO : api call should not be made if index db fails
+            saveTaskInOfflineStore(task, task_update)
+          }
+        });
+      } else {
+        saveTaskInOfflineStore(task, task_update)
+      }
     }
     return task;
   }
@@ -165,8 +178,15 @@ export const deleteTaskThunk = createAsyncThunk(
     dispatch(deleteTask(task));
     let response = await deleteIDBTask(task);
 
-    if (AuthService.isLoggedIn()) {
-      deleteTaskAPI(task);
+    if (AuthService.isLoggedIn() && task._id !== "") {
+      deleteTaskAPI(task)
+      .then((res) => {
+        if (res.status !== 200) {
+          saveTaskInOfflineStore(task, task_delete)
+        }
+      });
+    } else {
+      saveTaskInOfflineStore(task, task_delete)
     }
 
     dispatch(
@@ -203,6 +223,29 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
     dispatch(addToCompletedTasks({ fid: obj.task.fid }));
 
     let project = getState()["projects"].projects[obj.task.project.projectID];
+    if (AuthService.isLoggedIn() && task_update._id !== "") {
+      let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
+      let completedTaskResponse = await markTaskAsCompleteApi(
+        { project: obj.task.project },
+        obj.task.fid in todaysTasksObj,
+        completedOn,
+        obj.task._id
+      );
+      if (completedTaskResponse.status !== 200) {
+        saveTaskInOfflineStore(obj.task, task_complete)
+        dispatch(
+          setToast({
+            open: true,
+            msg: completedTaskResponse.data.msg,
+            duration: 5000,
+            type: "error",
+          })
+        );
+      }
+    } else {
+      saveTaskInOfflineStore(obj.task, task_complete)
+    }
+
 
     let taskOrderCopy = [...project.to];
     if (obj.task.project.secID) {
@@ -423,6 +466,9 @@ export const rearrangeTodaysTask = createAsyncThunk(
           .map((item) => tasks[item] && tasks[item]._id)
           .filter((i) => i)
       );
+      if (response.status !== 200) {
+        saveTaskInOfflineStore();
+      }
     }
   }
 );
@@ -480,8 +526,12 @@ export const removeFromTodaysTasks = createAsyncThunk(
     }
 
     if (AuthService.isLoggedIn() && payload._id) {
-      await removeFromTodaysTasksApi(payload._id);
+      var resp = await removeFromTodaysTasksApi(payload._id);
+      if (resp.status) {
+        saveTaskInOfflineStore();
+      }
     }
+
 
     updateTodaysTasksInIdb(todaysTasks);
     dispatch(updateTodaysTasks(todaysTasks));

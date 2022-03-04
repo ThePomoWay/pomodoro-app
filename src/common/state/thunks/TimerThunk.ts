@@ -375,7 +375,8 @@ export const completePomodoro = createAsyncThunk(
     let summary = [];
     for (let taskId in pomoSummary) {
       summary.push({
-        tid: taskState.tasks[taskId]._id || taskState.tasks[taskId].fid,
+        tid: taskState.tasks[taskId]._id || "",
+        fid: taskState.tasks[taskId].fid,
         csec: pomoSummary[taskId],
       });
     }
