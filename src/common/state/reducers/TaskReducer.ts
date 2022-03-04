@@ -138,7 +138,9 @@ export let taskReducer = {
     let currentTask = action.payload.filter((item) => item.isCurrentTask)[0];
     state.currentTaskRef = currentTask && currentTask.fid;
   },
-  setTodaysTasks: (state, action) => {},
+  setTodaysTasks: (state, action) => {
+    state.todaysTasks = action.payload;
+  },
   incrementCurTaskSec: (state, action) => {
     if (state.currentTaskRef) {
       state.tasks[state.currentTaskRef].summary.csec += 1;

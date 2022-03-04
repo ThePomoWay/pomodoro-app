@@ -30,6 +30,7 @@ import { playCompleteTaskSound } from "../../utils/sound-utils";
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import {
   addToCompletedTasks,
+  createTask,
   deleteTask,
   removeFromCompletedTasks,
   setAllTasks,
@@ -89,7 +90,6 @@ export const createTaskThunk = createAsyncThunk(
         }
       });
     }
-    return response;
   }
 );
 

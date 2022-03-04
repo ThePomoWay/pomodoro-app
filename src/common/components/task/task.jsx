@@ -1,50 +1,34 @@
 import { Popover } from "@material-ui/core";
-import {
-  Add,
-  Delete,
-  Edit,
-  EditOutlined,
-  MoreHorizRounded,
-  PlayArrow,
-  Remove,
-  RemoveFromQueue,
-  TimelapseOutlined,
-} from "@material-ui/icons";
+import { MoreHorizRounded } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
 import { setEditTask } from "../../state/slice/TasksSlice";
-
 import {
   deleteTaskThunk,
-  markTaskAsCompleteThunk,
   markTaskAsCurrent,
-  markTaskAsInCompleteThunk,
 } from "../../state/thunks/TasksThunk";
 import {
   pauseTimerAsync,
   resumeTimerAsync,
   updateTimerState,
 } from "../../state/thunks/TimerThunk";
+import { AddTaskIcon } from "../../svgs/AddTaskIcon";
+import { DeleteIcon } from "../../svgs/DeleteIcon";
+import { DismissTaskIcon } from "../../svgs/DismissTaskIcon";
+import { RemoveTaskIcon } from "../../svgs/RemoveTaskIcon";
+import { TaskPauseIcon } from "../../svgs/TaskPauseIcon";
+import { TaskPlayIcon } from "../../svgs/TaskPlayIcon";
+import { TickIcon } from "../../svgs/TickIcon";
+import { UncompleteIcon } from "../../svgs/UncompleteIcon";
 import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
   priorityColorMap,
 } from "../../utils/constants";
+import { playTimerStartSound } from "../../utils/sound-utils";
 import { EditIcon } from "../edit-icon/EditIcon";
-
-import { SunIcon } from "../../svgs/SunIcon";
-
 import styles from "./task.module.scss";
-import { AddTaskIcon } from "../../svgs/AddTaskIcon";
-import { RemoveTaskIcon } from "../../svgs/RemoveTaskIcon";
-import { TickIcon } from "../../svgs/TickIcon";
-import { UncompleteIcon } from "../../svgs/UncompleteIcon";
-import { DeleteIcon } from "../../svgs/DeleteIcon";
-import { DismissTaskIcon } from "../../svgs/DismissTaskIcon";
-import { TaskPauseIcon } from "../../svgs/TaskPauseIcon";
-import { TaskPlayIcon } from "../../svgs/TaskPlayIcon";
-import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 
 export default function TaskItem(props) {
   let task: Task = props.task;
