@@ -52,4 +52,33 @@ export let timerReducer = {
   setPomoSummary: (state, action) => {
     state.pomoSummary = action.payload || {};
   },
+
+  setTimerState: (state, action) => {
+    if (action.payload) {
+      state.completedPomos = action.payload.completedPomos;
+      state.pomoState = action.payload.pomoState;
+      state.pomoStartTime = action.payload.pomoStartTime;
+      state.psec = action.payload.psec;
+      state.ptime = action.payload.ptime;
+      state.lastResumeTime = action.payload.lastResumeTime;
+      state.pomoSummary = action.payload.pomoSummary;
+
+      state.timerInSec = action.payload.timerInSec;
+    }
+
+    // if (state.pomoState.includes("running")) {
+    //   let diff = Math.floor(
+    //     (Date.now() - action.payload.pomoStartTime) / 1000
+    //   );
+    //   if (diff < defaultTotalTime) {
+    //     state.timerInSec = defaultTotalTime - diff;
+    //   } else {
+    //     //update next state. Maybe this should be in thunk instead
+    //   }
+    // } else if (state.pomoState.includes("paused")) {
+    //   state.timerInSec = action.payload.timerInSec;
+    // } else {
+    //   state.timerInSec = defaultTotalTime;
+    // }
+  },
 };

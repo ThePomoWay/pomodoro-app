@@ -3,14 +3,12 @@ import styles from "./signup.module.scss";
 import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
 import { useCallback, useState } from "react";
-import {
-  register,
-  setStep,
-} from "../../../common/state/slices/OnboardingSlice";
 import { useDispatch } from "react-redux";
 import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
 import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
 import { SentimentSatisfied } from "@material-ui/icons";
+import { register } from "../../../common/state/thunks/OnboardingThunk";
+import { setStep } from "../../../common/state/slice/OnboardingSlice";
 
 export function SignupStep2(props) {
   let [nameError, setNameError] = useState(false);

@@ -13,9 +13,12 @@ import {
   REGISTER_STEP,
 } from "../../utils/constants";
 import {
-  initialOnboardingState,
-  onboardingReducer,
-} from "../reducers/OnboardingReducer";
+  setLoginName,
+  setLoginPasswordError,
+  setPasswordResetMailId,
+  setRegisterEmail,
+  setStep,
+} from "../slice/OnboardingSlice";
 
 export const register = createAsyncThunk(
   "global/register",
@@ -26,7 +29,10 @@ export const register = createAsyncThunk(
       name: obj.name,
       password: obj.password,
     });
-    return response.data;
+
+    if (response.data && response.data.uid) {
+      AuthService.login(response.data);
+    }
   }
 );
 
@@ -39,7 +45,9 @@ export const login = createAsyncThunk(
         setLoginPasswordError(response.data.msg || "Incorrect password")
       );
     }
-    return response.data;
+    if (response.data && response.data.uid) {
+      AuthService.login(response.data);
+    }
   }
 );
 
@@ -78,30 +86,3 @@ export const resetPassword = createAsyncThunk(
     return response.data;
   }
 );
-
-export let onboardingSlice = createSlice({
-  name: "onboardingSlice",
-  initialState: initialOnboardingState,
-  reducers: onboardingReducer,
-  extraReducers: (builder) => {
-    builder
-      .addCase(register.fulfilled, (state, action) => {
-        if (action.payload && action.payload.uid) {
-          AuthService.login(action.payload);
-        }
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        if (action.payload && action.payload.uid) {
-          AuthService.login(action.payload);
-        }
-      });
-  },
-});
-
-export let {
-  setRegisterEmail,
-  setStep,
-  setPasswordResetMailId,
-  setLoginName,
-  setLoginPasswordError,
-} = onboardingSlice.actions;

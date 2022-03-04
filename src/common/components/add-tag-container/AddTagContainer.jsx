@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 import { selectTagsAsArr, selectTagsAsObj } from "../../state/selectors";
-import { openOnboardingModal } from "../../state/slices/GlobalSlice";
-import { createTagThunk } from "../../state/slices/TagsSlice";
+import { openOnboardingModal } from "../../state/slice/GlobalSlice";
+import { createTagThunk } from "../../state/thunks/TagsThunk";
 import { generateUniqueId, getObjFromArr } from "../../utils/common";
 import { tagColorPalette } from "../../utils/constants";
 

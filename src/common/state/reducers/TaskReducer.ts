@@ -1,4 +1,5 @@
 import { findIndex } from "../../utils/array-utils";
+import { getFormattedDate } from "../../utils/date-utils";
 
 export const initialTaskState = {
   tasks: {},
@@ -116,5 +117,31 @@ export let taskReducer = {
   },
   setCurrentTaskRef: (state, action) => {
     state.currentTaskRef = action.payload;
+  },
+  setAllTasks: (state, action) => {
+    let todaysFormattedDate = getFormattedDate();
+    if (state.todaysCompletedTasks.length === 0) {
+      for (let task of action.payload as Array<any>) {
+        state.tasks[task.fid] = task;
+
+        if (
+          task.isComplete &&
+          getFormattedDate(task.completedOn) === todaysFormattedDate
+        ) {
+          state.todaysCompletedTasks.push(task.fid);
+        }
+      }
+    }
+
+    state.allTasks = Object.keys(state.tasks);
+
+    let currentTask = action.payload.filter((item) => item.isCurrentTask)[0];
+    state.currentTaskRef = currentTask && currentTask.fid;
+  },
+  setTodaysTasks: (state, action) => {},
+  incrementCurTaskSec: (state, action) => {
+    if (state.currentTaskRef) {
+      state.tasks[state.currentTaskRef].summary.csec += 1;
+    }
   },
 };

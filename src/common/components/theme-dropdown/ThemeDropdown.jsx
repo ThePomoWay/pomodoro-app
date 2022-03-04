@@ -4,7 +4,7 @@ import { Popper } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTheme } from "../../state/selectors";
-import { setTheme } from "../../state/slices/GlobalSlice";
+import { setTheme } from "../../state/slices/GlobalThunk";
 import { THEME_DARK, THEME_LIGHT } from "../../utils/constants";
 
 import styles from "../profile-dropdown/ProfileDropdown.module.scss";

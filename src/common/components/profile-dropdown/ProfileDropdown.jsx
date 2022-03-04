@@ -8,7 +8,7 @@ import AuthService from "../../API/network/AuthService";
 import { Link } from "react-router-dom";
 
 import styles from "./ProfileDropdown.module.scss";
-import { logout } from "../../state/slices/GlobalSlice";
+import { logout } from "../../state/thunks/GlobalThunk";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);

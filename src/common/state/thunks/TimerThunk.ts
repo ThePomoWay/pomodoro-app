@@ -37,7 +37,12 @@ import { getFormattedDate } from "../../utils/date-utils";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
-import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksSlice";
+import {
+  setPomoSummary,
+  setTimerSec,
+  setTimerState,
+} from "../slice/TimerSlice";
+import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksThunk";
 
 export let getTimerState = createAsyncThunk(
   "timer/getState",
@@ -84,7 +89,7 @@ export let getTimerState = createAsyncThunk(
       }
     }
 
-    return response;
+    dispatch(setTimerState(response));
   }
 );
 
@@ -138,11 +143,13 @@ export let updateTimerState = createAsyncThunk(
       });
     }
 
-    return {
-      ...stateInStore,
-      ...curStateObj,
-      date,
-    };
+    dispatch(
+      setTimerState({
+        ...stateInStore,
+        ...curStateObj,
+        date,
+      })
+    );
   }
 );
 
@@ -278,6 +285,7 @@ export let tickAsync = createAsyncThunk(
       dispatch(setTimerSec(timerSec));
       // dispatch(incrementCurTaskCsec());
       dispatch(setPomoSummary(pomoSummary));
+      dispatch(incrementCurTaskCsec());
     }
   }
 );
@@ -400,61 +408,3 @@ export const completePomodoro = createAsyncThunk(
     dispatch(updateNextState());
   }
 );
-
-export const timerSlice = createSlice({
-  name: "timer",
-  initialState: initialTimerState,
-  reducers: timerReducer,
-  extraReducers: (builder) => {
-    builder
-      .addCase(getTimerState.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.completedPomos = action.payload.completedPomos;
-          state.pomoState = action.payload.pomoState;
-          state.pomoStartTime = action.payload.pomoStartTime;
-          state.psec = action.payload.psec;
-          state.ptime = action.payload.ptime;
-          state.lastResumeTime = action.payload.lastResumeTime;
-          state.pomoSummary = action.payload.pomoSummary;
-
-          state.timerInSec = action.payload.timerInSec;
-
-          // if (state.pomoState.includes("running")) {
-          //   let diff = Math.floor(
-          //     (Date.now() - action.payload.pomoStartTime) / 1000
-          //   );
-          //   if (diff < defaultTotalTime) {
-          //     state.timerInSec = defaultTotalTime - diff;
-          //   } else {
-          //     //update next state. Maybe this should be in thunk instead
-          //   }
-          // } else if (state.pomoState.includes("paused")) {
-          //   state.timerInSec = action.payload.timerInSec;
-          // } else {
-          //   state.timerInSec = defaultTotalTime;
-          // }
-        }
-      })
-      .addCase(updateTimerState.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.completedPomos = action.payload.completedPomos;
-          state.pomoState = action.payload.pomoState;
-          state.timerInSec = action.payload.timerInSec;
-          state.pomoStartTime = action.payload.pomoStartTime;
-          state.psec = action.payload.psec;
-          state.ptime = action.payload.ptime;
-          state.lastResumeTime = action.payload.lastResumeTime;
-        }
-      });
-  },
-});
-
-export const {
-  setTimerSec,
-  initiateBreak,
-  initiatePomo,
-  pauseTimer,
-  completeBreak,
-  setPomoState,
-  setPomoSummary,
-} = timerSlice.actions;

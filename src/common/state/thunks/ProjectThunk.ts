@@ -19,8 +19,14 @@ import {
   initialProjectsState,
   projectReducer,
 } from "../reducers/ProjectReducer";
-import { setProjectModalState, setToast } from "./GlobalSlice";
-import { createLocalTaskThunk } from "./TasksSlice";
+import {
+  createProject,
+  deleteProject,
+  setAllProjects,
+  updateProject,
+} from "../slice/ProjectSlice";
+import { setProjectModalState, setToast } from "../slice/GlobalSlice";
+import { createLocalTaskThunk } from "./TasksThunk";
 
 export const createLocalProjectAsync = createAsyncThunk(
   "create/project/local",
@@ -189,31 +195,7 @@ export const removeTaskFromProject = createAsyncThunk(
 export const getAllProjects = createAsyncThunk(
   "get/project",
   async (_, { dispatch }) => {
-    let response = getAllProjectsFromIDB();
-    return response;
+    let response = await getAllProjectsFromIDB();
+    dispatch(setAllProjects(response));
   }
 );
-
-export const projectSlice = createSlice({
-  name: "projectSlice",
-  initialState: initialProjectsState,
-  reducers: projectReducer,
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAllProjects.fulfilled, (state: any, action: any) => {
-        if (action.payload) {
-          let pid = AuthService.getInboxProjectId();
-          state.projects = getObjFromArr(action.payload, "_id", true);
-          state.projectOrder = action.payload.map((i) => i._id);
-        }
-      })
-      .addCase(createProjectAsync.fulfilled, (state: any, action: any) => {
-        // if(action.payload) {
-        //     window.location.href = `${action.payload.path}/${action.payload.project.fid}`;
-        // }
-      });
-  },
-});
-
-export const { createProject, deleteProject, updateProject, setEditProjectId } =
-  projectSlice.actions;

@@ -17,7 +17,12 @@ import {
   focusModeLSKey,
 } from "../../utils/constants";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
-import { globalReducer, initialGlobalState } from "../reducers/GlobalReducer";
+import {
+  setFocusMode,
+  setShowFirstUserState,
+  setUserPreferences,
+  showSuccessToast,
+} from "../slice/GlobalSlice";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -66,7 +71,9 @@ export const signin = createAsyncThunk(
       response = await facebookLoginApi(obj.data);
     }
 
-    return response.data;
+    if (response.data && response.data.uid) {
+      AuthService.login(response.data);
+    }
   }
 );
 
@@ -107,35 +114,3 @@ export const updateUserPref = createAsyncThunk(
     dispatch(setUserPreferences(updateObj));
   }
 );
-
-export const globalSlice = createSlice({
-  name: "global",
-  initialState: initialGlobalState,
-  reducers: globalReducer,
-  extraReducers: (builder) => {
-    builder.addCase(signin.fulfilled, (state, action) => {
-      if (action.payload && action.payload.uid) {
-        AuthService.login(action.payload);
-      }
-    });
-  },
-});
-
-export const {
-  showAddTaskBtn,
-  hideAddTaskBtn,
-  editTask,
-  clearTaskToBeEdited,
-  setExtensionPresent,
-  openOnboardingModal,
-  closeOnboardingModal,
-  setFocusMode,
-  setProjectModalState,
-  setLabelModalState,
-  setShowFirstUserState,
-  setToast,
-  showSuccessToast,
-  setTheme,
-  setUserPreferences,
-  setLastAllTaskUrl,
-} = globalSlice.actions;

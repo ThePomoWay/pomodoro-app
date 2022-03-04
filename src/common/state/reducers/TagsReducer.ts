@@ -1,19 +1,27 @@
 export const initialTagState = {
-    tags: {},
-    editTagId: ''
-}
+  tags: {},
+  editTagId: "",
+};
 
 export let tagsReducer = {
-    updateTag: (state, action) => {
-        state.tags[action.payload.fid] = action.payload;
-    },
-    deleteTag: (state, action) => {
-        delete state.tags[action.payload.fid]
-    },
-    setTags: (state, action) => {
-        state.tags = action.payload;
-    },
-    setEditTagId: (state, action) => {
-        state.editTagId = action.payload;
+  updateTag: (state, action) => {
+    state.tags[action.payload.fid] = action.payload;
+  },
+  deleteTag: (state, action) => {
+    delete state.tags[action.payload.fid];
+  },
+  setTags: (state, action) => {
+    state.tags = action.payload;
+  },
+  setEditTagId: (state, action) => {
+    state.editTagId = action.payload;
+  },
+  setAllTags: (state, action) => {
+    let tagObj = {};
+    for (let tag of action.payload as Array<any>) {
+      tagObj[tag.fid] = tag;
     }
-}
+
+    state.tags = tagObj;
+  },
+};

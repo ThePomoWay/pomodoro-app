@@ -9,8 +9,8 @@ import {
   getTab,
   TAB_POMODORO,
 } from "../../../common/components/timer/timer-utils";
-import { markTaskAsCompleteThunk } from "../../../common/state/slices/TasksSlice";
-import { pauseTimerAsync } from "../../../common/state/slices/TimerSlice";
+import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
+import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
 import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
 import { scrollToEndOfContainer } from "../../../common/utils/common";
 import { POMO_RUNNING_STATE } from "../../../common/utils/constants";

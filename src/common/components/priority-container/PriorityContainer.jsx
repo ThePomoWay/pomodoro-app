@@ -6,7 +6,7 @@ import { selectTasksFromPriority } from "../../state/selectors";
 import UndraggableList from "../undraggable-list/UndraggableList";
 import { priorityColorMap } from "../../utils/constants";
 import { useEffect } from "react";
-import { setLastAllTaskUrl } from "../../state/slices/GlobalSlice";
+import { setLastAllTaskUrl } from "../../state/slice/GlobalSlice";
 
 export default function PriorityContainer(props) {
   let { priority } = useParams();

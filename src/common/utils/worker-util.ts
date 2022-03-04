@@ -1,4 +1,4 @@
-import { tickAsync } from "../state/slices/TimerSlice";
+import { tickAsync } from "../state/thunks/TimerThunk";
 import { store } from "../state/store";
 
 export const worker = new Worker("/worker.js");

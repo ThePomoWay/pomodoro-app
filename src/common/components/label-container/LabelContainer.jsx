@@ -7,8 +7,9 @@ import UndraggableList from "../undraggable-list/UndraggableList";
 import { ClickAwayListener, Popper } from "@mui/material";
 import { useCallback, useState } from "react";
 import { MoreOptions } from "../more-options/MoreOptions";
-import { deleteTagThunk, setEditTagId } from "../../state/slices/TagsSlice";
-import { setLabelModalState } from "../../state/slices/GlobalSlice";
+import { deleteTagThunk } from "../../state/thunks/TagsThunk";
+import { setEditTagId } from "../../state/slice/TagsSlice";
+import { setLabelModalState } from "../../state/slice/GlobalSlice";
 import { Alert } from "../alert/Alert";
 
 const moreOptions = [

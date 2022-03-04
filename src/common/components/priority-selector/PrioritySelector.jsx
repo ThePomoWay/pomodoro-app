@@ -5,7 +5,7 @@ import AuthService from "../../API/network/AuthService";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
 import { priorityColorMap, priorityName } from "../../utils/constants";
 import styles from "./PrioritySelector.module.scss";
-import { openOnboardingModal } from "../../state/slices/GlobalSlice";
+import { openOnboardingModal } from "../../state/slice/GlobalSlice";
 
 export function PrioritySelector(props) {
   let priorities = priorityColorMap;

@@ -17,7 +17,7 @@ import {
   getTodaysDateFormatted,
   getWeekFormattedDate,
 } from "../../../common/utils/date-utils";
-import { getStatsAsync } from "../../../common/state/slices/StatsSlice";
+import { getStatsAsync } from "../../../common/state/thunks/StatsThunk";
 import { Streak } from "../../../common/svgs/streak";
 import { Statistics } from "../../../common/svgs/Stats";
 import { CompletedPomoSvg } from "../../../common/svgs/CompletedPomoSvg";

@@ -4,11 +4,9 @@ import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
 import { useCallback, useState } from "react";
 import {
-  login,
-  register,
   setLoginPasswordError,
   setStep,
-} from "../../../common/state/slices/OnboardingSlice";
+} from "../../../common/state/slice/OnboardingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectLoginName,
@@ -17,6 +15,7 @@ import {
 } from "../../../common/state/selectors";
 import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
 import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
+import { login } from "../../../common/state/thunks/OnboardingThunk";
 
 export function LoginStep2(props) {
   let name = useSelector(selectLoginName);

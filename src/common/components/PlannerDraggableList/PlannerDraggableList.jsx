@@ -8,15 +8,14 @@ import {
   selectTagsAsArr,
   selectTagsAsObj,
 } from "../../state/selectors";
-import { removeTaskFromProject } from "../../state/slices/ProjectSlice";
 import {
   addToTodaysTasks,
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
   removeFromTodaysTasks,
-  setEditTask,
   updateTaskThunk,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
+import { setEditTask } from "../../state/slice/TasksSlice";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 

@@ -3,8 +3,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 import { selectProjectsObj } from "../../state/selectors";
-import { openOnboardingModal } from "../../state/slices/GlobalSlice";
-import { setTimerSec } from "../../state/slices/TimerSlice";
+import { openOnboardingModal } from "../../state/slice/GlobalSlice";
 import styles from "./ProjectSelector.module.scss";
 export default function ProjectSelector(props) {
   let projects = useSelector(selectProjectsObj);

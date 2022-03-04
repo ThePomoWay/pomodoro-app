@@ -2,10 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectAsync,
-  setEditProjectId,
-  setEditProjectName,
   updateLocalProjectAsync,
-} from "../../state/slices/ProjectSlice";
+} from "../../state/thunks/ProjectThunk";
+import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import { generateUniqueId } from "../../utils/common";
 
 import { useRouteMatch, useHistory } from "react-router-dom";
@@ -17,7 +16,7 @@ import {
   selectNewProjectModal,
   selectProjectsObj,
 } from "../../state/selectors";
-import { setProjectModalState } from "../../state/slices/GlobalSlice";
+import { setProjectModalState } from "../../state/slice/GlobalSlice";
 import { Close } from "@material-ui/icons";
 
 export default () => {

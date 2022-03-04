@@ -4,7 +4,7 @@ import {  BrowserRouter as Router , Switch, Route } from 'react-router-dom';
 import './App.scss';
 import AuthService from './common/API/network/AuthService';
 import { Sidebar } from './common/components/sidebar/sidebar';
-import { getUserAsync } from './common/state/slices/UserSlice';
+import { getUserAsync } from './common/state/thunks/UserThunk';
 import { syncIdb } from './common/utils/sync';
 import AboutUs from './pages/about-us/AbousUsPage';
 import AllTasks from './pages/all-tasks/AllTasks';
@@ -12,7 +12,7 @@ import AnalysisPage from './pages/analysis/Analysispage';
 import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
-import { init } from './common/state/slices/GlobalSlice';
+import { init } from './common/state/thunks/GlobalThunk';
 import { Toast } from './common/components/toast/Toast';
 
 

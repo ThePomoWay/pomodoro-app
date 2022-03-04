@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getTasks } from "../../API/APIService";
 import {
   createIDBTask,
   updateIDBTask,
@@ -25,11 +26,32 @@ import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
-import { getAllTasks } from "../async";
+
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
-import { openOnboardingModal, setToast, showSuccessToast } from "./GlobalSlice";
-import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectSlice";
-import { tickAsync } from "./TimerSlice";
+import {
+  addToCompletedTasks,
+  deleteTask,
+  removeFromCompletedTasks,
+  setAllTasks,
+  setCurrentTaskRef,
+  setTodaysTasks,
+  updateTask,
+  updateTodaysTasks,
+} from "../slice/TasksSlice";
+import {
+  openOnboardingModal,
+  setToast,
+  showSuccessToast,
+} from "../slice/GlobalSlice";
+import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectThunk";
+
+export const getAllTasks = createAsyncThunk(
+  "tasks/get",
+  async (_, { dispatch }) => {
+    let response = await getTasks();
+    dispatch(setAllTasks(response));
+  }
+);
 
 export const createLocalTaskThunk = createAsyncThunk(
   "tasks/local/create",
@@ -376,7 +398,7 @@ export const getTodaysTasks = createAsyncThunk(
 
     let tasks = getState()["tasks"].tasks;
 
-    return todaysTasks;
+    dispatch(setTodaysTasks(todaysTasks));
   }
 );
 
@@ -473,58 +495,3 @@ export const clearTodaysTasksThunk = createAsyncThunk(
     dispatch(updateTodaysTasks([]));
   }
 );
-
-export const tasksSlice = createSlice({
-  name: "tasks",
-  initialState: initialTaskState,
-  reducers: taskReducer,
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAllTasks.fulfilled, (state, action) => {
-        let todaysFormattedDate = getFormattedDate();
-        if (state.todaysCompletedTasks.length === 0) {
-          for (let task of action.payload as Array<any>) {
-            state.tasks[task.fid] = task;
-
-            if (
-              task.isComplete &&
-              getFormattedDate(task.completedOn) === todaysFormattedDate
-            ) {
-              state.todaysCompletedTasks.push(task.fid);
-            }
-          }
-        }
-
-        state.allTasks = Object.keys(state.tasks);
-
-        let currentTask = action.payload.filter(
-          (item) => item.isCurrentTask
-        )[0];
-        state.currentTaskRef = currentTask && currentTask.fid;
-      })
-      .addCase(getTodaysTasks.fulfilled, (state, action) => {
-        state.todaysTasks = <any>action.payload;
-      })
-      .addCase(tickAsync, (state) => {
-        if (state.currentTaskRef) {
-          state.tasks[state.currentTaskRef].summary.csec += 1;
-        }
-      });
-  },
-});
-
-export const {
-  createTask,
-  updateTask,
-  markTaskAsComplete,
-  taskSelected,
-  deleteTask,
-  updateTodaysTasks,
-  rearrangeAllTasks,
-  addToAllTasks,
-  setEditTask,
-  removeFromAllTasks,
-  addToCompletedTasks,
-  removeFromCompletedTasks,
-  setCurrentTaskRef,
-} = tasksSlice.actions;

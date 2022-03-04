@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
 import Navbar from "../../common/components/navbar/Navbar";
-import { getAllTasks } from "../../common/state/async";
+
 import {
   selectAllTasks,
   selectTodaysTaskIds,
@@ -15,14 +15,17 @@ import {
   selectLastAllTaskUrl,
 } from "../../common/state/selectors";
 import {
-  addToAllTasks,
   addToTodaysTasks,
   getTodaysTasks,
-  rearrangeAllTasks,
   rearrangeTodaysTask,
-  removeFromAllTasks,
   removeFromTodaysTasks,
-} from "../../common/state/slices/TasksSlice";
+  getAllTasks,
+} from "../../common/state/thunks/TasksThunk";
+import {
+  addToAllTasks,
+  rearrangeAllTasks,
+  removeFromAllTasks,
+} from "../../common/state/slice/TasksSlice";
 import { todaysTasksDropId } from "../../common/utils/constants";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -37,28 +40,29 @@ import AllTaskContainer from "../../common/components/all-task-container/AllTask
 import { Switch, useRouteMatch, Route } from "react-router-dom";
 import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
 import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
-import {
-  getAllProjects,
-  rearrangeTaskInProjectAsync,
-  updateLocalProjectAsync,
-} from "../../common/state/slices/ProjectSlice";
+
 import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
 import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
 import LabelContainer from "../../common/components/label-container/LabelContainer";
-import { getAllTags } from "../../common/state/slices/TagsSlice";
+import { getAllTags } from "../../common/state/thunks/TagsThunk";
 import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
 import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
 import OnBoarding from "../onboarding/Onboarding";
 import AuthService from "../../common/API/network/AuthService";
 import { getTimeText } from "../../common/utils/date-utils";
-import { getTimerState } from "../../common/state/slices/TimerSlice";
+import { getTimerState } from "../../common/state/thunks/TimerThunk";
 import { ClickAwayListener, Popper } from "@material-ui/core";
 import { MoreHorizRounded } from "@material-ui/icons";
 import CompletedTasksList from "../../common/components/completed-tasks-collapsible/CompletedTasksList";
 
 import { useHistory } from "react-router-dom";
-import { setLastAllTaskUrl } from "../../common/state/slices/GlobalSlice";
+import { setLastAllTaskUrl } from "../../common/state/slice/GlobalSlice";
 import usePageTracking from "../../usePageTracking";
+import {
+  getAllProjects,
+  rearrangeTaskInProjectAsync,
+  updateLocalProjectAsync,
+} from "../../common/state/thunks/ProjectThunk";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);

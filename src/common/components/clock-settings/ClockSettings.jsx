@@ -5,7 +5,7 @@ import {
   selectDefaultTimes,
   selectUserPreferences,
 } from "../../state/selectors";
-import { updateUserPref } from "../../state/slices/GlobalSlice";
+import { updateUserPref } from "../../state/thunks/GlobalThunk";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 
 import styles from "./ClockSettings.module.scss";

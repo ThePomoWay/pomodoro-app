@@ -26,9 +26,9 @@ import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksLis
 import {
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
-  setEditTask,
   updateTaskThunk,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
+import { setEditTask } from "../../state/slice/TasksSlice";
 import { Popper } from "@mui/material";
 import { SectionMoreOptions } from "../section-more-options/SectionMoreOptions";
 import { AddNewTask } from "../new-task-btn/AddNewTask";

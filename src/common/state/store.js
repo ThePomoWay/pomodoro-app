@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { globalSlice } from './slices/GlobalSlice';
-import { projectSlice } from './slices/ProjectSlice';
-import { statsSlice } from './slices/StatsSlice';
-import { tagsSlice } from './slices/TagsSlice';
-import { tasksSlice } from './slices/TasksSlice';
-import { timerSlice } from './slices/TimerSlice';
-import { userSlice } from './slices/UserSlice';
-import {onboardingSlice} from './slices/OnboardingSlice';
+import { globalSlice } from './slice/GlobalSlice'; 
+import { projectSlice } from './slice/ProjectSlice'; 
+import { statsSlice } from './slice/StatsSlice'; 
+import { tagsSlice } from './slice/TagsSlice'; 
+import { tasksSlice } from './slice/TasksSlice'; 
+import { timerSlice } from './slice/TimerSlice'; 
+import { userSlice } from './slice/UserSlice'; 
+import { onboardingSlice } from './slice/OnboardingSlice'; 
 
 export const store = configureStore({
   reducer: {

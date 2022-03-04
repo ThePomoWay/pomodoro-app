@@ -2,7 +2,8 @@ import styles from "./LoginForm.module.scss";
 import { Form, Field } from "react-final-form";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setStep, registerCheck } from "../../state/slices/OnboardingSlice";
+import { setStep } from "../../state/slice/OnboardingSlice";
+import { registerCheck } from "../../state/thunks/OnboardingThunk";
 import { validateEmail } from "../../utils/validators";
 import { FORGOT_PASSWORD_STEP_1 } from "../../utils/constants";
 

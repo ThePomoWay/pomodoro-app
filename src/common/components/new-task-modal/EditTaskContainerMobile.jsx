@@ -1,33 +1,9 @@
-import { ClickAwayListener, Popover, Popper } from "@material-ui/core";
-import {
-  Close,
-  ExpandMore,
-  Flag,
-  FormatListBulleted,
-  FormatListBulletedOutlined,
-  FormatListBulletedRounded,
-  FormatListBulletedTwoTone,
-  Label,
-  TagFaces,
-} from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
-import {
-  selectProjectsObj,
-  selectTagsAsArr,
-  selectTagsAsObj,
-} from "../../state/selectors";
-import { setTags } from "../../state/slices/TagsSlice";
-import { PriorityFlag } from "../../svgs/PriorityFlag";
-import { generateUniqueId, getObjFromArr } from "../../utils/common";
-import { priorityColorMap } from "../../utils/constants";
-import AddTagContainer from "../add-tag-container/AddTagContainer";
+import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
+import { generateUniqueId } from "../../utils/common";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
-import { PrioritySelector } from "../priority-selector/PrioritySelector";
-import ProjectSelector from "../project-selector/ProjectSelector";
-import TaskDescription from "../task-description/TaskDescription";
-
 import styles from "./EditTaskContainer.module.scss";
 
 let setEndOfContentEditable = (elem) => {

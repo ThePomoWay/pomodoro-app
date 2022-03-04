@@ -7,8 +7,8 @@ import {
   selectNewLabelModal,
   selectTagsAsObj,
 } from "../../state/selectors";
-import { setLabelModalState } from "../../state/slices/GlobalSlice";
-import { createTagThunk, updateTagThunk } from "../../state/slices/TagsSlice";
+import { setLabelModalState } from "../../state/slice/GlobalSlice";
+import { createTagThunk, updateTagThunk } from "../../state/thunks/TagsThunk";
 import { generateUniqueId } from "../../utils/common";
 import { tagColorPalette } from "../../utils/constants";
 import AddTagContainer from "../add-tag-container/AddTagContainer";

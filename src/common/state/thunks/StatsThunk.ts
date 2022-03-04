@@ -3,6 +3,7 @@ import { getStatsApi } from "../../API/network/StatsApis";
 import { getAllTasksApi } from "../../API/network/TaskApis";
 import { getFormattedDate } from "../../utils/date-utils";
 import { initialStatsState, statsReducer } from "../reducers/StatsReducer";
+import { setAllStats } from "../slice/StatsSlice";
 import { processStats } from "./StatsSliceHelper";
 
 export let getStatsAsync = createAsyncThunk(
@@ -47,22 +48,8 @@ export let getStatsAsync = createAsyncThunk(
       completedTasks
     );
 
-    return { oldStats: oldStatsProcessed, stats: curStatsProcessed };
+    dispatch(
+      setAllStats({ oldStats: oldStatsProcessed, stats: curStatsProcessed })
+    );
   }
 );
-
-export let statsSlice = createSlice({
-  name: "statsSlice",
-  initialState: initialStatsState,
-  reducers: statsReducer,
-  extraReducers: (builder) => {
-    builder.addCase(getStatsAsync.fulfilled, (state, action) => {
-      state.loaded = true;
-
-      //@ts-ignore
-      state.oldStats = action.payload.oldStats;
-      //@ts-ignore
-      state.stats = action.payload.stats;
-    });
-  },
-});

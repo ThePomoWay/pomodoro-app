@@ -1,11 +1,12 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTasks } from "../../common/state/async";
+
 import { selectPomoState } from "../../common/state/selectors";
-import { getAllProjects } from "../../common/state/slices/ProjectSlice";
-import { getAllTags } from "../../common/state/slices/TagsSlice";
-import { getTodaysTasks } from "../../common/state/slices/TasksSlice";
-import { getTimerState } from "../../common/state/slices/TimerSlice";
+import { getAllProjects } from "../../common/state/thunks/ProjectThunk";
+import { getAllTags } from "../../common/state/thunks/TagsThunk";
+import { getTodaysTasks } from "../../common/state/thunks/TasksThunk";
+import { getTimerState } from "../../common/state/thunks/TimerThunk";
+import { getAllTasks } from "../../common/state/thunks/TasksThunk";
 import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,

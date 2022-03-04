@@ -1,15 +1,5 @@
-import { ClickAwayListener, Popover, Popper } from "@material-ui/core";
-import {
-  Close,
-  ExpandMore,
-  Flag,
-  FormatListBulleted,
-  FormatListBulletedOutlined,
-  FormatListBulletedRounded,
-  FormatListBulletedTwoTone,
-  Label,
-  TagFaces,
-} from "@material-ui/icons";
+import { ClickAwayListener, Popper } from "@material-ui/core";
+
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
@@ -18,9 +8,8 @@ import {
   selectTagsAsArr,
   selectTagsAsObj,
 } from "../../state/selectors";
-import { setTags } from "../../state/slices/TagsSlice";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
-import { generateUniqueId, getObjFromArr } from "../../utils/common";
+import { generateUniqueId } from "../../utils/common";
 import { priorityColorMap } from "../../utils/constants";
 import AddTagContainer from "../add-tag-container/AddTagContainer";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";

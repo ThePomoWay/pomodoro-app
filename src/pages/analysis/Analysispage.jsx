@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import AuthService from "../../common/API/network/AuthService";
-import { openOnboardingModal } from "../../common/state/slices/GlobalSlice";
-import { getStatsAsync } from "../../common/state/slices/StatsSlice";
-import { getUserAsync } from "../../common/state/slices/UserSlice";
+import { openOnboardingModal } from "../../common/state/slice/GlobalSlice";
+import { getStatsAsync } from "../../common/state/thunks/StatsThunk";
+import { getUserAsync } from "../../common/state/thunks/UserThunk";
 import { AnalysisLaptop } from "./analysis-laptop/analysis-laptop";
 import { AnalysisMobile } from "./analysis-mobile/analysis-mobile";
 

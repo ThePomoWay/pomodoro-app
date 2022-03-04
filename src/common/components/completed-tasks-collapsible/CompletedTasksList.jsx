@@ -9,7 +9,7 @@ import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
 import {
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
 import { ExpandMoreIcon } from "../../svgs/ExpandMoreIcon";
 import TaskItem from "../task/task";
 import styles from "./CompletedTaskList.module.scss";

@@ -16,7 +16,7 @@ import {
   clearTodaysTasksThunk,
   markTaskAsInCompleteThunk,
   rearrangeTodaysTask,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
 
 import { DailyStats } from "../daily-stats/DailyStats";
 import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
@@ -24,7 +24,7 @@ import { ClickAwayListener, Popper } from "@mui/material";
 import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { Alert } from "../alert/Alert";
-import { hideFirstUserScreen } from "../../state/slices/GlobalSlice";
+import { hideFirstUserScreen } from "../../state/thunks/GlobalThunk";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);

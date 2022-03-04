@@ -13,7 +13,7 @@ import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
 import {
   openOnboardingModal,
   setProjectModalState,
-} from "../../state/slices/GlobalSlice";
+} from "../../state/slice/GlobalSlice";
 import { AccordionIcon } from "../../svgs/AccordionIcon";
 import { ProjectSidenavIcon } from "../../svgs/ProjectSidenavIcon";
 

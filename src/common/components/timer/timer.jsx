@@ -13,7 +13,7 @@ import {
   tickAsync,
   updateNextState,
   updateTimerState,
-} from "../../state/slices/TimerSlice";
+} from "../../state/thunks/TimerThunk";
 import {
   POMO_RUNNING_STATE,
   POMO_IDLE_STATE,
@@ -31,7 +31,7 @@ import { getTimerString } from "../../utils/common";
 import {
   focusModeToggle,
   hideFirstUserScreen,
-} from "../../state/slices/GlobalSlice";
+} from "../../state/thunks/GlobalThunk";
 import {
   getTab,
   TAB_BREAK,

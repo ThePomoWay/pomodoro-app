@@ -8,11 +8,10 @@ import {
 import {
   addToTodaysTasks,
   updateTaskThunk,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
 import { getObjFromArr } from "../../utils/common";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 import TaskItem from "../task/task";
-
 import styles from "./UndraggableList.module.scss";
 
 export default function UndraggableList(props) {

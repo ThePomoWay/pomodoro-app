@@ -4,7 +4,7 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import { useDispatch } from "react-redux";
 import { LoginForm } from "../../../common/components/login-form/LoginForm";
 import styles from "./login-step.module.scss";
-import { signin } from "../../../common/state/slices/GlobalSlice";
+import { signin } from "../../../common/state/thunks/GlobalThunk";
 
 import { SignupStep1 } from "../signup/signup-step-1";
 import { GoogleIcon } from "../../../common/svgs/GoogleIcon";

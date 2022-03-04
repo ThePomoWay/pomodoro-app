@@ -1,4 +1,5 @@
 import { findIndex } from "../../utils/array-utils";
+import { getObjFromArr } from "../../utils/common";
 
 export const initialProjectsState = {
   projects: {},
@@ -22,5 +23,11 @@ export const projectReducer = {
   },
   setEditProjectId: (state, action) => {
     state.editProjectId = action.payload;
+  },
+  setAllProjects: (state, action) => {
+    if (action.payload) {
+      state.projects = getObjFromArr(action.payload, "_id", true);
+      state.projectOrder = action.payload.map((i) => i._id);
+    }
   },
 };

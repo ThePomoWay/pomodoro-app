@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openOnboardingModal } from "../../../state/slices/GlobalSlice";
+import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
 import { selectUserInfo } from "../../../state/selectors";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 import { SunIcon } from "../../../svgs/SunIcon";

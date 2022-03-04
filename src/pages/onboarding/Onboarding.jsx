@@ -5,10 +5,7 @@ import { useCallback } from "react";
 
 import styles from "./onboarding.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  closeOnboardingModal,
-  signin,
-} from "../../common/state/slices/GlobalSlice";
+
 import { selectOnboardingOpen, selectStep } from "../../common/state/selectors";
 
 import { Close } from "@material-ui/icons";
@@ -25,6 +22,7 @@ import {
   LOGIN_STEP,
   REGISTER_STEP,
 } from "../../common/utils/constants";
+import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));

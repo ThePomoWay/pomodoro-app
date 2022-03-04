@@ -18,18 +18,17 @@ import {
   createSectionAsync,
   deleteProjectAsync,
   rearrangeTaskInProjectAsync,
-  setEditProjectId,
   updateLocalProjectAsync,
-} from "../../state/slices/ProjectSlice";
+} from "../../state/thunks/ProjectThunk";
+import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import {
   addToTodaysTasks,
-  createTaskThunk,
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
   removeFromTodaysTasks,
   updateTaskThunk,
-  setEditTask,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
+import { setEditTask } from "../../state/slice/TasksSlice";
 import { PROJECT_DROPPABLE_ID } from "../../utils/droppable-ids";
 
 import styles from "./ProjectContainer.module.scss";
@@ -42,7 +41,7 @@ import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
 import {
   setLastAllTaskUrl,
   setProjectModalState,
-} from "../../state/slices/GlobalSlice";
+} from "../../state/slice/GlobalSlice";
 import { Alert } from "../alert/Alert";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 

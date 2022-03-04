@@ -1,6 +1,6 @@
 import { PersonOutlineRounded } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import { openOnboardingModal } from "../../../state/slices/GlobalSlice";
+import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
 import { SunIcon } from "../../../svgs/SunIcon";
 import styles from "./NavbarMobile.module.scss";
 export default function NavbarMobile(props) {

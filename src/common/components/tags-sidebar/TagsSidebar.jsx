@@ -12,7 +12,7 @@ import styles from "./TagsSidebar.module.scss";
 import {
   openOnboardingModal,
   setLabelModalState,
-} from "../../state/slices/GlobalSlice";
+} from "../../state/slice/GlobalSlice";
 import AuthService from "../../API/network/AuthService";
 
 export function TagsSidebar(props) {

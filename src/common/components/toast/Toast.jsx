@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectToastObj } from "../../state/selectors";
-import { setToast } from "../../state/slices/GlobalSlice";
+import { setToast } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
 import styles from "./Toast.module.scss";
 

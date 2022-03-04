@@ -13,21 +13,19 @@ import {
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
-import { editTask } from "../../state/slices/GlobalSlice";
+import { setEditTask } from "../../state/slice/TasksSlice";
+
 import {
   deleteTaskThunk,
   markTaskAsCompleteThunk,
   markTaskAsCurrent,
   markTaskAsInCompleteThunk,
-  setEditTask,
-} from "../../state/slices/TasksSlice";
+} from "../../state/thunks/TasksThunk";
 import {
-  initiatePomo,
-  pauseTimer,
   pauseTimerAsync,
   resumeTimerAsync,
   updateTimerState,
-} from "../../state/slices/TimerSlice";
+} from "../../state/thunks/TimerThunk";
 import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,

@@ -1,10 +1,6 @@
-import { debug } from "console";
 import { getTasks } from "../API/APIService";
 import { clearTasksInIDB } from "../API/indexed-db-ops/crud";
-import {
-  clearProjectsFromIDB,
-  getAllProjectsFromIDB,
-} from "../API/indexed-db-ops/projectCrud";
+import { clearProjectsFromIDB } from "../API/indexed-db-ops/projectCrud";
 import {
   getStatsQueue,
   statsQueueLSKey,
@@ -15,33 +11,21 @@ import {
   getTodaysTasksFromIdb,
 } from "../API/indexed-db-ops/todaysTasks";
 import AuthService from "../API/network/AuthService";
-import { getAllProjectsApi } from "../API/network/ProjectApis";
 import { updateMultipleTimerStatsAPI } from "../API/network/StatsApis";
-import { GetAllTagsApi } from "../API/network/TagsApis";
 import { getSyncAPI } from "../API/network/SyncApi";
-import {
-  addToTodaysTaskAPI,
-  createMultipleTaskAPI,
-  createTaskAPI,
-  getAllTasksApi,
-} from "../API/network/TaskApis";
-import {
-  createLocalProjectAsync,
-  deleteProjectAsync,
-  getAllProjects,
-  updateLocalProjectAsync,
-} from "../state/slices/ProjectSlice";
-import { createLocalTagThunk } from "../state/slices/TagsSlice";
+import { createMultipleTaskAPI, getAllTasksApi } from "../API/network/TaskApis";
+import { createLocalProjectAsync } from "../state/thunks/ProjectThunk";
+import { createLocalTagThunk } from "../state/thunks/TagsThunk";
 import {
   createLocalTaskThunk,
   setTodaysTaskLocal,
   updateLocalTaskThunk,
-} from "../state/slices/TasksSlice";
+} from "../state/thunks/TasksThunk";
+import { updateTimerState } from "../state/thunks/TimerThunk";
 import { store } from "../state/store";
 import { getObjFromArr } from "./common";
 import { processBEProject } from "./project-helper-utils";
 import { processBETask } from "./task-helper-utils";
-import { updateTimerState } from "../state/slices/TimerSlice";
 
 export async function syncIdb() {
   if (AuthService.isJustLoggedIn()) {
