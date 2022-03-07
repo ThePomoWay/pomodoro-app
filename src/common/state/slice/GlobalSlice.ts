@@ -26,4 +26,6 @@ export const {
   setLastAllTaskUrl,
   showErrorToast,
   setIsTimerFullScreen,
+  setSettingsModal,
+  setSettingsTab,
 } = globalSlice.actions;

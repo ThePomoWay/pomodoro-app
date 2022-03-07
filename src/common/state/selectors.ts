@@ -24,6 +24,9 @@ export const selectTheme = (state) => state.global.theme;
 export const selectIsTimerFullScreen = (state) =>
   state.global.isTimerFullScreen;
 
+export const selectSettingsModal = (state) => state.global.settings.showModal;
+export const selectSettingsTab = (state) => state.global.settings.tab;
+
 //todays tasks
 export const selectTodaysTasks = (state) =>
   state.tasks.todaysTasks

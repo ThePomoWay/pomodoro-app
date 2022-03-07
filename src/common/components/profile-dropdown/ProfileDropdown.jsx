@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./ProfileDropdown.module.scss";
 import { logout } from "../../state/thunks/GlobalThunk";
+import { setSettingsModal } from "../../state/slice/GlobalSlice";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
@@ -22,6 +23,10 @@ export function ProfileDropdown(props) {
   let onLogout = useCallback(() => {
     dispatch(logout());
   });
+
+  let openSettings = () => {
+    dispatch(setSettingsModal(true));
+  };
 
   return (
     <div className={styles["profile"]}>
@@ -48,9 +53,10 @@ export function ProfileDropdown(props) {
               className="popper-container"
               onClick={(e) => e.stopPropagation()}
             >
-              <Link to="/settings">
-                <div className="popper-item">Settings</div>
-              </Link>
+              <div className="popper-item" onClick={openSettings}>
+                Settings
+              </div>
+
               <div className="popper-item" onClick={(e) => onLogout()}>
                 Logout
               </div>

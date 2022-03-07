@@ -16,6 +16,7 @@ import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
 import { scrollToEndOfContainer } from "../../../common/utils/common";
 import { POMO_RUNNING_STATE } from "../../../common/utils/constants";
 import OnBoarding from "../../onboarding/Onboarding";
+import Settings from "../../settings/Settings";
 import useHomepage from "../HomePage-hook";
 
 import styles from "./homepage-laptop.module.scss";
@@ -55,6 +56,7 @@ export function HomepageLaptop() {
   return (
     <div className={styles["container"]}>
       <OnBoarding />
+      <Settings />
       <Navbar selected="0"></Navbar>
       <div
         className={`${styles["main-content"]} ${

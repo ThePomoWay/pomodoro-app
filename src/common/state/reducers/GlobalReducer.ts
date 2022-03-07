@@ -30,6 +30,10 @@ export const initialGlobalState = {
   },
   lastAllTaskUrl: "/all",
   isTimerFullScreen: false,
+  settings: {
+    showModal: false,
+    tab: 0,
+  },
 };
 
 export let globalReducer = {
@@ -97,5 +101,11 @@ export let globalReducer = {
   },
   setIsTimerFullScreen: (state, action) => {
     state.isTimerFullScreen = action.payload;
+  },
+  setSettingsModal: (state, action) => {
+    state.settings.showModal = action.payload;
+  },
+  setSettingsTab: (state, action) => {
+    state.settings.tab = action.payload;
   },
 };

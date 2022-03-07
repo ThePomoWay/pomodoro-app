@@ -26,7 +26,14 @@ import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
-import { saveTaskInOfflineStore, task_complete, task_create, task_delete, task_incomplete, task_update } from "../../offlineSync/offlineSync";
+import {
+  saveTaskInOfflineStore,
+  task_complete,
+  task_create,
+  task_delete,
+  task_incomplete,
+  task_update,
+} from "../../offlineSync/offlineSync";
 
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import {
@@ -95,7 +102,7 @@ export const createTaskThunk = createAsyncThunk(
             addToTodaysTaskAPI(response.data.tid);
           }
         } else {
-          saveTaskInOfflineStore(payload.task, task_create)
+          saveTaskInOfflineStore(payload.task, task_create);
         }
       });
     }
@@ -151,11 +158,11 @@ export const updateTaskThunk = createAsyncThunk(
           if (!res || res.status !== 200) {
             // TODO : should we also use navigator to check if user is offline
             // TODO : api call should not be made if index db fails
-            saveTaskInOfflineStore(task, task_update)
+            saveTaskInOfflineStore(task, task_update);
           }
         });
       } else {
-        saveTaskInOfflineStore(task, task_update)
+        saveTaskInOfflineStore(task, task_update);
       }
     }
     return task;
@@ -213,14 +220,13 @@ export const deleteTaskThunk = createAsyncThunk(
     let response = await deleteIDBTask(task);
 
     if (AuthService.isLoggedIn() && !!task._id) {
-      deleteTaskAPI(task)
-      .then((res) => {
+      deleteTaskAPI(task).then((res) => {
         if (!res || res.status !== 200) {
-          saveTaskInOfflineStore(task, task_delete)
+          saveTaskInOfflineStore(task, task_delete);
         }
       });
     } else {
-      saveTaskInOfflineStore(task, task_delete)
+      saveTaskInOfflineStore(task, task_delete);
     }
 
     dispatch(
@@ -266,7 +272,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
         obj.task._id
       );
       if (!completedTaskResponse || completedTaskResponse.status !== 200) {
-        saveTaskInOfflineStore(obj.task, task_complete)
+        saveTaskInOfflineStore(obj.task, task_complete);
         dispatch(
           setToast({
             open: true,
@@ -327,14 +333,18 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
       let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
       if (!obj.task._id) {
         let completedTaskResponse = await markTaskAsCompleteApi(
-          { project: obj.task.project },
+          {
+            project: obj.task.project,
+            _id: obj.task._id,
+            uid: AuthService.getUserId(),
+          },
           obj.task.fid in todaysTasksObj,
           completedOn,
           obj.task._id
         );
         if (!completedTaskResponse) {
           //user is offline or backend is down.
-          saveTaskInOfflineStore(obj.task, task_complete)
+          saveTaskInOfflineStore(obj.task, task_complete);
           dispatch(
             setToast({
               open: true,
@@ -384,7 +394,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
         obj.task._id
       );
       if (!response || response.status !== 200) {
-        saveTaskInOfflineStore(obj.task, task_incomplete)
+        saveTaskInOfflineStore(obj.task, task_incomplete);
         dispatch(
           setToast({
             open: true,
@@ -395,7 +405,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
         );
       }
     } else {
-      saveTaskInOfflineStore(obj.task, task_incomplete)
+      saveTaskInOfflineStore(obj.task, task_incomplete);
     }
 
     if (obj.task.project.secID) {
@@ -568,7 +578,6 @@ export const removeFromTodaysTasks = createAsyncThunk(
         saveTaskInOfflineStore();
       }
     }
-
 
     updateTodaysTasksInIdb(todaysTasks);
     dispatch(updateTodaysTasks(todaysTasks));
