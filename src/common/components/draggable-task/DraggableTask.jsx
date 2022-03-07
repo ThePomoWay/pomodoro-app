@@ -36,6 +36,8 @@ export function DraggableTaskItem(props) {
               onComplete={props.onComplete}
               isEditable={props.isEditable}
               hideWorkingOn={props.hideWorkingOn}
+              removeFromToday={props.removeFromToday}
+              showDismissOption={props.showDismissOption}
             ></TaskItem>
           </div>
         );

@@ -386,9 +386,18 @@ export default () => {
                     />
                   </svg>
                   Todays Tasks
-                  {estimatedTimeLeft && (
+                  {ePomos > 0 && (
                     <span className={styles["estimate-text"]}>
-                      ({estimatedTimeLeft})
+                      ({ePomos} Pomos)
+                    </span>
+                  )}
+                  {ePomos > 0 && (
+                    <span className={styles["right"]}>
+                      {estimatedTimeLeft && (
+                        <span className={styles["estimate-text"]}>
+                          {estimatedTimeLeft}
+                        </span>
+                      )}
                     </span>
                   )}
                 </h2>

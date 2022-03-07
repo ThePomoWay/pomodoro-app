@@ -26,6 +26,7 @@ export default (props) => {
 
   const onDeleteSection = useCallback(() => {
     props.onSectionDelete && props.onSectionDelete(deleteSectionId);
+    setShowDeleteModal(false);
     setDeleteSectionId("");
   });
 

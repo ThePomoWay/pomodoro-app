@@ -165,6 +165,8 @@ export default function EditTaskContainer(props) {
             secID: project.secID,
           },
         };
+      } else {
+        task.createdOn = new Date().toISOString();
       }
 
       resetContainer({});

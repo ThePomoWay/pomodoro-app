@@ -83,5 +83,14 @@ export function clearProjectsFromIDB() {
     objRequest.onsuccess = function (result) {
       resolve({ success: true, msg: "Cleared Successfully" });
     };
+
+    objectStore.add({
+      _id: "inbox",
+      title: "Inbox",
+      sections: {},
+      so: [],
+      to: [],
+      isArchived: false,
+    });
   });
 }

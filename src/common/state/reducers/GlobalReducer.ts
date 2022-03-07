@@ -29,6 +29,7 @@ export const initialGlobalState = {
     autoplayBreak: false,
   },
   lastAllTaskUrl: "/all",
+  isTimerFullScreen: false,
 };
 
 export let globalReducer = {
@@ -77,6 +78,14 @@ export let globalReducer = {
       msg: action.payload,
     };
   },
+  showErrorToast: (state, action) => {
+    state.toast = {
+      ...state.toast,
+      open: true,
+      msg: action.payload,
+      type: "failure",
+    };
+  },
   setTheme: (state, action) => {
     state.theme = action.payload;
   },
@@ -85,5 +94,8 @@ export let globalReducer = {
   },
   setLastAllTaskUrl: (state, action) => {
     state.lastAllTaskUrl = action.payload;
+  },
+  setIsTimerFullScreen: (state, action) => {
+    state.isTimerFullScreen = action.payload;
   },
 };

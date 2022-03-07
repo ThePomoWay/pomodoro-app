@@ -45,9 +45,9 @@ export default function OnBoarding(props) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <div className={`${styles["form-wrapper"]}`}>
-        <div className={styles["content"]}>
-          <span className={styles["close"]} onClick={(e) => handleClose()}>
+      <div className="modal-container">
+        <div className="modal-content">
+          <span className="close" onClick={(e) => handleClose()}>
             {" "}
             <Close />{" "}
           </span>

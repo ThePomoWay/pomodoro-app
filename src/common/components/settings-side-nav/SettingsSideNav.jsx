@@ -8,11 +8,7 @@ const tabs = [
     title: "Profile",
     link: "/settings",
   },
-  {
-    icon: <AccessTime />,
-    title: "Timer",
-    link: "/settings/timer",
-  },
+
   {
     icon: <MusicNote />,
     title: "Sound",
@@ -24,6 +20,9 @@ export function SettingsSideNav(props) {
   let path = window.location.pathname;
   return (
     <div className={styles["sidenav"]}>
+      <div className={`font-sub-heading ${styles["settings-title"]}`}>
+        Settings
+      </div>
       {tabs.map((item, index) => (
         <Link to={item.link} key={"settingsSideNav#" + index}>
           <div

@@ -70,6 +70,7 @@ let navItems = [
     ),
     title: "Insights",
     to: "/analysis",
+    loggedOutOnly: true,
   },
 ];
 export default function NavbarDesktop(props) {
@@ -78,10 +79,9 @@ export default function NavbarDesktop(props) {
 
   let userInfo = useSelector(selectUserInfo);
 
-  let onOpenOnboardingModal = useCallback(() => {
+  let onOpenOnboardingModal = () => {
     dispatch(openOnboardingModal());
-  }, []);
-  <></>;
+  };
 
   return (
     <div className={styles["navbar"]}>
@@ -92,20 +92,37 @@ export default function NavbarDesktop(props) {
 
         <div className={styles["links"]}>
           <div className={styles["link-items"]}>
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.to}
-                className={`${styles["link-item"]} ${
-                  styles["link-item-" + (index + 1)]
-                } ${
-                  String(index) === props.selected ? styles["selected"] : ""
-                }`}
-              >
-                {item.icon}
-                {item.title}
-              </Link>
-            ))}
+            {navItems.map((item, index) => {
+              if (!item.loggedOutOnly) {
+                return (
+                  <Link
+                    key={index}
+                    to={item.to}
+                    className={`${styles["link-item"]} ${
+                      styles["link-item-" + (index + 1)]
+                    } ${
+                      String(index) === props.selected ? styles["selected"] : ""
+                    }`}
+                  >
+                    {item.icon}
+                    {item.title}
+                  </Link>
+                );
+              }
+              return (
+                <div
+                  onClick={onOpenOnboardingModal}
+                  className={`${styles["link-item"]} ${
+                    styles["link-item-" + (index + 1)]
+                  } ${
+                    String(index) === props.selected ? styles["selected"] : ""
+                  }`}
+                >
+                  {item.icon}
+                  {item.title}
+                </div>
+              );
+            })}
             {/* <span className={styles["link-item"]}><Menu /></span> */}
           </div>
         </div>

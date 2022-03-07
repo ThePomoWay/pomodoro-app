@@ -10,6 +10,7 @@ import {
   createProjectApi,
   createSectionApi,
   deleteProjectApi,
+  deleteSectionApi,
   rearrangeTaskApi,
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
@@ -25,7 +26,12 @@ import {
   setAllProjects,
   updateProject,
 } from "../slice/ProjectSlice";
-import { setProjectModalState, setToast } from "../slice/GlobalSlice";
+import {
+  setProjectModalState,
+  setToast,
+  showErrorToast,
+  showSuccessToast,
+} from "../slice/GlobalSlice";
 import { createLocalTaskThunk } from "./TasksThunk";
 
 export const createLocalProjectAsync = createAsyncThunk(
@@ -197,5 +203,30 @@ export const getAllProjects = createAsyncThunk(
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
     dispatch(setAllProjects(response));
+  }
+);
+
+export const deleteSectionAsync = createAsyncThunk(
+  "delete/project",
+  async ({ projectId, sectionId }, { dispatch, getState }) => {
+    let response = await deleteSectionApi(projectId, sectionId);
+    if (response.status === 200) {
+      dispatch(showSuccessToast("Section deleted Successfully"));
+
+      //update local state
+      let projectCopy = JSON.parse(
+        JSON.stringify(getState()["projects"].projects[projectId])
+      );
+      if (projectCopy && projectCopy.so) {
+        let index = findIndex(projectCopy.so, sectionId);
+        if (index !== -1) {
+          projectCopy.so.splice(index, 1);
+        }
+        delete projectCopy.sections[sectionId];
+        dispatch(updateLocalProjectAsync(projectCopy));
+      }
+    } else {
+      dispatch(showErrorToast(response.data.message));
+    }
   }
 );

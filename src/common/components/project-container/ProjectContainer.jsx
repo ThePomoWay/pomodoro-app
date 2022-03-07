@@ -17,6 +17,7 @@ import SectionList from "../section-list/SectionList";
 import {
   createSectionAsync,
   deleteProjectAsync,
+  deleteSectionAsync,
   rearrangeTaskInProjectAsync,
   updateLocalProjectAsync,
 } from "../../state/thunks/ProjectThunk";
@@ -287,6 +288,10 @@ export function ProjectContainer(props) {
     dispatch(setEditTask(task.fid));
   };
 
+  let deleteSection = (sectionId) => {
+    dispatch(deleteSectionAsync({ projectId: projectVar._id, sectionId }));
+  };
+
   useEffect(() => {
     dispatch(setLastAllTaskUrl(window.location.pathname));
   }, []);
@@ -416,6 +421,7 @@ export function ProjectContainer(props) {
               showCompletedSection={showCompletedSection}
               projects={projectsObj}
               scroll={props.scroll}
+              onSectionDelete={deleteSection}
             />
           ) || (
             <div className="flex flex-center">

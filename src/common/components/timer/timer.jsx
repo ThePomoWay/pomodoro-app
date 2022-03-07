@@ -80,45 +80,32 @@ export default function Timer(props) {
 
   let focusModeState = useSelector(selectFocusMode);
 
-  let timerSecRef = useRef(null);
   let timerElRef = useRef(null);
-
-  useEffect(() => {
-    timerSecRef.current = timerSec;
-  });
 
   let state = useSelector(selectPomoState);
   let dispatch = useDispatch();
-
-  useEffect(() => {
-    if (state.includes("running")) {
-      document.title = timerString + " Left";
-    } else {
-      document.title = "PomoPanda - Improve your productivity!";
-    }
-  }, [timerString, state]);
 
   const startInterval = () => {
     sendWorkerMsg(START_INTERVAL);
   };
 
   //Remove interval on component unmount
-  useEffect(() => {
-    return () => {
-      sendWorkerMsg(CLEAR_INTERVAL);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     sendWorkerMsg(CLEAR_INTERVAL);
+  //   };
+  // }, []);
 
-  const doStartTimer = useCallback((isCta) => {
+  const doStartTimer = () => {
     dispatch(startTimerAsync());
 
     startInterval();
     dispatch(hideFirstUserScreen());
 
     props.onTimerStart && props.onTimerStart();
-  });
+  };
 
-  const doPauseTimer = useCallback(() => {
+  const doPauseTimer = () => {
     sendWorkerMsg(CLEAR_INTERVAL);
 
     props.onPause && props.onPause();
@@ -126,14 +113,15 @@ export default function Timer(props) {
     // dispatch(updateTimerState({
     //     pomoState: getNextPomoState(state, ACTION_PAUSE),
     // }));
-  });
+  };
 
-  const doResumeTimer = useCallback(() => {
+  const doResumeTimer = () => {
     dispatch(resumeTimerAsync());
-    setTimeout(startInterval, 0);
+    // setTimeout(startInterval, 0);
+    startInterval();
 
     props.onTimerStart && props.onTimerStart();
-  });
+  };
 
   const doStopTimer = useCallback(() => {
     sendWorkerMsg(CLEAR_INTERVAL);
@@ -152,7 +140,7 @@ export default function Timer(props) {
   const doSkipBreak = useCallback(() => {
     sendWorkerMsg(CLEAR_INTERVAL);
 
-    dispatch(updateNextState());
+    dispatch(updateNextState({ disableAlarm: true }));
   });
   const getCTA = useCallback(
     (state) => {

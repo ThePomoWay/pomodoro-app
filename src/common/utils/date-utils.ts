@@ -75,8 +75,8 @@ export function getTimeText(mins) {
     mins = Number(mins).toFixed(2);
     return mins + " mins";
   }
-  let m = ((mins % 60) / 60).toFixed(1).substring(2);
-  return `${Math.floor(mins / 60)}.${m} hrs`;
+  let m = mins % 60;
+  return `${Math.floor(mins / 60)}:${m} hours`;
 }
 
 export function daysInMonth(date) {

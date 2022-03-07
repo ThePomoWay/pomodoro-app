@@ -9,6 +9,7 @@ import {
   getTab,
   TAB_POMODORO,
 } from "../../../common/components/timer/timer-utils";
+import { setIsTimerFullScreen } from "../../../common/state/slice/GlobalSlice";
 import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
 import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
 import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
@@ -25,7 +26,6 @@ export function HomepageLaptop() {
     timerBgColor,
     isTimerFullScreen,
     toggleFullScreen,
-    setIsTimerFullScreen,
     pomoState,
   } = useHomepage();
 
@@ -33,17 +33,17 @@ export function HomepageLaptop() {
   let containerRef = useRef();
 
   let onTimerStart = () => {
-    setIsTimerFullScreen(true);
+    dispatch(setIsTimerFullScreen(true));
   };
 
   let onPause = () => {
-    setIsTimerFullScreen(false);
+    dispatch(setIsTimerFullScreen(false));
   };
 
   let onTaskComplete = (task) => {
     dispatch(markTaskAsCompleteThunk({ task }));
     dispatch(pauseTimerAsync());
-    setIsTimerFullScreen(false);
+    dispatch(setIsTimerFullScreen(!false));
   };
 
   let scrollContainer = () => {
@@ -74,7 +74,7 @@ export function HomepageLaptop() {
             <Timer
               onTimerStart={onTimerStart}
               onPause={onPause}
-              onReset={(e) => setIsTimerFullScreen(false)}
+              onReset={(e) => dispatch(setIsTimerFullScreen(false))}
             ></Timer>
           </div>
           {isTimerFullScreen && getTab(pomoState) === TAB_POMODORO && (

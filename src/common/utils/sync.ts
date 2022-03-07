@@ -1,6 +1,9 @@
 import { getTasks } from "../API/APIService";
 import { clearTasksInIDB } from "../API/indexed-db-ops/crud";
-import { clearProjectsFromIDB } from "../API/indexed-db-ops/projectCrud";
+import {
+  clearProjectsFromIDB,
+  getAllProjectsFromIDB,
+} from "../API/indexed-db-ops/projectCrud";
 import {
   getStatsQueue,
   statsQueueLSKey,
@@ -14,7 +17,11 @@ import AuthService from "../API/network/AuthService";
 import { updateMultipleTimerStatsAPI } from "../API/network/StatsApis";
 import { getSyncAPI } from "../API/network/SyncApi";
 import { createMultipleTaskAPI, getAllTasksApi } from "../API/network/TaskApis";
-import { createLocalProjectAsync } from "../state/thunks/ProjectThunk";
+import {
+  createLocalProjectAsync,
+  deleteProjectAsync,
+  getAllProjects,
+} from "../state/thunks/ProjectThunk";
 import { createLocalTagThunk } from "../state/thunks/TagsThunk";
 import {
   createLocalTaskThunk,
@@ -36,6 +43,24 @@ export async function syncIdb() {
     let userInfo = AuthService.getUserAuthInfo();
 
     if (userInfo.isNew) {
+      let projects = await getAllProjectsFromIDB();
+      for (let project of projects) {
+        if (project._id === "inbox") {
+          store.dispatch(
+            createLocalProjectAsync({
+              project: {
+                ...project,
+                _id: AuthService.getInboxProjectId(),
+              },
+            })
+          );
+
+          store.dispatch(deleteProjectAsync(project));
+
+          store.dispatch(getAllProjects());
+        }
+      }
+
       //push local updates to server. If not new user then only sync be with local.
 
       //Dump all local tasks to backend which were created before login

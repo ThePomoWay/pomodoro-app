@@ -15,8 +15,8 @@ export function playTimerStartSound() {
   }, 5000);
 }
 
+let completeTaskAudio = new Audio("/sounds/complete-task-2.wav");
 export function playCompleteTaskSound() {
-  let completeTaskAudio = new Audio("/sounds/complete-task-2.wav");
   completeTaskAudio.play();
 
   setTimeout(() => {

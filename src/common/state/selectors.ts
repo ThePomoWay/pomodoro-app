@@ -21,10 +21,13 @@ export const selectToastObj = (state) => state.global.toast;
 
 export const selectTheme = (state) => state.global.theme;
 
+export const selectIsTimerFullScreen = (state) =>
+  state.global.isTimerFullScreen;
+
 //todays tasks
 export const selectTodaysTasks = (state) =>
   state.tasks.todaysTasks
-    .filter((i) => state.tasks.tasks[i] && !state.tasks.tasks[i].isComplete)
+    .filter((i) => state.tasks.tasks[i])
     .map((i) => state.tasks.tasks[i]);
 export const selectTodaysCompletedTasks = (state) =>
   state.tasks.todaysCompletedTasks

@@ -3,6 +3,7 @@ import { MoreHorizRounded } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
+import { setIsTimerFullScreen } from "../../state/slice/GlobalSlice";
 import { setEditTask } from "../../state/slice/TasksSlice";
 import {
   deleteTaskThunk,
@@ -70,6 +71,7 @@ export default function TaskItem(props) {
 
       playTimerStartSound();
     }
+    dispatch(setIsTimerFullScreen(true));
   };
 
   const doPauseTask = () => {
@@ -187,6 +189,7 @@ export default function TaskItem(props) {
 
   let handleClose = useCallback((e) => {
     setAnchorEl(null);
+    e.stopPropagation();
   });
 
   let getEstimatedPomoHtml = useCallback(() => {
@@ -376,12 +379,13 @@ export default function TaskItem(props) {
                     <div
                       className="popper-item"
                       onClick={(e) => {
-                        doDeleteTask();
+                        props.removeFromToday && props.removeFromToday(task);
+                        handleClose(e);
                         e.stopPropagation();
                       }}
                     >
                       <DismissTaskIcon />
-                      <span>Remove from todays tasks</span>
+                      <span>Remove from todays</span>
                     </div>
                   )}
 
@@ -389,6 +393,7 @@ export default function TaskItem(props) {
                     className="popper-item"
                     onClick={(e) => {
                       doDeleteTask();
+                      handleClose(e);
                       e.stopPropagation();
                     }}
                   >

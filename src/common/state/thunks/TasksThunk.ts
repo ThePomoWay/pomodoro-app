@@ -42,9 +42,15 @@ import {
 import {
   openOnboardingModal,
   setToast,
+  showErrorToast,
   showSuccessToast,
 } from "../slice/GlobalSlice";
-import { removeTaskFromProject, updateLocalProjectAsync } from "./ProjectThunk";
+import {
+  addTaskToProjectLocal,
+  removeTaskFromProject,
+  updateLocalProjectAsync,
+} from "./ProjectThunk";
+import { projectChangeApi } from "../../API/network/ProjectApis";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
@@ -105,7 +111,35 @@ export const updateLocalTaskThunk = createAsyncThunk(
 
 export const updateTaskThunk = createAsyncThunk(
   "tasks/update",
-  async (task, { dispatch }) => {
+  async (task: any, { dispatch, getState }) => {
+    let tasks = getState()["tasks"].tasks;
+    let oldTask = tasks[task.fid];
+
+    if (oldTask.project.projectID !== task.project.projectID) {
+      if (AuthService.isLoggedIn() && task._id) {
+        let response = await projectChangeApi(
+          oldTask.project.projectID,
+          task.project.projectID,
+          task._id
+        );
+        if (response.status !== 200) {
+          dispatch(showErrorToast({ msg: response.data.message }));
+          return;
+        }
+      }
+      dispatch(
+        removeTaskFromProject({
+          projectId: oldTask.project.projectID,
+          taskId: task.fid,
+        })
+      );
+      dispatch(
+        addTaskToProjectLocal({
+          projectId: task.project.projectID,
+          taskId: task.fid,
+        })
+      );
+    }
     dispatch(updateLocalTaskThunk(task));
 
     if (AuthService.isLoggedIn()) {
@@ -264,7 +298,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
             open: true,
             msg: "We're facing some issues, please try again in some time.",
             duration: 5000,
-            type: "error",
+            type: "failure",
           })
         );
       } else if (completedTaskResponse.status !== 200) {
@@ -273,7 +307,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
             open: true,
             msg: completedTaskResponse.data.msg,
             duration: 5000,
-            type: "error",
+            type: "failure",
           })
         );
       }
@@ -312,7 +346,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
             open: true,
             msg: response.data.msg,
             duration: 5000,
-            type: "error",
+            type: "failure",
           })
         );
       }

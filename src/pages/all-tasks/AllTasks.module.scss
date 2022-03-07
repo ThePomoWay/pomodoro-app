@@ -58,6 +58,12 @@
           font-size: 14px;
           color: #858585;
         }
+        .right {
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
       }
 
       &.closed {

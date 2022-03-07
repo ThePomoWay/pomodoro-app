@@ -13,8 +13,6 @@ export const initialTimerState = {
   timerInSec: DEFAULT_WORK_TIME,
   completedPomos: 0,
   pomoState: POMO_IDLE_STATE,
-  autoPlayPomo: false,
-  autoPlayBreak: false,
   pomoStartTime: 0,
   psec: 0,
   lastResumeTime: "",

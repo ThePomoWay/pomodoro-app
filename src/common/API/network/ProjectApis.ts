@@ -4,7 +4,9 @@ import {
   createSectionEndpoint,
   createTaskEndpoint,
   deleteProjectEndpoint,
+  deleteSectionEndpoint,
   getAllProjectEndpoint,
+  projectChangeEndpoint,
   rearrangeTasksInProjectEndpoint,
   updateProjectEndpoint,
 } from "./Endpoints";
@@ -79,4 +81,26 @@ export function rearrangeTaskApi(obj) {
     {},
     { source: obj.source, destination: obj.destination, isSame: obj.isSame }
   );
+}
+
+export function projectChangeApi(oldProjectId, newProjectId, taskId) {
+  let endpoint = projectChangeEndpoint
+    .replace("{userId}", AuthService.getUserId())
+    .replace("{projectId}", newProjectId)
+    .replace("{taskId}", taskId);
+  return NetworkService.patch(
+    endpoint,
+    {},
+    {
+      source: { pid: oldProjectId },
+      destination: { pid: newProjectId },
+    }
+  );
+}
+
+export function deleteSectionApi(projectId, sectionId) {
+  let endpoint = deleteSectionEndpoint
+    .replace("{projectId}", projectId)
+    .replace("{sectionId}", sectionId);
+  return NetworkService.delete(endpoint, {}, {});
 }

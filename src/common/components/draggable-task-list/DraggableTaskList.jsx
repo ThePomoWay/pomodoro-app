@@ -98,6 +98,8 @@ export default (props) => {
                   showRemoveBtn={props.showRemoveBtn}
                   hideWorkingOn={props.hideWorkingOn}
                   doRemoveTask={props.doRemoveTask}
+                  removeFromToday={props.removeFromToday}
+                  showDismissOption={props.showDismissOption}
                 />
               );
             })}

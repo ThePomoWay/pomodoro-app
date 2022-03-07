@@ -17,6 +17,7 @@ import {
   getTab,
   getTimerInSec,
 } from "../../components/timer/timer-utils";
+import { getTimerString } from "../../utils/common";
 import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
@@ -59,13 +60,15 @@ export let getTimerState = createAsyncThunk(
     if (!response) {
       dispatch(updateTimerState({ create: true }));
     } else {
-      let defaultTotalTime = "";
+      let defaultTotalTime;
       if (response.pomoState.includes("long_break")) {
-        defaultTotalTime = userPreference.defaultLongBreakTime;
+        defaultTotalTime =
+          userPreference.defaultLongBreakTime || DEFAULT_LONG_BREAK_TIME;
       } else if (response.pomoState.includes("break")) {
-        defaultTotalTime = userPreference.defaultBreakTime;
+        defaultTotalTime =
+          userPreference.defaultBreakTime || DEFAULT_BREAK_TIME;
       } else {
-        defaultTotalTime = userPreference.defaultWorkTime;
+        defaultTotalTime = userPreference.defaultWorkTime || DEFAULT_WORK_TIME;
       }
 
       if (
@@ -110,10 +113,6 @@ export let updateTimerState = createAsyncThunk(
 
     let updateObj = {
       ...stateInStore,
-      pomoDate: new Date().toISOString(),
-      curTime: Date.now(),
-      psec: 0,
-      ptime: "",
       date,
     };
     if (curStateObj.create) {
@@ -122,7 +121,6 @@ export let updateTimerState = createAsyncThunk(
       updateObj = {
         ...updateObj,
         ...curStateObj,
-        curTime: Date.now(),
         date,
       };
       response = await updateTimerStateIdb(updateObj);
@@ -155,10 +153,12 @@ export let updateTimerState = createAsyncThunk(
 
 export let updateNextState = createAsyncThunk(
   "timer/nextstate",
-  async (_, { getState, dispatch }) => {
+  async (obj: any, { getState, dispatch }) => {
     let state = getState()["timer"];
     let userPreference = getState()["global"].userPreferences;
-    playAlarmSound();
+    if (!obj.disableAlarm) {
+      playAlarmSound();
+    }
     if (state.pomoState === POMO_RUNNING_STATE) {
       let completedPomos = state.completedPomos + 1;
       let nextState =
@@ -231,7 +231,7 @@ export let updateNextState = createAsyncThunk(
         dispatch(
           updateTimerState({
             pomoState: nextState,
-            timerInSec: DEFAULT_WORK_TIME,
+            timerInSec: userPreference.defaultWorkTime,
             pomoSummary: {},
           })
         );
@@ -275,6 +275,7 @@ export let tickAsync = createAsyncThunk(
     );
     if (timerSec <= 0) {
       dispatch(setTimerSec(0));
+      document.title = "PomoPanda - Improve your productivity!";
 
       if (timerState.pomoState === POMO_RUNNING_STATE) {
         dispatch(completePomodoro());
@@ -286,6 +287,10 @@ export let tickAsync = createAsyncThunk(
       // dispatch(incrementCurTaskCsec());
       dispatch(setPomoSummary(pomoSummary));
       dispatch(incrementCurTaskCsec());
+
+      if (timerState.pomoState.includes("running")) {
+        document.title = getTimerString(timerSec) + " Left";
+      }
     }
   }
 );
@@ -311,6 +316,16 @@ export const pauseTimerAsync = createAsyncThunk(
   "timer/pause",
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
+    let taskState = getState()["tasks"];
+    let pomoSummary = timerState.pomoSummary;
+
+    let summary = [];
+    for (let taskId in pomoSummary) {
+      summary.push({
+        tid: taskState.tasks[taskId]._id || taskState.tasks[taskId].fid,
+        csec: pomoSummary[taskId],
+      });
+    }
 
     if (AuthService.isLoggedIn()) {
       updateTimerStatsAPI(
@@ -318,7 +333,8 @@ export const pauseTimerAsync = createAsyncThunk(
           new Date(timerState.pomoStartTime).toISOString(),
         new Date().toISOString(),
         STATS_TYPE_PAUSED,
-        false
+        false,
+        summary
       );
     } else {
       pushToStatsUpdateQueueIDB(
@@ -329,6 +345,8 @@ export const pauseTimerAsync = createAsyncThunk(
         false
       );
     }
+
+    dispatch(setPomoSummary({}));
     let nextState = POMO_PAUSED_STATE;
     if (timerState.pomoState.includes("long_break")) {
       nextState = POMO_LONG_BREAK_PAUSED_STATE;

@@ -1,17 +1,33 @@
 @import "./variables";
 
 .modal-container {
-  width: 600px;
-  height: auto;
+  position: relative;
+  width: 62vw;
+  height: 68vh;
   background-color: white;
-  padding: 20px 24px 20px 24px;
-  border: 1px solid #ededf7;
-  box-sizing: border-box;
-  box-shadow: 3px 12px 10px rgba(225, 225, 237, 0.76);
-  border-radius: 8px;
+  outline: none;
 
-  &:focus-visible {
-    outline: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  background: #ffffff;
+  box-shadow: 2px 7px 32px rgba(54, 64, 120, 0.17);
+  border-radius: 12px;
+
+  overflow: scroll;
+
+  .modal-content {
+    width: 50%;
+    padding: 42px;
+
+    .close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      align-self: flex-end;
+      cursor: pointer;
+    }
   }
 }
 

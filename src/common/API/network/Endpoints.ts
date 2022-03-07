@@ -23,6 +23,8 @@ export const updateProjectEndpoint = deleteProjectEndpoint;
 export const rearrangeTasksInProjectEndpoint =
   "v1/user/{userId}/project/{projectId}/task/{taskId}/rearrange";
 export const getAllProjectEndpoint = "v1/user/{userId}/project";
+export const projectChangeEndpoint =
+  "v1/user/{userId}/project/{projectId}/task/{taskId}/project-change";
 
 //Section APIs
 export const createSectionEndpoint =
@@ -57,4 +59,3 @@ export const deleteTagEndpoint = "v1/users/{userId}/labels/{labelId}";
 // sync APIs
 export const syncEndpoint = "v1/users/{userId}/sync";
 export const syncOfflineDataEndpoint = "v1/users/{userId}/sync-offline-data";
-

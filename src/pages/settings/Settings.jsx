@@ -7,6 +7,7 @@ import Navbar from "../../common/components/navbar/Navbar";
 import { ProfileSettings } from "../../common/components/profile-settings/ProfileSettings";
 import { ClockSettings } from "../../common/components/clock-settings/ClockSettings";
 import { SoundSettings } from "../../common/components/sound-settings/SoundSettings";
+import { ClockSettingsModal } from "../../common/components/clock-settings-modal/ClockSettingsModal";
 
 export default function Settings(props) {
   let { path } = useRouteMatch();
@@ -22,11 +23,9 @@ export default function Settings(props) {
         <div className={styles["settings"]}>
           <Switch>
             <Route exact path={path}>
-              <ClockSettings />
-            </Route>
-            <Route exact path={`${path}/timer`}>
               <ProfileSettings />
             </Route>
+
             <Route exact path={`${path}/sound`}>
               <SoundSettings />
             </Route>

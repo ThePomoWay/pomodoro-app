@@ -1,3 +1,4 @@
+import { clearCollection } from "./indexedDbCrudWrapper";
 import {
   initIdb,
   projectsObjectStoreName,
@@ -5,6 +6,7 @@ import {
   taskObjectStoreName,
   timerstateObjectStoreName,
   dbName,
+  userPreferencesObjectStoreName,
 } from "./init";
 import { clearProjectsFromIDB } from "./projectCrud";
 import { clearTagsFromIDB } from "./tagsCrud";

@@ -2,13 +2,17 @@
   display: flex;
   flex-direction: column;
 
-  background-color: #566ee8;
-  color: #ffffff;
+  background-color: white;
+  color: #363636;
 
   height: calc(100vh - 104px);
   overflow-y: scroll;
 
-  padding: 48px 16px 0px 16px;
+  padding: 48px 16px 0px 48px;
+
+  .settings-title {
+    margin-bottom: 20px;
+  }
 
   &-item {
     display: flex;
@@ -16,9 +20,18 @@
     gap: 8px;
     flex-direction: row;
     padding: 8px 10px;
+    color: #363636;
+
+    &:hover {
+      background-color: #f3f5ff;
+      border-radius: 14px;
+    }
 
     &.selected {
-      background-color: #3f56b9;
+      border-radius: 14px;
+      background-color: #e8ecfc;
+      display: flex;
+      align-items: center;
     }
   }
 }

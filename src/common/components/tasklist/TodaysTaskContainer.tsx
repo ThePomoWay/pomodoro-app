@@ -16,6 +16,7 @@ import {
   clearTodaysTasksThunk,
   markTaskAsInCompleteThunk,
   rearrangeTodaysTask,
+  removeFromTodaysTasks,
 } from "../../state/thunks/TasksThunk";
 
 import { DailyStats } from "../daily-stats/DailyStats";
@@ -47,6 +48,10 @@ export function TodaysTaskContainer(props) {
   };
 
   let dispatch = useDispatch();
+
+  let doRemoveFromToday = (task) => {
+    dispatch(removeFromTodaysTasks({ fid: task.fid, _id: task._id }));
+  };
 
   let onDragEnd = useCallback((result) => {
     if (result.destination && result.source) {
@@ -158,6 +163,8 @@ export function TodaysTaskContainer(props) {
             tags={tags}
             dropId="id-1e"
             isEditable="true"
+            showDismissOption={true}
+            removeFromToday={doRemoveFromToday}
           />
         </DragDropContext>
         <div className={styles["add-new-task"]}>

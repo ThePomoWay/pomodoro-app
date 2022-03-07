@@ -1,7 +1,10 @@
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectPomoState } from "../../common/state/selectors";
+import {
+  selectIsTimerFullScreen,
+  selectPomoState,
+} from "../../common/state/selectors";
 import { getAllProjects } from "../../common/state/thunks/ProjectThunk";
 import { getAllTags } from "../../common/state/thunks/TagsThunk";
 import { getTodaysTasks } from "../../common/state/thunks/TasksThunk";
@@ -13,12 +16,14 @@ import {
   POMO_RUNNING_STATE,
 } from "../../common/utils/constants";
 import "./home.scss";
+import { setIsTimerFullScreen } from "../../common/state/slice/GlobalSlice";
 
 export default function useHomepage() {
   let dispatch = useDispatch();
 
   let [showSidebar, setShowSidebar] = useState(false);
-  let [isTimerFullScreen, setIsTimerFullScreen] = useState(false);
+
+  let isTimerFullScreen = useSelector(selectIsTimerFullScreen);
 
   let pomoState = useSelector(selectPomoState);
 
@@ -42,7 +47,7 @@ export default function useHomepage() {
   });
 
   let toggleFullScreen = () => {
-    setIsTimerFullScreen(!isTimerFullScreen);
+    dispatch(setIsTimerFullScreen(!isTimerFullScreen));
   };
 
   useEffect(() => {
@@ -60,9 +65,14 @@ export default function useHomepage() {
         pomoState === POMO_LONG_BREAK_RUNNING_STATE) &&
       !isTimerFullScreen
     ) {
-      setIsTimerFullScreen(true);
-    } else if (isTimerFullScreen) {
-      setIsTimerFullScreen(false);
+      dispatch(setIsTimerFullScreen(true));
+    } else if (
+      pomoState !== POMO_RUNNING_STATE &&
+      pomoState !== POMO_BREAK_RUNNING_STATE &&
+      pomoState !== POMO_LONG_BREAK_RUNNING_STATE &&
+      isTimerFullScreen
+    ) {
+      dispatch(setIsTimerFullScreen(false));
     }
   }, []);
 
@@ -73,7 +83,6 @@ export default function useHomepage() {
     timerBgColor,
     isTimerFullScreen,
     toggleFullScreen,
-    setIsTimerFullScreen,
     pomoState,
   };
 }

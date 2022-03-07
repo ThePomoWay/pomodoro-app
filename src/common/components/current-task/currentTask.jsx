@@ -26,6 +26,7 @@ export default function CurrentTask(props) {
         projects={projectsObj}
         tags={tagsObj}
         hideMoreOptions={true}
+        hideWorkingOn={true}
       />
     </div>
   );
