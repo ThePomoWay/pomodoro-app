@@ -58,4 +58,5 @@ export const deleteTagEndpoint = "v1/users/{userId}/labels/{labelId}";
 
 // sync APIs
 export const syncEndpoint = "v1/users/{userId}/sync";
+
 export const syncOfflineDataEndpoint = "v1/users/{userId}/sync-offline-data";

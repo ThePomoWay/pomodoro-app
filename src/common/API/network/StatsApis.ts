@@ -1,3 +1,5 @@
+import { responsiveFontSizes } from "@material-ui/core";
+import { savePomoSummariesInOfflineStore } from "../../offlineSync/offlineSync";
 import { getFormattedDate } from "../../utils/date-utils";
 import AuthService from "./AuthService";
 import {
@@ -19,18 +21,27 @@ export function updateTimerStatsAPI(
     AuthService.getUserId()
   );
   let today = new Date();
-  return NetworkService.post(
-    endpoint,
-    { date: getFormattedDate() },
-    {
+  let statBody = function () {
+    return {
       startDate: getFormattedDate(startTime),
       st: startTime,
       et: endTime,
       type,
       isDistracted,
-      pomoSummary,
+      pomoSummary
     }
-  );
+  }
+  return NetworkService.post(
+    endpoint,
+    { date: getFormattedDate() },
+    statBody
+  )
+  .then((resp) => resp.json())
+  .then((resp) => {
+    if (resp.status !== 200) {
+      savePomoSummariesInOfflineStore(statBody())
+    }
+  });
 }
 
 export function updateMultipleTimerStatsAPI(body) {
