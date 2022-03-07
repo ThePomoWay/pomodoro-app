@@ -26,7 +26,7 @@ import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
-import { saveTaskInOfflineStore, task_complete, task_create, task_delete, task_update } from "../../offlineSync/offlineSync";
+import { saveTaskInOfflineStore, task_complete, task_create, task_delete, task_incomplete, task_update } from "../../offlineSync/offlineSync";
 
 import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
 import {
@@ -83,7 +83,7 @@ export const createTaskThunk = createAsyncThunk(
     }
     if (AuthService.isLoggedIn()) {
       createTaskAPI(payload.task).then((response) => {
-        if (response.status === 200) {
+        if (response && response.status === 200) {
           dispatch(
             updateLocalTaskThunk({
               ...payload.task,
@@ -95,7 +95,7 @@ export const createTaskThunk = createAsyncThunk(
             addToTodaysTaskAPI(response.data.tid);
           }
         } else {
-          saveTaskInOfflineStore(task, task_create)
+          saveTaskInOfflineStore(payload.task, task_create)
         }
       });
     }
@@ -148,7 +148,7 @@ export const updateTaskThunk = createAsyncThunk(
     if (AuthService.isLoggedIn()) {
       if (task._id !== "") {
         updateTaskAPI(task).then((res) => {
-          if (res.status !== 200) {
+          if (!res || res.status !== 200) {
             // TODO : should we also use navigator to check if user is offline
             // TODO : api call should not be made if index db fails
             saveTaskInOfflineStore(task, task_update)
@@ -212,10 +212,10 @@ export const deleteTaskThunk = createAsyncThunk(
     dispatch(deleteTask(task));
     let response = await deleteIDBTask(task);
 
-    if (AuthService.isLoggedIn() && task._id !== "") {
+    if (AuthService.isLoggedIn() && !!task._id) {
       deleteTaskAPI(task)
       .then((res) => {
-        if (res.status !== 200) {
+        if (!res || res.status !== 200) {
           saveTaskInOfflineStore(task, task_delete)
         }
       });
@@ -257,7 +257,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
     dispatch(addToCompletedTasks({ fid: obj.task.fid }));
 
     let project = getState()["projects"].projects[obj.task.project.projectID];
-    if (AuthService.isLoggedIn() && task_update._id !== "") {
+    if (AuthService.isLoggedIn()) {
       let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
       let completedTaskResponse = await markTaskAsCompleteApi(
         { project: obj.task.project },
@@ -265,7 +265,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
         completedOn,
         obj.task._id
       );
-      if (completedTaskResponse.status !== 200) {
+      if (!completedTaskResponse || completedTaskResponse.status !== 200) {
         saveTaskInOfflineStore(obj.task, task_complete)
         dispatch(
           setToast({
@@ -276,10 +276,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
           })
         );
       }
-    } else {
-      saveTaskInOfflineStore(obj.task, task_complete)
     }
-
 
     let taskOrderCopy = [...project.to];
     if (obj.task.project.secID) {
@@ -328,31 +325,34 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
       dispatch(markTaskAsCompleteLocal(obj));
 
       let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
-      let completedTaskResponse = await markTaskAsCompleteApi(
-        { project: obj.task.project },
-        obj.task.fid in todaysTasksObj,
-        completedOn,
-        obj.task._id
-      );
-      if (!completedTaskResponse) {
-        //user is offline or backend is down.
-        dispatch(
-          setToast({
-            open: true,
-            msg: "We're facing some issues, please try again in some time.",
-            duration: 5000,
-            type: "failure",
-          })
+      if (!obj.task._id) {
+        let completedTaskResponse = await markTaskAsCompleteApi(
+          { project: obj.task.project },
+          obj.task.fid in todaysTasksObj,
+          completedOn,
+          obj.task._id
         );
-      } else if (completedTaskResponse.status !== 200) {
-        dispatch(
-          setToast({
-            open: true,
-            msg: completedTaskResponse.data.msg,
-            duration: 5000,
-            type: "failure",
-          })
-        );
+        if (!completedTaskResponse) {
+          //user is offline or backend is down.
+          saveTaskInOfflineStore(obj.task, task_complete)
+          dispatch(
+            setToast({
+              open: true,
+              msg: "We're facing some issues, please try again in some time.",
+              duration: 5000,
+              type: "failure",
+            })
+          );
+        } else if (completedTaskResponse.status !== 200) {
+          dispatch(
+            setToast({
+              open: true,
+              msg: completedTaskResponse.data.msg,
+              duration: 5000,
+              type: "failure",
+            })
+          );
+        }
       }
     }
   }
@@ -377,13 +377,14 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
     let project = getState()["projects"].projects[obj.task.project.projectID];
     let taskOrderCopy = [...project.to, obj.task.fid];
 
-    if (AuthService.isLoggedIn()) {
+    if (AuthService.isLoggedIn() && !obj.task._id) {
       let response = await markTaskAsInCompleteApi(
         { project: obj.task.project },
         obj.container === "todays",
         obj.task._id
       );
-      if (response.status !== 200) {
+      if (!response || response.status !== 200) {
+        saveTaskInOfflineStore(obj.task, task_incomplete)
         dispatch(
           setToast({
             open: true,
@@ -393,6 +394,8 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
           })
         );
       }
+    } else {
+      saveTaskInOfflineStore(obj.task, task_incomplete)
     }
 
     if (obj.task.project.secID) {

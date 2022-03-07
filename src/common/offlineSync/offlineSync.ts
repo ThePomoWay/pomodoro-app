@@ -56,14 +56,19 @@ function getOfflineDataFromLS() {
 
 function refreshTodaysTaskArr() {
     syncInfo.tasks.todays = [];
-    store["tasks"].todaysTasks.forEach(element => {
-        var todaysTask = getDefaultTaskIDStructure()
-        todaysTask.fid = element
-        if (store["tasks"].tasks[element]._id) {
-            todaysTask._id = store["tasks"].tasks[element]._id
-        }
-        syncInfo.tasks.todays.push(todaysTask)
-    });
+    let storeData = store.getState()
+    if (storeData && storeData["tasks"] && storeData["tasks"].todaysTasks) {
+        storeData["tasks"].todaysTasks.forEach(element => {
+            if (storeData["tasks"].tasks[element]) {
+                var todaysTask = getDefaultTaskIDStructure()
+                todaysTask.fid = element
+                if (storeData["tasks"].tasks[element]._id) {
+                    todaysTask._id = storeData["tasks"].tasks[element]._id
+                }
+                syncInfo.tasks.todays.push(todaysTask)
+            }
+        });
+    }
 } 
 
 export function isSyncRequired() {
@@ -74,16 +79,19 @@ export function updateStoreAndIndexDB(mapFIDtoTID) {
     // get all tasks from index db and update
     async function updateTIDInIndexDB()  {
         let response = await getTasks();
-        for (var i = 0; i < response.tasks.length; i++) {
-            response.tasks[i]._id = mapFIDtoTID[response.tasks[i].fid] || ""
-            await updateIDBTask(response.tasks[i])
+        if (response && response.tasks) {
+            for (var i = 0; i < response.tasks.length; i++) {
+                response.tasks[i]._id = mapFIDtoTID[response.tasks[i].fid] || ""
+                await updateIDBTask(response.tasks[i])
+            }
         }
     }
     updateTIDInIndexDB();
     
 
     // get all tasks from store and update
-    tasksInStore = store["tasks"]
+    let storeData = store.getState()
+    let tasksInStore = storeData["tasks"]
     for (key in taskInStore) {
         if (!taskInStore[key]._id) {
             taskInStore[key]._id = mapFIDtoTID[key] || "";
@@ -107,11 +115,11 @@ export function syncSuccessful(mapFIDtoTID) {
 // TODO: import and update todays task as well
 export function saveTaskInOfflineStore(taskInfo = {_id : "", fid: ""}, action = "today_task_rearrange") {
     if (action == task_create) {
-        if (taskInfo._id == "") {
+        if (!taskInfo._id) {
             syncInfo.tasks.create.push(taskInfo)
         }
     } else if (action == task_update) {
-        if (taskInfo._id != "") {
+        if (taskInfo._id) {
             syncInfo.tasks.update.push(taskInfo)
         } else {
             for(var i = 0; i < syncInfo.tasks.create.length; i++) {
@@ -121,24 +129,24 @@ export function saveTaskInOfflineStore(taskInfo = {_id : "", fid: ""}, action = 
             }
         }
     } else if (action == task_delete) {
-        if (taskInfo._id != "") {
+        if (taskInfo._id) {
             syncInfo.tasks.delete.push(taskInfo)
         } else {
             for(var i = 0; i < syncInfo.tasks.create.length; i++) {
                 if (syncInfo.tasks.create[i].fid == taskInfo.fid) {
-                    syncInfo.tasks.create = syncInfo.tasks.create.splice(i, 1)
+                    syncInfo.tasks.create.splice(i, 1)
                 }
             }
         }
     } else if (action == task_complete) {
         syncInfo.tasks.complete.push(taskInfo)
     } else if (action == task_incomplete) {
-        if (taskInfo._id != "") {
+        if (taskInfo._id) {
             syncInfo.tasks.incomplete.push(taskInfo)
         } else {
-            for(var i = 0; i < syncInfo.tasks.create.length; i++) {
-                if (syncInfo.tasks.create[i].fid == taskInfo.fid) {
-                    syncInfo.tasks.create = syncInfo.tasks.create.splice(i, 1)
+            for(var i = 0; i < syncInfo.tasks.complete.length; i++) {
+                if (syncInfo.tasks.complete[i].fid == taskInfo.fid) {
+                    syncInfo.tasks.complete.splice(i, 1)
                 }
             }
         }

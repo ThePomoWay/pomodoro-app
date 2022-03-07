@@ -34,11 +34,10 @@ export function updateTimerStatsAPI(
   return NetworkService.post(
     endpoint,
     { date: getFormattedDate() },
-    statBody
+    statBody()
   )
-  .then((resp) => resp.json())
   .then((resp) => {
-    if (resp.status !== 200) {
+    if (!resp || resp.status !== 200) {
       savePomoSummariesInOfflineStore(statBody())
     }
   });

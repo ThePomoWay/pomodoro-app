@@ -38,8 +38,8 @@ export class NetworkService {
       return Promise.resolve()
     }
 
-    const syncOfflineDataEndpoint = "v1/users/{userId}/sync-offline-data"
-    syncOfflineDataEndpoint.replace('{userId}', AuthService.getUserId())
+    let syncOfflineDataEndpoint = "v1/users/{userId}/sync-offline-data"
+    syncOfflineDataEndpoint = syncOfflineDataEndpoint.replace('{userId}', AuthService.getUserId())
 
     var syncBody = getSyncInfo()
     return fetch(getQueryParamString(syncOfflineDataEndpoint, {}), {
@@ -50,12 +50,12 @@ export class NetworkService {
     .then((res) => res.json())
     .then(
       (res) => {
-        if(res.status !== 200) { 
+        if(!res || res.status !== 200) { 
           throwNetworkErrorToast()
           Promise.reject(); 
           return res
         }
-        syncSuccessful(res.data.mapFIDtoTID)
+        syncSuccessful(res.data.mapFIDToTID)
       }
     );
   }
