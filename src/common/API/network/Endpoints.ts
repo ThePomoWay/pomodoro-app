@@ -49,6 +49,7 @@ export const getStatsEndpoint = updateStatsEndpoint;
 
 //User APIs
 export const getUserEndpoint = "v1/users/{userId}";
+export const updateUserEndpoint = "v1/users/{userId}/update";
 
 //Tags APIs
 export const getAllTagsEndpoint = "v1/users/{userId}/labels";

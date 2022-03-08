@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
-import { getUserApi } from "../../API/network/UserApis";
+import { getUserApi, updateUserApi } from "../../API/network/UserApis";
 import { getFormattedDate } from "../../utils/date-utils";
+import { showErrorToast, showSuccessToast } from "../slice/GlobalSlice";
 import { setUser } from "../slice/UserSlice";
 
 export let getUserAsync = createAsyncThunk(
@@ -26,6 +27,29 @@ export let getUserAsync = createAsyncThunk(
         response.data.overallStat.rs.length = 0;
       }
     }
+    if (response.data && !response.data.image) {
+      response.data.image = "/dp/1.jpg";
+    }
     dispatch(setUser(response.data));
+  }
+);
+
+export const updateUserThunk = createAsyncThunk(
+  "user/update",
+  async (newUser: any, { dispatch, getState }) => {
+    let oldUser = getState()["user"].user;
+    let obj = {
+      ...oldUser,
+      ...newUser,
+    };
+    let response = await updateUserApi(obj);
+    if (!response) {
+      dispatch(showErrorToast("Please check your internet"));
+    } else if (response.status !== 200) {
+      dispatch(showErrorToast(response.data.message));
+    } else {
+      dispatch(showSuccessToast("Updated Successfully!"));
+      dispatch(setUser(obj));
+    }
   }
 );

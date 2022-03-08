@@ -81,6 +81,7 @@ export const clearAllData = createAsyncThunk(
   "global/deleteall",
   async (_, { dispatch }) => {
     await clearIDB();
+    window.location.reload();
   }
 );
 

@@ -10,6 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+const self = this;
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -91,6 +93,8 @@ function registerValidSW(swUrl, config) {
             }
           }
         };
+
+
       };
     })
     .catch((error) => {
@@ -135,3 +139,25 @@ export function unregister() {
     });
   }
 }
+
+
+// self.addEventListener('fetch', event => {
+//   // it can be empty if you just want to get rid of that error
+// });
+
+// self.addEventListener('push', e => {
+//   const data = e.data.json();
+//   const { title, body, icon } = data;
+
+//   const options = {
+//     body,
+//     icon,
+//     vibrate: [100, 50, 100],
+//     data: {
+//       dateOfArrival: Date.now(),
+//       primaryKey: 1,
+//     },
+   
+//   };
+//   e.waitUntil(self.registration.showNotification(title, options));
+// });

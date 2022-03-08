@@ -1,4 +1,8 @@
+.animate-wrapper {
+  transition: transform 0.5s ease-in-out, opacity 1s ease-in-out;
+}
 .settings {
+  transition: transform 0.5s ease-in-out, opacity 1s ease-in-out;
   .account {
     margin-bottom: 20px;
   }
@@ -19,9 +23,9 @@
       .profile-icon {
         width: 50px;
         height: 50px;
-        border-radius: 30px;
+        border-radius: 40px;
         padding: 15px;
-        background-color: #ededed;
+        background-color: #fcfbfb;
       }
     }
   }

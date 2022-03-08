@@ -23,5 +23,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/serviceWorker.js", "public/service-worker.js"  ]
 }

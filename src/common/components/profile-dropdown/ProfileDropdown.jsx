@@ -2,7 +2,7 @@ import { ClickAwayListener } from "@material-ui/core";
 import { ArrowDropDown } from "@material-ui/icons";
 import { Popper } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 
 import { Link } from "react-router-dom";
@@ -10,9 +10,11 @@ import { Link } from "react-router-dom";
 import styles from "./ProfileDropdown.module.scss";
 import { logout } from "../../state/thunks/GlobalThunk";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
+import { selectUserInfo } from "../../state/selectors";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
+  let userInfo = useSelector(selectUserInfo);
 
   const onClose = useCallback(() => {
     setProfileAnchorEl(null);
@@ -36,7 +38,7 @@ export function ProfileDropdown(props) {
             className="flex flex-center"
             onClick={(e) => setProfileAnchorEl(e.currentTarget)}
           >
-            <img src="/default.png" />
+            <img src={userInfo.image || "/dp/1.jpg"} />
             <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
             </span>

@@ -80,13 +80,13 @@ export default function NavbarDesktop(props) {
   let userInfo = useSelector(selectUserInfo);
   let history = useHistory();
 
-  let openOnboardingModal = () => {
+  let onOpenOnboardingModal = () => {
     dispatch(openOnboardingModal());
   };
 
   let navigateToInsights = () => {
     if (!AuthService.isLoggedIn()) {
-      openOnboardingModal();
+      onOpenOnboardingModal();
     } else {
       history.push("/analysis");
     }

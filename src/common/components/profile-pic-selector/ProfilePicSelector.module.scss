@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  .image {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 30px;
+    border: 2px solid white;
+
+    &.selected {
+      border: 2px solid antiquewhite;
+      position: relative;
+      opacity: 0.5;
+      cursor: initial;
+      &::before {
+        position: absolute;
+        left: -2px;
+        top: 50%;
+        height: 25%;
+        width: 1px;
+        background-color: #336699;
+        content: "";
+        transform: translateX(10px) rotate(-45deg);
+        transform-origin: left bottom;
+      }
+
+      &::after {
+        position: absolute;
+        left: -2px;
+        bottom: 5px;
+        height: 1px;
+        width: 12px;
+        background-color: #336699;
+        content: "";
+        transform: translateX(10px) rotate(-45deg);
+        transform-origin: left bottom;
+      }
+    }
+
+    &:hover {
+      border: 2px solid antiquewhite;
+    }
+  }
+}
+
+.btn {
+  margin-top: 20px;
+}

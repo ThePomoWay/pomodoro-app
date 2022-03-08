@@ -37,6 +37,7 @@ import {
 import { getFormattedDate } from "../../utils/date-utils";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
+import { sendWebNotification } from "../../utils/web-push-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import {
   setPomoSummary,
@@ -300,6 +301,7 @@ export const startTimerAsync = createAsyncThunk(
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let date = new Date();
+    sendWebNotification("Starting a pomodoro!");
     dispatch(
       updateTimerState({
         pomoStartTime: date.getTime(),
