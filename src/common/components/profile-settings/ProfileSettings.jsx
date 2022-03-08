@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfo } from "../../state/selectors";
+import { clearAllData } from "../../state/thunks/GlobalThunk";
 import { ClockSettingsModal } from "../clock-settings-modal/ClockSettingsModal";
 import styles from "./ProfileSettings.module.scss";
 
@@ -10,6 +11,8 @@ export function ProfileSettings(props) {
   let user = useSelector(selectUserInfo);
   let [name, setName] = useState(user.name);
   let [email, setEmail] = useState(user.email);
+
+  let dispatch = useDispatch();
 
   useEffect(() => {
     setName(user.name);
@@ -23,9 +26,12 @@ export function ProfileSettings(props) {
   let closeModal = () => {
     setIsModalOpen(false);
   };
+
+  let clearAll = () => {
+    dispatch(clearAllData());
+  };
   return (
     <div className={styles["settings"]}>
-      <ClockSettingsModal isModalOpen={isModalOpen} handleClose={closeModal} />
       <div className={styles["account"]}>
         <div className="font-heading">Account</div>
       </div>
@@ -58,12 +64,10 @@ export function ProfileSettings(props) {
 
       <div className={styles["hr"]}></div>
       <div className={styles["clock-settings"]}>
-        <div className="font-sub-heading">Clock Settings</div>
-        <div className="font-light">
-          Change default pomodoro time for work, break and long break mode.{" "}
-        </div>
-        <button className="btn btn-save" onClick={openModal}>
-          Clock Settings
+        <div className="font-sub-heading">Clear all data</div>
+        <div className="font-light">Clear all your tasks, lists and tags.</div>
+        <button className="btn btn-save" onClick={clearAll}>
+          Clear Data
         </button>
       </div>
     </div>

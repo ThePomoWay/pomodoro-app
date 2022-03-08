@@ -1,5 +1,5 @@
 import styles from "./navbarDesktop.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,9 +78,18 @@ export default function NavbarDesktop(props) {
   let dispatch = useDispatch();
 
   let userInfo = useSelector(selectUserInfo);
+  let history = useHistory();
 
-  let onOpenOnboardingModal = () => {
+  let openOnboardingModal = () => {
     dispatch(openOnboardingModal());
+  };
+
+  let navigateToInsights = () => {
+    if (!AuthService.isLoggedIn()) {
+      openOnboardingModal();
+    } else {
+      history.push("/analysis");
+    }
   };
 
   return (
@@ -96,7 +105,7 @@ export default function NavbarDesktop(props) {
               if (!item.loggedOutOnly) {
                 return (
                   <Link
-                    key={index}
+                    key={"Navbar" + index}
                     to={item.to}
                     className={`${styles["link-item"]} ${
                       styles["link-item-" + (index + 1)]
@@ -111,7 +120,8 @@ export default function NavbarDesktop(props) {
               }
               return (
                 <div
-                  onClick={onOpenOnboardingModal}
+                  key={"Navbar-" + index}
+                  onClick={navigateToInsights}
                   className={`${styles["link-item"]} ${
                     styles["link-item-" + (index + 1)]
                   } ${

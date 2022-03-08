@@ -1,8 +1,9 @@
 import { AccessTime, MusicNote, Person } from "@material-ui/icons";
 import styles from "./SettingsSideNav.module.scss";
 import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSettingsTab } from "../../state/slice/GlobalSlice";
+import { selectSettingsTab } from "../../state/selectors";
 
 const tabs = [
   {
@@ -26,6 +27,7 @@ const tabs = [
 export function SettingsSideNav(props) {
   let path = window.location.pathname;
   let dispatch = useDispatch();
+  let tab = useSelector(selectSettingsTab);
   let changeTab = (index) => {
     dispatch(setSettingsTab(index));
   };
@@ -38,7 +40,7 @@ export function SettingsSideNav(props) {
         <div onClick={() => changeTab(index)} key={"settingsSideNav#" + index}>
           <div
             className={`${styles["sidenav-item"]} ${
-              path === item.link && styles["selected"]
+              index === tab && styles["selected"]
             }`}
           >
             <div className={styles["svg"]}>{item.icon}</div>

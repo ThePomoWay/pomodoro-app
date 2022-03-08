@@ -77,6 +77,13 @@ export const signin = createAsyncThunk(
   }
 );
 
+export const clearAllData = createAsyncThunk(
+  "global/deleteall",
+  async (_, { dispatch }) => {
+    await clearIDB();
+  }
+);
+
 export const logout = createAsyncThunk(
   "global/logout",
   async (_, { dispatch }) => {

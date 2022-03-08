@@ -1,6 +1,7 @@
 .settings-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .main {
     display: grid;
@@ -16,6 +17,7 @@
       padding: 48px 84px;
 
       overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
 }

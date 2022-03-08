@@ -8,7 +8,7 @@
   height: calc(100vh - 104px);
   overflow-y: scroll;
 
-  padding: 48px 16px 0px 48px;
+  padding: 48px 12px 0px 12px;
 
   .settings-title {
     margin-bottom: 20px;
@@ -21,6 +21,7 @@
     flex-direction: row;
     padding: 8px 10px;
     color: #363636;
+    cursor: pointer;
 
     &:hover {
       background-color: #f3f5ff;

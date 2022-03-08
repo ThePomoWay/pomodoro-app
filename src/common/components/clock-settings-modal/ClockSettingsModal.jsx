@@ -59,89 +59,88 @@ export function ClockSettingsModal(props) {
     //   aria-labelledby="clock-settings"
     //   aria-describedby="Change timer length for work time, short and long breaks."
     // >
-    <div className="modal-container">
-      <div className="modal-content">
-        <div className="close" onClick={props.handleClose}>
+    <div>
+      {/* <div className="close" onClick={props.handleClose}>
           <Close />
-        </div>
-        <div className={`font-sub-heading ${styles["heading"]}`}>
-          Configure your timer settings here:
-        </div>
-        <div className={styles["slider-item"]}>
-          <div className={`font-info ${styles["slider-text"]}`}>
-            Default pomodoro time:
-          </div>
-
-          <div className={styles["slider"]}>
-            <Slider
-              aria-label="Work Time"
-              value={workTime}
-              valueLabelDisplay="off"
-              step={5}
-              marks={pomoMarks}
-              min={25}
-              max={45}
-              onChange={(_, val) => setWorkTime(val)}
-            />
-          </div>
-        </div>
-        <div className={styles["slider-item"]}>
-          <span className={`font-info ${styles["slider-text"]}`}>
-            Default break time:{" "}
-          </span>
-          <div className={styles["slider"]}>
-            <Slider
-              aria-label="Break Time"
-              value={breakTime}
-              valueLabelDisplay="off"
-              step={5}
-              marks={pomoBreakMarks}
-              min={5}
-              max={20}
-              onChange={(_, val) => setBreakTime(val)}
-            />
-          </div>
-        </div>
-        <div className={styles["slider-item"]}>
-          <span className={`font-info ${styles["slider-text"]}`}>
-            Default long break time:{" "}
-          </span>
-          <div className={styles["slider"]}>
-            <Slider
-              aria-label="Long Break Time"
-              value={longBreakTime}
-              valueLabelDisplay="off"
-              step={5}
-              marks={pomoLongBreakMarks}
-              min={15}
-              max={30}
-              onChange={(_, val) => setLongBreakTime(val)}
-            />
-          </div>
-        </div>
-
-        <div className={styles["checkbox"]}>
-          <span className="font-info">Enable auto start pomodoro: </span>
-          <CustomSlider
-            value={autoPlay}
-            onChange={() => setAutoPlay(!autoPlay)}
-          />
-        </div>
-        <div className={styles["checkbox"]}>
-          <span className="font-info">Enable auto start break: </span>
-          <CustomSlider
-            value={autoBreak}
-            onChange={() => {
-              setAutoBreak(!autoBreak);
-            }}
-          />
-        </div>
-
-        <button className="btn btn-save" onClick={onSave}>
-          Save Settings
-        </button>
+        </div> */}
+      <div className={`font-sub-heading ${styles["heading"]}`}>
+        Configure your timer settings here:
       </div>
+      <div className={styles["slider-item"]}>
+        <div className={`font-info ${styles["slider-text"]}`}>
+          Default pomodoro time:
+        </div>
+
+        <div className={styles["slider"]}>
+          <Slider
+            aria-label="Work Time"
+            value={workTime}
+            valueLabelDisplay="off"
+            step={5}
+            marks={pomoMarks}
+            min={25}
+            max={45}
+            onChange={(_, val) => setWorkTime(val)}
+          />
+        </div>
+      </div>
+      <div className={styles["slider-item"]}>
+        <span className={`font-info ${styles["slider-text"]}`}>
+          Default break time:{" "}
+        </span>
+        <div className={styles["slider"]}>
+          <Slider
+            aria-label="Break Time"
+            value={breakTime}
+            valueLabelDisplay="off"
+            step={5}
+            marks={pomoBreakMarks}
+            min={5}
+            max={20}
+            onChange={(_, val) => setBreakTime(val)}
+          />
+        </div>
+      </div>
+      <div className={styles["slider-item"]}>
+        <span className={`font-info ${styles["slider-text"]}`}>
+          Default long break time:{" "}
+        </span>
+        <div className={styles["slider"]}>
+          <Slider
+            aria-label="Long Break Time"
+            value={longBreakTime}
+            valueLabelDisplay="off"
+            step={5}
+            marks={pomoLongBreakMarks}
+            min={15}
+            max={30}
+            onChange={(_, val) => setLongBreakTime(val)}
+          />
+        </div>
+      </div>
+
+      <div className={styles["checkbox"]}>
+        <span className="font-info">Enable auto start pomodoro: </span>
+        <CustomSlider
+          value={autoPlay}
+          onChange={() => setAutoPlay(!autoPlay)}
+        />
+      </div>
+      <div className={styles["checkbox"]}>
+        <span className="font-info">Enable auto start break: </span>
+        <CustomSlider
+          value={autoBreak}
+          onChange={() => {
+            setAutoBreak(!autoBreak);
+          }}
+        />
+      </div>
+
+      <button className="btn btn-save" onClick={onSave}>
+        Save Settings
+      </button>
     </div>
+
     // </Modal>
   );
 }

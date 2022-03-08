@@ -10,17 +10,21 @@ import { SoundSettings } from "../../common/components/sound-settings/SoundSetti
 import { ClockSettingsModal } from "../../common/components/clock-settings-modal/ClockSettingsModal";
 import { Modal } from "@mui/material";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectSettingsModal,
   selectSettingsTab,
 } from "../../common/state/selectors";
+import { Close } from "@material-ui/icons";
+import { setSettingsModal } from "../../common/state/slice/GlobalSlice";
 
 export default function Settings(props) {
-  let { path } = useRouteMatch();
-
   let isModalOpen = useSelector(selectSettingsModal);
   let tab = useSelector(selectSettingsTab);
+  let dispatch = useDispatch();
+  let handleClose = () => {
+    dispatch(setSettingsModal(false));
+  };
   return (
     <Modal
       open={isModalOpen}
@@ -29,17 +33,18 @@ export default function Settings(props) {
       aria-describedby="Change timer length for work time, short and long breaks."
     >
       <div className="modal-container">
-        <div className="modal-content">
-          <div className={styles["settings-container"]}>
-            <div className={styles["main"]}>
-              <div className={styles["sidebar"]}>
-                <SettingsSideNav />
-              </div>
-              <div className={styles["settings"]}>
-                {tab === 0 && <ProfileSettings />}
-                {tab === 1 && <ClockSettingsModal />}
-                {tab === 2 && <SoundSettings />}
-              </div>
+        <span className="close" onClick={(e) => handleClose()}>
+          <Close />
+        </span>
+        <div className={styles["settings-container"]}>
+          <div className={styles["main"]}>
+            <div className={styles["sidebar"]}>
+              <SettingsSideNav />
+            </div>
+            <div className={styles["settings"]}>
+              {tab === 0 && <ProfileSettings />}
+              {tab === 1 && <ClockSettingsModal />}
+              {tab === 2 && <SoundSettings />}
             </div>
           </div>
         </div>
