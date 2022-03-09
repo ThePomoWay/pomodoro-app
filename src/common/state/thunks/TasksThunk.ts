@@ -201,7 +201,15 @@ export const unMarkTaskAsCurrent = createAsyncThunk(
 
 export const deleteTaskThunk = createAsyncThunk(
   "tasks/delete",
-  async (task, { dispatch }) => {
+  async (task: any, { dispatch, getState }) => {
+    let todaysTasks = getState()["tasks"].todaysTasks;
+    let isTaskInTodays = false;
+    for (let fid of todaysTasks) {
+      if (fid === task.fid) {
+        isTaskInTodays = true;
+        break;
+      }
+    }
     dispatch(
       removeTaskFromProject({
         projectId: task.project.projectID,
@@ -210,9 +218,8 @@ export const deleteTaskThunk = createAsyncThunk(
       })
     );
     dispatch(
-      removeFromTodaysTasks({
+      removeFromTodaysTaskLocal({
         fid: task.fid,
-        _id: task._id,
       })
     );
     dispatch(deleteTask(task));
@@ -220,7 +227,7 @@ export const deleteTaskThunk = createAsyncThunk(
 
     if (AuthService.isLoggedIn()) {
       if (!!task._id) {
-        deleteTaskAPI(task).then((res) => {
+        deleteTaskAPI(task, isTaskInTodays).then((res) => {
           if (!res || res.status !== 200) {
             saveTaskInOfflineStore(task, task_delete);
           }

@@ -119,16 +119,27 @@ export const updateLocalProjectAsync = createAsyncThunk(
   }
 );
 
+export const deleteProjectLocal = createAsyncThunk(
+  "delete/project/local",
+  async (project: any, { dispatch }) => {
+    dispatch(deleteProject(project));
+    await deleteIDBproject(project);
+  }
+);
+
 export const deleteProjectAsync = createAsyncThunk(
   "delete/project",
   async (project, { dispatch }) => {
     if (AuthService.isLoggedIn()) {
-      await deleteProjectApi(project);
+      let response = await deleteProjectApi(project);
+      if (!response) {
+        dispatch(showErrorToast("Please try again in some time"));
+      } else if (response.status !== 200) {
+        dispatch(showErrorToast(response.data.message));
+      } else {
+        dispatch(deleteProjectLocal(project));
+      }
     }
-    dispatch(deleteProject(project));
-    let response = await deleteIDBproject(project);
-
-    return response;
   }
 );
 

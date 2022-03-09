@@ -20,7 +20,7 @@ export function askPermission() {
 
 export function sendWebNotification(msg) {
   //Send notifications only when page is not in focus.
-  if (!document.hidden) {
+  if (document.hidden) {
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");

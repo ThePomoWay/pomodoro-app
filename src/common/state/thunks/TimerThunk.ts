@@ -285,7 +285,7 @@ export let tickAsync = createAsyncThunk(
         dispatch(updateNextState({}));
       }
     } else {
-      if (timerSec === 5000 && timerState.pomoState === POMO_RUNNING_STATE) {
+      if (timerSec === 300 && timerState.pomoState === POMO_RUNNING_STATE) {
         sendWebNotification("5 mins more to go!");
       }
 

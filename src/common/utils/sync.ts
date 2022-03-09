@@ -20,6 +20,7 @@ import { createMultipleTaskAPI, getAllTasksApi } from "../API/network/TaskApis";
 import {
   createLocalProjectAsync,
   deleteProjectAsync,
+  deleteProjectLocal,
   getAllProjects,
 } from "../state/thunks/ProjectThunk";
 import { createLocalTagThunk } from "../state/thunks/TagsThunk";
@@ -55,7 +56,7 @@ export async function syncIdb() {
             })
           );
 
-          store.dispatch(deleteProjectAsync(project));
+          store.dispatch(deleteProjectLocal(project));
 
           store.dispatch(getAllProjects());
         }

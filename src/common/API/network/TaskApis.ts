@@ -52,11 +52,11 @@ export function createMultipleTaskAPI(tasksArr) {
   return NetworkService.post(endpoint, {}, { tasks: tasksArr });
 }
 
-export function deleteTaskAPI(taskObj) {
+export function deleteTaskAPI(taskObj, today) {
   let endpoint = deleteTaskEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskObj._id);
-  return NetworkService.post(endpoint, {}, taskObj);
+  return NetworkService.post(endpoint, { today }, taskObj);
 }
 
 export function addToTodaysTaskAPI(taskId) {
