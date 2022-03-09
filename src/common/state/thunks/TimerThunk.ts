@@ -281,7 +281,7 @@ export let tickAsync = createAsyncThunk(
       if (timerState.pomoState === POMO_RUNNING_STATE) {
         dispatch(completePomodoro());
       } else {
-        dispatch(updateNextState());
+        dispatch(updateNextState({}));
       }
     } else {
       dispatch(setTimerSec(timerSec));
@@ -426,6 +426,6 @@ export const completePomodoro = createAsyncThunk(
       dispatch(setPomoSummary({}));
     }
 
-    dispatch(updateNextState());
+    dispatch(updateNextState({}));
   }
 );

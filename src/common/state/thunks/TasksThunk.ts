@@ -103,7 +103,7 @@ export const createTaskThunk = createAsyncThunk(
           }
         }
         if (!response) {
-          saveTaskInOfflineStore(payload.task, task_create)
+          saveTaskInOfflineStore(payload.task, task_create);
         }
       });
     }
@@ -157,7 +157,7 @@ export const updateTaskThunk = createAsyncThunk(
       if (task._id) {
         updateTaskAPI(task).then((res) => {
           if (!res) {
-            saveTaskInOfflineStore(task, task_update)
+            saveTaskInOfflineStore(task, task_update);
           }
         });
       } else {
@@ -220,14 +220,13 @@ export const deleteTaskThunk = createAsyncThunk(
 
     if (AuthService.isLoggedIn()) {
       if (!!task._id) {
-        deleteTaskAPI(task)
-        .then((res) => {
+        deleteTaskAPI(task).then((res) => {
           if (!res || res.status !== 200) {
-            saveTaskInOfflineStore(task, task_delete)
+            saveTaskInOfflineStore(task, task_delete);
           }
         });
       } else {
-        saveTaskInOfflineStore(task, task_delete)
+        saveTaskInOfflineStore(task, task_delete);
       }
     }
 
@@ -265,26 +264,6 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
     dispatch(addToCompletedTasks({ fid: obj.task.fid }));
 
     let project = getState()["projects"].projects[obj.task.project.projectID];
-    if (AuthService.isLoggedIn()) {
-      let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
-      let completedTaskResponse = await markTaskAsCompleteApi(
-        { project: obj.task.project },
-        obj.task.fid in todaysTasksObj,
-        completedOn,
-        obj.task._id
-      );
-      if (!completedTaskResponse || completedTaskResponse.status !== 200) {
-        saveTaskInOfflineStore(obj.task, task_complete);
-        dispatch(
-          setToast({
-            open: true,
-            msg: completedTaskResponse.data.msg,
-            duration: 5000,
-            type: "error",
-          })
-        );
-      }
-    }
 
     let taskOrderCopy = [...project.to];
     if (obj.task.project.secID) {
@@ -397,7 +376,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
           obj.task._id
         );
         if (!response || response.status !== 200) {
-          saveTaskInOfflineStore(obj.task, task_incomplete)
+          saveTaskInOfflineStore(obj.task, task_incomplete);
           dispatch(
             setToast({
               open: true,
@@ -408,7 +387,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
           );
         }
       } else {
-        saveTaskInOfflineStore(obj.task, task_incomplete)
+        saveTaskInOfflineStore(obj.task, task_incomplete);
       }
     }
 

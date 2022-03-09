@@ -11,5 +11,3 @@ onmessage = (e) => {
         timer = 0;
     }
 }
-
-new Notification('hellloooo');
