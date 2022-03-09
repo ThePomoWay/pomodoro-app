@@ -1,9 +1,11 @@
 import { getCookie } from "../../utils/common";
 import { clearTasksInIDB } from "../indexed-db-ops/crud";
+import { isSyncRequired } from "../../offlineSync/offlineSync";
 
-const userAuthInfoLsKey = "userAuthInfo";
+
+export const userAuthInfoLsKey = "userAuthInfo";
 const uidKey = "uid";
-const justLoggedInKey = "newSignin";
+export const justLoggedInKey = "newSignin";
 
 export default class AuthService {
   static isLoggedIn() {
@@ -52,11 +54,5 @@ export default class AuthService {
     AuthService.setUserAuthInfo(payload);
     AuthService.setJustLoggedIn(true);
     window.location.reload();
-  }
-
-  static async logout() {
-    localStorage.removeItem(userAuthInfoLsKey);
-    localStorage.removeItem(justLoggedInKey);
-    window.location.href = "/";
   }
 }

@@ -9,6 +9,7 @@ import {
   userPreferencesObjectStoreName,
 } from "../../API/indexed-db-ops/init";
 import AuthService from "../../API/network/AuthService";
+import { NetworkService } from "../../API/network/NetworkService";
 import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
   DISABLE_FOCUS_MODE,
@@ -89,7 +90,7 @@ export const logout = createAsyncThunk(
   "global/logout",
   async (_, { dispatch }) => {
     await clearIDB();
-    AuthService.logout();
+    NetworkService.logout();
   }
 );
 
