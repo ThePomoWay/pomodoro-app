@@ -1,6 +1,6 @@
 import env from "../../../env";
 import { store } from "../../state/store";
-import AuthService from "./AuthService";
+import AuthService, { justLoggedInKey, userAuthInfoLsKey } from "./AuthService";
 import {
   isSyncRequired,
   getSyncInfo,
@@ -27,11 +27,11 @@ function getCommonHeaders() {
   return headers;
 }
 
-function throwNetworkErrorToast() {
+function throwNetworkErrorToast(message) {
   store.dispatch(
     setToast({
       open: true,
-      msg: "Please check your internet connection",
+      msg: message || "Please check your internet connection",
       duration: 5000,
       type: "failure",
     })
@@ -64,6 +64,7 @@ export class NetworkService {
           return res;
         }
         syncSuccessful(res.data.mapFIDToTID);
+        return res;
       });
   }
 
@@ -133,5 +134,17 @@ export class NetworkService {
           .catch(console.error);
       })
       .catch(() => {});
+  }
+
+  static async logout() {
+    NetworkService.sync()
+    .then((resp) => {
+      localStorage.removeItem(userAuthInfoLsKey);
+      localStorage.removeItem(justLoggedInKey);
+      window.location.href = "/";
+    })
+    .catch(() => {
+      throwNetworkErrorToast("You are currently offline and have unsaved data. Please check network connection to not lose on changes before logging out")
+    })
   }
 }
