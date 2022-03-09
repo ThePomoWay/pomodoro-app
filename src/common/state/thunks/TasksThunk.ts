@@ -260,7 +260,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
     dispatch(showSuccessToast("Kudos! 1 task completed!"));
     playCompleteTaskSound();
 
-    dispatch(removeFromTodaysTasks({ fid: obj.task.fid }));
+    dispatch(removeFromTodaysTaskLocal({ fid: obj.task.fid }));
     dispatch(addToCompletedTasks({ fid: obj.task.fid }));
 
     let project = getState()["projects"].projects[obj.task.project.projectID];
@@ -539,9 +539,9 @@ export const addToTodaysTasks = createAsyncThunk(
   }
 );
 
-export const removeFromTodaysTasks = createAsyncThunk(
-  "tasks/todays/delete",
-  async (payload: any, { getState, dispatch }) => {
+export const removeFromTodaysTaskLocal = createAsyncThunk(
+  "tasks/todays/local",
+  async (payload: any, { dispatch, getState }) => {
     let todaysTasks = JSON.parse(
       JSON.stringify(getState()["tasks"].todaysTasks)
     );
@@ -555,6 +555,16 @@ export const removeFromTodaysTasks = createAsyncThunk(
       }
     }
 
+    updateTodaysTasksInIdb(todaysTasks);
+    dispatch(updateTodaysTasks(todaysTasks));
+  }
+);
+
+export const removeFromTodaysTasks = createAsyncThunk(
+  "tasks/todays/delete",
+  async (payload: any, { getState, dispatch }) => {
+    dispatch(removeFromTodaysTaskLocal(payload));
+
     if (AuthService.isLoggedIn()) {
       if (payload._id) {
         var resp = await removeFromTodaysTasksApi(payload._id);
@@ -565,9 +575,6 @@ export const removeFromTodaysTasks = createAsyncThunk(
         saveTaskInOfflineStore();
       }
     }
-
-    updateTodaysTasksInIdb(todaysTasks);
-    dispatch(updateTodaysTasks(todaysTasks));
   }
 );
 
