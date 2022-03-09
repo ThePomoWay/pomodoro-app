@@ -24,7 +24,6 @@ function App() {
     dispatch(getUserAsync());
   }
 
-
   dispatch(init());
 
   if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {

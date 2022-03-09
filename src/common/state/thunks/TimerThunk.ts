@@ -37,7 +37,7 @@ import {
 import { getFormattedDate } from "../../utils/date-utils";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
-import { sendWebNotification } from "../../utils/web-push-utils";
+import { askPermission, sendWebNotification } from "../../utils/web-push-utils";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import {
   setPomoSummary,
@@ -212,6 +212,7 @@ export let updateNextState = createAsyncThunk(
 
       dispatch(incrementCurTaskCpomo());
     } else {
+      sendWebNotification("It's time for your next focused session!");
       let nextState = POMO_IDLE_STATE;
       if (userPreference.autoplayPomo) {
         nextState = POMO_RUNNING_STATE;
@@ -284,6 +285,10 @@ export let tickAsync = createAsyncThunk(
         dispatch(updateNextState({}));
       }
     } else {
+      if (timerSec === 5000 && timerState.pomoState === POMO_RUNNING_STATE) {
+        sendWebNotification("5 mins more to go!");
+      }
+
       dispatch(setTimerSec(timerSec));
       // dispatch(incrementCurTaskCsec());
       dispatch(setPomoSummary(pomoSummary));
@@ -301,7 +306,7 @@ export const startTimerAsync = createAsyncThunk(
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let date = new Date();
-    sendWebNotification("Starting a pomodoro!");
+    askPermission();
     dispatch(
       updateTimerState({
         pomoStartTime: date.getTime(),
@@ -402,6 +407,7 @@ export const completePomodoro = createAsyncThunk(
     }
 
     if (timerState.pomoState === POMO_RUNNING_STATE) {
+      sendWebNotification("Time to take a break!");
       if (AuthService.isLoggedIn()) {
         //ToDo: add functionality for distracted.
         updateTimerStatsAPI(
