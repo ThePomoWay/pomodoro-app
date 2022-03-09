@@ -101,8 +101,9 @@ export const createTaskThunk = createAsyncThunk(
           if (payload.isTodaysTask) {
             addToTodaysTaskAPI(response.data.tid);
           }
-        } else {
-          saveTaskInOfflineStore(payload.task, task_create);
+        }
+        if (!response) {
+          saveTaskInOfflineStore(payload.task, task_create)
         }
       });
     }
@@ -153,12 +154,10 @@ export const updateTaskThunk = createAsyncThunk(
     dispatch(updateLocalTaskThunk(task));
 
     if (AuthService.isLoggedIn()) {
-      if (task._id !== "") {
+      if (task._id) {
         updateTaskAPI(task).then((res) => {
-          if (!res || res.status !== 200) {
-            // TODO : should we also use navigator to check if user is offline
-            // TODO : api call should not be made if index db fails
-            saveTaskInOfflineStore(task, task_update);
+          if (!res) {
+            saveTaskInOfflineStore(task, task_update)
           }
         });
       } else {
@@ -219,14 +218,17 @@ export const deleteTaskThunk = createAsyncThunk(
     dispatch(deleteTask(task));
     let response = await deleteIDBTask(task);
 
-    if (AuthService.isLoggedIn() && !!task._id) {
-      deleteTaskAPI(task).then((res) => {
-        if (!res || res.status !== 200) {
-          saveTaskInOfflineStore(task, task_delete);
-        }
-      });
-    } else {
-      saveTaskInOfflineStore(task, task_delete);
+    if (AuthService.isLoggedIn()) {
+      if (!!task._id) {
+        deleteTaskAPI(task)
+        .then((res) => {
+          if (!res || res.status !== 200) {
+            saveTaskInOfflineStore(task, task_delete)
+          }
+        });
+      } else {
+        saveTaskInOfflineStore(task, task_delete)
+      }
     }
 
     dispatch(
@@ -387,25 +389,27 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
     let project = getState()["projects"].projects[obj.task.project.projectID];
     let taskOrderCopy = [...project.to, obj.task.fid];
 
-    if (AuthService.isLoggedIn() && !obj.task._id) {
-      let response = await markTaskAsInCompleteApi(
-        { project: obj.task.project },
-        obj.container === "todays",
-        obj.task._id
-      );
-      if (!response || response.status !== 200) {
-        saveTaskInOfflineStore(obj.task, task_incomplete);
-        dispatch(
-          setToast({
-            open: true,
-            msg: response.data.msg,
-            duration: 5000,
-            type: "failure",
-          })
+    if (AuthService.isLoggedIn()) {
+      if (obj.task._id) {
+        let response = await markTaskAsInCompleteApi(
+          { project: obj.task.project },
+          obj.container === "todays",
+          obj.task._id
         );
+        if (!response || response.status !== 200) {
+          saveTaskInOfflineStore(obj.task, task_incomplete)
+          dispatch(
+            setToast({
+              open: true,
+              msg: response.data.msg,
+              duration: 5000,
+              type: "failure",
+            })
+          );
+        }
+      } else {
+        saveTaskInOfflineStore(obj.task, task_incomplete)
       }
-    } else {
-      saveTaskInOfflineStore(obj.task, task_incomplete);
     }
 
     if (obj.task.project.secID) {
@@ -572,9 +576,13 @@ export const removeFromTodaysTasks = createAsyncThunk(
       }
     }
 
-    if (AuthService.isLoggedIn() && payload._id) {
-      var resp = await removeFromTodaysTasksApi(payload._id);
-      if (resp.status) {
+    if (AuthService.isLoggedIn()) {
+      if (payload._id) {
+        var resp = await removeFromTodaysTasksApi(payload._id);
+        if (!resp) {
+          saveTaskInOfflineStore();
+        }
+      } else {
         saveTaskInOfflineStore();
       }
     }

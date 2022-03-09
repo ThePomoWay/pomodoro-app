@@ -75,35 +75,32 @@ export function isSyncRequired() {
     return syncInfo.isSyncRequired
 }
 
-export function updateStoreAndIndexDB(mapFIDtoTID) {
+export async function updateStoreAndIndexDB(mapFIDtoTID) {
     // get all tasks from index db and update
-    async function updateTIDInIndexDB()  {
-        let response = await getTasks();
-        if (response && response.tasks) {
-            for (var i = 0; i < response.tasks.length; i++) {
-                response.tasks[i]._id = mapFIDtoTID[response.tasks[i].fid] || ""
-                await updateIDBTask(response.tasks[i])
+    let response = await getTasks();
+    if (response) {
+        for (var i = 0; i < response.length; i++) {
+            response[i]._id = mapFIDtoTID[response[i].fid] || ""
+            if (mapFIDtoTID[response[i].fid]) {
+                await updateIDBTask(response[i])
             }
         }
     }
-    updateTIDInIndexDB();
-    
 
     // get all tasks from store and update
     let storeData = store.getState()
-    let tasksInStore = storeData["tasks"]
-    for (key in taskInStore) {
+    let taskInStore = storeData["tasks"].tasks || {}
+    for (let key in taskInStore) {
         if (!taskInStore[key]._id) {
-            taskInStore[key]._id = mapFIDtoTID[key] || "";
-            store.dispatch(updateTask(taskInStore[key]));
+            if (mapFIDtoTID[key]) {
+                store.dispatch(updateTask({...taskInStore[key], _id: mapFIDtoTID[key]}));
+            }
         }
     }
 }
 
-
 export function getSyncInfo() {
     return syncInfo
-
 }
 
 export function syncSuccessful(mapFIDtoTID) {
