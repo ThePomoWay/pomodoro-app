@@ -8,6 +8,7 @@ import {
 } from "../../state/selectors";
 import {
   pauseTimerAsync,
+  resetTimerAsync,
   resumeTimerAsync,
   startTimerAsync,
   tickAsync,
@@ -48,11 +49,16 @@ import {
   sendWorkerMsg,
   START_INTERVAL,
 } from "../../utils/worker-util";
+import { Alert } from "../alert/Alert";
 
 const ACTION_PLAY = "play";
 const ACTION_PAUSE = "pause";
 const ACTION_SKIP = "skip";
 const ACTION_STOP = "stop";
+
+const ALERT_TITLE = "Are you sure you want to skip the current session?";
+const ALERT_DESCRIPTION =
+  "Changing mode will reset the current timer. Progress on pomodoro won't be recorded";
 
 const TIMER_BG_COLOR = {
   [TAB_POMODORO]: "#344493",
@@ -84,6 +90,8 @@ export default function Timer(props) {
 
   let state = useSelector(selectPomoState);
   let dispatch = useDispatch();
+
+  let [showAlertModal, setShowAlertModal] = useState(false);
 
   const startInterval = () => {
     sendWorkerMsg(START_INTERVAL);
@@ -127,14 +135,7 @@ export default function Timer(props) {
     sendWorkerMsg(CLEAR_INTERVAL);
 
     props.onReset && props.onReset();
-    dispatch(
-      updateTimerState({
-        pomoState: getNextPomoState(state, ACTION_STOP),
-        timerInSec: defaults.defaultWorkTime,
-        ptime: "",
-        psec: 0,
-      })
-    );
+    dispatch(resetTimerAsync());
   });
 
   const doSkipBreak = useCallback(() => {
@@ -308,6 +309,18 @@ export default function Timer(props) {
     dispatch(focusModeToggle(!focusModeState));
   });
 
+  let onTabChange = (nextState) => {
+    if (state.includes("running")) {
+      setShowAlertModal(nextState);
+    } else {
+      changePomoState(nextState);
+    }
+  };
+  let onTabChangeSuccess = (nextState) => {
+    changePomoState(nextState);
+    setShowAlertModal("");
+  };
+
   let radiusTime = getTotalTime(defaults, tab) / 2;
 
   let timerWidth = (timerElRef.current && timerElRef.current.offsetWidth) || 0;
@@ -329,62 +342,71 @@ export default function Timer(props) {
   let transform = "translateY(-" + height / 2 + "px) translateX(-50%)";
 
   return (
-    <div className={`${styles.timer}`}>
-      <div className={styles["timer-tabs"]}>
-        <div
-          className={`${styles["timer-tabs-item"]} ${
-            tab === "pomodoro" && styles["selected-purple"]
-          }`}
-          onClick={() => {
-            changePomoState(POMO_IDLE_STATE);
-          }}
-        >
-          Work Mode
+    <>
+      <Alert
+        onClose={(e) => setShowAlertModal(false)}
+        showModal={showAlertModal}
+        onSuccess={() => onTabChangeSuccess(showAlertModal)}
+        cta={"Continue"}
+        title={ALERT_TITLE}
+        description={ALERT_DESCRIPTION}
+      ></Alert>
+      <div className={`${styles.timer}`}>
+        <div className={styles["timer-tabs"]}>
+          <div
+            className={`${styles["timer-tabs-item"]} ${
+              tab === "pomodoro" && styles["selected-purple"]
+            }`}
+            onClick={() => {
+              onTabChange(POMO_IDLE_STATE);
+            }}
+          >
+            Work Mode
+          </div>
+          <div
+            className={`${styles["timer-tabs-item"]} ${
+              tab === "break" && styles["selected-pink"]
+            }`}
+            onClick={() => {
+              onTabChange(POMO_BREAK_IDLE_STATE);
+            }}
+          >
+            Short Break
+          </div>
+          <div
+            className={`${styles["timer-tabs-item"]} ${
+              tab === "long_break" && styles["selected-cyan"]
+            }`}
+            onClick={() => {
+              onTabChange(POMO_LONG_BREAK_IDLE_STATE);
+            }}
+          >
+            Long Break
+          </div>
         </div>
-        <div
-          className={`${styles["timer-tabs-item"]} ${
-            tab === "break" && styles["selected-pink"]
-          }`}
-          onClick={() => {
-            changePomoState(POMO_BREAK_IDLE_STATE);
-          }}
-        >
-          Short Break
-        </div>
-        <div
-          className={`${styles["timer-tabs-item"]} ${
-            tab === "long_break" && styles["selected-cyan"]
-          }`}
-          onClick={() => {
-            changePomoState(POMO_LONG_BREAK_IDLE_STATE);
-          }}
-        >
-          Long Break
-        </div>
-      </div>
-      <div className={`${styles.round} ${styles[tab]} grid grid-center`}>
-        <span className={styles["timer-text"]}> {timerString}</span>
-        <div className={styles["box"]} ref={timerElRef}>
-          {/* <div className={styles["percent"]}>
+        <div className={`${styles.round} ${styles[tab]} grid grid-center`}>
+          <span className={styles["timer-text"]}> {timerString}</span>
+          <div className={styles["box"]} ref={timerElRef}>
+            {/* <div className={styles["percent"]}>
                             <div className={styles["percentNum"]} id="count">0</div>
                             <div class="percentB">%</div>
                         </div> */}
-          <div
-            id="water"
-            className={styles["water"]}
-            style={{
-              transform: "translate(0" + "," + (100 - percentComplete) + "%)",
-            }}
-          >
             <div
-              className={styles["timer-circle"]}
+              id="water"
+              className={styles["water"]}
               style={{
-                width: t,
-                height: height + "px",
-                transform,
+                transform: "translate(0" + "," + (100 - percentComplete) + "%)",
               }}
-            ></div>
-            {/* <svg
+            >
+              <div
+                className={styles["timer-circle"]}
+                style={{
+                  width: t,
+                  height: height + "px",
+                  transform,
+                }}
+              ></div>
+              {/* <svg
               viewBox="0 0 560 20"
               className={`${styles["water_wave"]} ${styles["water_wave_back"]}`}
             >
@@ -402,10 +424,10 @@ export default function Timer(props) {
             >
               <use href="#wave"></use>
             </svg> */}
+            </div>
           </div>
-        </div>
 
-        {/* <div id="water" style={{transform: 'translate(0'+','+(percentComplete)+'%)'}} className={styles["water"]}>
+          {/* <div id="water" style={{transform: 'translate(0'+','+(percentComplete)+'%)'}} className={styles["water"]}>
                         <svg viewBox="0 0 560 20" class="water_wave water_wave_back">
                         <use href="#wave"></use>
                         </svg>
@@ -413,15 +435,15 @@ export default function Timer(props) {
                         <use href="#wave"></use>
                         </svg>
                     </div> */}
-        {getCTA(state)}
-      </div>
-      {!props.hideBlur && (
-        <div className={`${styles["blur-bg"]} ${styles[tab]}`}>
-          <div className={styles["blur"]}></div>
+          {getCTA(state)}
         </div>
-      )}
+        {!props.hideBlur && (
+          <div className={`${styles["blur-bg"]} ${styles[tab]}`}>
+            <div className={styles["blur"]}></div>
+          </div>
+        )}
 
-      {/* <div className={styles["focus-mode"]}>
+        {/* <div className={styles["focus-mode"]}>
         <span>Focus Mode</span>
         <label className="switch">
           <input
@@ -435,20 +457,21 @@ export default function Timer(props) {
         </label>
       </div> */}
 
-      <svg
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        style={{ display: "none" }}
-      >
-        <symbol id="wave">
-          <path d="M420,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C514,6.5,518,4.7,528.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H420z"></path>
-          <path d="M420,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C326,6.5,322,4.7,311.5,2.7C304.3,1.4,293.6-0.1,280,0c0,0,0,0,0,0v20H420z"></path>
-          <path d="M140,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C234,6.5,238,4.7,248.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H140z"></path>
-          <path d="M140,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C46,6.5,42,4.7,31.5,2.7C24.3,1.4,13.6-0.1,0,0c0,0,0,0,0,0l0,20H140z"></path>
-        </symbol>
-      </svg>
-    </div>
+        <svg
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          style={{ display: "none" }}
+        >
+          <symbol id="wave">
+            <path d="M420,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C514,6.5,518,4.7,528.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H420z"></path>
+            <path d="M420,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C326,6.5,322,4.7,311.5,2.7C304.3,1.4,293.6-0.1,280,0c0,0,0,0,0,0v20H420z"></path>
+            <path d="M140,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C234,6.5,238,4.7,248.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H140z"></path>
+            <path d="M140,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C46,6.5,42,4.7,31.5,2.7C24.3,1.4,13.6-0.1,0,0c0,0,0,0,0,0l0,20H140z"></path>
+          </symbol>
+        </svg>
+      </div>
+    </>
   );
 }

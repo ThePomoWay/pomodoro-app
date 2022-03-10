@@ -1,13 +1,14 @@
 import { ClickAwayListener, Popper } from "@material-ui/core";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 import {
   selectProjectsObj,
   selectTagsAsArr,
   selectTagsAsObj,
 } from "../../state/selectors";
+import { showErrorToast } from "../../state/slice/GlobalSlice";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
 import { generateUniqueId } from "../../utils/common";
 import { priorityColorMap } from "../../utils/constants";
@@ -67,6 +68,8 @@ export default function EditTaskContainer(props) {
 
   let [selectedTags, setSelectedTags] = useState(taskToBeEdited.labels || []);
 
+  let dispatch = useDispatch();
+
   useEffect(() => {
     if (ref && ref.current) {
       ref.current.textContent = taskToBeEdited.title || "";
@@ -108,6 +111,12 @@ export default function EditTaskContainer(props) {
   const onPriorityAnchorClose = useCallback((e) => {
     setPriorityAnchorEl(null);
   });
+
+  const closeAllPopover = () => {
+    onPriorityAnchorClose();
+    onProjectAnchorClose();
+    onTagAnchorClose();
+  };
 
   let resetContainer = useCallback((taskToBeEdited) => {
     setTitle(taskToBeEdited.title || "");
@@ -172,6 +181,8 @@ export default function EditTaskContainer(props) {
       resetContainer({});
 
       props.saveTask(task);
+    } else {
+      dispatch(showErrorToast("Please enter a title"));
     }
 
     // setTitle('');
@@ -283,9 +294,7 @@ export default function EditTaskContainer(props) {
           </div>
           <ClickAwayListener
             onClickAway={(e) => {
-              onPriorityAnchorClose();
-              onTagAnchorClose();
-              onProjectAnchorClose();
+              closeAllPopover();
             }}
           >
             <div className={styles["right-cta"]}>
@@ -294,7 +303,10 @@ export default function EditTaskContainer(props) {
 
               <div
                 className={`cursor-pointer ${styles["project"]}`}
-                onClick={onProjectAnchorClick}
+                onClick={(e) => {
+                  closeAllPopover();
+                  onProjectAnchorClick(e);
+                }}
               >
                 <svg
                   width="10"
@@ -356,7 +368,9 @@ export default function EditTaskContainer(props) {
                 open={Boolean(projectAnchorEl)}
                 id="project-popover"
                 anchorEl={projectAnchorEl}
-                onClose={onProjectAnchorClose}
+                onClose={(e) => {
+                  onProjectAnchorClose(e);
+                }}
                 position="bottom-left"
               >
                 <ProjectSelector
@@ -368,7 +382,10 @@ export default function EditTaskContainer(props) {
 
               <span
                 className={`cursor-pointer ${styles["icon-container"]}`}
-                onClick={onTagAnchorClick}
+                onClick={(e) => {
+                  closeAllPopover();
+                  onTagAnchorClick(e);
+                }}
               >
                 <svg
                   width="20"
@@ -389,7 +406,10 @@ export default function EditTaskContainer(props) {
                 open={Boolean(tagAnchorEl)}
                 id="priority-popover"
                 anchorEl={tagAnchorEl}
-                onClose={onTagAnchorClose}
+                onClose={(e) => {
+                  closeAllPopover();
+                  onTagAnchorClose(e);
+                }}
                 position="bottom-left"
               >
                 <AddTagContainer
@@ -399,7 +419,10 @@ export default function EditTaskContainer(props) {
               </Popper>
 
               <span
-                onClick={onPriorityAnchorClick}
+                onClick={(e) => {
+                  closeAllPopover();
+                  onPriorityAnchorClick(e);
+                }}
                 className={`${styles["icon-container"]} ${styles["priority-icon"]} cursor-pointer`}
               >
                 {(priority === -1 && (

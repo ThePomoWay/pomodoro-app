@@ -22,6 +22,7 @@ import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
+  PAGE_TITLE,
   POMO_BREAK_IDLE_STATE,
   POMO_BREAK_PAUSED_STATE,
   POMO_BREAK_RUNNING_STATE,
@@ -196,6 +197,7 @@ export let updateNextState = createAsyncThunk(
             pomoSummary: {},
           })
         );
+        document.title = PAGE_TITLE;
       } else {
         dispatch(
           updateTimerState({
@@ -237,6 +239,7 @@ export let updateNextState = createAsyncThunk(
             pomoSummary: {},
           })
         );
+        document.title = PAGE_TITLE;
       }
     }
   }
@@ -277,7 +280,7 @@ export let tickAsync = createAsyncThunk(
     );
     if (timerSec <= 0) {
       dispatch(setTimerSec(0));
-      document.title = "PomoPanda - Improve your productivity!";
+      document.title = PAGE_TITLE;
 
       if (timerState.pomoState === POMO_RUNNING_STATE) {
         dispatch(completePomodoro());
@@ -386,6 +389,24 @@ export const resumeTimerAsync = createAsyncThunk(
         pomoState: actionStateMap[getTab(timerState.pomoState)].play,
         psec: pausedSec,
         lastResumeTime: new Date().toISOString(),
+      })
+    );
+  }
+);
+
+export const resetTimerAsync = createAsyncThunk(
+  "timer/reset",
+  (_, { dispatch, getState }) => {
+    let state = getState()["timer"].pomoState;
+    let userPreference = getState()["global"].userPreferences;
+
+    document.title = PAGE_TITLE;
+    dispatch(
+      updateTimerState({
+        pomoState: actionStateMap[getTab(state)].stop,
+        timerInSec: userPreference.defaultWorkTime,
+        ptime: "",
+        psec: 0,
       })
     );
   }

@@ -15,7 +15,9 @@ export function DailyStats(props) {
 
   let ePomos = 0;
   for (let task of todaysTasks) {
-    ePomos += task.epomo;
+    if (task.cpomo < task.epomo) {
+      ePomos += task.epomo - task.cpomo;
+    }
   }
 
   return (

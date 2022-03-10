@@ -33,7 +33,7 @@ registerWorkerEvent();
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 if(navigator.userAgent !== 'ReactSnap') {
-  serviceWorker.register();
+  serviceWorker.unregister();
 }
 
 addExtensionListeners();

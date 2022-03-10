@@ -75,3 +75,5 @@ export const FORGOT_PASSWORD_STEP_2 = 5;
 //Theme constants
 export const THEME_LIGHT = "light";
 export const THEME_DARK = "dark";
+
+export const PAGE_TITLE = "PomoPanda - Improve your productivity!";

@@ -3,7 +3,7 @@
 .modal-container {
   position: relative;
   width: 62vw;
-  height: 68vh;
+  max-height: 68vh;
   background-color: white;
   outline: none;
 
@@ -16,7 +16,8 @@
   border-radius: 12px;
   position: relative;
 
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   .modal-content {
     width: 50%;

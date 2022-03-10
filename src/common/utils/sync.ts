@@ -107,25 +107,31 @@ export async function syncIdb() {
         }
       }
 
-      let statsResponse = await updateMultipleTimerStatsAPI({
-        stats: statsUpdateQueue,
-      });
-      if (statsResponse.status !== 200) {
-        console.error("Couldn't sync stats");
-      } else {
-        localStorage.removeItem(statsQueueLSKey);
+      if (statsUpdateQueue && statsUpdateQueue.length > 0) {
+        let statsResponse = await updateMultipleTimerStatsAPI({
+          stats: statsUpdateQueue,
+        });
+        if (statsResponse.status !== 200) {
+          console.error("Couldn't sync stats");
+        } else {
+          localStorage.removeItem(statsQueueLSKey);
+        }
       }
     } else {
       let syncResponse = await getSyncAPI();
       if (syncResponse.status === 200) {
         await clearTasksInIDB();
         await clearTodaysTasksFromIDB();
+        await clearProjectsFromIDB();
 
         let tasksArr = syncResponse.data.tasks;
         for (let task of tasksArr) {
           task.fid = task._id;
           if (!task.labels) {
             task.labels = [];
+          }
+          if (new Date(task.completedOn).getTime() > 0) {
+            task.isComplete = true;
           }
           store.dispatch(updateLocalTaskThunk(task));
         }
@@ -138,7 +144,9 @@ export async function syncIdb() {
           syncResponse.data.todaysTasks.taskIDs
         ) {
           syncResponse.data.todaysTasks.taskIDs =
-            syncResponse.data.todaysTasks.taskIDs.filter((i) => !!tasksObj[i]);
+            syncResponse.data.todaysTasks.taskIDs.filter(
+              (i) => !!tasksObj[i] && !tasksObj[i].isComplete
+            );
           store.dispatch(
             setTodaysTaskLocal(syncResponse.data.todaysTasks.taskIDs)
           );

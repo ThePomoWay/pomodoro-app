@@ -112,7 +112,7 @@ export const createTaskThunk = createAsyncThunk(
 
 export const updateLocalTaskThunk = createAsyncThunk(
   "task/update/local",
-  async (task, { dispatch }) => {
+  async (task: any, { dispatch }) => {
     dispatch(updateTask(task));
 
     let response = await updateIDBTask(task);
