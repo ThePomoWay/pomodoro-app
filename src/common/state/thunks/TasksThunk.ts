@@ -319,7 +319,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
       dispatch(markTaskAsCompleteLocal(obj));
 
       let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
-      if (!obj.task._id) {
+      if (obj.task._id) {
         let completedTaskResponse = await markTaskAsCompleteApi(
           {
             project: obj.task.project,
@@ -332,7 +332,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
         );
         if (!completedTaskResponse) {
           //user is offline or backend is down.
-          saveTaskInOfflineStore(obj.task, task_complete);
+          saveTaskInOfflineStore({...obj.task, "completedOn" : completedOn}, task_complete);
           dispatch(
             setToast({
               open: true,
