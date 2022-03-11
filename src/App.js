@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+
 import { useDispatch } from 'react-redux';
 import {  BrowserRouter as Router , Switch, Route } from 'react-router-dom';
 import './App.scss';

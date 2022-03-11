@@ -61,7 +61,6 @@ export async function syncIdb() {
           store.dispatch(getAllProjects());
         }
       }
-
       //push local updates to server. If not new user then only sync be with local.
 
       //Dump all local tasks to backend which were created before login
@@ -122,7 +121,6 @@ export async function syncIdb() {
       if (syncResponse.status === 200) {
         await clearTasksInIDB();
         await clearTodaysTasksFromIDB();
-        await clearProjectsFromIDB();
 
         let tasksArr = syncResponse.data.tasks;
         for (let task of tasksArr) {
@@ -132,6 +130,9 @@ export async function syncIdb() {
           }
           if (new Date(task.completedOn).getTime() > 0) {
             task.isComplete = true;
+          }
+          if (task.project.secID.startsWith("0000")) {
+            task.project.secID = "";
           }
           store.dispatch(updateLocalTaskThunk(task));
         }
@@ -222,7 +223,7 @@ export async function syncTasks() {
 
 export async function syncProjects(projects, tasksObj) {
   if (projects && projects.length > 0) {
-    let res = await clearProjectsFromIDB();
+    let res = await clearProjectsFromIDB(true);
     for (let project of projects) {
       store.dispatch(
         createLocalProjectAsync({

@@ -332,7 +332,10 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
         );
         if (!completedTaskResponse) {
           //user is offline or backend is down.
-          saveTaskInOfflineStore({...obj.task, "completedOn" : completedOn}, task_complete);
+          saveTaskInOfflineStore(
+            { ...obj.task, completedOn: completedOn },
+            task_complete
+          );
           dispatch(
             setToast({
               open: true,

@@ -5,6 +5,7 @@ import {
   isSyncRequired,
   getSyncInfo,
   syncSuccessful,
+  offlineData,
 } from "../../offlineSync/offlineSync";
 import { setToast } from "../../state/slice/GlobalSlice";
 
@@ -138,13 +139,16 @@ export class NetworkService {
 
   static async logout() {
     NetworkService.sync()
-    .then((resp) => {
-      localStorage.removeItem(userAuthInfoLsKey);
-      localStorage.removeItem(justLoggedInKey);
-      window.location.href = "/";
-    })
-    .catch(() => {
-      throwNetworkErrorToast("You are currently offline and have unsaved data. Please check network connection to not lose on changes before logging out")
-    })
+      .then((resp) => {
+        localStorage.removeItem(userAuthInfoLsKey);
+        localStorage.removeItem(justLoggedInKey);
+        localStorage.removeItem(offlineData);
+        window.location.href = "/";
+      })
+      .catch(() => {
+        throwNetworkErrorToast(
+          "You are currently offline and have unsaved data. Please check network connection to not lose on changes before logging out"
+        );
+      });
   }
 }

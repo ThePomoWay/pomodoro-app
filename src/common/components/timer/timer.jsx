@@ -257,9 +257,9 @@ export default function Timer(props) {
       props.onTimerStart && props.onTimerStart();
     }
 
-    if (state === POMO_PAUSED_STATE) {
-      doPauseTimer();
-    }
+    // if (state === POMO_PAUSED_STATE) {
+    //   doPauseTimer();
+    // }
 
     if (
       state === POMO_BREAK_IDLE_STATE ||

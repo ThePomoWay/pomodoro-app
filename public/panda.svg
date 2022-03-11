@@ -50,16 +50,16 @@
 </g>
 <defs>
 <radialGradient id="paint0_radial_196_4254" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(258.34 280.53) rotate(103.692) scale(186.255 208.62)">
-<stop stop-color="#E6EAFF"/>
-<stop offset="1" stop-color="#AAB7FC"/>
+<stop stopColor="#E6EAFF"/>
+<stop offset="1" stopColor="#AAB7FC"/>
 </radialGradient>
 <linearGradient id="paint1_linear_196_4254" x1="234.723" y1="213.859" x2="234.723" y2="461.492" gradientUnits="userSpaceOnUse">
-<stop stop-color="#687EE6" stop-opacity="0.27"/>
-<stop offset="1" stop-color="#8A9DF3"/>
+<stop stopColor="#687EE6" stopOpacity="0.27"/>
+<stop offset="1" stopColor="#8A9DF3"/>
 </linearGradient>
 <radialGradient id="paint2_radial_196_4254" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(234.134 366.948) rotate(90) scale(94.5336 137.968)">
-<stop stop-color="#A7B6FC"/>
-<stop offset="1" stop-color="#A1B0FA"/>
+<stop stopColor="#A7B6FC"/>
+<stop offset="1" stopColor="#A1B0FA"/>
 </radialGradient>
 </defs>
 </svg>

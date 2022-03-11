@@ -16,6 +16,9 @@ import {
   ENABLE_FOCUS_MODE,
   FIRST_USER_KEY,
   focusModeLSKey,
+  POMO_BREAK_IDLE_STATE,
+  POMO_IDLE_STATE,
+  POMO_LONG_BREAK_IDLE_STATE,
 } from "../../utils/constants";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import {
@@ -24,6 +27,7 @@ import {
   setUserPreferences,
   showSuccessToast,
 } from "../slice/GlobalSlice";
+import { setTimerSec } from "../slice/TimerSlice";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -114,6 +118,7 @@ export const updateUserPref = createAsyncThunk(
   "global/settings/update",
   async (obj: any, { dispatch, getState }) => {
     let userPreferences = getState()["global"].userPreferences;
+    let timerState = getState()["timer"];
     let updateObj = { ...userPreferences, ...obj };
     await updateCollectionIdb(userPreferencesObjectStoreName, {
       key: userPreferencesObjectKey,
@@ -121,5 +126,15 @@ export const updateUserPref = createAsyncThunk(
     });
     dispatch(showSuccessToast(obj.msg || "Settings updated Successfully"));
     dispatch(setUserPreferences(updateObj));
+
+    if (timerState.pomoState === POMO_IDLE_STATE) {
+      dispatch(setTimerSec(updateObj.defaultWorkTime));
+    }
+    if (timerState.pomoState === POMO_BREAK_IDLE_STATE) {
+      dispatch(setTimerSec(updateObj.defaultBreakTime));
+    }
+    if (timerState.pomoState === POMO_LONG_BREAK_IDLE_STATE) {
+      dispatch(setTimerSec(updateObj.defaultLongBreakTime));
+    }
   }
 );

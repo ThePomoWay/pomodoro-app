@@ -44,7 +44,6 @@ export default function Settings(props) {
             <div className={styles["settings"]}>
               {tab === 0 && <ProfileSettings />}
               {tab === 1 && <ClockSettingsModal />}
-              {tab === 2 && <SoundSettings />}
             </div>
           </div>
         </div>

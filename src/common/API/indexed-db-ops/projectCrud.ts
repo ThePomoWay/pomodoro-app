@@ -69,7 +69,7 @@ export function deleteIDBproject(project) {
   });
 }
 
-export function clearProjectsFromIDB() {
+export function clearProjectsFromIDB(noInbox = false) {
   return new Promise((resolve, reject) => {
     let transaction = db.transaction(projectsObjectStoreName, "readwrite");
 
@@ -84,13 +84,15 @@ export function clearProjectsFromIDB() {
       resolve({ success: true, msg: "Cleared Successfully" });
     };
 
-    objectStore.add({
-      _id: "inbox",
-      title: "Inbox",
-      sections: {},
-      so: [],
-      to: [],
-      isArchived: false,
-    });
+    if (!noInbox) {
+      objectStore.add({
+        _id: "inbox",
+        title: "Inbox",
+        sections: {},
+        so: [],
+        to: [],
+        isArchived: false,
+      });
+    }
   });
 }

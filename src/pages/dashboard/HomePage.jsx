@@ -13,9 +13,11 @@ export default function Homepage() {
     query: "(min-device-width: 1200px)",
   });
 
-  if (!isMobileDevice) {
-    return <HomepageLaptop />;
-  } else {
+  if (navigator.userAgent === "ReactSnap") {
+  }
+
+  if (!isDesktop) {
     return <HomepageMobile />;
   }
+  return <HomepageLaptop />;
 }

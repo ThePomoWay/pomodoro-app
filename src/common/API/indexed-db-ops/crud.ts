@@ -102,7 +102,7 @@ export function clearTasksInIDB() {
 export function clearIDB() {
   return new Promise((res, rej) => {
     clearTasksInIDB()
-      .then(clearProjectsFromIDB)
+      .then(() => clearProjectsFromIDB())
       .then(clearTagsFromIDB)
       .then(clearTodaysTasksFromIDB)
       .then(clearTimerStateFromIDB)
