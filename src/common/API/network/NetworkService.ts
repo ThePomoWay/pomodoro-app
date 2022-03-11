@@ -32,7 +32,7 @@ function throwNetworkErrorToast(message) {
     setToast({
       open: true,
       msg: message || "Please check your internet connection",
-      duration: 5000,
+      duration: 2000,
       type: "failure",
     })
   );
@@ -60,7 +60,6 @@ export class NetworkService {
       .then((res) => {
         if (!res || res.status !== 200) {
           throwNetworkErrorToast();
-          Promise.reject();
           return res;
         }
         syncSuccessful(res.data.mapFIDToTID);
