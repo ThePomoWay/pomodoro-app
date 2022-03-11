@@ -228,7 +228,7 @@ export const deleteTaskThunk = createAsyncThunk(
     if (AuthService.isLoggedIn()) {
       if (!!task._id) {
         deleteTaskAPI(task, isTaskInTodays).then((res) => {
-          if (!res || res.status !== 200) {
+          if (!res) {
             saveTaskInOfflineStore(task, task_delete);
           }
         });
@@ -385,7 +385,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
           obj.container === "todays",
           obj.task._id
         );
-        if (!response || response.status !== 200) {
+        if (!response) {
           saveTaskInOfflineStore(obj.task, task_incomplete);
           dispatch(
             setToast({
@@ -506,7 +506,7 @@ export const rearrangeTodaysTask = createAsyncThunk(
           .map((item) => tasks[item] && tasks[item]._id)
           .filter((i) => i)
       );
-      if (response.status !== 200) {
+      if (!response) {
         saveTaskInOfflineStore();
       }
     }
