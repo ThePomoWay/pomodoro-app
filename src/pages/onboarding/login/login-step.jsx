@@ -9,9 +9,14 @@ import { signin } from "../../../common/state/thunks/GlobalThunk";
 import { SignupStep1 } from "../signup/signup-step-1";
 import { GoogleIcon } from "../../../common/svgs/GoogleIcon";
 import { FacebookIcon } from "../../../common/svgs/FacebookIcon";
+import { useMediaQuery } from "react-responsive";
 
 export function LoginStep(props) {
   let dispatch = useDispatch();
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 1224px)",
+  });
 
   const responseGoogle = useCallback((response) => {
     console.log(response);
@@ -28,7 +33,6 @@ export function LoginStep(props) {
   });
 
   const responseFacebook = useCallback((response) => {
-    console.log(response);
     dispatch(
       signin({
         mode: "facebook",
@@ -39,11 +43,17 @@ export function LoginStep(props) {
 
   return (
     <div className={styles["container"]}>
-      <span className={styles["title"]}>
+      <span
+        className={isMobileDevice ? styles["title-mobile"] : styles["title"]}
+      >
         Welcome to&nbsp;<span className={styles["logo"]}>Pomö</span>Panda
       </span>
 
-      <div className={styles["socials"]}>
+      <div
+        className={
+          isMobileDevice ? styles["socials-mobile"] : styles["socials"]
+        }
+      >
         <GoogleLogin
           clientId="905357367821-f8j4n23ghi3bbebga32e105e375edfj2.apps.googleusercontent.com"
           onSuccess={responseGoogle}

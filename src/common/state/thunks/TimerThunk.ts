@@ -428,6 +428,10 @@ export const completePomodoro = createAsyncThunk(
       });
     }
 
+    dispatch(updateNextState({}));
+
+    dispatch(setPomoSummary({}));
+
     if (timerState.pomoState === POMO_RUNNING_STATE) {
       sendWebNotification("Time to take a break!");
       if (AuthService.isLoggedIn()) {
@@ -450,10 +454,6 @@ export const completePomodoro = createAsyncThunk(
           summary
         );
       }
-
-      dispatch(setPomoSummary({}));
     }
-
-    dispatch(updateNextState({}));
   }
 );

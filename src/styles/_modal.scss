@@ -1,5 +1,31 @@
 @import "./variables";
 
+.modal-container-mobile {
+  position: relative;
+  width: 95vw;
+  max-height: 80vh;
+  background-color: white;
+  outline: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  background: #ffffff;
+  box-shadow: 2px 7px 32px rgba(54, 64, 120, 0.17);
+  border-radius: 12px;
+  position: relative;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  .modal-content {
+    box-sizing: border-box;
+    width: 95%;
+    padding: 42px 12px;
+  }
+}
+
 .modal-container {
   position: relative;
   width: 62vw;

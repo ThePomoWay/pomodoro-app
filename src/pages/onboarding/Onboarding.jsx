@@ -23,6 +23,7 @@ import {
   REGISTER_STEP,
 } from "../../common/utils/constants";
 import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
+import { useMediaQuery } from "react-responsive";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -38,6 +39,15 @@ export default function OnBoarding(props) {
   const handleClose = useCallback(() => {
     dispatch(closeOnboardingModal());
   });
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 1224px)",
+  });
+
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1200px)",
+  });
+
   return (
     <Modal
       open={isModalOpen}
@@ -45,7 +55,11 @@ export default function OnBoarding(props) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <div className="modal-container">
+      <div
+        className={
+          isMobileDevice ? "modal-container-mobile" : "modal-container"
+        }
+      >
         <div className="modal-content">
           <span className="close" onClick={(e) => handleClose()}>
             {" "}

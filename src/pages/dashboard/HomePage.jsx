@@ -14,9 +14,10 @@ export default function Homepage() {
   });
 
   if (navigator.userAgent === "ReactSnap") {
+    return <div></div>;
   }
 
-  if (!isDesktop) {
+  if (isMobileDevice) {
     return <HomepageMobile />;
   }
   return <HomepageLaptop />;

@@ -19,6 +19,19 @@
     color: #000000;
   }
 
+  .title-mobile {
+    font-size: 22px;
+    line-height: 36px;
+    font-weight: bold;
+
+    margin-top: 6px;
+
+    .logo {
+      color: #566ee8;
+    }
+    color: #000000;
+  }
+
   .welcome-text {
     margin-top: 30px;
     font-weight: 700;
@@ -68,5 +81,12 @@
     justify-content: space-between;
     gap: 16px;
     margin-top: 25px;
+  }
+  .socials-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 25px;
+    align-items: center;
   }
 }
