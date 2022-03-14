@@ -1,4 +1,4 @@
-import { AccessTime, MusicNote, Person } from "@material-ui/icons";
+import { Person } from "@material-ui/icons";
 import styles from "./SettingsSideNav.module.scss";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

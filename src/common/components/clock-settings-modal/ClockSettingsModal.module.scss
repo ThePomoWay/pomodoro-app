@@ -8,6 +8,10 @@
   margin-bottom: 16px;
 }
 
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 .settings-text {
   display: flex;
   gap: 8px;
