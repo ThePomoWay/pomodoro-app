@@ -2,19 +2,23 @@
   display: flex;
   flex-direction: column;
 
-  background-color: white;
+  background-color: #f7f7ff;
   color: #363636;
 
   height: calc(100vh - 104px);
   overflow-y: scroll;
 
-  padding: 48px 12px 0px 12px;
+  padding: 32px 24px 0px 24px;
+
+  border-right: 0.5px solid #cacaca;
 
   .settings-title {
     margin-bottom: 20px;
+    padding-left: 2px;
   }
 
   &-item {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -23,9 +27,14 @@
     color: #363636;
     cursor: pointer;
 
+    font-size: 12px;
+
     &:hover {
       background-color: #f3f5ff;
       border-radius: 14px;
+    }
+    svg {
+      stroke: #959595;
     }
 
     &.selected {
@@ -33,6 +42,11 @@
       background-color: #e8ecfc;
       display: flex;
       align-items: center;
+      color: #2e3c87;
+      font-weight: 500;
+      svg {
+        stroke: #2e3c87;
+      }
     }
   }
 }

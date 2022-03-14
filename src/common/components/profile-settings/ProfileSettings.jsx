@@ -5,6 +5,7 @@ import { clearAllData } from "../../state/thunks/GlobalThunk";
 import styles from "./ProfileSettings.module.scss";
 import { Transition } from "react-transition-group";
 import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
+import { EditRounded } from "../../svgs/EditRounded";
 
 const dpTransitionStyles = {
   entering: {
@@ -53,7 +54,7 @@ export function ProfileSettings(props) {
   };
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <Transition in={!isProfileScreen} timeout={50}>
         {(state) => (
           <div
@@ -71,46 +72,47 @@ export function ProfileSettings(props) {
             style={{ ...profileTransitionStyles[state] }}
           >
             <div className={styles["account"]}>
-              <div className="font-heading">Account</div>
+              <div className="font-small-heading">My Profile</div>
             </div>
+            <div className={styles["hr"]}></div>
             <div className={styles["profile"]}>
-              <div className={`font-sub-heading ${styles["subtitle"]}`}>
-                Avatar
-              </div>
+              <div className={`${styles["subtitle"]}`}>Avatar</div>
               <div className={styles["profile-settings"]}>
-                <img
-                  src={user.image || "/default.png"}
-                  className={styles["profile-icon"]}
-                />
-                <button
-                  className="btn btn-save"
+                <div
+                  className={styles["profile-img"]}
                   onClick={(e) => setIsProfileScreen(false)}
                 >
-                  Replace
-                </button>
+                  <img
+                    src={user.image || "/default.png"}
+                    className={styles["profile-icon"]}
+                  />
+                  <div className={styles["edit-icon"]}>
+                    <EditRounded />
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className={styles["hr"]}></div>
             <div className={styles["form"]}>
               <div className={styles["name"]}>
-                <div className={`font-info ${styles["label"]}`}>
-                  Display Name
-                </div>
+                <div className={`${styles["subtitle"]}`}>Display Name</div>
                 <input
                   className="input"
                   value={name}
                   onChange={(e) => setName(e.target.currentValue)}
                 />
               </div>
-              <div className={styles["email"]}>
-                <div className={`font-info ${styles["label"]}`}>Email</div>
-                <input className="input" value={email} disabled />
-              </div>
             </div>
 
             <div className={styles["hr"]}></div>
-            <div className={styles["clock-settings"]}>
+            <div className={styles["email"]}>
+              <div>
+                <div className={` ${styles["subtitle"]}`}>Email</div>
+                <input className="input" value={email} disabled />
+              </div>
+            </div>
+            {/* <div className={styles["clock-settings"]}>
               <div className="font-sub-heading">Clear all data</div>
               <div className="font-light">
                 Clear all your tasks, lists and tags.
@@ -118,7 +120,7 @@ export function ProfileSettings(props) {
               <button className="btn btn-save" onClick={clearAll}>
                 Clear Data
               </button>
-            </div>
+            </div> */}
           </div>
         )}
       </Transition>

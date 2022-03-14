@@ -15,6 +15,19 @@ import {
   pomoMarks,
 } from "./ClockSettingsConstants";
 import { Close } from "@material-ui/icons";
+import { MiniClock } from "../../svgs/MiniClock";
+
+const sliderSx = {
+  "& .MuiSlider-track": {
+    color: "#B8C3FE",
+  },
+  "& .MuiSlider-thumb": {
+    color: "#9FAEF8",
+  },
+  "& .MuiSlider-rail": {
+    color: "#E0E5FF",
+  },
+};
 
 export function ClockSettingsModal(props) {
   let defaultSettings = useSelector(selectUserPreferences);
@@ -63,8 +76,11 @@ export function ClockSettingsModal(props) {
       {/* <div className="close" onClick={props.handleClose}>
           <Close />
         </div> */}
-      <div className={`font-sub-heading ${styles["heading"]}`}>
-        Configure your timer settings here:
+      <div className={`font-sub-heading ${styles["heading"]}`}>Pomodoro</div>
+      <div className={styles["hr"]}></div>
+      <div className={styles["settings-text"]}>
+        <MiniClock />
+        Configure your timer settings here
       </div>
       <div className={styles["slider-item"]}>
         <div className={`font-info ${styles["slider-text"]}`}>
@@ -81,6 +97,7 @@ export function ClockSettingsModal(props) {
             min={25}
             max={45}
             onChange={(_, val) => setWorkTime(val)}
+            sx={sliderSx}
           />
         </div>
       </div>
@@ -98,6 +115,7 @@ export function ClockSettingsModal(props) {
             min={5}
             max={20}
             onChange={(_, val) => setBreakTime(val)}
+            sx={sliderSx}
           />
         </div>
       </div>
@@ -115,6 +133,7 @@ export function ClockSettingsModal(props) {
             min={15}
             max={30}
             onChange={(_, val) => setLongBreakTime(val)}
+            sx={sliderSx}
           />
         </div>
       </div>
