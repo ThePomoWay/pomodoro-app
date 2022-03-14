@@ -261,187 +261,192 @@ export default () => {
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
           <div className={styles["middle-container"]} ref={containerRef}>
-            <Switch>
-              <Route exact path={path}>
-                <div className={styles["all-tasks-container"]}>
-                  <div className={styles["title"]}>
-                    <span>Inbox</span>
-                    <span>
-                      <ClickAwayListener onClickAway={onMoreClose}>
-                        <div>
-                          <MoreHorizRounded
-                            style={{ fill: "#7586E3", cursor: "pointer" }}
-                            onClick={onMoreAnchorClick}
-                          />
-                          <Popper
-                            open={Boolean(moreAnchorEl)}
-                            id="project-popover"
-                            anchorEl={moreAnchorEl}
-                            onClose={onMoreClose}
-                            position="bottom-left"
-                          >
-                            <div className="popper-container">
-                              <div
-                                className="popper-item"
-                                onClick={(e) => {
-                                  setShowCompletedSection(
-                                    !showCompletedSection
-                                  );
-                                  onMoreClose();
-                                }}
-                              >
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  viewBox="0 0 12 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
+            <div className={styles["route"]}>
+              <Switch>
+                <Route exact path={path}>
+                  <div className={styles["all-tasks-container"]}>
+                    <div className={styles["title"]}>
+                      <span>Inbox</span>
+                      <span>
+                        <ClickAwayListener onClickAway={onMoreClose}>
+                          <div>
+                            <MoreHorizRounded
+                              style={{ fill: "#7586E3", cursor: "pointer" }}
+                              onClick={onMoreAnchorClick}
+                            />
+                            <Popper
+                              open={Boolean(moreAnchorEl)}
+                              id="project-popover"
+                              anchorEl={moreAnchorEl}
+                              onClose={onMoreClose}
+                              position="bottom-left"
+                            >
+                              <div className="popper-container">
+                                <div
+                                  className="popper-item"
+                                  onClick={(e) => {
+                                    setShowCompletedSection(
+                                      !showCompletedSection
+                                    );
+                                    onMoreClose();
+                                  }}
                                 >
-                                  <circle
-                                    cx="6"
-                                    cy="6"
-                                    r="4"
-                                    stroke="#6A6F9A"
-                                    strokeWidth="0.7"
-                                  />
-                                  <path
-                                    d="M4.5 6L6 7.5L11 2.5"
-                                    stroke="#6A6F9A"
-                                    strokeWidth="0.7"
-                                  />
-                                </svg>
-                                {showCompletedSection ? "Hide" : "Show"}{" "}
-                                Completed Tasks
+                                  <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 12 12"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <circle
+                                      cx="6"
+                                      cy="6"
+                                      r="4"
+                                      stroke="#6A6F9A"
+                                      strokeWidth="0.7"
+                                    />
+                                    <path
+                                      d="M4.5 6L6 7.5L11 2.5"
+                                      stroke="#6A6F9A"
+                                      strokeWidth="0.7"
+                                    />
+                                  </svg>
+                                  {showCompletedSection ? "Hide" : "Show"}{" "}
+                                  Completed Tasks
+                                </div>
                               </div>
-                            </div>
-                          </Popper>
-                        </div>
-                      </ClickAwayListener>
-                    </span>
-                  </div>
-                  <div className={styles["add-task-btn"]}>
-                    <AddNewTask isTodaysTask={false} onSave={scrollToView} />
-                  </div>
-                  <AllTaskContainer
-                    todaysTasksIds={todaysTaskIdsObj}
-                    tasks={alltasks}
-                    container="all"
-                  />
-                  {showCompletedSection && (
-                    <div className={styles["completed-section"]}>
-                      <CompletedTasksList
-                        container="projects"
-                        projectId={AuthService.getInboxProjectId()}
-                        tasks={completedTasks}
-                      />
+                            </Popper>
+                          </div>
+                        </ClickAwayListener>
+                      </span>
                     </div>
+                    <div className={styles["add-task-btn"]}>
+                      <AddNewTask isTodaysTask={false} onSave={scrollToView} />
+                    </div>
+                    <AllTaskContainer
+                      todaysTasksIds={todaysTaskIdsObj}
+                      tasks={alltasks}
+                      container="all"
+                    />
+                    {showCompletedSection && (
+                      <div className={styles["completed-section"]}>
+                        <CompletedTasksList
+                          container="projects"
+                          projectId={AuthService.getInboxProjectId()}
+                          tasks={completedTasks}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Route>
+
+                <Route exact path={`${path}/project`}>
+                  <NewProjectContainer />
+                </Route>
+
+                <Route path={`${path}/project/:projectId`}>
+                  <ProjectContainer scroll={scrollToView} />
+                </Route>
+
+                <Route exact path={`${path}/labels`}>
+                  <NewLabelContainer />
+                </Route>
+                <Route path={`${path}/labels/:labelId`}>
+                  <LabelContainer />
+                </Route>
+
+                <Route path={`${path}/priority/:priority`}>
+                  <PriorityContainer />
+                </Route>
+              </Switch>
+            </div>
+            <div className={styles["right-container"]}>
+              <div
+                className={`${styles["todays-task-container"]} ${
+                  todaysTaskOpen ? styles["open"] : styles["closed"]
+                }`}
+                style={{
+                  visibility: todaysTaskOpen ? "visible" : "hidden",
+                  width: todaysTaskOpen ? "25vw" : "100px",
+                }}
+              >
+                <div className={`${styles["todays-task-list"]}`}>
+                  <h2
+                    className={styles["title"]}
+                    onClick={(e) => setTodaysTaskOpen(false)}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
+                        stroke="#3C50BE"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    Todays Tasks
+                    {ePomos > 0 && (
+                      <span className={styles["estimate-text"]}>
+                        ({ePomos} Pomos)
+                      </span>
+                    )}
+                    {ePomos > 0 && (
+                      <span className={styles["right"]}>
+                        {estimatedTimeLeft && (
+                          <span className={styles["estimate-text"]}>
+                            {estimatedTimeLeft}
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  </h2>
+
+                  {(todaystasks.length > 0 && (
+                    <DraggableTaskList
+                      hidePlay={true}
+                      tasks={todaystasks}
+                      showRemoveBtn={true}
+                      doRemoveTask={doRemoveTask}
+                      isEditable={false}
+                      dropId="id-1e"
+                      hideWorkingOn={true}
+                    />
+                  )) || (
+                    <p className={styles["todays-empty"]}>
+                      Add all the tasks you intend to work on today!
+                    </p>
                   )}
                 </div>
-              </Route>
-
-              <Route exact path={`${path}/project`}>
-                <NewProjectContainer />
-              </Route>
-
-              <Route path={`${path}/project/:projectId`}>
-                <ProjectContainer scroll={scrollToView} />
-              </Route>
-
-              <Route exact path={`${path}/labels`}>
-                <NewLabelContainer />
-              </Route>
-              <Route path={`${path}/labels/:labelId`}>
-                <LabelContainer />
-              </Route>
-
-              <Route path={`${path}/priority/:priority`}>
-                <PriorityContainer />
-              </Route>
-            </Switch>
-          </div>
-          <div className={styles["right-container"]}>
-            <div
-              className={`${styles["todays-task-container"]} ${
-                todaysTaskOpen ? styles["open"] : styles["closed"]
-              }`}
-              style={{ visibility: todaysTaskOpen ? "visible" : "hidden" }}
-            >
-              <div className={`${styles["todays-task-list"]}`}>
-                <h2
-                  className={styles["title"]}
-                  onClick={(e) => setTodaysTaskOpen(false)}
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
-                      stroke="#3C50BE"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  Todays Tasks
-                  {ePomos > 0 && (
-                    <span className={styles["estimate-text"]}>
-                      ({ePomos} Pomos)
-                    </span>
-                  )}
-                  {ePomos > 0 && (
-                    <span className={styles["right"]}>
-                      {estimatedTimeLeft && (
-                        <span className={styles["estimate-text"]}>
-                          {estimatedTimeLeft}
-                        </span>
-                      )}
-                    </span>
-                  )}
-                </h2>
-
-                {(todaystasks.length > 0 && (
-                  <DraggableTaskList
-                    hidePlay={true}
-                    tasks={todaystasks}
-                    showRemoveBtn={true}
-                    doRemoveTask={doRemoveTask}
-                    isEditable={false}
-                    dropId="id-1e"
-                    hideWorkingOn={true}
-                  />
-                )) || (
-                  <p className={styles["todays-empty"]}>
-                    Add all the tasks you intend to work on today!
-                  </p>
-                )}
               </div>
+              {!todaysTaskOpen && (
+                <div className={styles["todays-task-btn"]}>
+                  <button
+                    className="btn btn-theme"
+                    onClick={(e) => setTodaysTaskOpen(true)}
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 2L4 6L8 10"
+                        stroke="#7586E3"
+                        strokeWidth="0.8"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
-            {!todaysTaskOpen && (
-              <div className={styles["todays-task-btn"]}>
-                <button
-                  className="btn btn-theme"
-                  onClick={(e) => setTodaysTaskOpen(true)}
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 2L4 6L8 10"
-                      stroke="#7586E3"
-                      strokeWidth="0.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
-              </div>
-            )}
           </div>
         </DragDropContext>
       </div>

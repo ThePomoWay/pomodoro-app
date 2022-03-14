@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectAsync,
   updateLocalProjectAsync,
+  updateProjectAsync,
 } from "../../state/thunks/ProjectThunk";
 import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import { generateUniqueId } from "../../utils/common";
@@ -16,8 +17,10 @@ import {
   selectNewProjectModal,
   selectProjectsObj,
 } from "../../state/selectors";
-import { setProjectModalState } from "../../state/slice/GlobalSlice";
-import { Close } from "@material-ui/icons";
+import {
+  setProjectModalState,
+  showErrorToast,
+} from "../../state/slice/GlobalSlice";
 
 export default () => {
   let [projectTitle, setProjectTitle] = useState("");
@@ -43,15 +46,20 @@ export default () => {
 
   const saveProject = useCallback(() => {
     if (editProjectId) {
-      dispatch(
-        updateLocalProjectAsync({
-          ...projects[editProjectId],
-          title: projectTitle,
-        })
-      );
+      if (projectTitle) {
+        dispatch(
+          updateProjectAsync({
+            ...projects[editProjectId],
+            title: projectTitle,
+          })
+        );
 
-      dispatch(setEditProjectId(""));
-      setProjectTitle("");
+        dispatch(setEditProjectId(""));
+        setProjectTitle("");
+        handleClose();
+      } else {
+        dispatch(showErrorToast("Project title cannot be empty"));
+      }
     }
     if (projectTitle.length > 0) {
       let fid = generateUniqueId();
@@ -91,38 +99,40 @@ export default () => {
       aria-describedby="modal-modal-description"
     >
       <div className="modal-container">
-        <div className={styles["main"]}>
-          <p className={styles["title"]}>
-            Create a project
-            <span style={{ cursor: "pointer" }} onClick={handleClose}>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.1875 5.18751L11.375 10L16.1875 14.8125L14.8125 16.1875L10 11.375L5.18753 16.1875L3.81254 14.8125L8.62503 10L3.81254 5.18751L5.18753 3.81251L10 8.625L14.8125 3.81251L16.1875 5.18751Z"
-                  fill="#757575"
-                />
-              </svg>
-            </span>
-          </p>
-          <input
-            className={styles["input"]}
-            value={projectTitle}
-            placeholder="Type project name here..."
-            onChange={(e) => setProjectTitle(e.target.value)}
-            onKeyUp={(e) => onKeyDown(e)}
-          />
-          <div className={styles["right"]}>
-            <button className="btn btn-cancel" onClick={(e) => handleClose()}>
-              Cancel
-            </button>
-            <button className="btn btn-save" onClick={(e) => saveProject()}>
-              Save
-            </button>
+        <div className="modal-content">
+          <div className={styles["main"]}>
+            <p className={styles["title"]}>
+              Create a project
+              <span style={{ cursor: "pointer" }} onClick={handleClose}>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.1875 5.18751L11.375 10L16.1875 14.8125L14.8125 16.1875L10 11.375L5.18753 16.1875L3.81254 14.8125L8.62503 10L3.81254 5.18751L5.18753 3.81251L10 8.625L14.8125 3.81251L16.1875 5.18751Z"
+                    fill="#757575"
+                  />
+                </svg>
+              </span>
+            </p>
+            <input
+              className={styles["input"]}
+              value={projectTitle}
+              placeholder="Type project name here..."
+              onChange={(e) => setProjectTitle(e.target.value)}
+              onKeyUp={(e) => onKeyDown(e)}
+            />
+            <div className={styles["right"]}>
+              <button className="btn btn-cancel" onClick={(e) => handleClose()}>
+                Cancel
+              </button>
+              <button className="btn btn-save" onClick={(e) => saveProject()}>
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -3,10 +3,11 @@
   align-items: center;
   gap: 8px;
   flex-direction: row;
-  padding: 8px 8px 6px 8px;
-  font-weight: 500;
+  padding: 8px 8px 0px 8px;
+  font-weight: 700;
   font-size: 14px;
   line-height: 20px;
+  margin-bottom: 8px;
 
   .accordion {
     margin-left: auto;
@@ -34,6 +35,11 @@
 .project-sidebar-second {
   padding: 0px 10px 10px 30px;
 
+  .project-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
   .sidebar-row {
     display: flex;
     align-items: center;
@@ -61,7 +67,7 @@
   }
 
   .selected {
-    background: #3347ac;
-    border-radius: 8px;
+    background: #3c51ba;
+    border-radius: 4px;
   }
 }

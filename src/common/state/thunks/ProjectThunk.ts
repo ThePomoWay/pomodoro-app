@@ -12,6 +12,7 @@ import {
   deleteProjectApi,
   deleteSectionApi,
   rearrangeTaskApi,
+  updateProjectApi,
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr } from "../../utils/common";
@@ -111,11 +112,27 @@ export const createSectionAsync = createAsyncThunk(
 );
 
 export const updateLocalProjectAsync = createAsyncThunk(
-  "update/project",
+  "update/project/local",
   async (project, { dispatch }) => {
     dispatch(updateProject(project));
     let response = await updateIDBProject(project);
     return response;
+  }
+);
+
+export const updateProjectAsync = createAsyncThunk(
+  "update/project",
+  async (project, { dispatch }) => {
+    let response = await updateProjectApi(project);
+    if (!response) {
+      dispatch(showErrorToast("Please try again in some time"));
+    } else if (response.status !== 200) {
+      dispatch(
+        showErrorToast(response.data.message || "Please try again in some time")
+      );
+    } else {
+      dispatch(updateLocalProjectAsync(project));
+    }
   }
 );
 

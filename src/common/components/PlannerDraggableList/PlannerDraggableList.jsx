@@ -100,6 +100,7 @@ export default (props) => {
                     dropId={"task-"}
                     projects={projectsObj}
                     hideWorkingOn={true}
+                    onClick={doSetEditTask}
                   />
                 );
               })}

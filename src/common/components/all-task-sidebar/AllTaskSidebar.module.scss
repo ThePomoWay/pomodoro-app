@@ -17,13 +17,13 @@
     flex-direction: row;
     padding: 6px 8px 6px 8px;
 
-    font-weight: medium;
+    font-weight: 700;
     font-size: 14px;
     line-height: 20px;
 
     &.selected {
       background: #3347ac;
-      border-radius: 8px;
+      border-radius: 4px;
       font-weight: bold;
     }
   }

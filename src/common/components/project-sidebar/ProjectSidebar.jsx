@@ -36,11 +36,11 @@ export default () => {
     window.location.href = `/all/project/${projectId}`;
   });
 
-  const getProjects = useCallback(() => {
+  const getProjects = () => {
     if (projectsOrder.length <= Object.keys(projectsObj).length) {
       let inboxId = AuthService.getInboxProjectId();
       return (
-        <div>
+        <div className={styles["project-rows"]}>
           {projectsOrder
             .filter((item) => projectsObj[item])
             .filter((item) => item !== inboxId)
@@ -63,7 +63,7 @@ export default () => {
       );
     }
     return <div></div>;
-  });
+  };
 
   const openNewProjectModal = useCallback(() => {
     if (AuthService.isLoggedIn()) {
