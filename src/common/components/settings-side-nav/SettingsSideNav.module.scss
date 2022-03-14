@@ -4,13 +4,10 @@
 
   background-color: #f7f7ff;
   color: #363636;
-
-  height: calc(100vh - 104px);
-  overflow-y: scroll;
+  height: 100%;
+  box-sizing: border-box;
 
   padding: 32px 24px 0px 24px;
-
-  border-right: 0.5px solid #cacaca;
 
   .settings-title {
     margin-bottom: 20px;

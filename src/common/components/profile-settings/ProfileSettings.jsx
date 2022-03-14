@@ -74,42 +74,42 @@ export function ProfileSettings(props) {
             <div className={styles["account"]}>
               <div className="font-small-heading">My Profile</div>
             </div>
-            <div className={styles["hr"]}></div>
-            <div className={styles["profile"]}>
-              <div className={`${styles["subtitle"]}`}>Avatar</div>
-              <div className={styles["profile-settings"]}>
-                <div
-                  className={styles["profile-img"]}
-                  onClick={(e) => setIsProfileScreen(false)}
-                >
-                  <img
-                    src={user.image || "/default.png"}
-                    className={styles["profile-icon"]}
-                  />
-                  <div className={styles["edit-icon"]}>
-                    <EditRounded />
+            <div className={styles["scrollable"]}>
+              <div className={styles["hr"]}></div>
+              <div className={styles["profile"]}>
+                <div className={`${styles["subtitle"]}`}>Avatar</div>
+                <div className={styles["profile-settings"]}>
+                  <div
+                    className={styles["profile-img"]}
+                    onClick={(e) => setIsProfileScreen(false)}
+                  >
+                    <img
+                      src={user.image || "/default.png"}
+                      className={styles["profile-icon"]}
+                    />
+                    <div className={styles["edit-icon"]}>
+                      <EditRounded />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className={styles["hr"]}></div>
-            <div className={styles["form"]}>
-              <div className={styles["name"]}>
-                <div className={`${styles["subtitle"]}`}>Display Name</div>
-                <input
-                  className="input"
-                  value={name}
-                  onChange={(e) => setName(e.target.currentValue)}
-                />
+              <div className={styles["form"]}>
+                <div className={styles["name"]}>
+                  <div className={`${styles["subtitle"]}`}>Display Name</div>
+                  <input
+                    className="input"
+                    value={name}
+                    onChange={(e) => setName(e.target.currentValue)}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className={styles["hr"]}></div>
-            <div className={styles["email"]}>
-              <div>
-                <div className={` ${styles["subtitle"]}`}>Email</div>
-                <input className="input" value={email} disabled />
+              <div className={styles["email"]}>
+                <div>
+                  <div className={` ${styles["subtitle"]}`}>Email</div>
+                  {email}
+                </div>
               </div>
             </div>
             {/* <div className={styles["clock-settings"]}>
