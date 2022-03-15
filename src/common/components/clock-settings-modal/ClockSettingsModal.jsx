@@ -14,7 +14,6 @@ import {
   pomoLongBreakMarks,
   pomoMarks,
 } from "./ClockSettingsConstants";
-import { Close } from "@material-ui/icons";
 import { MiniClock } from "../../svgs/MiniClock";
 
 const sliderSx = {
@@ -95,7 +94,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoMarks}
-              min={25}
+              min={1}
               max={45}
               onChange={(_, val) => setWorkTime(val)}
               sx={sliderSx}

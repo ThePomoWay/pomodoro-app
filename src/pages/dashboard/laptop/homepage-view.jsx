@@ -13,6 +13,7 @@ import { setIsTimerFullScreen } from "../../../common/state/slice/GlobalSlice";
 import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
 import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
 import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
+import { MaximizeIcon } from "../../../common/svgs/MaximizeIcon";
 import { scrollToEndOfContainer } from "../../../common/utils/common";
 import { POMO_RUNNING_STATE } from "../../../common/utils/constants";
 import OnBoarding from "../../onboarding/Onboarding";
@@ -33,7 +34,7 @@ export function HomepageLaptop() {
   let dispatch = useDispatch();
   let containerRef = useRef();
 
-  let onTimerStart = () => {
+  let doFullScreen = () => {
     dispatch(setIsTimerFullScreen(true));
   };
 
@@ -68,13 +69,18 @@ export function HomepageLaptop() {
             className={styles["shrink-icon"] + " delay"}
             onClick={(e) => toggleFullScreen()}
           >
-            <ShrinkIcon />
+            <ShrinkIcon /> Minimize
           </div>
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
+          {!isTimerFullScreen && (
+            <div className={styles["maximize-icon"]}>
+              <MaximizeIcon onClick={doFullScreen} />
+            </div>
+          )}
           <div className={`${styles["timer"]}`}>
             <Timer
-              onTimerStart={onTimerStart}
+              onTimerStart={doFullScreen}
               onPause={onPause}
               onReset={(e) => dispatch(setIsTimerFullScreen(false))}
             ></Timer>

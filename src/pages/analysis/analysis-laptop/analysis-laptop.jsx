@@ -340,7 +340,7 @@ export function AnalysisLaptop(props) {
                     </p>
                   </div>
                 </div>
-                <div className={styles["distractions"]}>
+                {/* <div className={styles["distractions"]}>
                   <Block />
                   <div className={styles["distraction-stats"]}>
                     <p className="font-big">
@@ -352,7 +352,7 @@ export function AnalysisLaptop(props) {
                       {getDiffText(oldStats.ds, stats.ds)}
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 

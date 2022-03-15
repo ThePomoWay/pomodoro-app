@@ -63,7 +63,7 @@ export function AddNewTask(props) {
   if (showBtn) {
     return (
       <button
-        className={`btn btn-simple ${styles["add-task-btn"]}`}
+        className={`btn ${props.variant || "btn-save"}`}
         onClick={(e) => onToggle()}
       >
         <AddIcon /> CREATE TASK

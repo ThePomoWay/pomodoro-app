@@ -26,7 +26,10 @@ import {
   rearrangeAllTasks,
   removeFromAllTasks,
 } from "../../common/state/slice/TasksSlice";
-import { todaysTasksDropId } from "../../common/utils/constants";
+import {
+  TASK_VARIANT_TODAYS,
+  todaysTasksDropId,
+} from "../../common/utils/constants";
 
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -321,7 +324,11 @@ export default () => {
                       </span>
                     </div>
                     <div className={styles["add-task-btn"]}>
-                      <AddNewTask isTodaysTask={false} onSave={scrollToView} />
+                      <AddNewTask
+                        isTodaysTask={false}
+                        onSave={scrollToView}
+                        variant="btn-save-2"
+                      />
                     </div>
                     <AllTaskContainer
                       todaysTasksIds={todaysTaskIdsObj}
@@ -415,6 +422,7 @@ export default () => {
                       isEditable={false}
                       dropId="id-1e"
                       hideWorkingOn={true}
+                      variant={TASK_VARIANT_TODAYS}
                     />
                   )) || (
                     <p className={styles["todays-empty"]}>

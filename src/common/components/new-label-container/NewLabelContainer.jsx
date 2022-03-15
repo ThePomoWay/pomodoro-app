@@ -67,40 +67,42 @@ export default function NewLabelContainer(props) {
       aria-describedby="modal-modal-description"
     >
       <div className="modal-container">
-        <div className="modal-title">
-          <p>Create a label</p>
-          <Close style={{ cursor: "pointer" }} onClick={handleClose} />
-        </div>
-        <input
-          className={styles["input"]}
-          placeholder="Type label name here..."
-          value={tagValue}
-          onChange={(e) => setTagValue(e.target.value)}
-        />
-        <div className={styles["color-container"]}>
-          <p className={styles["label"]}>Choose Colour:</p>
-          <div className={styles["color-palette"]}>
-            {tagColorPalette.map((item, index) => (
-              <span
-                onClick={(e) => setSelectedIndex(index)}
-                style={{ backgroundColor: item }}
-                className="circle-simple flex flex-center"
-                key={"color" + index}
-              >
-                {selectedIndex === index && (
-                  <Done style={{ width: "0.6em", fill: "white" }}></Done>
-                )}
-              </span>
-            ))}
+        <div className="modal-content">
+          <div className="modal-title">
+            <p>Create a label</p>
+            <Close style={{ cursor: "pointer" }} onClick={handleClose} />
           </div>
-        </div>
-        <div className={styles["cta"]}>
-          <button className="btn btn-cancel" onClick={handleClose}>
-            CANCEL
-          </button>
-          <button className="btn btn-save" onClick={saveTag}>
-            SAVE
-          </button>
+          <input
+            className={styles["input"]}
+            placeholder="Type label name here..."
+            value={tagValue}
+            onChange={(e) => setTagValue(e.target.value)}
+          />
+          <div className={styles["color-container"]}>
+            <p className={styles["label"]}>Choose Colour:</p>
+            <div className={styles["color-palette"]}>
+              {tagColorPalette.map((item, index) => (
+                <span
+                  onClick={(e) => setSelectedIndex(index)}
+                  style={{ backgroundColor: item }}
+                  className="circle-simple flex flex-center"
+                  key={"color" + index}
+                >
+                  {selectedIndex === index && (
+                    <Done style={{ width: "0.6em", fill: "white" }}></Done>
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className={styles["cta"]}>
+            <button className="btn btn-cancel" onClick={handleClose}>
+              CANCEL
+            </button>
+            <button className="btn btn-save" onClick={saveTag}>
+              SAVE
+            </button>
+          </div>
         </div>
       </div>
     </Modal>

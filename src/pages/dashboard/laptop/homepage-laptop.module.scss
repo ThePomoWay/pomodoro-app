@@ -42,12 +42,26 @@
     right: 90px;
     top: 30px;
     cursor: pointer;
+    z-index: 1;
+    height: 28px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    background: #ededff;
+    border-radius: 12px;
+
+    font-weight: 500;
+    font-size: 12px;
+    color: #8694c9;
   }
 
   .timer-container {
     padding-left: 8vw;
 
     align-items: start;
+    position: relative;
 
     flex: 1;
 
@@ -82,6 +96,13 @@
       opacity: 0;
 
       animation: slide-up 1s 0.5s ease-in-out forwards;
+    }
+
+    .maximize-icon {
+      position: absolute;
+      right: 50px;
+      top: 20px;
+      cursor: pointer;
     }
   }
 

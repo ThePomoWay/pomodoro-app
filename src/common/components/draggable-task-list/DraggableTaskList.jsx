@@ -100,6 +100,7 @@ export default (props) => {
                   doRemoveTask={props.doRemoveTask}
                   removeFromToday={props.removeFromToday}
                   showDismissOption={props.showDismissOption}
+                  variant={props.variant}
                 />
               );
             })}

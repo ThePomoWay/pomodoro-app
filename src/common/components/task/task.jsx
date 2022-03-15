@@ -26,6 +26,7 @@ import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
   priorityColorMap,
+  TASK_VARIANT_TODAYS,
 } from "../../utils/constants";
 import { playTimerStartSound } from "../../utils/sound-utils";
 import { EditIcon } from "../edit-icon/EditIcon";
@@ -232,28 +233,31 @@ export default function TaskItem(props) {
     <div
       className={`${styles["task"]} ${isEditable && styles["task-editable"]} ${
         task.isComplete && styles["task-completed"]
-      } ${
-        !props.hideWorkingOn && task.isCurrentTask ? styles["selected"] : ""
-      }`}
+      } ${!props.hideWorkingOn && task.isCurrentTask ? styles["selected"] : ""}
+      ${props.variant && styles[props.variant]}
+      `}
       onClick={(e) => props.onClick && props.onClick(task)}
     >
       <div className={styles["first-column"]}>
         <div className={styles["first-row"]}>
-          <span
-            className={styles["checkbox"]}
-            onClick={(e) => {
-              toggleMarkAsComplete(e);
-            }}
-          >
+          {props.variant !== TASK_VARIANT_TODAYS && (
             <span
-              className={`${task.isComplete && styles["tick"]}`}
-              value={!!task.isComplete}
-              defaultChecked={!!task.isComplete}
-              style={{ borderColor: priorityColorMap[task.priority] }}
+              className={styles["checkbox"]}
+              onClick={(e) => {
+                toggleMarkAsComplete(e);
+              }}
             >
-              <TickIcon />
+              <span
+                className={`${task.isComplete && styles["tick"]}`}
+                value={!!task.isComplete}
+                defaultChecked={!!task.isComplete}
+                style={{ borderColor: priorityColorMap[task.priority] }}
+              >
+                <TickIcon />
+              </span>
             </span>
-          </span>
+          )}
+
           <span className={styles["task-title"]}>{task.title}</span>
         </div>
         <div className={styles["second-row"]}>
@@ -333,7 +337,7 @@ export default function TaskItem(props) {
       <div className={styles["second-column"]}>
         <span className={styles["task-actions"]}>
           {getCTA()}
-          {!props.hideMoreOptions && (
+          {!props.hideMoreOptions && props.variant !== TASK_VARIANT_TODAYS && (
             <span
               className={`${styles["task-actions-round"]} ${styles["more"]}`}
             >
