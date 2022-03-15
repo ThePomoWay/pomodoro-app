@@ -11,6 +11,7 @@ import { selectTagsAsArr } from "../../state/selectors";
 import { Link } from "react-router-dom";
 import styles from "./PrioritiesSidebar.module.scss";
 import { priorityColorMap, priorityName } from "../../utils/constants";
+import { PriorityIcon } from "../../svgs/PriorityIcon";
 
 export function PrioritySidebar(props) {
   let [priorityExpanded, setPriorityExpanded] = useState(true);
@@ -30,7 +31,7 @@ export function PrioritySidebar(props) {
                 selectedPriority === index + 1 && styles["selected"]
               }`}
             >
-              <Flag style={{ fill: priorities[index + 1] }} />
+              <PriorityIcon style={{ fill: priorities[index + 1] }} />
               {priorityName[index]}
             </div>
           </Link>

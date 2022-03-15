@@ -12,7 +12,7 @@ import {
   updateTagApi,
 } from "../../API/network/TagsApis";
 import { initialTagState, tagsReducer } from "../reducers/TagsReducer";
-import { deleteTag, setAllTags } from "../slice/TagsSlice";
+import { deleteTag, setAllTags, updateTag } from "../slice/TagsSlice";
 
 export const createLocalTagThunk = createAsyncThunk(
   "create/tags/local",

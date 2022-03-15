@@ -21,21 +21,31 @@ export const STATS_TYPE_PAUSED = "pause";
 
 export const priorityColorMap = [
   "",
-  "#FF93A8",
-  "#365FF2",
-  "#F58E4B",
-  "#60A993",
+  "#FE7F78",
+  "#FFB585",
+  "#80BFFF",
+  "#A4A4A4",
 ];
 
 export const priorityName = ["High", "Medium", "Low", "None"];
 
 export const tagColorPalette = [
-  "#C9528E",
-  "#7A6DEE",
-  "#26A570",
-  "#F68F4B",
-  "#627FFF",
+  "#AB64DF",
+  "#FF8231",
+  "#3E9FFF",
+  "#2BB68D",
+  "#EE414B",
+  "#FF6990",
 ];
+
+export const tagDarkerColorMap = {
+  "#AB64DF": "#E4BFFF",
+  "#FF8231": "#FFBC90",
+  "#3E9FFF": "#E4BFFF",
+  "#2BB68D": "#E4BFFF",
+  "#EE414B": "#E4BFFF",
+  "#FF6990": "#E4BFFF",
+};
 
 export const months = [
   "January",
