@@ -16,3 +16,7 @@ export function registerWorkerEvent() {
 export function sendWorkerMsg(type) {
   worker.postMessage({ type });
 }
+
+export function deregisterWorkerEvent() {
+  worker.onmessage = () => {};
+}
