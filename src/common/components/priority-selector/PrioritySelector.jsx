@@ -6,6 +6,7 @@ import { PriorityFlag } from "../../svgs/PriorityFlag";
 import { priorityColorMap, priorityName } from "../../utils/constants";
 import styles from "./PrioritySelector.module.scss";
 import { openOnboardingModal } from "../../state/slice/GlobalSlice";
+import { PriorityIcon } from "../../svgs/PriorityIcon";
 
 export function PrioritySelector(props) {
   let priorities = priorityColorMap;
@@ -51,7 +52,7 @@ export function PrioritySelector(props) {
           }`}
           onClick={(e) => onPriorityClick(index + 1)}
         >
-          <PriorityFlag style={{ fill: priorities[index + 1] }} />
+          <PriorityIcon style={{ fill: priorities[index + 1] }} />
 
           <span> {priorityName[index]}</span>
           {selected === index + 1 && <Done className="popover-select-tick" />}

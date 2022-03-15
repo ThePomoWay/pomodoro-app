@@ -10,6 +10,7 @@ import {
 } from "../../state/selectors";
 import { showErrorToast } from "../../state/slice/GlobalSlice";
 import { PriorityFlag } from "../../svgs/PriorityFlag";
+import { PriorityIcon } from "../../svgs/PriorityIcon";
 import { generateUniqueId } from "../../utils/common";
 import { priorityColorMap } from "../../utils/constants";
 import AddTagContainer from "../add-tag-container/AddTagContainer";
@@ -439,7 +440,7 @@ export default function EditTaskContainer(props) {
                     />
                   </svg>
                 )) || (
-                  <PriorityFlag style={{ fill: priorityColorMap[priority] }} />
+                  <PriorityIcon style={{ fill: priorityColorMap[priority] }} />
                 )}
               </span>
 
