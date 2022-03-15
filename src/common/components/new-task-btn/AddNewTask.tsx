@@ -14,7 +14,7 @@ import styles from "./AddNewTask.module.scss";
 export function AddNewTask(props) {
   const dispatch = useDispatch();
 
-  let [showBtn, setShowBtn] = useState(!props.isOpen || true);
+  let [showBtn, setShowBtn] = useState(!props.isOpen);
 
   const isMobileDevice = useMediaQuery({
     query: "(max-device-width: 0px)",
@@ -24,11 +24,11 @@ export function AddNewTask(props) {
     query: "(min-device-width: 1201px )",
   });
 
-  useEffect(() => {
-    if (props.isOpen) {
-      setShowBtn(props.isOpen);
-    }
-  }, [props.isOpen]);
+  // useEffect(() => {
+  //   if (props.isOpen) {
+  //     setShowBtn(props.isOpen);
+  //   }
+  // }, [props.isOpen]);
 
   let doSaveTask = (task) => {
     if (task.fid) {
@@ -63,7 +63,7 @@ export function AddNewTask(props) {
   if (showBtn) {
     return (
       <button
-        className={`btn ${props.variant || "btn-save"}`}
+        className={`btn ${props.variant || styles["add-task-btn"]}`}
         onClick={(e) => onToggle()}
       >
         <AddIcon /> CREATE TASK

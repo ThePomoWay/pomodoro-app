@@ -72,11 +72,15 @@ export function getNextSunday(d = new Date()) {
 export function getTimeText(mins) {
   mins = mins.toFixed(1);
   if (mins < 60) {
-    mins = Number(mins).toFixed(2);
+    mins = Number(mins);
     return mins + " mins";
   }
   let m = mins % 60;
-  return `${Math.floor(mins / 60)}:${m} hours`;
+  let h = Math.floor(mins / 60);
+  if (h === 0) {
+    return `${m} mins`;
+  }
+  return `${Math.floor(mins / 60)} hr ${m} mins`;
 }
 
 export function daysInMonth(date) {

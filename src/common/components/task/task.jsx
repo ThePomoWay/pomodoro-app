@@ -12,6 +12,7 @@ import {
 import {
   pauseTimerAsync,
   resumeTimerAsync,
+  startWorkTimerAsync,
   updateTimerState,
 } from "../../state/thunks/TimerThunk";
 import { AddTaskIcon } from "../../svgs/AddTaskIcon";
@@ -61,14 +62,7 @@ export default function TaskItem(props) {
     if (pomoState === POMO_PAUSED_STATE) {
       dispatch(resumeTimerAsync());
     } else if (pomoState !== POMO_RUNNING_STATE) {
-      dispatch(
-        updateTimerState({
-          pomoStartTime: Date.now(),
-          pomoState: POMO_RUNNING_STATE,
-          psec: 0,
-          lastResumeTime: new Date().toISOString(),
-        })
-      );
+      dispatch(startWorkTimerAsync());
 
       playTimerStartSound();
     }

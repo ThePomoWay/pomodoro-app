@@ -38,6 +38,7 @@ export function TodaysTaskContainer(props) {
 
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
   let [showAlert, setShowAlert] = useState(false);
+  let [isAddTaskOpen, setIsAddTaskOpen] = useState(true);
 
   let onClose = () => {
     setMoreAnchorEl(null);
@@ -82,6 +83,7 @@ export function TodaysTaskContainer(props) {
 
   let hideFirstScreen = () => {
     dispatch(hideFirstUserScreen());
+    setIsAddTaskOpen(false);
   };
 
   if (!hideOnboardingScreen) {
@@ -138,7 +140,7 @@ export function TodaysTaskContainer(props) {
                 >
                   <EditIconSvg /> Remove all tasks
                 </div>
-                <div
+                {/* <div
                   className="popper-item"
                   onClick={(e) => {
                     props.toggleFullScreen && props.toggleFullScreen();
@@ -146,7 +148,7 @@ export function TodaysTaskContainer(props) {
                   }}
                 >
                   <EditIconSvg /> Full screen
-                </div>
+                </div> */}
               </div>
             </Popper>
           </div>
@@ -170,7 +172,7 @@ export function TodaysTaskContainer(props) {
         <div className={styles["add-new-task"]}>
           <AddNewTask
             isTodaysTask={true}
-            isOpen={!!editTaskRef}
+            isOpen={!isAddTaskOpen}
             onSave={props.onSave}
           ></AddNewTask>
         </div>

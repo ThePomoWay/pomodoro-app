@@ -16,16 +16,15 @@ function playSound(audioObj, timeout, url?) {
     currentAudioObj && currentAudioObj.pause();
     resetSoundPlayerTimeout();
 
-    completeTaskAudio = new Audio(url);
+    // completeTaskAudio = new Audio(url);
+    // audioObj = new Audio(url);
 
-    // Yes I like to live dangerously.
-    setTimeout(() => playSound(completeTaskAudio, timeout), 100);
+    setTimeout(() => playSound(audioObj, timeout, url), 100);
   } else {
     audioObj.play();
     soundPlayerTimeout = setTimeout(() => {
       currentAudioObj.pause();
       resetSoundPlayerTimeout();
-      completeTaskAudio = new Audio(url);
     }, timeout);
     currentAudioObj = audioObj;
   }
@@ -34,14 +33,14 @@ function playSound(audioObj, timeout, url?) {
 let alarmSoundObj = new Audio(alarmAudioUrl);
 
 export function playAlarmSound() {
-  playSound(alarmSoundObj, 5000, alarmAudioUrl);
+  playSound(new Audio(alarmAudioUrl), 5000, alarmAudioUrl);
 }
 let timerStartAudio = new Audio(timerStartAudioUrl);
 export function playTimerStartSound() {
-  playSound(timerStartAudio, 5000, timerStartAudioUrl);
+  playSound(new Audio(timerStartAudioUrl), 5000, timerStartAudioUrl);
 }
 
 let completeTaskAudio = new Audio(completeTaskAudioUrl);
 export function playCompleteTaskSound() {
-  playSound(completeTaskAudio, 1000, completeTaskAudioUrl);
+  playSound(new Audio(completeTaskAudioUrl), 1000, completeTaskAudioUrl);
 }

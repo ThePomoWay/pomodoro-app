@@ -106,6 +106,8 @@ export function clearIDB() {
       .then(clearTagsFromIDB)
       .then(clearTodaysTasksFromIDB)
       .then(clearTimerStateFromIDB)
+      .then(() => clearCollection(userPreferencesObjectStoreName))
+      .then(() => clearCollection(timerstateObjectStoreName))
       .then(res);
   });
 }

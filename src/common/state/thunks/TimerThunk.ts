@@ -16,6 +16,8 @@ import {
   actionStateMap,
   getTab,
   getTimerInSec,
+  TAB_BREAK,
+  TAB_LONG_BREAK,
 } from "../../components/timer/timer-utils";
 import { getTimerString } from "../../utils/common";
 import {
@@ -304,18 +306,44 @@ export let tickAsync = createAsyncThunk(
   }
 );
 
+export const startWorkTimerAsync = createAsyncThunk(
+  "timer/start/work",
+  (_, { dispatch, getState }) => {
+    let userPreference = getState()["global"].userPreferences;
+    dispatch(
+      updateTimerState({
+        pomoStartTime: Date.now(),
+        pomoState: POMO_RUNNING_STATE,
+        psec: 0,
+        lastResumeTime: new Date().toISOString(),
+        timerInSec: userPreference.defaultWorkTime,
+      })
+    );
+  }
+);
+
 export const startTimerAsync = createAsyncThunk(
   "timer/start",
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let date = new Date();
     askPermission();
+    let userPreference = getState()["global"].userPreferences;
+    let tab = getTab(timerState.pomoState);
+    let timerInSec = userPreference.defaultWorkTime;
+    if (tab === TAB_BREAK) {
+      timerInSec = userPreference.defaultBreakTime;
+    }
+    if (tab === TAB_LONG_BREAK) {
+      timerInSec = userPreference.defaultLongBreakTime;
+    }
     dispatch(
       updateTimerState({
         pomoStartTime: date.getTime(),
         pomoState: actionStateMap[getTab(timerState.pomoState)].play,
         psec: 0,
         lastResumeTime: date.toISOString(),
+        timerInSec,
       })
     );
     playTimerStartSound();
