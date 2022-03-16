@@ -91,7 +91,11 @@ export let getTimerState = createAsyncThunk(
           // dispatch(tickAsync());
         }
         response.timerInSec = timerInSec;
-      } else {
+      } else if (
+        response.pomoState === POMO_IDLE_STATE ||
+        response.pomoState === POMO_BREAK_IDLE_STATE ||
+        response.pomoState === POMO_LONG_BREAK_IDLE_STATE
+      ) {
         response.timerInSec = defaultTotalTime;
       }
     }
@@ -469,7 +473,8 @@ export const completePomodoro = createAsyncThunk(
             new Date(timerState.pomoStartTime).toISOString(),
           new Date().toISOString(),
           STATS_TYPE_COMPLETE,
-          false,
+          new Date(timerState.lastResumeTime).getTime() !==
+            timerState.pomoStartTime,
           summary
         );
       } else {
@@ -478,7 +483,8 @@ export const completePomodoro = createAsyncThunk(
             new Date(timerState.pomoStartTime).toISOString(),
           new Date().toISOString(),
           STATS_TYPE_COMPLETE,
-          false,
+          new Date(timerState.lastResumeTime).getTime() !==
+            timerState.pomoStartTime,
           summary
         );
       }

@@ -66,6 +66,7 @@ import {
   rearrangeTaskInProjectAsync,
   updateLocalProjectAsync,
 } from "../../common/state/thunks/ProjectThunk";
+import Settings from "../settings/Settings";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -254,7 +255,9 @@ export default () => {
 
   return (
     <div className={styles["container"]}>
-      <OnBoarding />
+      {!AuthService.isLoggedIn() && <OnBoarding />}
+
+      {AuthService.isLoggedIn() && <Settings />}
       <div>
         <Navbar selected="1"></Navbar>
       </div>

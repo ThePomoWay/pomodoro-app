@@ -43,7 +43,7 @@ export function PrioritySidebar(props) {
   return (
     <div>
       <div className={styles["priorities-sidebar"]}>
-        <FlagOutlined />
+        <PriorityIcon style={{ fill: "white" }} />
         Priorities
         {/* <span
           onClick={(e) => setPriorityExpanded(!priorityExpanded)}

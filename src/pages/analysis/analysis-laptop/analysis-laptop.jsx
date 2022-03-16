@@ -29,6 +29,9 @@ import OnBoarding from "../../onboarding/Onboarding";
 import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
 import { months } from "../../../common/utils/constants";
 import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
+import AuthService from "../../../common/API/network/AuthService";
+
+import Settings from "../../settings/Settings";
 
 const tabs = [
   {
@@ -214,7 +217,7 @@ export function AnalysisLaptop(props) {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <div className={styles["container"]}>
-        <OnBoarding />
+        {AuthService.isLoggedIn() && <Settings />}
         <Navbar selected="2" />
         <div className={styles["main-view"]}>
           <div className={styles["analysis-container"]}>

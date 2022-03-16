@@ -67,10 +67,12 @@ export default function NewLabelContainer(props) {
       aria-describedby="modal-modal-description"
     >
       <div className="modal-container">
+        <span className="close" onClick={handleClose}>
+          <Close />
+        </span>
         <div className="modal-content">
           <div className="modal-title">
             <p>Create a label</p>
-            <Close style={{ cursor: "pointer" }} onClick={handleClose} />
           </div>
           <input
             className={styles["input"]}

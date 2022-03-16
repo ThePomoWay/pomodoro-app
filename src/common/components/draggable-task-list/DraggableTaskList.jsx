@@ -43,8 +43,10 @@ export default (props) => {
   });
 
   let doSetEditTask = useCallback((item) => {
-    dispatch(setEditTask(item.fid));
-    props.onEdit && props.onEdit(item);
+    if (props.isEditable) {
+      dispatch(setEditTask(item.fid));
+      props.onEdit && props.onEdit(item);
+    }
   });
 
   let toggleCompletedTasks = useCallback((task) => {
