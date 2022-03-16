@@ -8,6 +8,7 @@ import {
   offlineData,
 } from "../../offlineSync/offlineSync";
 import { setToast } from "../../state/slice/GlobalSlice";
+import { resetPassword } from "./Endpoints";
 
 function getQueryParamString(e, q) {
   let qString = Object.keys(q)
@@ -65,7 +66,8 @@ export class NetworkService {
         }
         syncSuccessful(res.data.mapFIDToTID);
         return res;
-      });
+      })
+      .catch(() => {});
   }
 
   static get(endpoint, query = {}) {
@@ -75,7 +77,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
-          .catch(console.error);
+          .catch(() => console.error);
       })
       .catch(() => {});
   }
@@ -88,8 +90,8 @@ export class NetworkService {
           body: JSON.stringify(body),
           headers: getCommonHeaders(),
         })
-          .then((res) => res.json())
-          .catch(console.error);
+        .then((res) => res.json())
+        .catch(() => console.error);
       })
       .catch(() => {});
   }

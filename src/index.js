@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import addExtensionListeners from './common/utils/extension-utils';
 import { ApplyTheme } from './common/components/apply-theme/ApplyTheme';
 import { registerWorkerEvent } from './common/utils/worker-util';
+import { initializeTabsCommunication } from './common/utils/close-background-tabs';
 
 const rootElement = document.getElementById("root");
 
@@ -37,3 +38,6 @@ if(navigator.userAgent !== 'ReactSnap') {
 }
 
 addExtensionListeners();
+
+initializeTabsCommunication();
+

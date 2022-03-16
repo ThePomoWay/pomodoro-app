@@ -34,6 +34,7 @@ export const initialGlobalState = {
     showModal: false,
     tab: 0,
   },
+  multiTabAlertModalState: false
 };
 
 export let globalReducer = {
@@ -108,4 +109,7 @@ export let globalReducer = {
   setSettingsTab: (state, action) => {
     state.settings.tab = action.payload;
   },
+  setMultiTabAlertModal: (state, action) => {
+    state.multiTabAlertModalState = action.payload;
+  }
 };

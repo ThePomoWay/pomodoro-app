@@ -89,7 +89,8 @@ export const createTaskThunk = createAsyncThunk(
       );
     }
     if (AuthService.isLoggedIn()) {
-      createTaskAPI(payload.task).then((response) => {
+      createTaskAPI(payload.task)
+      .then((response) => {
         if (response && response.status === 200) {
           dispatch(
             updateLocalTaskThunk({
@@ -105,7 +106,8 @@ export const createTaskThunk = createAsyncThunk(
         if (!response) {
           saveTaskInOfflineStore(payload.task, task_create);
         }
-      });
+      })
+      .catch(function(){});
     }
   }
 );
