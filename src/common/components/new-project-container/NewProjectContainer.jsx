@@ -109,7 +109,7 @@ export default () => {
             <input
               className={styles["input"]}
               value={projectTitle}
-              placeholder="Type project name here..."
+              placeholder="Type list name here..."
               onChange={(e) => setProjectTitle(e.target.value)}
               onKeyUp={(e) => onKeyDown(e)}
             />

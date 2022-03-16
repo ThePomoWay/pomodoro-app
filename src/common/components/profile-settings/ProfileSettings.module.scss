@@ -64,6 +64,11 @@
     .label {
       padding: 4px;
     }
+
+    .input {
+      display: flex;
+      gap: 6px;
+    }
   }
 
   .email {

@@ -79,11 +79,13 @@ export default (props) => {
                   editableTask.fid === item.fid
                 ) {
                   return (
-                    <EditTaskContainer
-                      key={item.fid}
-                      task={item}
-                      saveTask={doSaveTask}
-                    />
+                    <div className={styles["edit-task"]}>
+                      <EditTaskContainer
+                        key={item.fid}
+                        task={item}
+                        saveTask={doSaveTask}
+                      />
+                    </div>
                   );
                 }
                 return (

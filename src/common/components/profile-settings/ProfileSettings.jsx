@@ -6,6 +6,7 @@ import styles from "./ProfileSettings.module.scss";
 import { Transition } from "react-transition-group";
 import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { EditRounded } from "../../svgs/EditRounded";
+import { updateUserThunk } from "../../state/thunks/UserThunk";
 
 const dpTransitionStyles = {
   entering: {
@@ -53,6 +54,15 @@ export function ProfileSettings(props) {
     dispatch(clearAllData());
   };
 
+  let saveProfile = () => {
+    dispatch(
+      updateUserThunk({
+        ...user,
+        name,
+      })
+    );
+  };
+
   return (
     <div style={{ position: "relative" }}>
       <Transition in={!isProfileScreen} timeout={50}>
@@ -97,11 +107,18 @@ export function ProfileSettings(props) {
               <div className={styles["form"]}>
                 <div className={styles["name"]}>
                   <div className={`${styles["subtitle"]}`}>Display Name</div>
-                  <input
-                    className="input"
-                    value={name}
-                    onChange={(e) => setName(e.target.currentValue)}
-                  />
+                  <div className={styles["input"]}>
+                    <input
+                      className="input"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    {name !== user.name && (
+                      <button className="btn btn-save" onClick={saveProfile}>
+                        Save
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 
