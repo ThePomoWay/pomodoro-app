@@ -35,9 +35,10 @@ registerWorkerEvent();
 // Learn more about service workers: https://bit.ly/CRA-PWA
 if(navigator.userAgent !== 'ReactSnap') {
   serviceWorker.unregister();
+  initializeTabsCommunication();
 }
 
 addExtensionListeners();
 
-initializeTabsCommunication();
+
 
