@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    p {
+        align-self: center;
+    }
+    .btn {
+        align-self: center;
+        margin-top: 10px;
+    }
+}

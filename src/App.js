@@ -14,6 +14,7 @@ import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
 import { init } from './common/state/thunks/GlobalThunk';
 import { Toast } from './common/components/toast/Toast';
+import { MultiTabAlertModal } from './common/components/singe-tab-modal/MultiTabAlertModal';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           </Route>
         </Switch>
         <Toast />
+        <MultiTabAlertModal />
     </Router>
   );
 }
