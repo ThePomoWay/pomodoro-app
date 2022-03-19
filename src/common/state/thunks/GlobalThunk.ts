@@ -28,6 +28,7 @@ import {
   showSuccessToast,
 } from "../slice/GlobalSlice";
 import { setTimerSec } from "../slice/TimerSlice";
+import { updateUserApi } from "../../API/network/UserApis";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -114,17 +115,14 @@ export const focusModeToggle = createAsyncThunk(
   }
 );
 
-export const updateUserPref = createAsyncThunk(
-  "global/settings/update",
-  async (obj: any, { dispatch, getState }) => {
-    let userPreferences = getState()["global"].userPreferences;
+export const updateUserPrefLocal = createAsyncThunk(
+  "global/settings/update/local",
+  async (updateObj: any, { dispatch, getState }) => {
     let timerState = getState()["timer"];
-    let updateObj = { ...userPreferences, ...obj };
     await updateCollectionIdb(userPreferencesObjectStoreName, {
       key: userPreferencesObjectKey,
       ...updateObj,
     });
-    dispatch(showSuccessToast(obj.msg || "Settings updated Successfully"));
     dispatch(setUserPreferences(updateObj));
 
     if (timerState.pomoState === POMO_IDLE_STATE) {
@@ -136,5 +134,23 @@ export const updateUserPref = createAsyncThunk(
     if (timerState.pomoState === POMO_LONG_BREAK_IDLE_STATE) {
       dispatch(setTimerSec(updateObj.defaultLongBreakTime));
     }
+  }
+);
+
+export const updateUserPref = createAsyncThunk(
+  "global/settings/update",
+  async (obj: any, { dispatch, getState }) => {
+    let userPreferences = getState()["global"].userPreferences;
+
+    let user = getState()["user"].user;
+
+    console.log(user);
+    let updateObj = { ...userPreferences, ...obj };
+
+    let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });
+    console.log(resp);
+
+    dispatch(showSuccessToast("Settings updated Successfully"));
+    dispatch(updateUserPrefLocal(updateObj));
   }
 );

@@ -90,24 +90,24 @@ export const createTaskThunk = createAsyncThunk(
     }
     if (AuthService.isLoggedIn()) {
       createTaskAPI(payload.task)
-      .then((response) => {
-        if (response && response.status === 200) {
-          dispatch(
-            updateLocalTaskThunk({
-              ...payload.task,
-              _id: response.data.tid,
-            })
-          );
+        .then((response) => {
+          if (response && response.status === 200) {
+            dispatch(
+              updateLocalTaskThunk({
+                ...payload.task,
+                _id: response.data.tid,
+              })
+            );
 
-          if (payload.isTodaysTask) {
-            addToTodaysTaskAPI(response.data.tid);
+            if (payload.isTodaysTask) {
+              addToTodaysTaskAPI(response.data.tid);
+            }
           }
-        }
-        if (!response) {
-          saveTaskInOfflineStore(payload.task, task_create);
-        }
-      })
-      .catch(function(){});
+          if (!response) {
+            saveTaskInOfflineStore(payload.task, task_create);
+          }
+        })
+        .catch(function () {});
     }
   }
 );
@@ -445,7 +445,7 @@ export const incrementCurTaskCpomo = createAsyncThunk(
 
       //@ts-ignore
       dispatch(
-        updateTaskThunk({
+        updateLocalTaskThunk({
           ...updatedTask,
           cpomo: updatedTask.cpomo + 1,
           csec: updatedTask.csec,

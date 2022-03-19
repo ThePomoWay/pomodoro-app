@@ -4,6 +4,7 @@ import { getUserApi, updateUserApi } from "../../API/network/UserApis";
 import { getFormattedDate } from "../../utils/date-utils";
 import { showErrorToast, showSuccessToast } from "../slice/GlobalSlice";
 import { setUser } from "../slice/UserSlice";
+import { updateUserPrefLocal } from "./GlobalThunk";
 
 export let getUserAsync = createAsyncThunk(
   "user/get",
@@ -29,6 +30,15 @@ export let getUserAsync = createAsyncThunk(
     }
     if (response.data && !response.data.image) {
       response.data.image = "/dp/1.jpg";
+    }
+    if (
+      response &&
+      response.data &&
+      response.data.settings &&
+      response.data.settings.clock &&
+      response.data.settings.clock.defaultWorkTime !== 0
+    ) {
+      dispatch(updateUserPrefLocal(response.data.settings.clock));
     }
     dispatch(setUser(response.data));
   }

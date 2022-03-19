@@ -21,11 +21,12 @@ function App() {
 
   let dispatch = useDispatch();
   
+  dispatch(init());
+  
   if(AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
   }
 
-  dispatch(init());
 
   if(AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
