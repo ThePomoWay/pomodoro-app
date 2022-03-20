@@ -38,7 +38,7 @@ export function ProfileDropdown(props) {
             className="flex flex-center"
             onClick={(e) => setProfileAnchorEl(e.currentTarget)}
           >
-            <img src={userInfo.image || "/dp/1.jpg"} />
+            <img src={(userInfo && userInfo.image) || "/dp/1.jpg"} />
             <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
             </span>

@@ -310,7 +310,7 @@ export default function Timer(props) {
   });
 
   let onTabChange = (nextState) => {
-    if (state.includes("running")) {
+    if (state === POMO_RUNNING_STATE) {
       setShowAlertModal(nextState);
     } else {
       changePomoState(nextState);

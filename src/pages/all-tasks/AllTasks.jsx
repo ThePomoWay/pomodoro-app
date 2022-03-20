@@ -333,6 +333,16 @@ export default () => {
                         variant="btn-save-2"
                       />
                     </div>
+
+                    {alltasks.length === 0 && (
+                      <div className={styles["illustration"]}>
+                        <img src="/illustrations/empty-all.svg" />
+                        <p className={styles["text"]}>
+                          Organize your tasks and lists here.
+                        </p>
+                      </div>
+                    )}
+
                     <AllTaskContainer
                       todaysTasksIds={todaysTaskIdsObj}
                       tasks={alltasks}
@@ -428,9 +438,12 @@ export default () => {
                       variant={TASK_VARIANT_TODAYS}
                     />
                   )) || (
-                    <p className={styles["todays-empty"]}>
-                      Add all the tasks you intend to work on today!
-                    </p>
+                    <div className={styles["illustration"]}>
+                      <img src="/illustrations/empty-today-mini.svg" />
+                      <p className={styles["text-light"]}>
+                        Tap on the plus button in the tasks to add to today’s
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>

@@ -7,7 +7,8 @@ export function pushToStatsUpdateQueueIDB(
   endTime,
   type,
   isDistracted,
-  pomoSummary
+  pomoSummary,
+  completedTid?
 ) {
   return new Promise((res, rej) => {
     let body = {
@@ -18,6 +19,10 @@ export function pushToStatsUpdateQueueIDB(
       isDistracted,
       pomoSummary,
     };
+
+    if (completedTid) {
+      body["completedTID"] = completedTid;
+    }
 
     let statsQueLS: any = localStorage.getItem(statsQueueLSKey);
     if (!statsQueLS) {

@@ -107,6 +107,15 @@ export async function syncIdb() {
       }
 
       if (statsUpdateQueue && statsUpdateQueue.length > 0) {
+        for (let stat of statsUpdateQueue) {
+          if (stat.completedTID) {
+            stat.completedTID =
+              (tasksObj[stat.completedTID] &&
+                tasksObj[stat.completedTID]._id) ||
+              "";
+          }
+        }
+
         let statsResponse = await updateMultipleTimerStatsAPI({
           stats: statsUpdateQueue,
         });
@@ -155,10 +164,12 @@ export async function syncIdb() {
 
         syncTags(syncResponse.data.labels);
         // await syncTasks();
+
         syncProjects(syncResponse.data.projects, tasksObj);
 
         let completedPomos = syncResponse.data.dailyStat.p;
         store.dispatch(updateTimerState({ completedPomos }));
+        store.dispatch(getAllProjects());
       } else {
         console.error("Couldn't sync");
       }

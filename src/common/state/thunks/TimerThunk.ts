@@ -460,6 +460,13 @@ export const completePomodoro = createAsyncThunk(
       });
     }
 
+    let completedTid = "";
+    if (taskState.currentTaskRef) {
+      completedTid =
+        taskState.tasks[taskState.currentTaskRef] &&
+        taskState.tasks[taskState.currentTaskRef]._id;
+    }
+
     dispatch(updateNextState({}));
 
     dispatch(setPomoSummary({}));
@@ -475,7 +482,8 @@ export const completePomodoro = createAsyncThunk(
           STATS_TYPE_COMPLETE,
           new Date(timerState.lastResumeTime).getTime() !==
             timerState.pomoStartTime,
-          summary
+          summary,
+          completedTid
         );
       } else {
         pushToStatsUpdateQueueIDB(
@@ -485,7 +493,8 @@ export const completePomodoro = createAsyncThunk(
           STATS_TYPE_COMPLETE,
           new Date(timerState.lastResumeTime).getTime() !==
             timerState.pomoStartTime,
-          summary
+          summary,
+          taskState.currentTaskRef
         );
       }
     }

@@ -21,7 +21,8 @@
   }
 
   .right-container {
-    position: relative;
+    position: sticky;
+    top: 0;
     padding-left: 2px;
     width: 25vw;
 
@@ -91,11 +92,29 @@
 
     height: calc(100vh - 56px);
     overflow-y: scroll;
+    .illustration {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
+      .text {
+        font-weight: 500;
+        font-size: 14px;
+        color: #444444;
+      }
+
+      .text-light {
+        font-weight: 500;
+        font-size: 12px;
+        color: #adadad;
+      }
+    }
     .all-tasks-container {
       padding: 44px 38px 0px 84px;
       display: flex;
       flex-direction: column;
+
       .title {
         margin-bottom: 20px;
         font-weight: bold;

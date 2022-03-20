@@ -14,31 +14,34 @@ export function updateTimerStatsAPI(
   endTime,
   type,
   isDistracted,
-  pomoSummary
+  pomoSummary,
+  completedTid?
 ) {
   let endpoint = updateStatsEndpoint.replace(
     "{userId}",
     AuthService.getUserId()
   );
   let today = new Date();
-  let statBody = function () {
-    return {
-      startDate: getFormattedDate(startTime),
-      st: startTime,
-      et: endTime,
-      type,
-      isDistracted,
-      pomoSummary
-    }
+  let statBody = {
+    startDate: getFormattedDate(startTime),
+    st: startTime,
+    et: endTime,
+    type,
+    isDistracted,
+    pomoSummary,
+  };
+
+  if (completedTid) {
+    statBody["completedTID"] = completedTid;
   }
+
   return NetworkService.post(
     endpoint,
     { date: getFormattedDate() },
-    statBody()
-  )
-  .then((resp) => {
+    statBody
+  ).then((resp) => {
     if (!resp || resp.status !== 200) {
-      savePomoSummariesInOfflineStore(statBody())
+      savePomoSummariesInOfflineStore(statBody);
     }
   });
 }
