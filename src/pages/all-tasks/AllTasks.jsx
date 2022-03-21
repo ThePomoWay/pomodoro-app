@@ -156,14 +156,13 @@ export default () => {
             };
 
             projectCopy.to.splice(result.source.index, 1);
-            source.to = projectCopy.to.map((item) => tasksObj[item]._id);
 
             projectCopy.to.splice(result.destination.index, 0, taskId);
-            destination.to = projectCopy.to.map((item) => tasksObj[item].__id);
+            destination.to = projectCopy.to.map((item) => tasksObj[item]._id);
 
             dispatch(
               rearrangeTaskInProjectAsync({
-                source,
+                source: destination,
                 destination,
                 taskId: tasksObj[taskId]._id,
                 projectId: projectId,

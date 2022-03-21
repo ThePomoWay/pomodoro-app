@@ -147,12 +147,12 @@ export default function NavbarDesktop(props) {
           </div> */}
 
           {(isLoggedIn && <ProfileDropdown />) || (
-            <div
-              className={styles["login"]}
+            <button
+              className={`${styles["login"]} btn btn-premium`}
               onClick={(e) => onOpenOnboardingModal()}
             >
-              Login
-            </div>
+              Log In
+            </button>
           )}
         </div>
       </div>

@@ -18,6 +18,8 @@ import {
 import "./home.scss";
 import { setIsTimerFullScreen } from "../../common/state/slice/GlobalSlice";
 
+let initialized = false;
+
 export default function useHomepage() {
   let dispatch = useDispatch();
 
@@ -59,20 +61,24 @@ export default function useHomepage() {
   }, []);
 
   useEffect(() => {
-    if (
-      (pomoState === POMO_RUNNING_STATE ||
-        pomoState === POMO_BREAK_RUNNING_STATE ||
-        pomoState === POMO_LONG_BREAK_RUNNING_STATE) &&
-      !isTimerFullScreen
-    ) {
-      dispatch(setIsTimerFullScreen(true));
-    } else if (
-      pomoState !== POMO_RUNNING_STATE &&
-      pomoState !== POMO_BREAK_RUNNING_STATE &&
-      pomoState !== POMO_LONG_BREAK_RUNNING_STATE &&
-      isTimerFullScreen
-    ) {
-      dispatch(setIsTimerFullScreen(false));
+    if (!initialized) {
+      if (
+        (pomoState === POMO_RUNNING_STATE ||
+          pomoState === POMO_BREAK_RUNNING_STATE ||
+          pomoState === POMO_LONG_BREAK_RUNNING_STATE) &&
+        !isTimerFullScreen
+      ) {
+        dispatch(setIsTimerFullScreen(true));
+      } else if (
+        pomoState !== POMO_RUNNING_STATE &&
+        pomoState !== POMO_BREAK_RUNNING_STATE &&
+        pomoState !== POMO_LONG_BREAK_RUNNING_STATE &&
+        isTimerFullScreen
+      ) {
+        dispatch(setIsTimerFullScreen(false));
+      }
+
+      initialized = true;
     }
   }, []);
 

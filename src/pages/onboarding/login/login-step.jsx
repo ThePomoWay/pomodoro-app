@@ -19,13 +19,14 @@ export function LoginStep(props) {
   });
 
   const responseGoogle = useCallback((response) => {
-    console.log(response);
-    dispatch(
-      signin({
-        mode: "google",
-        data: response,
-      })
-    );
+    if (!response.error) {
+      dispatch(
+        signin({
+          mode: "google",
+          data: response,
+        })
+      );
+    }
   });
 
   const componentClicked = useCallback(() => {

@@ -19,7 +19,6 @@ import { getSyncAPI } from "../API/network/SyncApi";
 import { createMultipleTaskAPI, getAllTasksApi } from "../API/network/TaskApis";
 import {
   createLocalProjectAsync,
-  deleteProjectAsync,
   deleteProjectLocal,
   getAllProjects,
 } from "../state/thunks/ProjectThunk";

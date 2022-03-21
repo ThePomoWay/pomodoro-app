@@ -79,6 +79,8 @@ let getTotalTime = function (defaults, tab) {
   }
   return defaults.defaultLongBreakTime;
 };
+
+let initialized = false;
 export default function Timer(props) {
   let timerSec = useSelector(selectTimer);
   let timerString = getTimerString(timerSec);
@@ -254,7 +256,9 @@ export default function Timer(props) {
     ) {
       startInterval();
 
-      props.onTimerStart && props.onTimerStart();
+      if (!initialized) {
+        props.onTimerStart && props.onTimerStart();
+      }
     }
 
     // if (state === POMO_PAUSED_STATE) {
@@ -272,6 +276,7 @@ export default function Timer(props) {
     if (timerSec <= 0) {
       dispatch(tickAsync());
     }
+    initialized = true;
   }, [state]);
 
   let tab = getTab(state);

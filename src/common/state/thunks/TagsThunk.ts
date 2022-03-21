@@ -12,11 +12,12 @@ import {
   updateTagApi,
 } from "../../API/network/TagsApis";
 import { initialTagState, tagsReducer } from "../reducers/TagsReducer";
+import { showErrorToast } from "../slice/GlobalSlice";
 import { deleteTag, setAllTags, updateTag } from "../slice/TagsSlice";
 
 export const createLocalTagThunk = createAsyncThunk(
   "create/tags/local",
-  async (tag, { dispatch }) => {
+  async (tag: any, { dispatch }) => {
     dispatch(updateTag(tag));
     let response = createIDBTag(tag);
   }
@@ -24,11 +25,23 @@ export const createLocalTagThunk = createAsyncThunk(
 
 export const createTagThunk = createAsyncThunk(
   "create/tags",
-  async (tag, { dispatch }) => {
-    dispatch(createLocalTagThunk(tag));
-
+  async (tag: any, { dispatch }) => {
     if (AuthService.isLoggedIn()) {
-      await createTagApi(tag);
+      let response = await createTagApi(tag);
+
+      if (!response) {
+        dispatch(
+          showErrorToast("Unable to create tag, please try again in some time")
+        );
+        return;
+      }
+      if (response.status !== 200) {
+        dispatch(showErrorToast(response.data.message));
+        return;
+      }
+      dispatch(createLocalTagThunk({ ...tag, _id: response.data.lid }));
+    } else {
+      dispatch(showErrorToast("You need to be logged in to create a Label"));
     }
   }
 );
@@ -54,12 +67,21 @@ export const getAllTags = createAsyncThunk(
 
 export const deleteTagThunk = createAsyncThunk(
   "delete/tags",
-  async (tag, { dispatch }) => {
-    let response = await deleteIDBTag(tag);
+  async (tag: any, { dispatch }) => {
+    if (AuthService.isLoggedIn()) {
+      let response = await deleteTagApi(tag._id);
+      if (!response) {
+        dispatch(showErrorToast("Please try again in some time"));
+        return;
+      }
+      if (response.status !== 200) {
+        dispatch(showErrorToast(response.data.message));
+        return;
+      }
+    }
+    await deleteIDBTag(tag);
     dispatch(deleteTag(tag));
 
-    if (AuthService.isLoggedIn()) {
-      await deleteTagApi(tag);
-    }
+    window.location.href = "/all";
   }
 );

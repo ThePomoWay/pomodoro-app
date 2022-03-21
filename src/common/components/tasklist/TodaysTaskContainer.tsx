@@ -26,11 +26,16 @@ import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { Alert } from "../alert/Alert";
 import { hideFirstUserScreen } from "../../state/thunks/GlobalThunk";
+import { useMediaQuery } from "react-responsive";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 1224px)",
+  });
 
   let hideOnboardingScreen = useSelector(selectHideFirstUserScreen);
 
@@ -86,7 +91,7 @@ export function TodaysTaskContainer(props) {
     setIsAddTaskOpen(false);
   };
 
-  if (!hideOnboardingScreen) {
+  if (!hideOnboardingScreen && !isMobileDevice) {
     return (
       <div className={styles["empty-state"]}>
         <span className={styles["welcome-title"]}>👋 Welcome to PomoPanda</span>
@@ -177,7 +182,7 @@ export function TodaysTaskContainer(props) {
           ></AddNewTask>
         </div>
 
-        {completedTasks.length === 0 && tasks.length === 0 && (
+        {/* {completedTasks.length === 0 && tasks.length === 0 && (
           <div className={styles["completed-illustration"]}>
             <img src="/illustrations/empty-todays.svg" />
             <p className={styles["text"]}>
@@ -185,7 +190,7 @@ export function TodaysTaskContainer(props) {
               tasks to be done today
             </p>
           </div>
-        )}
+        )} */}
 
         {completedTasks.length > 0 && tasks.length == 0 && (
           <div className={styles["completed-illustration"]}>

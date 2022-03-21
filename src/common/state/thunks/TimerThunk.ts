@@ -412,6 +412,8 @@ export const resumeTimerAsync = createAsyncThunk(
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
 
+    playTimerStartSound();
+
     //assumes ptime is present.
     let pausedSec =
       timerState.psec +
