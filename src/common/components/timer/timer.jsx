@@ -1,3 +1,4 @@
+import { SkipNext } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,6 +8,10 @@ import {
   selectTimer,
 } from "../../state/selectors";
 import {
+  focusModeToggle,
+  hideFirstUserScreen,
+} from "../../state/thunks/GlobalThunk";
+import {
   pauseTimerAsync,
   resetTimerAsync,
   resumeTimerAsync,
@@ -15,46 +20,35 @@ import {
   updateNextState,
   updateTimerState,
 } from "../../state/thunks/TimerThunk";
-import {
-  POMO_RUNNING_STATE,
-  POMO_IDLE_STATE,
-  POMO_PAUSED_STATE,
-  POMO_BREAK_IDLE_STATE,
-  POMO_LONG_BREAK_IDLE_STATE,
-  POMO_BREAK_RUNNING_STATE,
-  POMO_LONG_BREAK_RUNNING_STATE,
-  POMO_LONG_BREAK_PAUSED_STATE,
-  POMO_BREAK_PAUSED_STATE,
-} from "../../utils/constants";
-import styles from "./timer.module.scss";
-import { SkipNext } from "@material-ui/icons";
+import { PauseSvg } from "../../svgs/PauseSvg";
+import { PlaySvg } from "../../svgs/Play";
+import { RewindSvg } from "../../svgs/Rewind";
 import { getTimerString } from "../../utils/common";
 import {
-  focusModeToggle,
-  hideFirstUserScreen,
-} from "../../state/thunks/GlobalThunk";
-import {
-  getTab,
-  TAB_BREAK,
-  TAB_LONG_BREAK,
-  TAB_POMODORO,
-  actionStateMap,
-} from "./timer-utils";
-import { PlaySvg } from "../../svgs/Play";
-import { PauseSvg } from "../../svgs/PauseSvg";
-import { RewindSvg } from "../../svgs/Rewind";
-import { playTimerStartSound } from "../../utils/sound-utils";
+  POMO_BREAK_IDLE_STATE,
+  POMO_BREAK_PAUSED_STATE,
+  POMO_BREAK_RUNNING_STATE,
+  POMO_IDLE_STATE,
+  POMO_LONG_BREAK_IDLE_STATE,
+  POMO_LONG_BREAK_PAUSED_STATE,
+  POMO_LONG_BREAK_RUNNING_STATE,
+  POMO_PAUSED_STATE,
+  POMO_RUNNING_STATE,
+} from "../../utils/constants";
 import {
   CLEAR_INTERVAL,
   sendWorkerMsg,
   START_INTERVAL,
 } from "../../utils/worker-util";
 import { Alert } from "../alert/Alert";
-
-const ACTION_PLAY = "play";
-const ACTION_PAUSE = "pause";
-const ACTION_SKIP = "skip";
-const ACTION_STOP = "stop";
+import {
+  actionStateMap,
+  getTab,
+  TAB_BREAK,
+  TAB_LONG_BREAK,
+  TAB_POMODORO,
+} from "./timer-utils";
+import styles from "./timer.module.scss";
 
 const ALERT_TITLE = "Are you sure you want to skip the current session?";
 const ALERT_DESCRIPTION =
@@ -64,10 +58,6 @@ const TIMER_BG_COLOR = {
   [TAB_POMODORO]: "#344493",
   [TAB_BREAK]: "#344493",
   [TAB_LONG_BREAK]: "#344493",
-};
-
-let getNextPomoState = function (curState, action) {
-  return actionStateMap[getTab(curState)][action];
 };
 
 let getTotalTime = function (defaults, tab) {

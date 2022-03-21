@@ -96,7 +96,7 @@ export default function NavbarDesktop(props) {
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
         <span className={styles["app"]}>
-          <span className={styles["title"]}>TimeDojo</span>
+          <img src="/logo/logo-title.svg" />
         </span>
 
         <div className={styles["links"]}>

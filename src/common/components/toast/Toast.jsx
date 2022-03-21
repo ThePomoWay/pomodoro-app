@@ -17,12 +17,12 @@ export function Toast(props) {
       setToast({
         open: false,
         msg: "",
-        duration: 5000,
+        duration: 3000,
         type: "success",
       })
     );
   };
-  setTimeout(closeToast, toastObj.duration || 5000);
+  setTimeout(closeToast, toastObj.duration || 3000);
   return (
     <div className={styles["toast"] + " " + styles[toastObj.type]}>
       {toastObj.msg}

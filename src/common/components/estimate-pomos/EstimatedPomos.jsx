@@ -35,6 +35,7 @@ export default (props) => {
   };
   let incrementMaxPomos = () => {
     setDefaultPomos(defaultPomos + 1);
+    onClick(defaultPomos);
   };
   // setDefaultPomos(defaultPomos + 1);
 

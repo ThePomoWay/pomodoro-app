@@ -28,13 +28,15 @@ export const initialGlobalState = {
     autoplayPomo: false,
     autoplayBreak: false,
   },
-  lastAllTaskUrl: "/all",
+  lastAllTaskUrl: window.location.pathname.startsWith("/all")
+    ? window.location.pathname
+    : "/all",
   isTimerFullScreen: false,
   settings: {
     showModal: false,
     tab: 0,
   },
-  multiTabAlertModalState: false
+  multiTabAlertModalState: false,
 };
 
 export let globalReducer = {
@@ -111,5 +113,5 @@ export let globalReducer = {
   },
   setMultiTabAlertModal: (state, action) => {
     state.multiTabAlertModalState = action.payload;
-  }
+  },
 };

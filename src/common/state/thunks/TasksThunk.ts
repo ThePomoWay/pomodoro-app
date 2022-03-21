@@ -143,6 +143,7 @@ export const updateTaskThunk = createAsyncThunk(
       dispatch(
         removeTaskFromProject({
           projectId: oldTask.project.projectID,
+          sectionId: oldTask.project.secID,
           taskId: task.fid,
         })
       );

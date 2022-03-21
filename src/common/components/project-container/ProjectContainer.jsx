@@ -20,6 +20,7 @@ import {
   deleteSectionAsync,
   rearrangeTaskInProjectAsync,
   updateLocalProjectAsync,
+  updateProjectAsync,
 } from "../../state/thunks/ProjectThunk";
 import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import {
@@ -116,11 +117,11 @@ export function ProjectContainer(props) {
       if (result.type === "section") {
         let sectionOrderCopy = JSON.parse(JSON.stringify(projectVar.so));
 
-        let sid = sectionOrderCopy.splice(result.source.index, 1);
+        let sid = sectionOrderCopy.splice(result.source.index, 1)[0];
         sectionOrderCopy.splice(result.destination.index, 0, sid);
 
         dispatch(
-          updateLocalProjectAsync({
+          updateProjectAsync({
             ...projectVar,
             so: sectionOrderCopy,
           })

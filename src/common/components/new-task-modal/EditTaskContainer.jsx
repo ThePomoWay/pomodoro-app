@@ -285,7 +285,12 @@ export default function EditTaskContainer(props) {
             </span>
             <div className={styles["estimated-pomos-container"]}>
               <EstimatedPomos
-                default="5"
+                default={
+                  (taskToBeEdited &&
+                    taskToBeEdited.epomo > 5 &&
+                    taskToBeEdited.epomo) ||
+                  5
+                }
                 value={estimatedPomos}
                 onClick={(value) => {
                   setEstimatedPomos(value);

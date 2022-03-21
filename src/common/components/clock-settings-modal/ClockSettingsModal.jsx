@@ -1,20 +1,16 @@
-import { Checkbox, Modal, Slider } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { Slider } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDefaultTimes,
-  selectUserPreferences,
-} from "../../state/selectors";
+import { selectUserPreferences } from "../../state/selectors";
 import { updateUserPref } from "../../state/thunks/GlobalThunk";
+import { MiniClock } from "../../svgs/MiniClock";
 import { CustomSlider } from "../custom-slider/CustomSlider";
-
-import styles from "./ClockSettingsModal.module.scss";
 import {
   pomoBreakMarks,
   pomoLongBreakMarks,
   pomoMarks,
 } from "./ClockSettingsConstants";
-import { MiniClock } from "../../svgs/MiniClock";
+import styles from "./ClockSettingsModal.module.scss";
 
 const sliderSx = {
   "& .MuiSlider-track": {
@@ -112,7 +108,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoBreakMarks}
-              min={5}
+              min={1}
               max={20}
               onChange={(_, val) => setBreakTime(val)}
               sx={sliderSx}
@@ -130,7 +126,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoLongBreakMarks}
-              min={15}
+              min={1}
               max={30}
               onChange={(_, val) => setLongBreakTime(val)}
               sx={sliderSx}

@@ -47,16 +47,11 @@ export function deleteProjectApi(project) {
 export function updateProjectApi(project) {
   let endpoint = updateProjectEndpoint
     .replace("{userId}", AuthService.getUserId())
-    .replace("{projectId}", project.id);
+    .replace("{projectId}", project._id);
   return NetworkService.patch(
     endpoint,
     {},
-    {
-      title: project.title,
-      uid: AuthService.getUserId(),
-      _id: project.id,
-      to: project.taskOrder,
-    }
+    { ...project, uid: AuthService.getUserId() }
   );
 }
 
@@ -100,6 +95,7 @@ export function projectChangeApi(oldProjectId, newProjectId, taskId) {
 
 export function deleteSectionApi(projectId, sectionId) {
   let endpoint = deleteSectionEndpoint
+    .replace("{userId}", AuthService.getUserId())
     .replace("{projectId}", projectId)
     .replace("{sectionId}", sectionId);
   return NetworkService.delete(endpoint, {}, {});
