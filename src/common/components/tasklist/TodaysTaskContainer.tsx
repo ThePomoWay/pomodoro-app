@@ -123,7 +123,7 @@ export function TodaysTaskContainer(props) {
   return (
     <div className={styles["task-list"]}>
       <Alert
-        title="Are you sure you want to delete all tasks?"
+        title="Are you sure you want to remove all tasks?"
         description="You cannot revert this action."
         onClose={(e) => setShowAlert(false)}
         onSuccess={onDeleteAllTasks}
