@@ -86,6 +86,6 @@ export const FORGOT_PASSWORD_STEP_2 = 5;
 export const THEME_LIGHT = "light";
 export const THEME_DARK = "dark";
 
-export const PAGE_TITLE = "PomoPanda - Improve your productivity!";
+export const PAGE_TITLE = "TimeDojo - Improve your productivity!";
 
 export const TASK_VARIANT_TODAYS = "todays";
