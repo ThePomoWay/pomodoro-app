@@ -94,7 +94,10 @@ export function TodaysTaskContainer(props) {
   if (!hideOnboardingScreen && !isMobileDevice) {
     return (
       <div className={styles["empty-state"]}>
-        <span className={styles["welcome-title"]}>👋 Welcome to PomoPanda</span>
+        <span className={styles["welcome-title"]}>
+          <span>👋</span>
+          <span> Welcome to TimeDojo, an online Pomodoro Timer!</span>
+        </span>
         <div className={styles["create-task"]}>
           <div className={styles["text-container"]}>
             <span className={styles["text"]}>Create Tasks </span>

@@ -10,7 +10,7 @@ export default function NavbarMobile(props) {
   };
   return (
     <div className={styles["navbar"]}>
-      <span className={styles["title"]}>PomöPanda</span>
+      <span className={styles["title"]}>TimeDojo</span>
       <span className={styles["link-item"] + " " + styles["selected"]}>
         <SunIcon /> Today's Tasks
       </span>

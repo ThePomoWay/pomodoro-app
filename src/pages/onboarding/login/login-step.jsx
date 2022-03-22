@@ -47,7 +47,7 @@ export function LoginStep(props) {
       <span
         className={isMobileDevice ? styles["title-mobile"] : styles["title"]}
       >
-        Welcome to&nbsp;<span className={styles["logo"]}>Pomö</span>Panda
+        Welcome to&nbsp;<span className={styles["logo"]}>Time</span>Dojo
       </span>
 
       <div
