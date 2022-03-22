@@ -343,7 +343,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
             setToast({
               open: true,
               msg: "We're facing some issues, please try again in some time.",
-              duration: 5000,
+              duration: 3000,
               type: "failure",
             })
           );
@@ -352,7 +352,7 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
             setToast({
               open: true,
               msg: completedTaskResponse.data.msg,
-              duration: 5000,
+              duration: 3000,
               type: "failure",
             })
           );
@@ -366,7 +366,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
   "task/markAsInComplete",
   async (obj: any, { dispatch, getState }) => {
     dispatch(
-      updateTaskThunk({
+      updateLocalTaskThunk({
         ...obj.task,
         isComplete: false,
         isCurrentTask: false,
@@ -384,7 +384,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
     if (AuthService.isLoggedIn()) {
       if (obj.task._id) {
         let response = await markTaskAsInCompleteApi(
-          { project: obj.task.project },
+          obj.task,
           obj.container === "todays",
           obj.task._id
         );

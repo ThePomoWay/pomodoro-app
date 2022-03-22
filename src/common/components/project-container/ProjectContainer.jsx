@@ -377,6 +377,7 @@ export function ProjectContainer(props) {
                                 onClick={doEditTask}
                                 dropId={"task-"}
                                 projects={projectsObj}
+                                hideWorkingOn={true}
                               ></DraggableTaskItem>
                             )
                           );

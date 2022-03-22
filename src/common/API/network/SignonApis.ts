@@ -42,5 +42,5 @@ export function verifyPasswordResetOTP(obj) {
 }
 
 export function registerCheckApi(email) {
-  return NetworkService.post(registerCheckEndpoint, { email }, {});
+  return NetworkService.post(registerCheckEndpoint, { email }, {}, false);
 }

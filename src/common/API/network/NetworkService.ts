@@ -7,8 +7,7 @@ import {
   syncSuccessful,
   offlineData,
 } from "../../offlineSync/offlineSync";
-import { setToast } from "../../state/slice/GlobalSlice";
-import { resetPassword } from "./Endpoints";
+import { setToast, showErrorToast } from "../../state/slice/GlobalSlice";
 
 function getQueryParamString(e, q) {
   let qString = Object.keys(q)
@@ -40,6 +39,19 @@ function throwNetworkErrorToast(message) {
   );
 }
 
+function checkErrorResponse(response, check?) {
+  if (!check) {
+    return response;
+  }
+  if (!response) {
+    store.dispatch(showErrorToast("Please try again in some time"));
+  } else if (response.status !== 200) {
+    store.dispatch(showErrorToast(response.data.message));
+  }
+
+  return response;
+}
+
 export class NetworkService {
   static sync() {
     if (!isSyncRequired()) {
@@ -59,9 +71,9 @@ export class NetworkService {
       body: JSON.stringify(syncBody),
     })
       .then((res) => res.json())
+      .then(checkErrorResponse)
       .then((res) => {
         if (!res || res.status !== 200) {
-          throwNetworkErrorToast();
           return res;
         }
         syncSuccessful(res.data.mapFIDToTID);
@@ -77,12 +89,13 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
+          .then(checkErrorResponse)
           .catch(() => console.error);
       })
       .catch(() => {});
   }
 
-  static post(endpoint, query = {}, body = {}) {
+  static post(endpoint, query = {}, body = {}, check = true) {
     return NetworkService.sync()
       .then(() => {
         return fetch(getQueryParamString(endpoint, query), {
@@ -90,8 +103,9 @@ export class NetworkService {
           body: JSON.stringify(body),
           headers: getCommonHeaders(),
         })
-        .then((res) => res.json())
-        .catch(() => console.error);
+          .then((res) => res.json())
+          .then((res) => checkErrorResponse(res, check))
+          .catch(() => console.error);
       })
       .catch(() => {});
   }
@@ -105,6 +119,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
+          .then(checkErrorResponse)
           .catch(console.error);
       })
       .catch(() => {});
@@ -119,6 +134,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
+          .then(checkErrorResponse)
           .catch(console.error);
       })
       .catch(() => {});
@@ -133,6 +149,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
+          .then(checkErrorResponse)
           .catch(console.error);
       })
       .catch(() => {});

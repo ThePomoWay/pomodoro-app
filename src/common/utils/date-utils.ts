@@ -42,7 +42,7 @@ export function getDaysDiff(a, b) {
 
 export function getMinsDiff(a, b) {
   let diff = Math.abs(new Date(b).getTime() - new Date(a).getTime());
-  return diff / 1000;
+  return diff / (1000 * 60);
 }
 
 export function getHourText(hour) {

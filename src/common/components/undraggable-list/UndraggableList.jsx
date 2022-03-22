@@ -7,6 +7,8 @@ import {
 } from "../../state/selectors";
 import {
   addToTodaysTasks,
+  markTaskAsCompleteThunk,
+  removeFromTodaysTasks,
   updateTaskThunk,
 } from "../../state/thunks/TasksThunk";
 import { getObjFromArr } from "../../utils/common";
@@ -25,7 +27,9 @@ export default function UndraggableList(props) {
 
   let dispatch = useDispatch();
 
-  const toggleCompletedTasks = useCallback((task) => {});
+  const toggleCompletedTasks = useCallback((task) => {
+    dispatch(markTaskAsCompleteThunk({ task }));
+  });
   const doSetEditTask = useCallback((task) => {
     if (task.fid) {
       setEditTaskIndex(task.fid);
@@ -44,6 +48,10 @@ export default function UndraggableList(props) {
     dispatch(addToTodaysTasks({ fid: task.fid, _id: task._id }));
   });
 
+  const doRemoveTask = (task) => {
+    dispatch(removeFromTodaysTasks({ fid: task.fid, _id: task._id }));
+  };
+
   if (props.tasks && props.tasks.length > 0) {
     return (
       <div className={styles["list"]}>
@@ -61,6 +69,7 @@ export default function UndraggableList(props) {
           return (
             <TaskItem
               showAddBtn={!(item.fid in todaysTaskIdsObj)}
+              showRemoveBtn={item.fid in todaysTaskIdsObj}
               hidePlay={true}
               tags={tags}
               projects={projects}
@@ -68,8 +77,10 @@ export default function UndraggableList(props) {
               key={item.fid + "tags"}
               index={index}
               doAddTask={doAddTask}
+              doRemoveTask={doRemoveTask}
               onComplete={toggleCompletedTasks}
               onClick={doSetEditTask}
+              hideWorkingOn={props.hideWorkingOn}
             ></TaskItem>
           );
         })}

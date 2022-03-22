@@ -27,6 +27,7 @@ export default function PriorityContainer(props) {
       <UndraggableList
         tasks={tasks}
         emptyText={"No tasks found with this priority"}
+        hideWorkingOn={true}
       />
     </div>
   );

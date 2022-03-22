@@ -195,6 +195,7 @@ export default (props) => {
                             projects={props.projects}
                             doRemoveTask={props.doRemoveTask}
                             onClick={doEditTask}
+                            hideWorkingOn={true}
                           ></DraggableTaskItem>
                         )
                       );
