@@ -58,6 +58,7 @@ export default () => {
         dispatch(setEditProjectId(""));
         setProjectTitle("");
         handleClose();
+        return;
       } else {
         dispatch(showErrorToast("Project title cannot be empty"));
       }
