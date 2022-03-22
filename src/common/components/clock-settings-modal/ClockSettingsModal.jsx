@@ -90,7 +90,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoMarks}
-              min={1}
+              min={25}
               max={45}
               onChange={(_, val) => setWorkTime(val)}
               sx={sliderSx}
@@ -108,7 +108,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoBreakMarks}
-              min={1}
+              min={5}
               max={20}
               onChange={(_, val) => setBreakTime(val)}
               sx={sliderSx}
@@ -126,7 +126,7 @@ export function ClockSettingsModal(props) {
               valueLabelDisplay="off"
               step={5}
               marks={pomoLongBreakMarks}
-              min={1}
+              min={15}
               max={30}
               onChange={(_, val) => setLongBreakTime(val)}
               sx={sliderSx}

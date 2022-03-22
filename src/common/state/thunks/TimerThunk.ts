@@ -41,6 +41,7 @@ import { getFormattedDate } from "../../utils/date-utils";
 import { sendMessageToExtension } from "../../utils/extension-message-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import { askPermission, sendWebNotification } from "../../utils/web-push-utils";
+import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
 import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import {
   setPomoSummary,
@@ -287,6 +288,8 @@ export let tickAsync = createAsyncThunk(
     if (timerSec <= 0) {
       dispatch(setTimerSec(0));
       document.title = PAGE_TITLE;
+
+      sendWorkerMsg(CLEAR_INTERVAL);
 
       if (timerState.pomoState === POMO_RUNNING_STATE) {
         dispatch(completePomodoro());

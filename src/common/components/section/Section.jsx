@@ -209,12 +209,15 @@ export default (props) => {
                 )}
               </Droppable>
 
-              <AddNewTask
-                onSave={addTaskToSection}
-                defaultProjectId={props.projectId}
-                defaultSectionId={props.section.secID}
-                viewOnlyProject={true}
-              />
+              <div className={styles["add-new-task"]}>
+                <AddNewTask
+                  onSave={addTaskToSection}
+                  defaultProjectId={props.projectId}
+                  defaultSectionId={props.section.secID}
+                  viewOnlyProject={true}
+                  variant="btn-save-2"
+                />
+              </div>
               {props.showCompletedSection && (
                 <CompletedTasksList
                   tasks={completedTasks}

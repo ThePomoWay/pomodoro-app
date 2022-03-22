@@ -12,7 +12,7 @@ export const allTasksDropId = "id-2e";
 export const todaysTasksDropId = "id-1e";
 
 export let DEFAULT_WORK_TIME = 60 * 25;
-export let DEFAULT_BREAK_TIME = 60 * 10;
+export let DEFAULT_BREAK_TIME = 60 * 5;
 export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
 
 //stats

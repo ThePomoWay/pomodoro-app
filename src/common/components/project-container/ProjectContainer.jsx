@@ -28,6 +28,7 @@ import {
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
   removeFromTodaysTasks,
+  updateLocalTaskThunk,
   updateTaskThunk,
 } from "../../state/thunks/TasksThunk";
 import { setEditTask } from "../../state/slice/TasksSlice";
@@ -162,6 +163,16 @@ export function ProjectContainer(props) {
 
           destination.hid = projectCopy._id;
           destination.to = projectCopy.to;
+
+          dispatch(
+            updateLocalTaskThunk({
+              ...tasks[taskId],
+              project: {
+                projectID: projectCopy._id,
+                secID: "",
+              },
+            })
+          );
         } else {
           let sectionId =
             result.destination.droppableId.split("section-droppable-")[1];
@@ -177,6 +188,15 @@ export function ProjectContainer(props) {
             destination.to = projectCopy.sections[sectionId].to;
           }
           setDefaultExpandedSectionId(sectionId);
+          dispatch(
+            updateLocalTaskThunk({
+              ...tasks[taskId],
+              project: {
+                projectID: projectCopy._id,
+                secID: sectionId,
+              },
+            })
+          );
         }
 
         source.to = source.to.map((item) => tasks[item] && tasks[item]._id);
@@ -398,6 +418,7 @@ export function ProjectContainer(props) {
                 onSave={(a) => addTaskToProject(a)}
                 defaultProjectId={projectVar._id}
                 viewOnlyProject={true}
+                variant="btn-save-2"
               />
             </div>
 

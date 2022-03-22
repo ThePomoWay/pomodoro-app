@@ -1,9 +1,5 @@
 export const pomoMarks = [
   {
-    value: 1,
-    label: "1",
-  },
-  {
     value: 25,
     label: "25",
   },
@@ -26,7 +22,6 @@ export const pomoMarks = [
 ];
 
 export const pomoBreakMarks = [
-  { value: 1, label: "1" },
   {
     value: 5,
     label: "5",
@@ -46,10 +41,6 @@ export const pomoBreakMarks = [
 ];
 
 export const pomoLongBreakMarks = [
-  {
-    value: 1,
-    label: "1",
-  },
   {
     value: 15,
     label: "15",
