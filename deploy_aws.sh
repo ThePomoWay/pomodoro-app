@@ -3,4 +3,4 @@
 git pull origin master
 npm run build
 
-aws sync ./build s3://pomo-frontend/
+aws s3 sync ./build s3://pomo-frontend/
