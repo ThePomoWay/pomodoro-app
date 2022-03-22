@@ -408,7 +408,7 @@ export default () => {
                         strokeLinecap="round"
                       />
                     </svg>
-                    Todays Tasks
+                    Todays Tasks&nbsp;
                     {ePomos > 0 && (
                       <span className={styles["estimate-text"]}>
                         ({ePomos} Pomos)

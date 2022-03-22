@@ -61,7 +61,7 @@ export function ProfileDropdown(props) {
 
               <a
                 className="popper-item"
-                href="mailto://feedback.timedojo.io"
+                href="mailto:feedback@timedojo.io"
                 target="_blank"
               >
                 Send Feedback ❤️

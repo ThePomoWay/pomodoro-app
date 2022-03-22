@@ -77,7 +77,6 @@ export class NetworkService {
       body: JSON.stringify(syncBody),
     })
       .then((res) => res.json())
-      .then(checkErrorResponse)
       .then((res) => {
         if (!res || res.status !== 200) {
           return res;
@@ -111,7 +110,9 @@ export class NetworkService {
         })
           .then((res) => res.json())
           .then((res) => checkErrorResponse(res, check))
-          .catch(() => console.error);
+          .catch(() => {
+            console.log("reached here");
+          });
       })
       .catch(() => {});
   }

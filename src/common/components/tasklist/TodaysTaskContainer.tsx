@@ -182,7 +182,7 @@ export function TodaysTaskContainer(props) {
           ></AddNewTask>
         </div>
 
-        {/* {completedTasks.length === 0 && tasks.length === 0 && (
+        {completedTasks.length === 0 && tasks.length === 0 && (
           <div className={styles["completed-illustration"]}>
             <img src="/illustrations/empty-todays.svg" />
             <p className={styles["text"]}>
@@ -190,16 +190,16 @@ export function TodaysTaskContainer(props) {
               tasks to be done today
             </p>
           </div>
-        )} */}
+        )}
 
-        {completedTasks.length > 0 && tasks.length == 0 && (
+        {/* {completedTasks.length > 0 && tasks.length == 0 && (
           <div className={styles["completed-illustration"]}>
             <img src="/illustrations/complete-todays.svg" />
             <p className={styles["text"]}>
               Awesome! You have completed all your tasks!
             </p>
           </div>
-        )}
+        )} */}
 
         {completedTasks.length > 0 && (
           // (<div className={styles['completed-tasks']}>
