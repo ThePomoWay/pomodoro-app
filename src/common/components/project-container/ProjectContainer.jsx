@@ -186,14 +186,17 @@ export function ProjectContainer(props) {
 
         dispatch(
           rearrangeTaskInProjectAsync({
-            source,
-            destination,
-            taskId: tasks[taskId]._id,
-            projectId: projectCopy._id,
-            isSame: destination.hid === source.hid,
+            body: {
+              source,
+              destination,
+              taskId: tasks[taskId]._id,
+              projectId: projectCopy._id,
+              isSame: destination.hid === source.hid,
+            },
+            project: projectCopy,
           })
         );
-        dispatch(updateLocalProjectAsync(projectCopy));
+        // dispatch(updateLocalProjectAsync(projectCopy));
       }
     }
 

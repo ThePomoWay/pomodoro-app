@@ -210,9 +210,14 @@ export const deleteProjectAsync = createAsyncThunk(
 
 export const rearrangeTaskInProjectAsync = createAsyncThunk(
   "tasks/project/rearrange",
-  async (obj, { dispatch }) => {
+  async (obj, { dispatch, getState }) => {
+    let oldProject = getState()["projects"].projects[obj.project._id];
+    dispatch(updateLocalProjectAsync(obj.project));
     if (AuthService.isLoggedIn()) {
-      let response = await rearrangeTaskApi(obj);
+      let response = await rearrangeTaskApi(obj.body);
+      if (!response || response.status !== 200) {
+        dispatch(updateLocalProjectAsync(oldProject));
+      }
     }
   }
 );

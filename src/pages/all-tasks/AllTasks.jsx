@@ -162,15 +162,18 @@ export default () => {
 
             dispatch(
               rearrangeTaskInProjectAsync({
-                source: destination,
-                destination,
-                taskId: tasksObj[taskId]._id,
-                projectId: projectId,
-                isSame: true,
+                body: {
+                  source: destination,
+                  destination,
+                  taskId: tasksObj[taskId]._id,
+                  projectId: projectId,
+                  isSame: true,
+                },
+                project: projectCopy,
               })
             );
 
-            dispatch(updateLocalProjectAsync(projectCopy));
+            // dispatch(updateLocalProjectAsync(projectCopy));
           }
 
           let action =
