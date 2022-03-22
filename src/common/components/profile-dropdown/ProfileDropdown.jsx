@@ -59,6 +59,14 @@ export function ProfileDropdown(props) {
                 Settings
               </div>
 
+              <a
+                className="popper-item"
+                href="mailto://feedback.timedojo.io"
+                target="_blank"
+              >
+                Send Feedback ❤️
+              </a>
+
               <div className="popper-item" onClick={(e) => onLogout()}>
                 Logout
               </div>

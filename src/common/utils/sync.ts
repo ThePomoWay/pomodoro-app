@@ -248,7 +248,9 @@ export async function syncTags(tags) {
   if (tags && tags.length > 0) {
     let res = await clearTagsFromIDB();
     for (let tag of tags) {
-      store.dispatch(createLocalTagThunk(tag));
+      if (!tag.isArchived) {
+        store.dispatch(createLocalTagThunk(tag));
+      }
     }
   }
 }

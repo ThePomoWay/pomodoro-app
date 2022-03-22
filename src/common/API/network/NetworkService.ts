@@ -46,7 +46,13 @@ function checkErrorResponse(response, check?) {
   if (!response) {
     store.dispatch(showErrorToast("Please try again in some time"));
   } else if (response.status !== 200) {
-    store.dispatch(showErrorToast(response.data.message));
+    store.dispatch(
+      showErrorToast(
+        response.data.message ||
+          response.data.msg ||
+          "Please try again in some time."
+      )
+    );
   }
 
   return response;
