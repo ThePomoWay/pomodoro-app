@@ -144,50 +144,54 @@ export const updateProjectAsync = createAsyncThunk(
 
 export const deleteProjectLocal = createAsyncThunk(
   "delete/project/local",
-  async (project: any, { dispatch, getState }) => {
+  async (obj: any, { dispatch, getState }) => {
+    let project = obj.project || obj;
+    let deleteTasks = !obj.preventDelete;
     dispatch(deleteProject(project));
     await deleteIDBproject(project);
 
     //delete tasks in project and remove them from todays and completed list.
 
-    let todaysTasks = getState()["tasks"].todaysTasks;
-    let completedTasks = getState()["tasks"].todaysCompletedTasks;
-    let tasks = getState()["tasks"].tasks;
+    if (deleteTasks) {
+      let todaysTasks = getState()["tasks"].todaysTasks;
+      let completedTasks = getState()["tasks"].todaysCompletedTasks;
+      let tasks = getState()["tasks"].tasks;
 
-    for (let taskId of todaysTasks) {
-      if (tasks[taskId] && tasks[taskId].project.projectID === project._id) {
-        dispatch(
-          removeFromTodaysTaskLocal({
-            fid: taskId,
-            _id: tasks[taskId]._id,
-          })
-        );
-      }
-    }
-
-    for (let taskId of completedTasks) {
-      if (tasks[taskId] && tasks[taskId].project.projectID === project._id) {
-        dispatch(
-          removeFromCompletedTasks({
-            fid: taskId,
-            _id: tasks[taskId]._id,
-          })
-        );
-      }
-    }
-
-    for (let sectionId of project.so) {
-      if (project.sections[sectionId]) {
-        for (let taskId of project.sections[sectionId].to) {
-          dispatch(deleteTask({ fid: taskId }));
-          await deleteIDBTask({ fid: taskId });
+      for (let taskId of todaysTasks) {
+        if (tasks[taskId] && tasks[taskId].project.projectID === project._id) {
+          dispatch(
+            removeFromTodaysTaskLocal({
+              fid: taskId,
+              _id: tasks[taskId]._id,
+            })
+          );
         }
       }
-    }
 
-    for (let taskId of project.to) {
-      dispatch(deleteTask({ fid: taskId }));
-      await deleteIDBTask({ fid: taskId });
+      for (let taskId of completedTasks) {
+        if (tasks[taskId] && tasks[taskId].project.projectID === project._id) {
+          dispatch(
+            removeFromCompletedTasks({
+              fid: taskId,
+              _id: tasks[taskId]._id,
+            })
+          );
+        }
+      }
+
+      for (let sectionId of project.so) {
+        if (project.sections[sectionId]) {
+          for (let taskId of project.sections[sectionId].to) {
+            dispatch(deleteTask({ fid: taskId }));
+            await deleteIDBTask({ fid: taskId });
+          }
+        }
+      }
+
+      for (let taskId of project.to) {
+        dispatch(deleteTask({ fid: taskId }));
+        await deleteIDBTask({ fid: taskId });
+      }
     }
   }
 );
