@@ -55,7 +55,7 @@ export async function syncIdb() {
             })
           );
 
-          store.dispatch(deleteProjectLocal(project));
+          store.dispatch(deleteProjectLocal({ project, preventDelete: true }));
 
           store.dispatch(getAllProjects());
         }

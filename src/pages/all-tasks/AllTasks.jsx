@@ -336,7 +336,7 @@ export default () => {
                       />
                     </div>
 
-                    {alltasks.length === 0 && (
+                    {alltasks.length === 0 && completedTasks.length === 0 && (
                       <div className={styles["illustration"]}>
                         <img src="/illustrations/empty-all.svg" />
                         <p className={styles["text"]}>
