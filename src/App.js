@@ -16,6 +16,7 @@ import { init } from './common/state/thunks/GlobalThunk';
 import { Toast } from './common/components/toast/Toast';
 import { MultiTabAlertModal } from './common/components/singe-tab-modal/MultiTabAlertModal';
 import { PrivacyPolicy } from './pages/privacy-policy/PrivacyPolicy';
+import { TermsOfService } from './pages/terms-of-service/TermsOfService';
 
 
 function App() {
@@ -55,6 +56,9 @@ function App() {
           </Route>
           <Route path="/privacy-policy">
             <PrivacyPolicy />
+          </Route>
+          <Route path="/terms-of-service">
+            <TermsOfService />
           </Route>
           <Route exact path="/">
             <Homepage />
