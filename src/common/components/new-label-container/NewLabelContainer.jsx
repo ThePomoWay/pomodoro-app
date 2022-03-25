@@ -56,6 +56,8 @@ export default function NewLabelContainer(props) {
         );
       }
       dispatch(setLabelModalState(false));
+      setTagValue("");
+      setSelectedIndex(-1);
     }
   });
 

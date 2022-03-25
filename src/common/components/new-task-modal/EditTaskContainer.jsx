@@ -237,16 +237,21 @@ export default function EditTaskContainer(props) {
   const getTaskTags = useCallback(() => {
     return (
       <div className={styles["task-tags-list"]}>
-        {selectedTags.map((item, ind) => (
-          <span
-            key={ind}
-            className={styles["task-tag-item"]}
-            style={{ color: tags[item].color }}
-          >
-            #{tags[item].title}
-            {/* <Close className={styles['close']} style={{width: '12px'}} onClick={(e) => removeTag(item)} /> */}
-          </span>
-        ))}
+        {selectedTags.map((item, ind) => {
+          if (tags[item]) {
+            return (
+              <span
+                key={ind}
+                className={styles["task-tag-item"]}
+                style={{ color: (tags[item] && tags[item].color) || "gray" }}
+              >
+                #{tags[item] && tags[item].title}
+                {/* <Close className={styles['close']} style={{width: '12px'}} onClick={(e) => removeTag(item)} /> */}
+              </span>
+            );
+          }
+          return <></>;
+        })}
       </div>
     );
   });

@@ -52,7 +52,7 @@ import styles from "./timer.module.scss";
 
 const ALERT_TITLE = "Are you sure you want to skip the current session?";
 const ALERT_DESCRIPTION =
-  "Changing mode will reset the current timer. Progress on pomodoro won't be recorded";
+  "This action will reset the current timer. Progress on pomodoro won't be recorded";
 
 const TIMER_BG_COLOR = {
   [TAB_POMODORO]: "#344493",
@@ -155,7 +155,7 @@ export default function Timer(props) {
               {" "}
               <PauseSvg />{" "}
             </span>
-            <span onClick={doStopTimer}>
+            <span onClick={() => setShowAlertModal("stop")}>
               {" "}
               <RewindSvg />{" "}
             </span>
@@ -170,7 +170,7 @@ export default function Timer(props) {
               {" "}
               <PlaySvg />
             </span>
-            <span onClick={doStopTimer}>
+            <span onClick={() => setShowAlertModal("stop")}>
               <RewindSvg />
             </span>
           </div>
@@ -312,7 +312,11 @@ export default function Timer(props) {
     }
   };
   let onTabChangeSuccess = (nextState) => {
-    changePomoState(nextState);
+    if (nextState === "stop") {
+      doStopTimer();
+    } else {
+      changePomoState(nextState);
+    }
     setShowAlertModal("");
   };
 
