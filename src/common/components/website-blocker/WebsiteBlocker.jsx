@@ -88,10 +88,10 @@ export default function WebsiteBlocker() {
             block some of the website for less distractions
           </p>
         </div>
-        <div className={styles["time-track"]}>
+        {/* <div className={styles["time-track"]}>
           <p className={styles["text"]}>Time Tracking</p>
           <CustomSlider />
-        </div>
+        </div> */}
         <div className={styles["block-stats"]}>
           {/* <div className={styles["chart"]}>
             <PieChart />
