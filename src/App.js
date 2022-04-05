@@ -17,6 +17,7 @@ import { Toast } from './common/components/toast/Toast';
 import { MultiTabAlertModal } from './common/components/singe-tab-modal/MultiTabAlertModal';
 import { PrivacyPolicy } from './pages/privacy-policy/PrivacyPolicy';
 import { TermsOfService } from './pages/terms-of-service/TermsOfService';
+import WebsiteBlocker from './common/components/website-blocker/WebsiteBlocker';
 
 
 function App() {
@@ -59,6 +60,9 @@ function App() {
           </Route>
           <Route path="/terms-of-service">
             <TermsOfService />
+          </Route>
+          <Route path="/manage">
+            <WebsiteBlocker />
           </Route>
           <Route exact path="/">
             <Homepage />

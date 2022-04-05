@@ -20,7 +20,10 @@ import {
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
 } from "../../utils/constants";
-import { sendMessageToExtension } from "../../utils/extension-message-utils";
+import {
+  isExtensionPresent,
+  sendMessageToExtension,
+} from "../../utils/extension-utils";
 import {
   setFocusMode,
   setShowFirstUserState,
@@ -105,8 +108,6 @@ export const focusModeToggle = createAsyncThunk(
     localStorage.setItem(focusModeLSKey, value);
     dispatch(setFocusMode(value));
 
-    let isExtensionPresent = getState()["global"].extensionPresent;
-
     if (isExtensionPresent) {
       sendMessageToExtension({
         action: value ? ENABLE_FOCUS_MODE : DISABLE_FOCUS_MODE,
@@ -144,7 +145,6 @@ export const updateUserPref = createAsyncThunk(
 
     let user = getState()["user"].user;
 
-    console.log(user);
     let updateObj = { ...userPreferences, ...obj };
 
     let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });

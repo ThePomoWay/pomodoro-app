@@ -41,6 +41,7 @@ import {
   START_INTERVAL,
 } from "../../utils/worker-util";
 import { Alert } from "../alert/Alert";
+import { CustomSlider } from "../custom-slider/CustomSlider";
 import {
   actionStateMap,
   getTab,
@@ -300,9 +301,9 @@ export default function Timer(props) {
       "%, #C3C3C3 100%)",
   };
 
-  const onFocusModeSwitch = useCallback((e) => {
+  const onFocusModeSwitch = (e) => {
     dispatch(focusModeToggle(!focusModeState));
-  });
+  };
 
   let onTabChange = (nextState) => {
     if (state === POMO_RUNNING_STATE) {
@@ -442,19 +443,26 @@ export default function Timer(props) {
           </div>
         )}
 
-        {/* <div className={styles["focus-mode"]}>
-        <span>Focus Mode</span>
-        <label className="switch">
-          <input
-            type="checkbox"
+        <div className={styles["focus-mode"]}>
+          <span>Focus Mode</span>
+          <CustomSlider
+            value={focusModeState}
+            defaultChecked={focusModeState}
             onChange={(e) => {
               onFocusModeSwitch();
             }}
-            defaultChecked={focusModeState}
           />
-          <span className="slider round"></span>
-        </label>
-      </div> */}
+          {/* // <label className="switch">
+          //   <input
+          //     type="checkbox"
+          //     onChange={(e) => {
+          //       onFocusModeSwitch();
+          //     }}
+          //     defaultChecked={focusModeState}
+          //   />
+          //   <span className="slider round"></span>
+          // </label> */}
+        </div>
 
         <svg
           version="1.1"

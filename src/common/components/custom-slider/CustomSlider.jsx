@@ -1,6 +1,9 @@
+import styles from "./CustomSlider.module.scss";
+
 export function CustomSlider(props) {
+  console.log(props.value);
   return (
-    <label className="switch">
+    <label className={`${styles["switch"]}`}>
       <input
         type="checkbox"
         checked={props.value}
@@ -9,7 +12,7 @@ export function CustomSlider(props) {
         }}
         defaultChecked={props.defaultChecked}
       />
-      <span className="slider round"></span>
+      <span className={styles["slider"] + " " + styles["round"]}></span>
     </label>
   );
 }
