@@ -4,7 +4,6 @@ import DraggableTaskList from "../../common/components/draggable-task-list/Dragg
 import Navbar from "../../common/components/navbar/Navbar";
 
 import {
-  selectAllTasks,
   selectTodaysTaskIds,
   selectTodaysTasks,
   selectProjectsObj,

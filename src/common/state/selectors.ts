@@ -41,10 +41,9 @@ export const selectTodaysTaskIds = (state) => state.tasks.todaysTasks;
 
 //tasks
 export const selectTasksAsobj = (state) => state.tasks.tasks;
-export const selectAllTasks = (state) =>
-  state.tasks.allTasks
-    .filter((i) => !state.tasks.tasks[i].isComplete)
-    .map((i) => state.tasks.tasks[i]);
+export const selectTasksLength = (state) =>
+  Object.keys(state.tasks.tasks).length;
+
 export const selectCurrentTask = (state) => {
   return state.tasks.tasks[state.tasks.currentTaskRef];
 };

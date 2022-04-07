@@ -1,7 +1,12 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import AuthService from "../../API/network/AuthService";
+import { selectTasksLength } from "../../state/selectors";
+import {
+  openOnboardingModal,
+  showErrorToast,
+} from "../../state/slice/GlobalSlice";
 import { addTaskToProjectLocal } from "../../state/thunks/ProjectThunk";
 import { createTaskThunk } from "../../state/thunks/TasksThunk";
 import { AddIcon } from "../../svgs/AddIcon";
@@ -14,6 +19,8 @@ export function AddNewTask(props) {
   const dispatch = useDispatch();
 
   let [showBtn, setShowBtn] = useState(!props.isOpen);
+
+  let tasksLength = useSelector(selectTasksLength);
 
   const isMobileDevice = useMediaQuery({
     query: "(max-device-width: 0px)",
@@ -30,7 +37,10 @@ export function AddNewTask(props) {
   // }, [props.isOpen]);
 
   let doSaveTask = (task) => {
-    if (task.fid) {
+    if (!AuthService.isLoggedIn() && tasksLength > 9) {
+      dispatch(showErrorToast("Please login to create more tasks"));
+      dispatch(openOnboardingModal());
+    } else if (task.fid) {
       if (!task.project.projectID) {
         task.project.projectID = AuthService.getInboxProjectId();
       }
@@ -55,8 +65,13 @@ export function AddNewTask(props) {
   };
 
   let onToggle = () => {
-    setShowBtn(!showBtn);
-    props.onToggle && props.onToggle(!showBtn);
+    if (!AuthService.isLoggedIn() && tasksLength > 9) {
+      dispatch(showErrorToast("Please login to create more tasks"));
+      dispatch(openOnboardingModal());
+    } else {
+      setShowBtn(!showBtn);
+      props.onToggle && props.onToggle(!showBtn);
+    }
   };
 
   if (showBtn) {
