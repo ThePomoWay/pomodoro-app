@@ -1,4 +1,5 @@
 export const light = {
+  "--navbar-selected-color": "#4b60ce",
   "--bg-theme": "white",
   "--text-theme": "black",
   "--border-navbar-theme": "0.5px solid #cacaca",

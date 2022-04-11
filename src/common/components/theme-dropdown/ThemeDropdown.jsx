@@ -70,14 +70,14 @@ export function ThemeDropdown({}) {
   return (
     <div className={styles["theme"]}>
       <button
-        className="btn btn-save"
+        className={`btn ${theme === THEME_LIGHT ? "btn-save" : "btn-theme"}`}
         onClick={(e) => switchTheme(THEME_LIGHT)}
       >
         Light Theme
       </button>
 
       <button
-        className="btn btn-theme"
+        className={`btn ${theme === THEME_DARK ? "btn-save" : "btn-theme"}`}
         onClick={(e) => switchTheme(THEME_DARK)}
       >
         Dark Theme
