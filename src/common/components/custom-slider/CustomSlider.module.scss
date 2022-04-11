@@ -17,7 +17,7 @@
 
     border: 1px solid #bdc3f1;
 
-    &::before {
+    .circle {
       position: absolute;
       content: "";
       width: 20px;
@@ -46,7 +46,7 @@
     box-shadow: 0 0 1px #e0e3ff;
   }
 
-  input:checked + .slider:before {
+  input:checked + .slider > .circle {
     -webkit-transform: translateX(19px);
     -ms-transform: translateX(19px);
     transform: translateX(19px);
@@ -57,7 +57,7 @@
     border-radius: 36px;
   }
 
-  .slider.round:before {
+  .slider.round .circle {
     border-radius: 50%;
   }
 }

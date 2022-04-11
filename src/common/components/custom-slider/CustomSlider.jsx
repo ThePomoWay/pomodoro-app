@@ -1,7 +1,6 @@
 import styles from "./CustomSlider.module.scss";
 
 export function CustomSlider(props) {
-  console.log(props.value);
   return (
     <label className={`${styles["switch"]}`}>
       <input
@@ -10,9 +9,10 @@ export function CustomSlider(props) {
         onChange={(e) => {
           props.onChange && props.onChange(e);
         }}
-        defaultChecked={props.defaultChecked}
       />
-      <span className={styles["slider"] + " " + styles["round"]}></span>
+      <span className={styles["slider"] + " " + styles["round"]}>
+        <span className={styles["circle"]}></span>
+      </span>
     </label>
   );
 }

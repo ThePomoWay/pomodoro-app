@@ -7,6 +7,7 @@ import {
   selectPomoState,
   selectTimer,
 } from "../../state/selectors";
+import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
@@ -35,6 +36,7 @@ import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
 } from "../../utils/constants";
+import { isExtensionPresent } from "../../utils/extension-utils";
 import {
   CLEAR_INTERVAL,
   sendWorkerMsg,
@@ -302,7 +304,11 @@ export default function Timer(props) {
   };
 
   const onFocusModeSwitch = (e) => {
-    dispatch(focusModeToggle(!focusModeState));
+    if (isExtensionPresent) {
+      dispatch(focusModeToggle(!focusModeState));
+    } else {
+      dispatch(setIsExtensionModalOpen(true));
+    }
   };
 
   let onTabChange = (nextState) => {
@@ -443,16 +449,20 @@ export default function Timer(props) {
           </div>
         )}
 
-        <div className={styles["focus-mode"]}>
-          <span>Focus Mode</span>
-          <CustomSlider
-            value={focusModeState}
-            defaultChecked={focusModeState}
-            onChange={(e) => {
-              onFocusModeSwitch();
-            }}
-          />
-          {/* // <label className="switch">
+        {tab === "pomodoro" && (
+          <div className={styles["focus-mode"]}>
+            <span>Focus Mode</span>
+            <CustomSlider
+              value={focusModeState}
+              defaultChecked={focusModeState}
+              onChange={(e) => {
+                onFocusModeSwitch();
+              }}
+            />
+          </div>
+        )}
+
+        {/* // <label className="switch">
           //   <input
           //     type="checkbox"
           //     onChange={(e) => {
@@ -462,7 +472,7 @@ export default function Timer(props) {
           //   />
           //   <span className="slider round"></span>
           // </label> */}
-        </div>
+        {/* </div> */}
 
         <svg
           version="1.1"

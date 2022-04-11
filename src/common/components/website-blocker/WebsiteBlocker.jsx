@@ -82,7 +82,7 @@ export default function WebsiteBlocker() {
       <Navbar selected="3" />
       <div className={styles["main-content"]}>
         <div className={styles["stats"]}>
-          <h1 className="font-title">Your Time Spent</h1>
+          <h1 className="font-title">Your History</h1>
           <p className="font-normal">
             Analyze where and which website do you spend most of your time and
             block some of the website for less distractions
@@ -97,6 +97,7 @@ export default function WebsiteBlocker() {
             <PieChart />
           </div> */}
           <div className={styles["sites"]}>
+            <p>Showing {stats.length} websites</p>
             <div className={styles["legend"]}>
               {stats.map((item, index) => (
                 <div
@@ -156,7 +157,9 @@ export default function WebsiteBlocker() {
           </div>
         </div>
         <div className={styles["block-websites"]}>
-          <h1 className="font-title">Block Websites</h1>
+          <h1 className="font-title">
+            Block Websites ({blockedWebsites.length})
+          </h1>
           <p className="font-normal">
             Analyze where and which website you spend most time on
           </p>

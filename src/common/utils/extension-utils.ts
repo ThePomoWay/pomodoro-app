@@ -22,7 +22,7 @@ export const UPDATE_TIMER_ACTION = "UpdateTimer";
 
 export const GET_HISTORY_ACTION = "getHistory";
 export const GET_BLOCKED_SITES_ACTION = "getBlockedSites";
-export const GET_FOCUS_MODE_STATE_ACTION = "setFocusMode";
+export const SET_FOCUS_MODE_STATE_ACTION = "setFocusMode";
 export let isExtensionPresent = false;
 
 export default function addExtensionListeners() {
@@ -62,7 +62,7 @@ export default function addExtensionListeners() {
         store.dispatch(onBlockedSitesLoad(event.data.data));
       }
 
-      if (event.data.action === GET_FOCUS_MODE_STATE_ACTION) {
+      if (event.data.action === SET_FOCUS_MODE_STATE_ACTION) {
         store.dispatch(setFocusMode(event.data.data));
       }
     }

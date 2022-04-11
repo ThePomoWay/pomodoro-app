@@ -18,6 +18,8 @@ import { MultiTabAlertModal } from './common/components/singe-tab-modal/MultiTab
 import { PrivacyPolicy } from './pages/privacy-policy/PrivacyPolicy';
 import { TermsOfService } from './pages/terms-of-service/TermsOfService';
 import WebsiteBlocker from './common/components/website-blocker/WebsiteBlocker';
+import { isExtensionPresent } from './common/utils/extension-utils';
+import { ExtensionModal } from './common/components/extension-promotion-modal/ExtensionModal';
 
 
 function App() {
@@ -38,7 +40,6 @@ function App() {
   return (
     <Router>
       <Switch>
-         
           <Route path="/closetabs">
             <CloseTabs></CloseTabs>
           </Route>
@@ -70,6 +71,7 @@ function App() {
         </Switch>
         <Toast />
         <MultiTabAlertModal />
+        {!isExtensionPresent && <ExtensionModal />}
     </Router>
   );
 }
