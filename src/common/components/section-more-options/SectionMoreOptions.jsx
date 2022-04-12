@@ -1,9 +1,9 @@
 export function SectionMoreOptions(props) {
   return (
     <div className="popper-container">
-      <div
+      {/* <div
         className="popper-item"
-        onClick={(e) => props.editSection && props.editSection()}
+        onClick={(e) => props.editSection && props.editSection(e)}
       >
         <svg
           width="12"
@@ -27,10 +27,13 @@ export function SectionMoreOptions(props) {
           />
         </svg>
         Edit Section Name
-      </div>
+      </div> */}
       <div
         className="popper-item"
-        onClick={(e) => props.deleteSection && props.deleteSection()}
+        onClick={(e) => {
+          e.stopPropagation();
+          props.deleteSection && props.deleteSection(e);
+        }}
       >
         <svg
           width="12"

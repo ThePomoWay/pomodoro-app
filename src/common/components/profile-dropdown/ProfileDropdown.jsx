@@ -11,6 +11,7 @@ import styles from "./ProfileDropdown.module.scss";
 import { logout } from "../../state/thunks/GlobalThunk";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
 import { selectUserInfo } from "../../state/selectors";
+import { ProfileHamburger } from "../../svgs/ProfileHamburger";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
@@ -35,13 +36,14 @@ export function ProfileDropdown(props) {
       <ClickAwayListener onClickAway={onClose}>
         <div>
           <div
-            className="flex flex-center"
+            className={styles["profile-elipse"]}
             onClick={(e) => setProfileAnchorEl(e.currentTarget)}
           >
+            <ProfileHamburger />
             <img src={(userInfo && userInfo.image) || "/dp/1.jpg"} />
-            <span className={`${styles["arrow"]}`}>
+            {/* <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
-            </span>
+            </span> */}
           </div>
 
           <Popper

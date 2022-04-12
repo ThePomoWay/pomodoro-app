@@ -24,11 +24,11 @@ export default (props) => {
     setShowDeleteModal(true);
   });
 
-  const onDeleteSection = useCallback(() => {
+  const onDeleteSection = (e) => {
     props.onSectionDelete && props.onSectionDelete(deleteSectionId);
     setShowDeleteModal(false);
     setDeleteSectionId("");
-  });
+  };
 
   return (
     <div>
