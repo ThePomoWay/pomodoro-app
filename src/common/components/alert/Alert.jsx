@@ -1,5 +1,5 @@
 import { Modal } from "@mui/material";
-import { Close } from "@material-ui/icons";
+import { CloseIcon } from "../../svgs/CloseIcon";
 import styles from "./Alert.module.scss";
 
 export function Alert({
@@ -18,7 +18,7 @@ export function Alert({
       aria-describedby="modal-modal-description"
     >
       <div className="modal-container">
-        <Close
+        <CloseIcon
           style={{ cursor: "pointer" }}
           className="close"
           onClick={onClose}

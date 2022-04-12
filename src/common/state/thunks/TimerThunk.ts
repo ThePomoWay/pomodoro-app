@@ -364,6 +364,8 @@ export const pauseTimerAsync = createAsyncThunk(
     let taskState = getState()["tasks"];
     let pomoSummary = timerState.pomoSummary;
 
+    sendWorkerMsg(CLEAR_INTERVAL);
+
     let summary = [];
     for (let taskId in pomoSummary) {
       summary.push({

@@ -28,7 +28,7 @@
 
 .modal-container {
   position: relative;
-  width: 62vw;
+  width: 45vw;
   max-height: 68vh;
   background-color: white;
   outline: none;
@@ -46,14 +46,14 @@
   overflow-x: hidden;
 
   .modal-content {
-    width: 50%;
-    padding: 42px;
+    width: 100%;
+    padding: 24px 24px 20px 24px;
   }
 }
 .close {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 22px;
+  right: 22px;
   align-self: flex-end;
   cursor: pointer;
   z-index: 1;

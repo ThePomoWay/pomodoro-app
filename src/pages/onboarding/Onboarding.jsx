@@ -25,6 +25,7 @@ import {
 import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
 import { useMediaQuery } from "react-responsive";
 import { setStep } from "../../common/state/slice/OnboardingSlice";
+import { CloseIcon } from "../../common/svgs/CloseIcon";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
@@ -65,7 +66,7 @@ export default function OnBoarding(props) {
         <div className="modal-content">
           <span className="close" onClick={(e) => handleClose()}>
             {" "}
-            <Close />{" "}
+            <CloseIcon />{" "}
           </span>
           {(step === LOGIN_REGISTER_STEP && <LoginStep />) ||
             (step === LOGIN_STEP && <LoginStep2 />) ||
