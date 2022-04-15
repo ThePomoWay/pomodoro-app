@@ -27,7 +27,7 @@ export const priorityColorMap = [
   "#A4A4A4",
 ];
 
-export const priorityName = ["Urgent", "Hight", "Medium", "Low"];
+export const priorityName = ["Urgent", "High", "Medium", "Low"];
 
 export const tagColorPalette = [
   "#AB64DF",
