@@ -4,10 +4,11 @@ import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
-import { selectUserInfo } from "../../../state/selectors";
+import { selectUserInfo, selectTheme } from "../../../state/selectors";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 import { SunIcon } from "../../../svgs/SunIcon";
 import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
+import { THEME_DARK } from "../../../utils/constants";
 
 let navItems = [
   {
@@ -77,7 +78,7 @@ export default function NavbarDesktop(props) {
   let isLoggedIn = AuthService.isLoggedIn();
   let dispatch = useDispatch();
 
-  let userInfo = useSelector(selectUserInfo);
+  let theme = useSelector(selectTheme);
   let history = useHistory();
 
   let onOpenOnboardingModal = () => {
@@ -96,7 +97,14 @@ export default function NavbarDesktop(props) {
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
         <span className={styles["app"]}>
-          <img src="/logo/logo-title.svg" />
+          <img
+            src={
+              theme === THEME_DARK
+                ? "/logo/logo-dark.svg"
+                : "/logo/logo-title.svg"
+            }
+            alt="Logo"
+          />
         </span>
 
         <div className={styles["links"]}>

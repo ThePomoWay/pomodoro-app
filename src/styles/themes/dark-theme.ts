@@ -1,7 +1,8 @@
 export const dark = {
   "--navbar-selected-color": "white",
   "--bg-theme": "#1E1E27",
-  "--text-theme": "#B9B8BC",
+  "--text-theme": "#FFFFFF",
+  "--brand-text-color": "#8AA2FF",
   "--border-navbar-theme": "0.5px solid #434C83",
   "--bg-work": "#1E1E27",
   "--bg-break": "#1E1E27",
@@ -10,5 +11,62 @@ export const dark = {
   "--bg-break-mobile": "#1E1E27",
   "--bg-long-break-mobile": "#1E1E27",
   "--bg-task-theme": "#272732",
-  "--task-border": "0.5px solid #636179;",
+  "--bg-2": "#272732",
+  "--task-border": "0.5px solid #636179",
+  "--navbar-profile-bg": "#272537",
+  "--navbar-profile-border": "#7186F7",
+  "--link-svg-color": "white",
+  "--timer-tab-color": "#9196B8",
+  "--timer-tab-selected-work-bg": "#08070D",
+  "--timer-tab-selected-break-bg": "#08070D",
+  "--timer-tab-selected-lb-bg": "#08070D",
+  "--timer-tab-selected-work-color": "#8598FF",
+  "--timer-tab-selected-break-color": "#F97199",
+  "--timer-tab-selected-lb-color": "#66D6E1",
+  "--pomodoro-radial-gradient":
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #7C91FF 0%, #637BF9 40.76%, #334396 78.5%, #223A8D 100%)",
+  "--pomodoro-blur-gradient":
+    "radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(2, 3, 8, 0) 100%);",
+  "--pomodoro-radial-box-gradient":
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+  "--break-radial-box-gradient":
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+  "--lb-radial-box-gradient":
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+  "--pomodoro-timer-circle-bg": "#667FDC",
+  "--pomodoro-timer-circle-shadow":
+    "inset 0px 9px 14px rgba(39, 61, 144, 0.31);",
+  "--break-timer-circle-bg": "#ffa5c1",
+  "--break-timer-circle-shadow": "inset 5px 6px 12px #e89fbe",
+  "--lb-timer-circle-bg": "#52B9D9",
+  "--pomodoro-clock-color":
+    "radial-gradient(100.78% 211.66% at 70.73% -130.66%, #7C91FF 0%, #637BF9 40.76%, #334396 78.5%, #223A8D 100%)",
+  "--break-clock-color":
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #FFA8C2 0.69%, #DE567E 58.36%, #711631 100%)",
+  "--lb-clock-color":
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #8CFFDC 0.69%, #279EC4 60.46%, #0D3B66 100%)",
+  "--welcome-border": "1px solid #5370DB;",
+  "--welcome-or-color": "#FFCF4C",
+  "--save-btn-bg": "#5370DB",
+  "--theme-circle-box-shadow": "none",
+  "--theme-circle-border": "none",
+  "--task-completed-pomo-bg": "#7187FD",
+  "--task-estimated-pomo-bg": "#4B4959",
+  "--task-play-fill": "none",
+  "--task-play-stroke": "#A9B2FF",
+  "--task-box-shadow": "0px 6px 9px rgba(0, 0, 0, 0.09);",
+  "--task-more-fill": "#9CA3CE",
+  "--task-selected-tag-bg": "#586BCB",
+  "--task-selected-tag-border": "none",
+  "--task-selected-tag-filter": "drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.48))",
+  "--task-selected-tag-color": "white",
+  "--task-completed-color": "white",
+  "--daily-stats-completed-bg":
+    "radial-gradient(110.42% 110.42% at 70.83% -10.42%, #A0AEFA 0%, #3152C9 100%)",
+  "--daily-stats-estimated-bg": "#161520",
+  "--daily-stats-estimated-color": "#7A7A7A",
+  "--daily-stats-estimated-border": "1px solid #161520",
+  "--daily-stats-completed-box-shadow": "0px 4px 4px #1D1D33",
+  "--daily-stats-completed-color": "#FFFFFF",
+  "--daily-stats-aprx-time-color": "#FFFFFF",
 };

@@ -153,7 +153,7 @@ export default function TaskItem(props) {
       //   </span>
       // );
       return (
-        <span className="task-actions-round edit">
+        <span className={styles["task-actions-round"] + " " + styles["edit"]}>
           {(task.isCurrentTask && isRunning && (
             <TaskPauseIcon
               onClick={(e) => {
@@ -163,6 +163,7 @@ export default function TaskItem(props) {
             />
           )) || (
             <TaskPlayIcon
+              className={styles["play"]}
               onClick={(e) => {
                 doPlayTask();
                 e.stopPropagation();
@@ -335,7 +336,10 @@ export default function TaskItem(props) {
             <span
               className={`${styles["task-actions-round"]} ${styles["more"]}`}
             >
-              <MoreHorizRounded onClick={onMoreOptionsClick}></MoreHorizRounded>
+              <MoreHorizRounded
+                className={styles["more-svg"]}
+                onClick={onMoreOptionsClick}
+              ></MoreHorizRounded>
               <Popover
                 open={Boolean(anchorEl)}
                 id="more-options-popover"

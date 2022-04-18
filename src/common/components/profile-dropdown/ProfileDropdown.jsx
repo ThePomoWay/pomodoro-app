@@ -39,7 +39,7 @@ export function ProfileDropdown(props) {
             className={styles["profile-elipse"]}
             onClick={(e) => setProfileAnchorEl(e.currentTarget)}
           >
-            <ProfileHamburger />
+            <ProfileHamburger color="white" />
             <img src={(userInfo && userInfo.image) || "/dp/1.jpg"} />
             {/* <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />

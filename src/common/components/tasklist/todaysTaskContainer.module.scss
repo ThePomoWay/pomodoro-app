@@ -15,19 +15,22 @@
   .create-task {
     width: 428px;
 
-    background: #f7f7ff;
+    background: var(--bg-2);
     border-radius: 12px;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
 
+    border: var(--welcome-border);
+
     padding: 17px 17px 23px 24px;
 
     .text-container {
       margin-bottom: 22px;
+      color: var(--text-theme);
       .text {
         font-weight: 500;
-        color: #2e3c87;
+        color: var(--brand-text-color);
       }
     }
   }
@@ -38,13 +41,13 @@
       font-size: 20px;
       line-height: 20px;
 
-      color: #ff9f2f;
+      color: var(--welcome-or-color);
     }
     .timer-text {
       font-size: 16px;
       line-height: 20px;
 
-      color: #4157b2;
+      color: var(--brand-text-color);
       margin-top: 10px;
     }
   }

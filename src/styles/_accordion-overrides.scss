@@ -14,3 +14,8 @@
   margin-right: 0px !important;
   padding: 0px !important;
 }
+
+.MuiPaper-root {
+  background-color: var(--bg-theme) !important;
+  color: var(--text-theme);
+}

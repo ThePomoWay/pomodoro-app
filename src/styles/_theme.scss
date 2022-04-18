@@ -173,9 +173,9 @@
   border: 1px solid gray;
 
   background: #ffffff;
-  border: 1px solid #cbceeb;
+  border: var(--theme-circle-border);
   box-sizing: border-box;
-  box-shadow: inset 0px 2px 4px #e2e7ff;
+  box-shadow: var(--theme-circle-box-shadow);
   &-filled {
     background: radial-gradient(
       103.13% 103.13% at 71.87% 12.5%,
