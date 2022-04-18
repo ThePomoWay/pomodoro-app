@@ -101,7 +101,9 @@ export default (props) => {
     }
   };
 
-  const onEditSection = useCallback((e) => {});
+  const onEditSection = useCallback((e) => {
+    e.stopPropagation();
+  });
 
   if (props.section) {
     let section = props.section;
@@ -154,7 +156,9 @@ export default (props) => {
                     >
                       <SectionMoreOptions
                         editSection={onEditSection}
-                        deleteSection={() => props.onDelete && props.onDelete()}
+                        deleteSection={(e) =>
+                          props.onDelete && props.onDelete(e)
+                        }
                       />
                     </Popper>
                   </div>

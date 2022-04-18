@@ -115,6 +115,9 @@ export function TodaysTaskContainer(props) {
           <div className={styles["or"]}>OR</div>
           <div className={styles["timer-text"]}>Simply Start the timer</div>
         </div>
+        <div className={styles["panda-illus"]}>
+          <img src="/panda-welcome.png" />
+        </div>
 
         {/* <img src="/empty-tasks.png" alt="Empty tasks"/> */}
       </div>
@@ -131,24 +134,28 @@ export function TodaysTaskContainer(props) {
       />
       <div className={styles["title-container"]}>
         <h1 className={styles["title"]}>Today's Tasks</h1>
-        <ClickAwayListener onClickAway={onClose}>
-          <div>
-            <MoreIconSvg style={{ cursor: "pointer" }} onClick={onPopperOpen} />
-            <Popper
-              open={Boolean(moreAnchorEl)}
-              id="more-today-popover"
-              anchorEl={moreAnchorEl}
-              onClose={onClose}
-              position="bottom-left"
-            >
-              <div className="popper-container">
-                <div
-                  className="popper-item"
-                  onClick={(e) => setShowAlert(true)}
-                >
-                  <EditIconSvg /> Remove all tasks
-                </div>
-                {/* <div
+        {tasks.length > 0 && (
+          <ClickAwayListener onClickAway={onClose}>
+            <div>
+              <MoreIconSvg
+                style={{ cursor: "pointer" }}
+                onClick={onPopperOpen}
+              />
+              <Popper
+                open={Boolean(moreAnchorEl)}
+                id="more-today-popover"
+                anchorEl={moreAnchorEl}
+                onClose={onClose}
+                position="bottom-left"
+              >
+                <div className="popper-container">
+                  <div
+                    className="popper-item"
+                    onClick={(e) => setShowAlert(true)}
+                  >
+                    <EditIconSvg /> Remove all tasks
+                  </div>
+                  {/* <div
                   className="popper-item"
                   onClick={(e) => {
                     props.toggleFullScreen && props.toggleFullScreen();
@@ -157,10 +164,11 @@ export function TodaysTaskContainer(props) {
                 >
                   <EditIconSvg /> Full screen
                 </div> */}
-              </div>
-            </Popper>
-          </div>
-        </ClickAwayListener>
+                </div>
+              </Popper>
+            </div>
+          </ClickAwayListener>
+        )}
       </div>
       <div className={styles["daily-stats"]}>
         <DailyStats />

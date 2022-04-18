@@ -59,6 +59,17 @@
   button {
     justify-self: left;
   }
+
+  .panda-illus {
+
+    position: absolute;
+    img{
+    width: 200px;
+    height: auto;
+    }
+    bottom: 0px;
+    right: 0px;
+  }
 }
 
 .task-list {

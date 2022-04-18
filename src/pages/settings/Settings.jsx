@@ -17,6 +17,7 @@ import {
 } from "../../common/state/selectors";
 import { Close } from "@material-ui/icons";
 import { setSettingsModal } from "../../common/state/slice/GlobalSlice";
+import { CloseIcon } from "../../common/svgs/CloseIcon";
 
 export default function Settings(props) {
   let isModalOpen = useSelector(selectSettingsModal);
@@ -34,7 +35,7 @@ export default function Settings(props) {
     >
       <div className="modal-container">
         <span className="close" onClick={(e) => handleClose()}>
-          <Close />
+          <CloseIcon />
         </span>
         <div className={styles["settings-container"]}>
           <div className={styles["main"]}>

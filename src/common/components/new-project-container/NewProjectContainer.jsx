@@ -22,6 +22,7 @@ import {
   showErrorToast,
 } from "../../state/slice/GlobalSlice";
 import { Close } from "@material-ui/icons";
+import { CloseIcon } from "../../svgs/CloseIcon";
 
 export default () => {
   let [projectTitle, setProjectTitle] = useState("");
@@ -102,7 +103,7 @@ export default () => {
     >
       <div className="modal-container">
         <span className="close" onClick={handleClose}>
-          <Close />
+          <CloseIcon />
         </span>
         <div className="modal-content">
           <div className={styles["main"]}>
