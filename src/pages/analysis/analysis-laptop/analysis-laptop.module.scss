@@ -7,12 +7,15 @@
     display: grid;
     justify-content: center;
 
+    background-color: var(--bg-theme);
+
     .title {
       margin-left: 16px;
       margin-right: 40px;
+      color: var(--text-theme);
     }
     .line {
-      border-top: 1px solid #c3cbfc;
+      border-top: 1px solid #8D8BAB;
       flex: 1;
     }
 
@@ -21,7 +24,7 @@
       padding-top: 48px;
 
       .description {
-        color: #242424;
+        color: var(--text-theme-2);
         font-size: 14px;
         line-height: 20px;
       }
@@ -50,39 +53,31 @@
           width: 108px;
           height: 100px;
 
-          background: radial-gradient(
-            100% 100% at 0% 100%,
-            #f5a3bb 0%,
-            #ffd9e5 100%
-          );
+          background: var(--longest-streak-gradient);
           border-radius: 12px;
 
           .text-red {
-            color: #c44d7c;
+            color: var(--longest-streak-color-red);
           }
           .text-blue {
-            color: #4693be;
+            color: var(--longest-streak-color-blue);
           }
           .description {
-            color: #c44d7c;
+            color: var(--longest-streak-desc-color);
             font-weight: bold;
           }
         }
         .current-streak {
           @extend .longest-streak;
 
-          background: radial-gradient(
-            100% 100% at 0% 100%,
-            #75cbc4 0%,
-            #d5ecea 86.89%
-          );
+          background: var(--current-streak-gradient);
 
           .title {
-            color: #1b8ba4;
+            color: var(--current-streak-color);
           }
 
           .description {
-            color: #1b8ba4;
+            color: var(--current-streak-desc-color);
             font-weight: bold;
           }
         }
@@ -92,6 +87,7 @@
         margin-top: 52px;
         .date-picker {
           margin-top: 24px;
+          color: var(--text-theme);
         }
       }
 
@@ -118,18 +114,18 @@
             align-items: flex-start;
 
             .green {
-              color: #559721;
+              color: var(--analysis-green);
             }
             .red {
-              color: #dd726b;
+              color: var(--analysis-red);
             }
           }
         }
         .complete-text {
-          color: #3346a8;
+          color: var(--analysis-complete-color);
         }
         .num {
-          color: #3346a8;
+          color: var(--analysis-num-color);
           display: flex;
           align-items: center;
           svg {
@@ -162,6 +158,10 @@
 
           margin-top: 36px;
 
+          .svg {
+            fill: var(--analysis-task-svg);
+          }
+
           .task-stats {
             display: flex;
             flex-direction: column;
@@ -170,7 +170,7 @@
             .task-stats-count {
               display: flex;
               flex-direction: column;
-              color: #676767;
+              color: var(--analysis-task-color);
 
               .view-completed {
                 color: #de5675;
@@ -194,14 +194,14 @@
             gap: 20px;
             align-items: center;
 
-            color: #676767;
+            color: var(--analysis-task-color);
 
             flex: 1;
             padding: 20px;
           }
         }
         .distractions {
-          color: #676767;
+          color: var(--analysis-task-color);
           display: flex;
           flex-direction: row;
           align-items: center;

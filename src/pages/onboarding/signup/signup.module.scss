@@ -10,13 +10,16 @@
     margin-bottom: 20px;
     font-weight: 700;
     font-size: 22px;
-    color: #191e44;
+    color: var(--login-title-color);
   }
 
   .welcome-text {
     font-weight: bold;
     font-size: 28px;
     line-height: 36px;
+
+    color: var(--login-title-color);
+    
 
     margin-bottom: 24px;
 

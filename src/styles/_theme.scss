@@ -170,10 +170,10 @@
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  border: 1px solid gray;
+  border: var(--circle-border);
 
-  background: #ffffff;
-  border: var(--theme-circle-border);
+  background: var(--bg-theme);
+  // border: var(--theme-circle-border);
   box-sizing: border-box;
   box-shadow: var(--theme-circle-box-shadow);
   &-filled {
@@ -232,4 +232,11 @@
   height: 4px;
   background-color: white;
   border-radius: 2px;
+}
+
+.MuiFormLabel-root {
+  color: var(--text-theme) !important;
+}
+.MuiInputBase-input {
+  color: var(--text-theme) !important;
 }

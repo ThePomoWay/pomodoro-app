@@ -284,6 +284,11 @@
       margin-right: 12px;
 
       color: var(--text-theme);
+
+      svg {
+        fill: var(--task-project-fill);
+        stroke: var(--text-theme);
+      }
     }
 
     .tags {
@@ -341,6 +346,10 @@
         color: #adadae;
       }
 
+      .task-action-btn {
+        fill: var(--bg-task-theme);
+      }
+
       &:hover {
         transform: scale(1.1);
       }
@@ -363,12 +372,17 @@
   transform: rotate(-2deg);
 }
 
+.dismiss-svg {
+  fill: var(--bg-theme);
+}
 .more-options {
   display: flex;
   background-color: white;
   flex-direction: column;
   min-width: 100px;
   min-height: 100px;
+
+  
   &-item {
     display: flex;
     align-items: center;

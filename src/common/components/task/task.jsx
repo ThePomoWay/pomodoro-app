@@ -97,7 +97,7 @@ export default function TaskItem(props) {
               e.stopPropagation();
             }}
           >
-            {<AddTaskIcon />}
+            {<AddTaskIcon className={styles["task-action-btn"]} />}
           </span>
           {props.isEditable && (
             <span
@@ -123,7 +123,7 @@ export default function TaskItem(props) {
               e.stopPropagation();
             }}
           >
-            {<RemoveTaskIcon />}
+            {<RemoveTaskIcon className={styles["task-action-btn"]} />}
           </span>
 
           {props.isEditable && (
@@ -266,7 +266,6 @@ export default function TaskItem(props) {
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
-                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <rect
@@ -275,8 +274,8 @@ export default function TaskItem(props) {
                     width="9.5"
                     height="13.5"
                     rx="1.75"
-                    fill="white"
-                    stroke="black"
+                    fill="inherit"
+                    stroke="inherit"
                     strokeWidth="0.5"
                   />
                   <line
@@ -284,7 +283,7 @@ export default function TaskItem(props) {
                     y1="4.75"
                     x2="11"
                     y2="4.75"
-                    stroke="black"
+                    stroke="inherit"
                     strokeWidth="0.5"
                   />
                   <line
@@ -292,7 +291,7 @@ export default function TaskItem(props) {
                     y1="7.75"
                     x2="11"
                     y2="7.75"
-                    stroke="black"
+                    stroke="inherit"
                     strokeWidth="0.5"
                   />
                   <line
@@ -300,7 +299,7 @@ export default function TaskItem(props) {
                     y1="10.75"
                     x2="11"
                     y2="10.75"
-                    stroke="black"
+                    stroke="inherit"
                     strokeWidth="0.5"
                   />
                 </svg>
@@ -386,7 +385,7 @@ export default function TaskItem(props) {
                         e.stopPropagation();
                       }}
                     >
-                      <DismissTaskIcon />
+                      <DismissTaskIcon className={styles["dismiss-svg"]} />
                       <span>Remove from todays</span>
                     </div>
                   )}

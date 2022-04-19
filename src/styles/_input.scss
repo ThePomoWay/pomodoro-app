@@ -1,8 +1,9 @@
 .input {
-  background: #ffffff;
-  border: 1px solid #e0e3fc;
+  background: var(--edit-section-bg);
+  color: var(--text-theme);
+  border: var(--edit-section-border);
   box-sizing: border-box;
-  box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.11);
+  box-shadow: var(--input-box-shadow);
   border-radius: 8px;
   padding: 12px;
   width: 100%;

@@ -81,7 +81,6 @@ export function ProjectContainer(props) {
 
   const addTaskToProject = (task) => {
     if (task.fid) {
-      console.log(a);
       // dispatch(createTaskThunk({ task }));
       dispatch(
         updateLocalProjectAsync({

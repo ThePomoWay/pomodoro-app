@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  background-color: #f7f7ff;
+  background-color: var(--settings-sidenav-bg);
   color: #363636;
   height: 100%;
   box-sizing: border-box;
@@ -21,13 +21,13 @@
     gap: 8px;
     flex-direction: row;
     padding: 8px 10px;
-    color: #363636;
+    color: var(--settings-color);
     cursor: pointer;
 
     font-size: 12px;
 
     &:hover {
-      background-color: #f3f5ff;
+      background-color: var(--settings-hover);
       border-radius: 14px;
     }
     svg {
@@ -36,10 +36,10 @@
 
     &.selected {
       border-radius: 14px;
-      background-color: #e8ecfc;
+      background-color: var(--settings-selected-bg);
       display: flex;
       align-items: center;
-      color: #2e3c87;
+      color: var(--settings-selected-color);
       font-weight: 500;
       svg {
         stroke: #2e3c87;
