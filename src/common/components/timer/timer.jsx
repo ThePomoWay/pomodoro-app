@@ -281,8 +281,6 @@ export default function Timer(props) {
     );
   });
 
-  timerSec = 250;
-
   let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
 
   let timerStyle = {
