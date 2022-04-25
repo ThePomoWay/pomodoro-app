@@ -26,7 +26,12 @@ export const selectIsTimerFullScreen = (state) =>
 
 export const selectSettingsModal = (state) => state.global.settings.showModal;
 export const selectSettingsTab = (state) => state.global.settings.tab;
-export const selectIsMultiTabAlertModalOpen = (state) => state.global.multiTabAlertModalState;
+export const selectIsMultiTabAlertModalOpen = (state) =>
+  state.global.multiTabAlertModalState;
+export const selectHideTodaysCompletedTasks = (state) =>
+  state.global.hideTodaysCompletedTasks;
+export const selectHideProjectsCompletedTasks = (state) =>
+  state.global.hideProjectCompletedTasks;
 
 //todays tasks
 export const selectTodaysTasks = (state) =>

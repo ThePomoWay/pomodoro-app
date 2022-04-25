@@ -28,5 +28,7 @@ export const {
   setIsTimerFullScreen,
   setSettingsModal,
   setSettingsTab,
-  setMultiTabAlertModal
+  setMultiTabAlertModal,
+  setHideProjectsCompletedTasks,
+  setHideTodaysCompletedTasks,
 } = globalSlice.actions;
