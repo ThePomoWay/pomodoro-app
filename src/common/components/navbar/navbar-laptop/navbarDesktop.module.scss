@@ -33,7 +33,7 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-gap: 10px;
-      width: 80%;
+      width: 100%;
       margin-left: auto;
       margin-right: auto;
 
@@ -103,12 +103,11 @@
     .right-nav {
       position: absolute;
       right: 60px;
-      top: 0px;
+      top: 8px;
 
       display: flex;
       align-items: center;
       gap: 16px;
-      height: 56px;
 
       cursor: pointer;
 
