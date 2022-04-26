@@ -181,14 +181,14 @@ export default function NavbarDesktop(props) {
           <div>
             <button className="btn btn-premium">Premium</button>
           </div> */}
-          <div
+          {/* <div
             onClick={() => navigateTo(manageFocus)}
             className={`${styles["link-item"]} ${
               "3" === props.selected ? styles["selected"] : ""
             }`}
           >
             Manage
-          </div>
+          </div> */}
 
           {(isLoggedIn && <ProfileDropdown />) || (
             <button

@@ -139,4 +139,7 @@ export const light = {
   "--login-btn-shadow": "0px 4px 4px rgba(186, 190, 218, 0.62)",
   "--login-title-color": "#191e44",
   "--input-box-shadow": "inset 0px 3px 9px rgba(153, 153, 153, 0.11)",
+  "--save-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25)",
+  "--popover-box-shadow": "1px 4px 4px rgba(146, 154, 202, 0.36)",
+  "--popover-border": "1px solid #cbcee1",
 };

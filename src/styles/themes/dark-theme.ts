@@ -42,7 +42,7 @@ export const dark = {
   "--break-timer-circle-shadow": "inset 5px 6px 12px #e89fbe",
   "--lb-timer-circle-bg": "#52B9D9",
   "--pomodoro-clock-color":
-    "radial-gradient(100.78% 211.66% at 70.73% -130.66%, #7C91FF 0%, #637BF9 40.76%, #334396 78.5%, #223A8D 100%)",
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #7C91FF 0%, #637BF9 40.76%, #334396 78.5%, #223A8D 100%)",
   "--break-clock-color":
     "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #FFA8C2 0.69%, #DE567E 58.36%, #711631 100%)",
   "--lb-clock-color":
@@ -141,4 +141,7 @@ export const dark = {
 
   "--login-btn-shadow": "none",
   "--login-title-color": "white",
+  "--save-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25);",
+  "--popover-border": "1px solid #636179",
+  "--popover-box-shadow": "3px 8px 11px rgba(2, 4, 17, 0.76)",
 };

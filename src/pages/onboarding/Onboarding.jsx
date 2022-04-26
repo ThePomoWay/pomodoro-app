@@ -15,10 +15,12 @@ import {
   LOGIN_STEP,
   REGISTER_STEP,
 } from "../../common/utils/constants";
-import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
-import { useMediaQuery } from "react-responsive";
-import { setStep } from "../../common/state/slice/OnboardingSlice";
 import { CloseIcon } from "../../common/svgs/CloseIcon";
+import { LoginStep } from "./login/login-step";
+import { LoginStep2 } from "./login/login-step-2";
+import { SignupStep2 } from "./signup/signup-step-2";
+import { ForgotPasswordStep1 } from "./forgot-password/forgot-password-step-1";
+import { ForgotPasswordStep2 } from "./forgot-password/forgot-password-step-2";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));
