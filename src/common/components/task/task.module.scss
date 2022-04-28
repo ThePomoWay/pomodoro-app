@@ -120,7 +120,7 @@
       content: "";
       width: 6px;
       height: 100%;
-      background-color: #9aaaff;
+      background-color: var(--task-current-before-bg);
       position: absolute;
       top: 0px;
       left: 0px;
@@ -129,7 +129,7 @@
     }
 
     .task-title {
-      color: #5a6bc9;
+      color: var(--current-task-color);
     }
 
     // &::after {

@@ -28,16 +28,16 @@ export const dark = {
   "--pomodoro-radial-gradient":
     "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #7C91FF 0%, #637BF9 40.76%, #334396 78.5%, #223A8D 100%)",
   "--pomodoro-blur-gradient":
-    "radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(2, 3, 8, 0) 100%);",
+    "radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(2, 3, 8, 0) 100%)",
   "--pomodoro-radial-box-gradient":
-    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgb(63 65 80 / 54%) 95.9%, rgb(66 66 96 / 76%) 100%)",
   "--break-radial-box-gradient":
-    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgb(63 65 80 / 54%) 95.9%, rgb(66 66 96 / 76%) 100%)",
   "--lb-radial-box-gradient":
-    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgba(112, 115, 139, 0.54) 95.9%, rgba(157, 156, 226, 0.76) 100%)",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(117, 145, 212, 0) 76.01%, rgb(63 65 80 / 54%) 95.9%, rgb(66 66 96 / 76%) 100%)",
   "--pomodoro-timer-circle-bg": "#667FDC",
   "--pomodoro-timer-circle-shadow":
-    "inset 0px 9px 14px rgba(39, 61, 144, 0.31);",
+    "inset 0px 9px 14px rgba(39, 61, 144, 0.31)",
   "--break-timer-circle-bg": "#ffa5c1",
   "--break-timer-circle-shadow": "inset 5px 6px 12px #e89fbe",
   "--lb-timer-circle-bg": "#52B9D9",
@@ -47,7 +47,9 @@ export const dark = {
     "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #FFA8C2 0.69%, #DE567E 58.36%, #711631 100%)",
   "--lb-clock-color":
     "radial-gradient(99.46% 88.64% at 70.45% 3.41%, #8CFFDC 0.69%, #279EC4 60.46%, #0D3B66 100%)",
-  "--welcome-border": "1px solid #5370DB;",
+  "--pomodoro-text-shadow": "0px 6px 11px #4356B3",
+
+  "--welcome-border": "1px solid #5370DB",
   "--welcome-or-color": "#FFCF4C",
   "--save-btn-bg": "#5370DB",
   "--theme-circle-box-shadow": "none",
@@ -56,9 +58,9 @@ export const dark = {
   "--task-estimated-pomo-bg": "#4B4959",
   "--task-play-fill": "none",
   "--task-play-stroke": "#A9B2FF",
-  "--task-box-shadow": "0px 6px 9px rgba(0, 0, 0, 0.09);",
+  "--task-box-shadow": "0px 6px 9px rgba(0, 0, 0, 0.09)",
   "--task-more-fill": "#9CA3CE",
-  "--task-selected-tag-bg": "#586BCB",
+  "--task-selected-tag-bg": "#586bcb",
   "--task-selected-tag-border": "none",
   "--task-selected-tag-filter": "drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.48))",
   "--task-selected-tag-color": "white",
@@ -91,7 +93,7 @@ export const dark = {
   "--add-new-section-border": "1px solid #8D8BAB",
   "--add-new-section-color": "#B0BDFF",
   "--edit-section-bg": "#15151F",
-  "--edit-section-border": "1px solid #515064;",
+  "--edit-section-border": "1px solid #515064",
   "--btn-save-color": "white",
   "--btn-save-bg": "#5370DB",
   "--btn-cancel-border": "1px solid #747A98",
@@ -122,6 +124,10 @@ export const dark = {
   "--slider-box-shadow": "none",
   "--popper-color": "white",
   "--popper-hover": "#323234",
+  "--popper-border": "1px solid #636179",
+  "--poppper-item-border": "none",
+
+  "--popper-box-shadow": "3px 8px 11px rgba(2, 4, 17, 0.76)",
   "--project-input-border": "1px solid #515064",
   "--task-desc-border": "1px solid #636179",
   "--epomo-circle-bg": "#060510",
@@ -141,7 +147,24 @@ export const dark = {
 
   "--login-btn-shadow": "none",
   "--login-title-color": "white",
-  "--save-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25);",
+  "--save-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25)",
   "--popover-border": "1px solid #636179",
   "--popover-box-shadow": "3px 8px 11px rgba(2, 4, 17, 0.76)",
+  "--break-text-shadow": "0px 6px 11px #6a2944",
+  "--lb-text-shadow": "0px 6px 11px rgba(18, 100, 100, 0.59)",
+  "--break-blur":
+    "radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(2, 3, 8, 0) 100%)",
+  "--lb-blur":
+    "radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(2, 3, 8, 0) 100%)",
+  "--toast-success-bg": "#439966",
+  "--toast-success-color": "white",
+  "--toast-success-border": "1px solid #A4FFC8",
+
+  "--toast-failure-bg": "#D84E5E",
+  "--toast-failure-color": "white",
+  "--toast-failure-border": "1px solid #F29BA5",
+
+  "--task-current-before-bg": "#586BCB",
+  "--current-task-color": "white",
+  "--btn-save-2-box-shadow": "none",
 };

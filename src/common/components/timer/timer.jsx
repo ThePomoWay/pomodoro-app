@@ -290,6 +290,8 @@ export default function Timer(props) {
     );
   });
 
+  timerSec = 100;
+
   let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
 
   let timerStyle = {
@@ -449,7 +451,7 @@ export default function Timer(props) {
           </div>
         )}
 
-        {tab === "pomodoro" && (
+        {/* {tab === "pomodoro" && (
           <div className={styles["focus-mode"]}>
             <span>Focus Mode</span>
             <CustomSlider
@@ -460,7 +462,7 @@ export default function Timer(props) {
               }}
             />
           </div>
-        )}
+        )} */}
 
         {/* // <label className="switch">
           //   <input

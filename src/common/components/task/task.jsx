@@ -156,6 +156,7 @@ export default function TaskItem(props) {
         <span className={styles["task-actions-round"] + " " + styles["edit"]}>
           {(task.isCurrentTask && isRunning && (
             <TaskPauseIcon
+              className={styles["play"]}
               onClick={(e) => {
                 doPauseTask();
                 e.stopPropagation();

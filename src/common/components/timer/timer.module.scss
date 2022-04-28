@@ -38,16 +38,12 @@ $waterBColor: #5394d8;
     }
 
     .timer-text {
-      text-shadow: var(--timer-text-shadow);
+      text-shadow: var(--pomodoro-text-shadow);
     }
   }
   .break {
     .blur {
-      background: radial-gradient(
-        45.88% 45.88% at 49.7% 57.76%,
-        rgba(202, 56, 91, 0.35) 0%,
-        rgba(202, 56, 91, 0) 100%
-      );
+      background: var(--break-blur);
       filter: blur(29px);
     }
     .box {
@@ -61,16 +57,12 @@ $waterBColor: #5394d8;
       box-shadow: var(--break-timer-circle-shadow);
     }
     .timer-text {
-      text-shadow: 0px 6px 11px #ce679f;
+      text-shadow: var(--break-text-shadow);
     }
   }
   .long_break {
     .blur {
-      background: radial-gradient(
-        45.88% 45.88% at 49.7% 57.76%,
-        rgba(69, 145, 187, 0.34) 0%,
-        rgba(69, 145, 187, 0) 100%
-      );
+      background: var(--lb-blur);
       filter: blur(29px);
     }
     .box {
@@ -84,7 +76,7 @@ $waterBColor: #5394d8;
       }
     }
     .timer-text {
-      text-shadow: 0px 6px 11px #52b7b7;
+      text-shadow: var(--lb-text-shadow);
     }
   }
   .round {

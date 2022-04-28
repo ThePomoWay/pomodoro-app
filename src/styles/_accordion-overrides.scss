@@ -20,3 +20,12 @@
   color: var(--text-theme);
 }
 
+
+.MuiTypography-root {
+  color: var(--text-theme) !important;
+}
+
+.MuiIconButton-root:not(.MuiPickersDay-day) {
+  background-color: var(--bg-theme) !important;
+  color: var(--text-theme) !important;
+}

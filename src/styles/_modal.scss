@@ -60,6 +60,8 @@
   align-self: flex-end;
   cursor: pointer;
   z-index: 1;
+
+  fill: var(--text-theme);
 }
 
 .modal-title {

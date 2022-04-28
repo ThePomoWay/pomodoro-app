@@ -26,32 +26,32 @@ export const light = {
   "--timer-tab-selected-break-color": "#c84e7c",
   "--timer-tab-selected-lb-color": "#58a2c2",
   "--pomodoro-radial-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%);",
+    "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%)",
   "--pomodoro-blur-gradient":
-    "radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(125, 141, 227, 0.6) 0%,rgba(56, 79, 202, 0) 100%);",
+    "radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(125, 141, 227, 0.6) 0%,rgba(56, 79, 202, 0) 100%)",
   "--pomodoro-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%);",
+    "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%)",
   "--break-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,#fff7fa 0%,#e7b4c4 100%);",
+    "radial-gradient(121.5% 94.67% at 66% 5.33%,#fff7fa 0%,#e7b4c4 100%)",
   "--lb-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,#ecfcfe 0%,#c7dbde 100%);",
+    "radial-gradient(121.5% 94.67% at 66% 5.33%,#ecfcfe 0%,#c7dbde 100%)",
   "--pomodoro-timer-circle-bg": "#97a7fe",
-  "--pomodoro-timer-circle-shadow": "inset 5px 6px 12px #8fa0fb;",
+  "--pomodoro-timer-circle-shadow": "inset 5px 6px 12px #8fa0fb",
   "--break-timer-circle-bg": "#ffa5c1",
   "--break-timer-circle-shadow": "inset 5px 6px 12px #e89fbe",
   "--lb-timer-circle-bg": "#99dad6",
   "--pomodoro-clock-color":
-    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#cad2fd 0.69%,#637bf9 60.46%,#334996 100%);",
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#cad2fd 0.69%,#637bf9 60.46%,#334996 100%)",
   "--break-clock-color":
     "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#ffd3e0 0.69%,#f4759a 60.46%,#b44a7f 100%)",
   "--lb-clock-color":
-    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#bbf3da 0.69%,#74bdd0 60.46%,#408db9 100%);",
+    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#bbf3da 0.69%,#74bdd0 60.46%,#408db9 100%)",
   "--pomodoro-text-shadow": "0px 6px 11px #5b6ecd",
   "--welcome-border": "1px solid white",
   "--welcome-or-color": "#FFCF4C",
   "--save-btn-bg": "#839cfb",
-  "--theme-circle-box-shadow": "inset 0px 2px 4px #e2e7ff;",
-  "--theme-circle-border": "1px solid #cbceeb;",
+  "--theme-circle-box-shadow": "inset 0px 2px 4px #e2e7ff",
+  "--theme-circle-border": "1px solid #cbceeb",
   "--task-completed-pomo-bg": "#e0e3fc",
   "--task-estimated-pomo-bg": "#bcc7ff",
   "--task-play-fill": "#F2F3FF",
@@ -64,7 +64,7 @@ export const light = {
   "--task-completed-color": "#484848",
   "--task-project-fill": "none",
   "--daily-stats-completed-bg":
-    "radial-gradient(110.42% 110.42% at 70.83% -10.42%,#edeffe 0%,#c5cbfa 100%);",
+    "radial-gradient(110.42% 110.42% at 70.83% -10.42%,#edeffe 0%,#c5cbfa 100%)",
   "--daily-stats-estimated-bg": "#FFFFFF",
   "--daily-stats-estimated-color": "#bfbfbf",
   "--daily-stats-estimated-border": "1px solid #d8d8d8",
@@ -119,6 +119,9 @@ export const light = {
   "--slider-box-shadow": "0px 4px 6px rgba(213, 215, 234, 0.65)",
   "--popper-color": "#6a6f9a",
   "--popper-hover": "#f3f4ff",
+  "--popper-border": "1px solid #cbcee1",
+  "--poppoer-item-border": "1px solid #e0e3fc",
+  "--popper-box-shadow": "1px 4px 4px rgba(146, 154, 202, 0.36)",
 
   "--project-input-border": "1px solid #e0e3fc",
   "--task-desc-border": "1px solid #e0e3fc",
@@ -142,4 +145,19 @@ export const light = {
   "--save-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25)",
   "--popover-box-shadow": "1px 4px 4px rgba(146, 154, 202, 0.36)",
   "--popover-border": "1px solid #cbcee1",
+  "--break-text-shadow": "0px 6px 11px #ce679f",
+  "--lb-text-shadow": "0px 6px 11px #52b7b7",
+  "--break-blur":
+    "radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(202, 56, 91, 0.35) 0%,rgba(202, 56, 91, 0) 100%)",
+  "--lb-blur":
+    " radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(69, 145, 187, 0.34) 0%,rgba(69, 145, 187, 0) 100%)",
+  "--toast-success-bg": "rgba(69, 218, 129, 1)",
+  "--toast-success-color": "#238349",
+  "--toast-success-border": "1px solid #27a95b",
+  "--toast-failure-bg": "#eb6767",
+  "--toast-failure-color": "rgb(14, 13, 13)",
+  "--toast-failure-border": "1px solid #a92727",
+  "--task-current-before-bg": "#9aaaff",
+  "--current-task-color": "#5a6bc9",
+  "--btn-save-2-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25)",
 };

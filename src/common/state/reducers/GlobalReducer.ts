@@ -2,6 +2,7 @@ import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
+  themeLSKey,
   THEME_DARK,
   THEME_LIGHT,
 } from "../../utils/constants";
@@ -16,10 +17,10 @@ export const initialGlobalState = {
   labelModalOpen: false,
   hideFirstUserScreen: false,
   toast: {
-    open: false,
+    open: true,
     msg: "Todays tasks have been deleted successfully",
-    duration: 5000,
-    type: "success",
+    duration: 50000,
+    type: "failure",
   },
   theme: THEME_DARK,
   userPreferences: {
@@ -97,6 +98,7 @@ export let globalReducer = {
   },
   setTheme: (state, action) => {
     state.theme = action.payload;
+    localStorage.setItem(themeLSKey, action.payload);
   },
   setUserPreferences: (state, action) => {
     state.userPreferences = { ...state.userPreferences, ...action.payload };

@@ -10,12 +10,14 @@ import { Link } from "react-router-dom";
 import styles from "./ProfileDropdown.module.scss";
 import { logout } from "../../state/thunks/GlobalThunk";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
-import { selectUserInfo } from "../../state/selectors";
+import { selectUserInfo, selectTheme } from "../../state/selectors";
 import { ProfileHamburger } from "../../svgs/ProfileHamburger";
+import { THEME_LIGHT } from "../../utils/constants";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
   let userInfo = useSelector(selectUserInfo);
+  let theme = useSelector(selectTheme);
 
   const onClose = useCallback(() => {
     setProfileAnchorEl(null);
@@ -39,8 +41,10 @@ export function ProfileDropdown(props) {
             className={styles["profile-elipse"]}
             onClick={(e) => setProfileAnchorEl(e.currentTarget)}
           >
-            <ProfileHamburger color="white" />
-            <img src={(userInfo && userInfo.image) || "/dp/1.jpg"} />
+            <ProfileHamburger
+              stroke={theme === THEME_LIGHT ? "black" : "white"}
+            />
+            <img src={(userInfo && userInfo.image) || "/dp/1.png"} />
             {/* <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
             </span> */}
