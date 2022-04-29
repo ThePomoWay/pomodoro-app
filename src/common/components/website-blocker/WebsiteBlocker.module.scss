@@ -20,6 +20,7 @@
       border: 1.0177px solid #cbcff7;
       box-sizing: border-box;
       border-radius: 4px;
+      cursor: pointer;
       text-align: center;
     }
 
@@ -60,20 +61,23 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 40px;
-      margin-top: 48px;
+      margin-top: 32px;
 
       .chart {
         grid-column: 1 / 4;
       }
       .sites {
         grid-column: 1 / -1;
+
+        .title {
+          margin-bottom: 20px;
+        }
       }
       .legend {
         display: flex;
         flex-direction: column;
         gap: 8px;
 
-        max-height: 230px;
         overflow-y: scroll;
 
         /* width */
@@ -147,7 +151,7 @@
       flex-direction: column;
       gap: 16px;
       margin-top: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 80px;
       .blocker {
         display: flex;
         align-items: center;
@@ -182,7 +186,7 @@
           align-items: center;
 
           padding: 6px 8px;
-          width: 100%;
+          width: 97.4%;
         }
       }
     }
