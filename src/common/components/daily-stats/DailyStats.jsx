@@ -38,8 +38,8 @@ export function DailyStats(props) {
                 {index + 1}
               </div>
             ))}
-            {ePomos > cPomos &&
-              [...Array(ePomos - cPomos)].map((item, index) => (
+            {ePomos > 0 &&
+              [...Array(ePomos)].map((item, index) => (
                 <div
                   key={`pending-pomo-${index}`}
                   className={styles["estimated-pomo"]}
@@ -49,10 +49,9 @@ export function DailyStats(props) {
               ))}
           </div>
 
-          {ePomos > cPomos && (
+          {ePomos > 0 && (
             <div className={styles["apprx-time"]}>
-              ~
-              {getTimeText(((ePomos - cPomos) * defaults.defaultWorkTime) / 60)}
+              ~{getTimeText((ePomos * defaults.defaultWorkTime) / 60)}
             </div>
           )}
         </div>
