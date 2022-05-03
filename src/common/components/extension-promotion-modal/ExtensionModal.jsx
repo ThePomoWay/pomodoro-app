@@ -39,11 +39,19 @@ export function ExtensionModal(props) {
             <span className="logo">Chrome Extension</span>
           </p>
           <div className={styles["promo"]}>
-            <img className={styles["img"]} src="/promo-panda.png" />
+            {/* <img className={styles["img"]} src="/promo-panda.png" /> */}
             <div className={styles["features"]}>
               <div className={styles["feature"]}>
                 <BlockIcon />
                 <span>Block websites during your pomodoro session.</span>
+              </div>
+              <div className={styles["feature"]}>
+                <AnalyzeIcon />
+                <span>Analyze your time spent on websites</span>
+              </div>
+              <div className={styles["feature"]}>
+                <AnalyzeIcon />
+                <span>Analyze your time spent on websites</span>
               </div>
               <div className={styles["feature"]}>
                 <AnalyzeIcon />

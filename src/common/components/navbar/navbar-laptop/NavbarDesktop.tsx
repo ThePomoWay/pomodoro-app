@@ -3,11 +3,15 @@ import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
+import {
+  openOnboardingModal,
+  setIsExtensionModalOpen,
+} from "../../../state/slice/GlobalSlice";
 import { selectUserInfo } from "../../../state/selectors";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 import { SunIcon } from "../../../svgs/SunIcon";
 import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
+import { isExtensionPresent } from "../../../utils/extension-utils";
 
 let navItems = [
   {
@@ -113,6 +117,12 @@ export default function NavbarDesktop(props) {
   };
 
   let navigateTo = (item) => {
+    if (item.to === manageFocus.to) {
+      if (!isExtensionPresent) {
+        dispatch(setIsExtensionModalOpen(true));
+        return;
+      }
+    }
     if (!AuthService.isLoggedIn()) {
       onOpenOnboardingModal();
     } else {

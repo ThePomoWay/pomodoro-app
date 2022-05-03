@@ -31,7 +31,7 @@ let sampleData = [
 
 export const initialBlockerState = {
   blockedWebsites: [],
-  history: sampleData,
+  history: [],
 };
 
 export let blockerReducer = {
