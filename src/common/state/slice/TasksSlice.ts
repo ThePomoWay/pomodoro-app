@@ -24,4 +24,5 @@ export const {
   setAllTasks,
   setTodaysTasks,
   incrementCurTaskSec,
+  updateCompletedTasks,
 } = tasksSlice.actions;

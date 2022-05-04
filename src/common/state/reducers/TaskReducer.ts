@@ -1,11 +1,17 @@
 import { findIndex } from "../../utils/array-utils";
 import { getFormattedDate } from "../../utils/date-utils";
+import { statsReducer } from "./StatsReducer";
 
 export const initialTaskState = {
   tasks: {},
   todaysTasks: [],
   todaysCompletedTasks: [],
   allTasks: [],
+  allCompletedTasks: {
+    from: '',
+    to: "",
+    tasks: []
+  },
   currentTaskRef: "",
   editTaskRef: "",
 };
@@ -60,6 +66,9 @@ export let taskReducer = {
   },
   updateTodaysTasks: (state, action) => {
     state.todaysTasks = action.payload;
+  },
+  updateCompletedTasks: (state, action) => {
+    state.allCompletedTasks = action.payload;
   },
   rearrangeTodaysTask: (state, action) => {
     if (action.payload.source !== action.payload.destination) {

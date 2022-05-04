@@ -1,5 +1,6 @@
 import { groupByDates } from "../utils/common";
 import { statsReducer } from "./reducers/StatsReducer";
+import { getReadableDate } from "../utils/date-utils";
 
 export const selectPomoState = (state) => state.timer.pomoState;
 export const selectTimer = (state) => state.timer.timerInSec;
@@ -46,6 +47,14 @@ export const selectAllTasks = (state) =>
   state.tasks.allTasks
     .filter((i) => !state.tasks.tasks[i].isComplete)
     .map((i) => state.tasks.tasks[i]);
+export const selectAllCompletedTasks = (state) => {
+    return state.tasks.allCompletedTasks.tasks.map((item) => ({
+      ...item,
+      readCreatedOn: getReadableDate(new Date(item.createdOn)),
+      readCompletedOn: getReadableDate(new Date(item.completedOn)),
+      totalDays: Math.floor((new Date(item.completedOn).getTime() - new Date(item.createdOn).getTime()) / (1000 * 3600 * 24)) + 1,    
+  }));
+}
 export const selectCurrentTask = (state) => {
   return state.tasks.tasks[state.tasks.currentTaskRef];
 };

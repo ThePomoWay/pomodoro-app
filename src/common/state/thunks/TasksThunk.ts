@@ -17,6 +17,7 @@ import {
   markTaskAsCompleteApi,
   markTaskAsInCompleteApi,
   updateTaskAPI,
+  getAllTasksApi,
 } from "../../API/network/TaskApis";
 import {
   removeFromTodaysTasksApi,
@@ -46,6 +47,7 @@ import {
   setTodaysTasks,
   updateTask,
   updateTodaysTasks,
+  updateCompletedTasks,
 } from "../slice/TasksSlice";
 import {
   openOnboardingModal,
@@ -59,12 +61,34 @@ import {
   updateLocalProjectAsync,
 } from "./ProjectThunk";
 import { projectChangeApi } from "../../API/network/ProjectApis";
+import { selectAllCompletedTasks } from "../selectors";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
   async (_, { dispatch }) => {
     let response = await getTasks();
     dispatch(setAllTasks(response));
+  }
+);
+
+export const getAllCompletedTasks = createAsyncThunk(
+  "tasks/get",
+  async (_, { dispatch }) => {
+    let today = new Date();
+    let defaultStartDate = new Date(new Date().setDate(today.getDate() - 7));
+    let defaultEndDate = new Date(new Date().setDate(today.getDate()));
+
+    let completedTasksResponse = await getAllTasksApi({
+      from: new Date(defaultStartDate).toISOString(),
+      till: new Date(defaultEndDate).toISOString(),
+      completed: true,
+    });
+    
+    let completedTasks = [];
+    if (completedTasksResponse.status === 200) {
+      completedTasks = completedTasksResponse.data.tasks;
+      dispatch(updateCompletedTasks({to : defaultEndDate.toISOString(), from: defaultStartDate.toISOString(), tasks: completedTasksResponse.data.tasks}))
+    }
   }
 );
 

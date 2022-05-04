@@ -9,6 +9,7 @@ import { syncIdb } from './common/utils/sync';
 import AboutUs from './pages/about-us/AbousUsPage';
 import AllTasks from './pages/all-tasks/AllTasks';
 import AnalysisPage from './pages/analysis/Analysispage';
+import CompletedTasks from './pages/completed-tasks/completed-tasks';
 import Settings from './pages/settings/Settings';
 import CloseTabs from './pages/close-tab/CloseTab';
 import Homepage from './pages/dashboard/HomePage';
@@ -66,6 +67,9 @@ function App() {
           </Route>
           <Route exact path="/">
             <Homepage />
+          </Route>
+          <Route exact path="/completed-tasks">
+            <CompletedTasks />
           </Route>
         </Switch>
         <Toast />
