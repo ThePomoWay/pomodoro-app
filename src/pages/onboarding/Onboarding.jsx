@@ -15,11 +15,14 @@ import {
   LOGIN_STEP,
   REGISTER_STEP,
 } from "../../common/utils/constants";
-import { ForgotPasswordStep1 } from "./forgot-password/forgot-password-step-1";
-import { ForgotPasswordStep2 } from "./forgot-password/forgot-password-step-2";
-import { LoginStep } from "./login/login-step";
-import { LoginStep2 } from "./login/login-step-2";
-import { SignupStep2 } from "./signup/signup-step-2";
+import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
+import { useMediaQuery } from "react-responsive";
+import { setStep } from "../../common/state/slice/OnboardingSlice";
+import { CloseIcon } from "../../common/svgs/CloseIcon";
+
+const onSubmit = async (values) => {
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 export default function OnBoarding(props) {
   let dispatch = useDispatch();
@@ -56,7 +59,7 @@ export default function OnBoarding(props) {
         <div className="modal-content">
           <span className="close" onClick={(e) => handleClose()}>
             {" "}
-            <Close />{" "}
+            <CloseIcon />{" "}
           </span>
           {(step === LOGIN_REGISTER_STEP && <LoginStep />) ||
             (step === LOGIN_STEP && <LoginStep2 />) ||

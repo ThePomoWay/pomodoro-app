@@ -7,6 +7,7 @@ import {
   selectTasksAsobj,
   selectTodaysTaskIds,
   selectEditTaskRef,
+  selectHideProjectsCompletedTasks,
 } from "../../state/selectors";
 
 import { useParams, useHistory } from "react-router-dom";
@@ -47,6 +48,7 @@ import {
 } from "../../state/slice/GlobalSlice";
 import { Alert } from "../alert/Alert";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
+import { toggleHideProjectsCompletedTasks } from "../../state/thunks/GlobalThunk";
 
 export function ProjectContainer(props) {
   let { projectId } = useParams();
@@ -69,7 +71,8 @@ export function ProjectContainer(props) {
   let [showEditTaskContainer, setShowEditTaskContainer] = useState(false);
   let [isDragging, setIsDragging] = useState(false);
   let [isTaskDragging, setIsTaskDragging] = useState(false);
-  let [showCompletedSection, setShowCompletedSection] = useState(true);
+
+  let showCompletedSection = useSelector(selectHideProjectsCompletedTasks);
 
   let editTaskRef = useSelector(selectEditTaskRef);
 
@@ -81,7 +84,6 @@ export function ProjectContainer(props) {
 
   const addTaskToProject = (task) => {
     if (task.fid) {
-      console.log(a);
       // dispatch(createTaskThunk({ task }));
       dispatch(
         updateLocalProjectAsync({
@@ -282,7 +284,8 @@ export function ProjectContainer(props) {
   });
 
   const toggleCompletedTasks = useCallback((e) => {
-    setShowCompletedSection(!showCompletedSection);
+    dispatch(toggleHideProjectsCompletedTasks());
+    //setShowCompletedSection(!showCompletedSection);
     onMoreClose();
   });
 

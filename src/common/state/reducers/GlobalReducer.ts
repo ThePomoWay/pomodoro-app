@@ -38,6 +38,8 @@ export const initialGlobalState = {
   },
   multiTabAlertModalState: false,
   isExtensionModalOpen: false,
+  hideTodaysCompletedTasks: false,
+  hideProjectCompletedTasks: false,
 };
 
 export let globalReducer = {
@@ -117,5 +119,11 @@ export let globalReducer = {
   },
   setIsExtensionModalOpen: (state, action) => {
     state.isExtensionModalOpen = action.payload;
+  },
+  setHideTodaysCompletedTasks: (state, action) => {
+    state.hideTodaysCompletedTasks = action.payload;
+  },
+  setHideProjectsCompletedTasks: (state, action) => {
+    state.hideProjectCompletedTasks = action.payload;
   },
 };

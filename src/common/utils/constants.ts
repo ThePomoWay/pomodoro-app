@@ -27,7 +27,7 @@ export const priorityColorMap = [
   "#A4A4A4",
 ];
 
-export const priorityName = ["Urgent", "Hight", "Medium", "Low"];
+export const priorityName = ["Urgent", "High", "Medium", "Low"];
 
 export const tagColorPalette = [
   "#AB64DF",
@@ -74,6 +74,10 @@ export const DISABLE_FOCUS_MODE = "disableFocusMode";
 
 //First User screen
 export const FIRST_USER_KEY = "firstUserKey";
+
+// show completed tasks
+export const TODAYS_COMPLETED_TASK_HIDE = "todaysTaskCompleted";
+export const PROJECT_COMPLETED_TASK_HIDE = "projectTaskCompleted";
 
 //Onboarding constants
 export const LOGIN_REGISTER_STEP = 1;

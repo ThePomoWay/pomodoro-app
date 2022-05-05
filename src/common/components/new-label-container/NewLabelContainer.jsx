@@ -1,4 +1,4 @@
-import { Close, Done } from "@material-ui/icons";
+import { Done } from "@material-ui/icons";
 import { Modal } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import {
 } from "../../state/selectors";
 import { setLabelModalState } from "../../state/slice/GlobalSlice";
 import { createTagThunk, updateTagThunk } from "../../state/thunks/TagsThunk";
+import { CloseIcon } from "../../svgs/CloseIcon";
 import { generateUniqueId } from "../../utils/common";
 import { tagColorPalette } from "../../utils/constants";
 import AddTagContainer from "../add-tag-container/AddTagContainer";
@@ -70,7 +71,7 @@ export default function NewLabelContainer(props) {
     >
       <div className="modal-container">
         <span className="close" onClick={handleClose}>
-          <Close />
+          <CloseIcon />
         </span>
         <div className="modal-content">
           <div className="modal-title">

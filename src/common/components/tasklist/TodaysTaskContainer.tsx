@@ -6,6 +6,7 @@ import {
   selectTodaysCompletedTasks,
   selectTodaysTasks,
   selectEditTaskRef,
+  selectHideTodaysCompletedTasks,
 } from "../../state/selectors";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
@@ -25,13 +26,18 @@ import { ClickAwayListener, Popper } from "@mui/material";
 import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { Alert } from "../alert/Alert";
-import { hideFirstUserScreen } from "../../state/thunks/GlobalThunk";
+import {
+  hideFirstUserScreen,
+  toggleHideTodaysCompletedTasks,
+} from "../../state/thunks/GlobalThunk";
 import { useMediaQuery } from "react-responsive";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
+
+  let hideCompletedTasks = useSelector(selectHideTodaysCompletedTasks);
 
   const isMobileDevice = useMediaQuery({
     query: "(max-device-width: 1224px)",
@@ -91,6 +97,10 @@ export function TodaysTaskContainer(props) {
     setIsAddTaskOpen(false);
   };
 
+  let toggleHideCompletedTasks = () => {
+    dispatch(toggleHideTodaysCompletedTasks());
+  };
+
   if (!hideOnboardingScreen && !isMobileDevice) {
     return (
       <div className={styles["empty-state"]}>
@@ -115,6 +125,9 @@ export function TodaysTaskContainer(props) {
           <div className={styles["or"]}>OR</div>
           <div className={styles["timer-text"]}>Simply Start the timer</div>
         </div>
+        <div className={styles["panda-illus"]}>
+          <img src="/panda-welcome.png" />
+        </div>
 
         {/* <img src="/empty-tasks.png" alt="Empty tasks"/> */}
       </div>
@@ -131,6 +144,7 @@ export function TodaysTaskContainer(props) {
       />
       <div className={styles["title-container"]}>
         <h1 className={styles["title"]}>Today's Tasks</h1>
+
         <ClickAwayListener onClickAway={onClose}>
           <div>
             <MoreIconSvg style={{ cursor: "pointer" }} onClick={onPopperOpen} />
@@ -142,11 +156,39 @@ export function TodaysTaskContainer(props) {
               position="bottom-left"
             >
               <div className="popper-container">
+                {tasks.length > 0 && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => setShowAlert(true)}
+                  >
+                    <EditIconSvg /> Remove all tasks
+                  </div>
+                )}
                 <div
                   className="popper-item"
-                  onClick={(e) => setShowAlert(true)}
+                  onClick={(e) => toggleHideCompletedTasks()}
                 >
-                  <EditIconSvg /> Remove all tasks
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="6"
+                      cy="6"
+                      r="4"
+                      stroke="#6A6F9A"
+                      strokeWidth="0.7"
+                    />
+                    <path
+                      d="M4.5 6L6 7.5L11 2.5"
+                      stroke="#6A6F9A"
+                      strokeWidth="0.7"
+                    />
+                  </svg>{" "}
+                  {hideCompletedTasks ? "Show" : "Hide"} completed tasks
                 </div>
                 {/* <div
                   className="popper-item"
@@ -204,7 +246,7 @@ export function TodaysTaskContainer(props) {
           </div>
         )} */}
 
-        {completedTasks.length > 0 && (
+        {completedTasks.length > 0 && !hideCompletedTasks && (
           // (<div className={styles['completed-tasks']}>
           //     <p> Completed tasks </p>
           //     {completedTasks.map(item => (
