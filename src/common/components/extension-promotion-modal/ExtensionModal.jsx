@@ -15,9 +15,8 @@ export function ExtensionModal(props) {
   };
 
   let openChromeStore = () => {
-    window.open(
-      "https://chrome.google.com/webstore/detail/etrack-package-tracking/eagjogpknkkfgelchdkhdmgiljjidndf?utm_source=googleads&utm_medium=adgroup5&utm_campaign=adgroup5&utm_id=adgroup5&gclid=Cj0KCQjwgMqSBhDCARIsAIIVN1X1s4dK4SZIcorawc5yjS87h2LLGtgxdb2Pnm1mOsD83Ul3FFjidCwaAj2BEALw_wcB"
-    );
+    window.location.href =
+      "https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3";
   };
 
   return (
