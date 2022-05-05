@@ -32,6 +32,7 @@ export const selectHideTodaysCompletedTasks = (state) =>
   state.global.hideTodaysCompletedTasks;
 export const selectHideProjectsCompletedTasks = (state) =>
   state.global.hideProjectCompletedTasks;
+export const selectPricingModalOpen = (state) => state.global.pricingModalOpen;
 
 //todays tasks
 export const selectTodaysTasks = (state) =>
@@ -129,3 +130,5 @@ export const selectLoginName = (state) => state.onboarding.loginName;
 export const selectRegisterEmail = (state) => state.onboarding.registerEmail;
 
 export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;
+
+export const selectProducts = (state) => state.global.products;

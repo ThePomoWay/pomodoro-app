@@ -31,4 +31,6 @@ export const {
   setMultiTabAlertModal,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  setPricingModalState,
+  setProducts,
 } = globalSlice.actions;

@@ -12,6 +12,10 @@ import AuthService from "../../API/network/AuthService";
 import { NetworkService } from "../../API/network/NetworkService";
 import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
+  getAllProducts,
+  createCheckoutSession,
+} from "../../API/network/PricingApis";
+import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
   FIRST_USER_KEY,
@@ -27,6 +31,7 @@ import {
   setFocusMode,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  setProducts,
   setShowFirstUserState,
   setUserPreferences,
   showSuccessToast,
@@ -195,5 +200,25 @@ export const toggleHideProjectsCompletedTasks = createAsyncThunk(
     );
 
     dispatch(setHideProjectsCompletedTasks(!hideProjectCompletedTasks));
+  }
+);
+
+export const getProducts = createAsyncThunk(
+  "global/products",
+  async (_, { dispatch, getState }) => {
+    let resp = await getAllProducts();
+
+    dispatch(setProducts(resp.data.products));
+  }
+);
+
+export const buyProductThunk = createAsyncThunk(
+  "global/buy/product",
+  async (product, { dispatch }) => {
+    let resp = await createCheckoutSession(product.stripeID);
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
   }
 );

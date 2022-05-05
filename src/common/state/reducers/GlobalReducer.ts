@@ -13,6 +13,7 @@ export const initialGlobalState = {
   onboardingModalOpen: false,
   projectModalOpen: false,
   labelModalOpen: false,
+  pricingModalOpen: true,
   hideFirstUserScreen: false,
   toast: {
     open: false,
@@ -39,6 +40,7 @@ export const initialGlobalState = {
   multiTabAlertModalState: false,
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
+  products: [],
 };
 
 export let globalReducer = {
@@ -121,5 +123,11 @@ export let globalReducer = {
   },
   setHideProjectsCompletedTasks: (state, action) => {
     state.hideProjectCompletedTasks = action.payload;
+  },
+  setPricingModalState: (state, action) => {
+    state.pricingModalOpen = action.payload;
+  },
+  setProducts: (state, action) => {
+    state.products = action.payload;
   },
 };
