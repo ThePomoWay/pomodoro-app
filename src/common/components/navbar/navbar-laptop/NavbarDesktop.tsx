@@ -3,11 +3,15 @@ import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
+import {
+  openOnboardingModal,
+  setIsExtensionModalOpen,
+} from "../../../state/slice/GlobalSlice";
 import { selectUserInfo } from "../../../state/selectors";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 import { SunIcon } from "../../../svgs/SunIcon";
 import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
+import { isExtensionPresent } from "../../../utils/extension-utils";
 
 let navItems = [
   {
@@ -73,6 +77,34 @@ let navItems = [
     loggedOutOnly: true,
   },
 ];
+
+let manageFocus = {
+  icon: (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_355_741)">
+        <path
+          d="M5.95979 10.2203L6.16812 9.8595L5.84619 9.67364L5.62495 9.97236L5.95979 10.2203ZM11.7415 13.5584L11.5332 13.9193L11.867 14.112L12.0851 13.7942L11.7415 13.5584ZM18.1024 4.80962C18.0603 4.58338 17.8428 4.43411 17.6165 4.47621L13.9298 5.16226C13.7036 5.20436 13.5543 5.42189 13.5964 5.64813C13.6385 5.87436 13.8561 6.02363 14.0823 5.98153L17.3594 5.37171L17.9692 8.64878C18.0113 8.87502 18.2288 9.02429 18.455 8.98219C18.6813 8.94009 18.8306 8.72256 18.7885 8.49633L18.1024 4.80962ZM1.75862 16.593L6.29462 10.4683L5.62495 9.97236L1.08895 16.097L1.75862 16.593ZM5.75145 10.5812L11.5332 13.9193L11.9498 13.1976L6.16812 9.8595L5.75145 10.5812ZM12.0851 13.7942L18.0363 5.1216L17.3492 4.65009L11.398 13.3227L12.0851 13.7942Z"
+          fill="currentColor"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_355_741">
+          <rect width="20" height="20" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  ),
+  title: "Manage Websites",
+  to: "/manage",
+  loggedOutOnly: true,
+};
+
 export default function NavbarDesktop(props) {
   let isLoggedIn = AuthService.isLoggedIn();
   let dispatch = useDispatch();
@@ -84,11 +116,17 @@ export default function NavbarDesktop(props) {
     dispatch(openOnboardingModal());
   };
 
-  let navigateToInsights = () => {
+  let navigateTo = (item) => {
+    if (item.to === manageFocus.to) {
+      if (!isExtensionPresent) {
+        dispatch(setIsExtensionModalOpen(true));
+        return;
+      }
+    }
     if (!AuthService.isLoggedIn()) {
       onOpenOnboardingModal();
     } else {
-      history.push("/analysis");
+      history.push(item.to);
     }
   };
 
@@ -121,7 +159,7 @@ export default function NavbarDesktop(props) {
               return (
                 <div
                   key={"Navbar-" + index}
-                  onClick={navigateToInsights}
+                  onClick={() => navigateTo(item)}
                   className={`${styles["link-item"]} ${
                     styles["link-item-" + (index + 1)]
                   } ${
@@ -145,6 +183,14 @@ export default function NavbarDesktop(props) {
           <div>
             <button className="btn btn-premium">Premium</button>
           </div> */}
+          <div
+            onClick={() => navigateTo(manageFocus)}
+            className={`${styles["link-item"]} ${
+              "3" === props.selected ? styles["selected"] : ""
+            }`}
+          >
+            Manage
+          </div>
 
           {(isLoggedIn && <ProfileDropdown />) || (
             <button

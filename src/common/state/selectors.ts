@@ -28,6 +28,8 @@ export const selectSettingsModal = (state) => state.global.settings.showModal;
 export const selectSettingsTab = (state) => state.global.settings.tab;
 export const selectIsMultiTabAlertModalOpen = (state) =>
   state.global.multiTabAlertModalState;
+export const selectIsExtensionModalOpen = (state) =>
+  state.global.isExtensionModalOpen;
 export const selectHideTodaysCompletedTasks = (state) =>
   state.global.hideTodaysCompletedTasks;
 export const selectHideProjectsCompletedTasks = (state) =>
@@ -129,3 +131,6 @@ export const selectLoginName = (state) => state.onboarding.loginName;
 export const selectRegisterEmail = (state) => state.onboarding.registerEmail;
 
 export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;
+
+export const selectStats = (state) => state.blocker.history;
+export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;

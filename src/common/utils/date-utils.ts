@@ -87,3 +87,37 @@ export function daysInMonth(date) {
   date = new Date(date);
   return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 }
+
+export function getHoursMinsDate(seconds) {
+  let hours: any = Math.floor(seconds / (60 * 60));
+  let mins: any = Math.floor(seconds / 60);
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+
+  if (mins < 10) {
+    mins = "0" + mins;
+  }
+
+  return hours + ":" + mins;
+}
+
+export function getAnteMeridiemText(time = new Date()) {
+  let date = new Date(time);
+  let hours: string | number = date.getHours();
+  let mins: string | number = date.getMinutes();
+  let st = "AM";
+  if (hours > 12) {
+    st = "PM";
+    hours %= 12;
+  }
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (mins < 10) {
+    mins = "0" + mins;
+  }
+
+  return `${hours}:${mins} ${st}`;
+}

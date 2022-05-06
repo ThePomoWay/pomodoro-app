@@ -38,7 +38,7 @@ import {
   STATS_TYPE_PAUSED,
 } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
-import { sendMessageToExtension } from "../../utils/extension-message-utils";
+import { sendMessageToExtension } from "../../utils/extension-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import { askPermission, sendWebNotification } from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
@@ -135,14 +135,8 @@ export let updateTimerState = createAsyncThunk(
       response = await updateTimerStateIdb(updateObj);
     }
 
-    let isExtensionPresent = getState()["global"].extensionPresent;
-
     //@ts-ignore
-    if (
-      isExtensionPresent &&
-      curStateObj &&
-      curStateObj.pomoState !== stateInStore.pomoState
-    ) {
+    if (curStateObj && curStateObj.pomoState !== stateInStore.pomoState) {
       //@ts-ignore
       sendMessageToExtension({
         action: "updateTimerState",
@@ -439,6 +433,8 @@ export const resetTimerAsync = createAsyncThunk(
   (_, { dispatch, getState }) => {
     let state = getState()["timer"].pomoState;
     let userPreference = getState()["global"].userPreferences;
+
+    sendWorkerMsg(CLEAR_INTERVAL);
 
     document.title = PAGE_TITLE;
     dispatch(
