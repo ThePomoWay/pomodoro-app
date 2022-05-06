@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
-import { Close } from "@material-ui/icons";
 import Modal from "@mui/material/Modal";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { selectOnboardingOpen, selectStep } from "../../common/state/selectors";
 import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
 import { setStep } from "../../common/state/slice/OnboardingSlice";
+import { CloseIcon } from "../../common/svgs/CloseIcon";
 import {
   FORGOT_PASSWORD_STEP_1,
   FORGOT_PASSWORD_STEP_2,
@@ -15,10 +15,11 @@ import {
   LOGIN_STEP,
   REGISTER_STEP,
 } from "../../common/utils/constants";
-import { closeOnboardingModal } from "../../common/state/slice/GlobalSlice";
-import { useMediaQuery } from "react-responsive";
-import { setStep } from "../../common/state/slice/OnboardingSlice";
-import { CloseIcon } from "../../common/svgs/CloseIcon";
+import { ForgotPasswordStep1 } from "./forgot-password/forgot-password-step-1";
+import { ForgotPasswordStep2 } from "./forgot-password/forgot-password-step-2";
+import { LoginStep } from "./login/login-step";
+import { LoginStep2 } from "./login/login-step-2";
+import { SignupStep2 } from "./signup/signup-step-2";
 
 const onSubmit = async (values) => {
   window.alert(JSON.stringify(values, 0, 2));

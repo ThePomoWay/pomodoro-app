@@ -5,6 +5,7 @@ import { selectIsExtensionModalOpen } from "../../state/selectors";
 import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
 import { AnalyzeIcon } from "../../svgs/AnalyzeIcon";
 import { BlockIcon } from "../../svgs/BlockIcon";
+import { UnlockNewIcon } from "../../svgs/UnlockNewIcon";
 import styles from "./ExtensionModal.module.scss";
 export function ExtensionModal(props) {
   let isModalOpen = useSelector(selectIsExtensionModalOpen);
@@ -34,7 +35,7 @@ export function ExtensionModal(props) {
           </span>
 
           <p className="font-sub-heading">
-            Avoid distractions by using our{" "}
+            Avoid distractions and focus better by using our{" "}
             <span className="logo">Chrome Extension</span>
           </p>
           <div className={styles["promo"]}>
@@ -42,19 +43,18 @@ export function ExtensionModal(props) {
             <div className={styles["features"]}>
               <div className={styles["feature"]}>
                 <BlockIcon />
-                <span>Block websites during your pomodoro session.</span>
+                <span>
+                  Block websites during your pomodoro session using the
+                  extension.
+                </span>
               </div>
               <div className={styles["feature"]}>
                 <AnalyzeIcon />
                 <span>Analyze your time spent on websites</span>
               </div>
               <div className={styles["feature"]}>
-                <AnalyzeIcon />
-                <span>Analyze your time spent on websites</span>
-              </div>
-              <div className={styles["feature"]}>
-                <AnalyzeIcon />
-                <span>Analyze your time spent on websites</span>
+                <UnlockNewIcon />
+                <span>Manage pomodoro timer easily!</span>
               </div>
             </div>
           </div>
