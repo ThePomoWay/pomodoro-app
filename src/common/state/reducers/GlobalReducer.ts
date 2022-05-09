@@ -17,10 +17,10 @@ export const initialGlobalState = {
   labelModalOpen: false,
   hideFirstUserScreen: false,
   toast: {
-    open: true,
+    open: false,
     msg: "Todays tasks have been deleted successfully",
-    duration: 50000,
-    type: "failure",
+    duration: 5000,
+    type: "success",
   },
   theme: THEME_DARK,
   userPreferences: {

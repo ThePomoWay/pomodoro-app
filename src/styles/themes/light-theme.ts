@@ -160,4 +160,5 @@ export const light = {
   "--task-current-before-bg": "#9aaaff",
   "--current-task-color": "#5a6bc9",
   "--btn-save-2-box-shadow": "0px 4px 4px rgba(149, 157, 225, 0.25)",
+  "--todays-text-color": "#444444",
 };

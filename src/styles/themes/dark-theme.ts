@@ -167,4 +167,5 @@ export const dark = {
   "--task-current-before-bg": "#586BCB",
   "--current-task-color": "white",
   "--btn-save-2-box-shadow": "none",
+  "--todays-text-color": "#CCCCCC",
 };
