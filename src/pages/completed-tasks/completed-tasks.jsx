@@ -41,14 +41,16 @@ function GlobalFilter({
  
 let payload = {}
 
-let getCompleteTaskCSV = function (tasksData) {
+let getCompleteTaskCSV = function (rows) {
     let fileName = "CT_" + getReadableDate(payload.startDate).replace(/\s/g, '') + "_" + getReadableDate(payload.endDate).replace(/\s/g, '');
     let headerRow = ['title', 'createdOn', 'completedOn', 'totalDays', 'epomo', 'cpomo'];
     let contentRow = [];
-    tasksData.forEach(function(val) {
-        let arr = [val.title, '"' + val.readCreatedOn + '"', '"' + val.readCompletedOn + '"', val.totalDays, val.epomo, val.cpomo];
-        contentRow.push(arr)
-    })
+    if (rows && rows.length >= 1) {
+        rows.forEach(function(row) {
+            let arr = [row.values.title, '"' + row.values.readCreatedOn + '"', '"' + row.values.readCompletedOn + '"', row.values.totalDays, row.values.epomo, row.values.cpomo];
+            contentRow.push(arr)
+        })
+    }
 
     return getCSVDownloadLink(fileName, headerRow, contentRow)
 }
@@ -206,7 +208,7 @@ let getDownloadFileName = function () {
          })}
        </tbody>
      </table>
-     <a href={getCompleteTaskCSV(dataCompletedTasks || dataDefault)} download={getDownloadFileName()}>Download CSV</a>
+     <a href={getCompleteTaskCSV(rows)} download={getDownloadFileName()}>Download CSV</a>
      </div>
    )
  }
