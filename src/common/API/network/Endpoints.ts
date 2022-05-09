@@ -66,3 +66,5 @@ export const getAllProductsEndpoint = "v1/products";
 export const createCheckoutSessionEndpoint =
   "v1/users/{userId}/checkout-session";
 export const createBillingPortalEndpoint = "v1/users/{userId}/billing-portal";
+
+export const selfIpEndpoint = "https://ip2c.org/s";

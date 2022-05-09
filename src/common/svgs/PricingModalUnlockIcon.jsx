@@ -40,7 +40,7 @@ export function PricingModalUnlockIcon(props) {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(54.4271 12.1697) rotate(108.604) scale(22.9207 17.933)"
         >
-          <stop stop-color="#FEE23C" />
+          <stop stopColor="#FEE23C" />
           <stop offset="1" stopColor="#E49A43" />
         </radialGradient>
       </defs>

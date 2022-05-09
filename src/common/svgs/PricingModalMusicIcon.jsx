@@ -31,12 +31,12 @@ export function PricingModalMusicIcon(props) {
       <path
         d="M31.5521 18.6469L54.59 14.7422"
         stroke="#FDCCDA"
-        stroke-width="2.34284"
+        strokeWidth="2.34284"
       />
       <path
         d="M47.1712 22.9403L61.6187 20.207"
         stroke="#FDCCDA"
-        stroke-width="2.34284"
+        strokeWidth="2.34284"
       />
     </svg>
   );

@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
 import Modal from "@mui/material/Modal";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { getAllProducts } from "../../API/network/PricingApis";
 import { selectPricingModalOpen, selectProducts } from "../../state/selectors";
 import { setPricingModalState } from "../../state/slice/GlobalSlice";
 import { buyProductThunk, getProducts } from "../../state/thunks/GlobalThunk";
@@ -15,7 +14,6 @@ import { PricingModalBlockIcon } from "../../svgs/PricingModalBlockIcon";
 import { PricingModalMusicIcon } from "../../svgs/PricingModalMusicIcon";
 import { PricingModalUnlockIcon } from "../../svgs/PricingModalUnlockIcon";
 import { PricingNotesIcon } from "../../svgs/PricingNotesIcon";
-
 import styles from "./PricingModal.module.scss";
 
 export default function PricingModal(props) {
@@ -120,6 +118,7 @@ export default function PricingModal(props) {
                 {products.map((item) => (
                   <button
                     className="btn btn-save"
+                    key={item._id}
                     onClick={(e) => buyProduct(item)}
                   >
                     {item.currency} {item.unit_amount / 100} per {item.interval}
