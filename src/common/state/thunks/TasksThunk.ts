@@ -73,10 +73,10 @@ export const getAllTasks = createAsyncThunk(
 
 export const getAllCompletedTasks = createAsyncThunk(
   "tasks/get",
-  async (_, { dispatch }) => {
+  async (payload: any, { dispatch }) => {
     let today = new Date();
-    let defaultStartDate = new Date(new Date().setDate(today.getDate() - 7));
-    let defaultEndDate = new Date(new Date().setDate(today.getDate()));
+    let defaultStartDate = payload && new Date(payload.startDate) || new Date(new Date().setDate(today.getDate() - 7));
+    let defaultEndDate = payload && new Date(payload.endDate) || new Date(new Date().setDate(today.getDate()));
 
     let completedTasksResponse = await getAllTasksApi({
       from: new Date(defaultStartDate).toISOString(),

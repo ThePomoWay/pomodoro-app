@@ -45,6 +45,7 @@
     "react-table": "^7.7.0",
     "react-transition-group": "^4.4.2",
     "react-with-gesture": "^4.0.8",
+    "rsuite": "^5.11.0",
     "typescript": "^4.4.2",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",

@@ -4,7 +4,9 @@ import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy } fr
 import { selectAllCompletedTasks } from '../../common/state/selectors'
 import { getAllCompletedTasks } from '../../common/state/thunks/TasksThunk'
 import { useEffect } from 'react'
-
+import CustomDateRangePicker from '../../common/components/date-range-picker/date-range-picker'
+import { getReadableDate } from '../../common/utils/date-utils'
+import { getCSVDownloadLink } from '../../common/utils/download-CSV.ts'
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -37,13 +39,40 @@ function GlobalFilter({
     )
 }
  
+let payload = {}
+
+let getCompleteTaskCSV = function (tasksData) {
+    let fileName = "CT_" + getReadableDate(payload.startDate).replace(/\s/g, '') + "_" + getReadableDate(payload.endDate).replace(/\s/g, '');
+    let headerRow = ['title', 'createdOn', 'completedOn', 'totalDays', 'epomo', 'cpomo'];
+    let contentRow = [];
+    tasksData.forEach(function(val) {
+        let arr = [val.title, '"' + val.readCreatedOn + '"', '"' + val.readCompletedOn + '"', val.totalDays, val.epomo, val.cpomo];
+        contentRow.push(arr)
+    })
+
+    return getCSVDownloadLink(fileName, headerRow, contentRow)
+}
+
+let getDownloadFileName = function () {
+    return "CT_" + getReadableDate(payload.startDate).replace(/\s/g, '') + "_" + getReadableDate(payload.endDate).replace(/\s/g, '');
+}
+
  export default function CompletedTasks() {
-    let dataCompletedTasks = useSelector(selectAllCompletedTasks)
+    let dataCompletedTasks = useSelector(selectAllCompletedTasks) 
     let dispatch = useDispatch();
     useEffect(() => {
             // todo : change this with completed tasks api
-            dispatch(getAllCompletedTasks());
+            payload.startDate = new Date(new Date().setDate(new Date().getDate() - 7))
+            payload.endDate = new Date(new Date().setDate(new Date().getDate()))
+
+            dispatch(getAllCompletedTasks(payload));
       }, []);
+
+    let getDates = function (value) {
+        payload.startDate = value[0]
+        payload.endDate = value[1]
+        dispatch(getAllCompletedTasks(payload))
+    }
 
    const dataDefault = React.useMemo(
      () => [
@@ -109,6 +138,7 @@ function GlobalFilter({
  
    return (
     <div>
+     <CustomDateRangePicker getDates={getDates}></CustomDateRangePicker>
      <table>
      <tr>
         <th
@@ -176,6 +206,7 @@ function GlobalFilter({
          })}
        </tbody>
      </table>
+     <a href={getCompleteTaskCSV(dataCompletedTasks || dataDefault)} download={getDownloadFileName()}>Download CSV</a>
      </div>
    )
  }
