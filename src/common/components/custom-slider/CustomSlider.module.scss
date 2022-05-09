@@ -11,11 +11,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #f7f8ff;
+    background-color: var(--slider-bg);
     -webkit-transition: 0.4s;
     transition: 0.4s;
+    box-shadow: var(--slider-box-shadow);
 
-    border: 1px solid #bdc3f1;
+    border: var(--slider-border);
 
     .circle {
       position: absolute;
@@ -24,11 +25,10 @@
       height: 20px;
       left: 2px;
       bottom: 2.5px;
-      border: 1px solid #b5bcf6;
-      box-shadow: 0px 2px 4px #dbdefb;
-      -webkit-transition: 0.4s;
+      border: var(--slider-circle-border);
+      box-shadow: var(--slider-circle-box-shadow);
       transition: 0.4s;
-      background-color: white;
+      background-color: var(--slider-circle-bg);
     }
   }
 
@@ -39,11 +39,11 @@
   }
 
   input:checked + .slider {
-    background-color: #e0e3ff;
+    background-color: var(--slider-checked-bg);
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #e0e3ff;
+    box-shadow: var(--slider-focus-box-shadow);
   }
 
   input:checked + .slider > .circle {

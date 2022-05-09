@@ -1,13 +1,13 @@
-import { Close } from "@material-ui/icons";
 import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsExtensionModalOpen } from "../../state/selectors";
 import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
 import { AnalyzeIcon } from "../../svgs/AnalyzeIcon";
 import { BlockIcon } from "../../svgs/BlockIcon";
-
+import { CloseIcon } from "../../svgs/CloseIcon";
 import { UnlockNewIcon } from "../../svgs/UnlockNewIcon";
 import styles from "./ExtensionModal.module.scss";
+
 export function ExtensionModal(props) {
   let isModalOpen = useSelector(selectIsExtensionModalOpen);
 
@@ -32,7 +32,7 @@ export function ExtensionModal(props) {
         <div className="modal-content">
           <span className="close" onClick={(e) => handleClose()}>
             {" "}
-            <Close />{" "}
+            <CloseIcon />{" "}
           </span>
 
           <p className="font-sub-heading">

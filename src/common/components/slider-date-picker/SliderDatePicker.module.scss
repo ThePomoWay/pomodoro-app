@@ -8,14 +8,19 @@
   width: fit-content;
 
   .icon {
+    &.left{
     border-right: 1px solid #b9b9b9;
+    }
     cursor: pointer;
     height: 100%;
     display: flex;
     align-items: center;
+    
+    border-radius: 6px;
 
     &:hover:not(.max) {
-      background-color: #ecf0ff;
+      background-color: var(--analysis-hover);
+      
     }
   }
 

@@ -1,11 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
+  
+  background-color: var(--bg-theme);
+  color: var(--text-theme);
 
   .main-content {
     width: 60vw;
     align-self: center;
     margin-top: 44px;
+
 
     .button {
       width: 80px;
@@ -16,7 +20,7 @@
       font-weight: 500;
       font-size: 12px;
 
-      background: #ffffff;
+      background:  var(--bg-theme);
       border: 1.0177px solid #cbcff7;
       box-sizing: border-box;
       border-radius: 4px;
@@ -118,7 +122,7 @@
         align-items: center;
 
         .url {
-          color: #171717;
+          color: var(--text-theme-3);
           font-weight: 400;
           font-size: 14px;
         }
@@ -188,7 +192,7 @@
           border: 1px solid #e4e7fa;
           box-sizing: border-box;
           border-radius: 4px;
-          color: #171717;
+          color: var(--text-theme-3);
           font-size: 14px;
 
           display: flex;
