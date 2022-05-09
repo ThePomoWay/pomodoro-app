@@ -5,6 +5,8 @@ import { selectIsExtensionModalOpen } from "../../state/selectors";
 import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
 import { AnalyzeIcon } from "../../svgs/AnalyzeIcon";
 import { BlockIcon } from "../../svgs/BlockIcon";
+
+import { UnlockNewIcon } from "../../svgs/UnlockNewIcon";
 import styles from "./ExtensionModal.module.scss";
 export function ExtensionModal(props) {
   let isModalOpen = useSelector(selectIsExtensionModalOpen);
@@ -15,9 +17,8 @@ export function ExtensionModal(props) {
   };
 
   let openChromeStore = () => {
-    window.open(
-      "https://chrome.google.com/webstore/detail/etrack-package-tracking/eagjogpknkkfgelchdkhdmgiljjidndf?utm_source=googleads&utm_medium=adgroup5&utm_campaign=adgroup5&utm_id=adgroup5&gclid=Cj0KCQjwgMqSBhDCARIsAIIVN1X1s4dK4SZIcorawc5yjS87h2LLGtgxdb2Pnm1mOsD83Ul3FFjidCwaAj2BEALw_wcB"
-    );
+    window.location.href =
+      "https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3";
   };
 
   return (
@@ -35,19 +36,26 @@ export function ExtensionModal(props) {
           </span>
 
           <p className="font-sub-heading">
-            Avoid distractions by using our{" "}
+            Avoid distractions and focus better by using our{" "}
             <span className="logo">Chrome Extension</span>
           </p>
           <div className={styles["promo"]}>
-            <img className={styles["img"]} src="/promo-panda.png" />
+            {/* <img className={styles["img"]} src="/promo-panda.png" /> */}
             <div className={styles["features"]}>
               <div className={styles["feature"]}>
                 <BlockIcon />
-                <span>Block websites during your pomodoro session.</span>
+                <span>
+                  Block websites during your pomodoro session using the
+                  extension.
+                </span>
               </div>
               <div className={styles["feature"]}>
                 <AnalyzeIcon />
                 <span>Analyze your time spent on websites</span>
+              </div>
+              <div className={styles["feature"]}>
+                <UnlockNewIcon />
+                <span>Manage pomodoro timer easily!</span>
               </div>
             </div>
           </div>

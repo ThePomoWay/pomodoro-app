@@ -21,6 +21,8 @@ import {
   POMO_LONG_BREAK_IDLE_STATE,
   themeLSKey,
   THEME_DARK,
+  PROJECT_COMPLETED_TASK_HIDE,
+  TODAYS_COMPLETED_TASK_HIDE,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -28,6 +30,8 @@ import {
 } from "../../utils/extension-utils";
 import {
   setFocusMode,
+  setHideProjectsCompletedTasks,
+  setHideTodaysCompletedTasks,
   setShowFirstUserState,
   setTheme,
   setUserPreferences,
@@ -42,6 +46,18 @@ export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   );
 
   dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_DARK));
+
+  dispatch(
+    setHideTodaysCompletedTasks(
+      localStorage.getItem(TODAYS_COMPLETED_TASK_HIDE) === "true"
+    )
+  );
+
+  dispatch(
+    setHideProjectsCompletedTasks(
+      localStorage.getItem(PROJECT_COMPLETED_TASK_HIDE) === "true"
+    )
+  );
 
   let defaults = await getFromCollection(
     userPreferencesObjectStoreName,
@@ -153,9 +169,37 @@ export const updateUserPref = createAsyncThunk(
     let updateObj = { ...userPreferences, ...obj };
 
     let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });
-    console.log(resp);
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));
+  }
+);
+
+export const toggleHideTodaysCompletedTasks = createAsyncThunk(
+  "global/todays/hideCompleted",
+  (_, { dispatch, getState }) => {
+    let hideTodaysCompletedTasks =
+      getState()["global"].hideTodaysCompletedTasks;
+
+    //@ts-ignore
+    localStorage.setItem(TODAYS_COMPLETED_TASK_HIDE, !hideTodaysCompletedTasks);
+
+    dispatch(setHideTodaysCompletedTasks(!hideTodaysCompletedTasks));
+  }
+);
+
+export const toggleHideProjectsCompletedTasks = createAsyncThunk(
+  "global/todays/hideCompleted",
+  (_, { dispatch, getState }) => {
+    let hideProjectCompletedTasks =
+      getState()["global"].hideProjectCompletedTasks;
+
+    //@ts-ignore
+    localStorage.setItem(
+      PROJECT_COMPLETED_TASK_HIDE,
+      !hideProjectCompletedTasks
+    );
+
+    dispatch(setHideProjectsCompletedTasks(!hideProjectCompletedTasks));
   }
 );

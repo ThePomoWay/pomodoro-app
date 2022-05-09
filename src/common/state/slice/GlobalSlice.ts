@@ -30,4 +30,6 @@ export const {
   setSettingsTab,
   setMultiTabAlertModal,
   setIsExtensionModalOpen,
+  setHideProjectsCompletedTasks,
+  setHideTodaysCompletedTasks,
 } = globalSlice.actions;

@@ -31,6 +31,11 @@ export const selectIsMultiTabAlertModalOpen = (state) =>
 export const selectIsExtensionModalOpen = (state) =>
   state.global.isExtensionModalOpen;
 
+export const selectHideTodaysCompletedTasks = (state) =>
+  state.global.hideTodaysCompletedTasks;
+export const selectHideProjectsCompletedTasks = (state) =>
+  state.global.hideProjectCompletedTasks;
+
 //todays tasks
 export const selectTodaysTasks = (state) =>
   state.tasks.todaysTasks

@@ -4,7 +4,6 @@ import {
   DEFAULT_WORK_TIME,
   themeLSKey,
   THEME_DARK,
-  THEME_LIGHT,
 } from "../../utils/constants";
 
 export const initialGlobalState = {
@@ -40,6 +39,9 @@ export const initialGlobalState = {
   },
   multiTabAlertModalState: false,
   isExtensionModalOpen: false,
+
+  hideTodaysCompletedTasks: false,
+  hideProjectCompletedTasks: false,
 };
 
 export let globalReducer = {
@@ -120,5 +122,12 @@ export let globalReducer = {
   },
   setIsExtensionModalOpen: (state, action) => {
     state.isExtensionModalOpen = action.payload;
+  },
+
+  setHideTodaysCompletedTasks: (state, action) => {
+    state.hideTodaysCompletedTasks = action.payload;
+  },
+  setHideProjectsCompletedTasks: (state, action) => {
+    state.hideProjectCompletedTasks = action.payload;
   },
 };

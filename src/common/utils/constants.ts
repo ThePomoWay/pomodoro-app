@@ -77,6 +77,10 @@ export const DISABLE_FOCUS_MODE = "disableFocusMode";
 //First User screen
 export const FIRST_USER_KEY = "firstUserKey";
 
+// show completed tasks
+export const TODAYS_COMPLETED_TASK_HIDE = "todaysTaskCompleted";
+export const PROJECT_COMPLETED_TASK_HIDE = "projectTaskCompleted";
+
 //Onboarding constants
 export const LOGIN_REGISTER_STEP = 1;
 export const LOGIN_STEP = 2;

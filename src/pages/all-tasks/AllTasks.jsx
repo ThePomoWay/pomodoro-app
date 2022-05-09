@@ -12,6 +12,7 @@ import {
   selectCompletedPomos,
   selectCompletedTaskInProject,
   selectLastAllTaskUrl,
+  selectHideProjectsCompletedTasks,
 } from "../../common/state/selectors";
 import {
   addToTodaysTasks,
@@ -66,6 +67,7 @@ import {
   updateLocalProjectAsync,
 } from "../../common/state/thunks/ProjectThunk";
 import Settings from "../settings/Settings";
+import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -78,6 +80,7 @@ export default () => {
   let projectsObj = useSelector(selectProjectsObj);
   let cPomos = useSelector(selectCompletedPomos);
   let defaults = useSelector(selectDefaultTimes);
+  let showCompletedSection = useSelector(selectHideProjectsCompletedTasks);
 
   let containerRef = useRef(null);
 
@@ -86,7 +89,6 @@ export default () => {
   usePageTracking();
 
   let [todaysTaskOpen, setTodaysTaskOpen] = useState(true);
-  let [showCompletedSection, setShowCompletedSection] = useState(true);
   let [moreAnchorEl, setMoreAnchorEl] = useState(false);
 
   let completedTasks = useSelector(
@@ -292,8 +294,8 @@ export default () => {
                                 <div
                                   className="popper-item"
                                   onClick={(e) => {
-                                    setShowCompletedSection(
-                                      !showCompletedSection
+                                    dispatch(
+                                      toggleHideProjectsCompletedTasks()
                                     );
                                     onMoreClose();
                                   }}
