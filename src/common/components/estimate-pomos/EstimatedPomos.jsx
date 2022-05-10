@@ -49,6 +49,8 @@ export default (props) => {
           key={i}
           className={`${styles.item} circle flex flex-center ${
             i <= checkedPomos || i <= hoverPomos ? styles["circle-filled"] : ""
+          } ${
+            hoverPomos !== -1 && i > hoverPomos && styles["circle-translucent"]
           }`}
           onMouseEnter={() => onHover(i)}
           onMouseLeave={() => onMouseLeave()}
