@@ -70,7 +70,7 @@ export const dark = {
     "radial-gradient(110.42% 110.42% at 70.83% -10.42%, #A0AEFA 0%, #3152C9 100%)",
   "--daily-stats-estimated-bg": "#161520",
   "--daily-stats-estimated-color": "#7A7A7A",
-  "--daily-stats-estimated-border": "1px solid #161520",
+  "--daily-stats-estimated-border": "1px solid #2d2955",
   "--daily-stats-completed-box-shadow": "0px 4px 4px #1D1D33",
   "--daily-stats-completed-color": "#FFFFFF",
   "--daily-stats-aprx-time-color": "#FFFFFF",
