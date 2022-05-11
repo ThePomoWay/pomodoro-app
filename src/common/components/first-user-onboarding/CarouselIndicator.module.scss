@@ -1,0 +1,14 @@
+.carousel {
+    display: flex;
+    gap: 6px;
+    .item {
+        width: 46px;
+        height: 8px;
+        background-color: #DEDEDE;
+        border-radius: 16px;
+
+        &.selected {
+            background-color: #576EDF;
+        }
+    }
+}

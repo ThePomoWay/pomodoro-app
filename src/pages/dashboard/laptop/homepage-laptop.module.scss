@@ -27,7 +27,7 @@
 .main-content {
   display: flex;
 
-  height: calc(100vh - 56px);
+  // height: calc(100vh - 56px);
 
   grid-template-columns: repeat(12, 1fr);
   gap: 12px;

@@ -1,0 +1,177 @@
+.onboarding-container {
+  margin-top: 68px;
+  display: grid;
+  justify-content: center;
+
+  grid-template-columns: repeat(12, 1fr);
+
+  .screen-1-text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    grid-column: 3 / -2;
+  }
+
+  .screen-title {
+    color: #839cfb;
+    font-weight: 700;
+    font-size: 40px;
+    margin-bottom: 32px;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 47px;
+    margin-bottom: 16px;
+  }
+
+  .sub-title {
+    margin-bottom: 16px;
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  .sub-desc {
+    font-weight: 400;
+    font-size: 20px;
+    color: #3e55ad;
+    margin-bottom: 350px;
+  }
+
+  .timer {
+    margin-bottom: 16px;
+    position: absolute;
+    top: 220px;
+    left: 42%;
+
+    &.shift {
+      transition: 1s;
+      left: -140px;
+      top: 50px;
+    }
+  }
+
+  .slide-out {
+    animation: slideOut 0.2s ease-in-out 0.2s;
+    animation-fill-mode: forwards;
+  }
+
+  .slide-in {
+    animation: slideIn 0.5s ease-in-out 0.6s;
+    animation-fill-mode: backwards;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: repeat(12, 1fr);
+
+    .feature {
+      display: flex;
+      flex-direction: row;
+      margin-top: 48px;
+      gap: 20px;
+
+      .second-row {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+
+    .empty-task {
+      background: #ffffff;
+      border: 0.5px solid #b9b9b9;
+      box-shadow: 0px 3px 9px rgba(134, 134, 134, 0.25);
+      border-radius: 8px;
+      padding: 10px 28px 18px 12px;
+
+      font-weight: 500;
+      font-size: 14px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+      color: #c7c7c7;
+      .task-circle {
+        border: 1px solid #838383;
+        width: 18px;
+        height: 18px;
+        border-radius: 10px;
+      }
+    }
+
+    .empty-edit-task {
+      background: #ffffff;
+      border: 0.5px solid #b9b9b9;
+      box-shadow: inset 0px 3px 9px rgba(134, 134, 134, 0.25);
+      border-radius: 8px;
+    }
+
+    .cta {
+      filter: drop-shadow(0px 4px 19px rgba(80, 202, 136, 0.5));
+      position: relative;
+
+      svg {
+        position: absolute;
+        bottom: -18px;
+        left: 116px;
+      }
+    }
+
+    .circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      &.green {
+        background-color: #50ca88;
+      }
+
+      &.red {
+        background-color: #ff234f;
+      }
+    }
+
+    .feature-1 {
+      grid-area: 1 / 1 / 4 / 2;
+    }
+
+    .feature-2 {
+      grid-area: 2 / 2 / 6 / 3;
+      margin-left: 10px;
+    }
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    position: relative;
+    left: 0px;
+  }
+  to {
+    opacity: 0;
+    position: relative;
+    left: -400px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    position: absolute;
+    left: 400px;
+  }
+  to {
+    opacity: 1;
+    left: 0px;
+    position: relative;
+  }
+}

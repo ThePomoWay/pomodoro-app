@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectIsTimerFullScreen,
   selectPomoState,
+  selectHideFirstUserScreen,
 } from "../../common/state/selectors";
 import { getAllProjects } from "../../common/state/thunks/ProjectThunk";
 import { getAllTags } from "../../common/state/thunks/TagsThunk";
@@ -28,6 +29,7 @@ export default function useHomepage() {
   let isTimerFullScreen = useSelector(selectIsTimerFullScreen);
 
   let pomoState = useSelector(selectPomoState);
+  let hideOnboardingScreen = useSelector(selectHideFirstUserScreen);
 
   let timerBgColor = "purple";
   if (pomoState.startsWith("pomo_break")) {
@@ -90,5 +92,6 @@ export default function useHomepage() {
     isTimerFullScreen,
     toggleFullScreen,
     pomoState,
+    hideOnboardingScreen,
   };
 }

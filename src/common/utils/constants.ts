@@ -73,7 +73,7 @@ export const ENABLE_FOCUS_MODE = "enableFocusMode";
 export const DISABLE_FOCUS_MODE = "disableFocusMode";
 
 //First User screen
-export const FIRST_USER_KEY = "firstUserKey";
+export const FIRST_USER_KEY = "firstUserKeyNew";
 
 // show completed tasks
 export const TODAYS_COMPLETED_TASK_HIDE = "todaysTaskCompleted";

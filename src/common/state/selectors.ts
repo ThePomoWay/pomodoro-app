@@ -15,7 +15,8 @@ export const selectOnboardingOpen = (state) => state.global.onboardingModalOpen;
 export const selectNewProjectModal = (state) => state.global.projectModalOpen;
 export const selectNewLabelModal = (state) => state.global.labelModalOpen;
 export const selectHideFirstUserScreen = (state) =>
-  state.global.hideFirstUserScreen;
+  state.global.firstUserStep === 4;
+export const selectFirstUserStep = (state) => state.global.firstUserStep;
 
 export const selectToastObj = (state) => state.global.toast;
 

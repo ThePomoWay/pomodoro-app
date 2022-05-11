@@ -21,6 +21,7 @@ import Settings from "../../settings/Settings";
 import useHomepage from "../HomePage-hook";
 
 import styles from "./homepage-laptop.module.scss";
+import { FirstUserOnboarding } from "../../../common/components/first-user-onboarding/FirstUserOnboarding";
 
 export function HomepageLaptop() {
   let {
@@ -29,6 +30,7 @@ export function HomepageLaptop() {
     isTimerFullScreen,
     toggleFullScreen,
     pomoState,
+    hideOnboardingScreen,
   } = useHomepage();
 
   let dispatch = useDispatch();
@@ -73,35 +75,43 @@ export function HomepageLaptop() {
           </div>
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
-          {!isTimerFullScreen && (
+          {!isTimerFullScreen && hideOnboardingScreen && (
             <div className={styles["maximize-icon"]}>
               <MaximizeIcon onClick={doFullScreen} />
             </div>
           )}
-          <div className={`${styles["timer"]}`}>
-            <Timer
-              onTimerStart={doFullScreen}
-              onPause={onPause}
-              onReset={(e) => dispatch(setIsTimerFullScreen(false))}
-            ></Timer>
-          </div>
+          {!hideOnboardingScreen && <FirstUserOnboarding />}
+
+          {hideOnboardingScreen && (
+            <div className={`${styles["timer"]}`}>
+              <Timer
+                onTimerStart={doFullScreen}
+                onPause={onPause}
+                onReset={(e) => dispatch(setIsTimerFullScreen(false))}
+              ></Timer>
+            </div>
+          )}
+
           {isTimerFullScreen && getTab(pomoState) === TAB_POMODORO && (
             <div className={styles["current-task"]}>
               <CurrentTask onComplete={onTaskComplete} />
             </div>
           )}
         </div>
-        <div
-          ref={containerRef}
-          className={`${styles["taskList"]} ${
-            isTimerFullScreen && styles["shrink"]
-          }`}
-        >
-          <TodaysTaskContainer
-            toggleFullScreen={toggleFullScreen}
-            onSave={scrollContainer}
-          ></TodaysTaskContainer>
-        </div>
+        {hideOnboardingScreen && (
+          <div
+            ref={containerRef}
+            className={`${styles["taskList"]} ${
+              isTimerFullScreen && styles["shrink"]
+            }`}
+          >
+            <TodaysTaskContainer
+              toggleFullScreen={toggleFullScreen}
+              onSave={scrollContainer}
+            ></TodaysTaskContainer>
+          </div>
+        )}
+
         {/* <div className="sidebar-container">
                     <button onClick={this.toggleSidebar.bind(this)} className={`btn btn-simple btn-round ${this.state.showSidebarBtn ? '' : 'hide'}`}>All Tasks</button>
                     <AllTaskSidebar show={this.state.showSidebar} onClose={this.toggleSidebar.bind(this)}></AllTaskSidebar>

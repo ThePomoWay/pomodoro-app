@@ -18,7 +18,7 @@ export const {
   setFocusMode,
   setProjectModalState,
   setLabelModalState,
-  setShowFirstUserState,
+  setFirstUserStep,
   setToast,
   showSuccessToast,
   setTheme,

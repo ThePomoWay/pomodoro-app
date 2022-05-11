@@ -30,7 +30,7 @@ import {
   setFocusMode,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
-  setShowFirstUserState,
+  setFirstUserStep,
   setUserPreferences,
   showSuccessToast,
 } from "../slice/GlobalSlice";
@@ -38,9 +38,11 @@ import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
-  dispatch(
-    setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
-  );
+  let firstUserStep: any = localStorage.getItem(FIRST_USER_KEY);
+  if (!firstUserStep) {
+    firstUserStep = 1;
+  }
+  dispatch(setFirstUserStep(firstUserStep));
 
   dispatch(
     setHideTodaysCompletedTasks(
