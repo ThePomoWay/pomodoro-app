@@ -60,13 +60,15 @@
 
   .slide-in {
     animation: slideIn 0.5s ease-in-out 0.6s;
-    animation-fill-mode: backwards;
+    animation-fill-mode: forwards;
   }
 
   .features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: repeat(12, 1fr);
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
+    }
 
     .feature {
       display: flex;
@@ -96,12 +98,13 @@
 
       gap: 10px;
       color: #c7c7c7;
-      .task-circle {
-        border: 1px solid #838383;
-        width: 18px;
-        height: 18px;
-        border-radius: 10px;
-      }
+    }
+
+    .task-circle {
+      border: 1px solid #838383;
+      width: 18px;
+      height: 18px;
+      border-radius: 10px;
     }
 
     .empty-edit-task {
@@ -109,6 +112,150 @@
       border: 0.5px solid #b9b9b9;
       box-shadow: inset 0px 3px 9px rgba(134, 134, 134, 0.25);
       border-radius: 8px;
+
+      padding: 11px 12px;
+
+      .text {
+        color: #c7c7c7;
+      }
+
+      .estimated-pomos {
+        padding: 5px 12px;
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        color: #333333;
+        font-size: 10px;
+
+        margin-top: 30px;
+        border-top: 1px solid #cecece;
+
+        .estimated {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .circle {
+          background: radial-gradient(
+            99.46% 88.64% at 70.45% 3.41%,
+            #cad2fd 0.69%,
+            #6c82f5 60.46%,
+            #3050c1 100%
+          );
+          box-shadow: 0px 3.09434px 0px #d2d9ff;
+          width: 18px;
+          height: 18px;
+          font-size: 8px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .circle-hollow {
+          background: radial-gradient(
+            133.76% 86.36% at 50% 45.45%,
+            #ffffff 14.34%,
+            #d9e0ff 73.65%
+          );
+          box-shadow: inset 0px 5.41509px 0.773585px #d7ddff;
+          border: 1px solid #d2d9ff;
+          border-radius: 9px;
+
+          color: #1d36be;
+          width: 18px;
+          height: 18px;
+          font-size: 8px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .empty-play-task {
+      border: 0.5px solid #b9b9b9;
+      box-shadow: 0px 3px 9px rgba(134, 134, 134, 0.25);
+      padding: 10px 12px 18px 12px;
+      border-radius: 8px;
+
+      color: #7a7a7a;
+
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .empty-toggle {
+      background: #bdc3f1;
+      border: 1px solid #bdc3f1;
+      box-shadow: inset 0px 4px 4px rgba(93, 105, 169, 0.5);
+      border-radius: 36px;
+      width: 48px;
+      height: 28px;
+      position: relative;
+
+      .round {
+        position: absolute;
+        right: 4px;
+
+        background: #ffffff;
+        border: 1px solid #b5bcf6;
+        box-shadow: 0px 4px 4px #8d94d4;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        top: 2px;
+      }
+
+      svg {
+        position: absolute;
+        bottom: -15px;
+        right: -12px;
+      }
+    }
+
+    .empty-focus-block {
+      .row-1 {
+        display: flex;
+        gap: 12px;
+      }
+      .focus {
+        background: #ffffff;
+        border: 0.5px solid #b9b9b9;
+        box-shadow: inset 0px 3px 9px rgba(134, 134, 134, 0.25);
+        border-radius: 8px;
+        padding: 8px 12px;
+        flex: 2;
+      }
+
+      .blocked-sites {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+
+        .blocked-site {
+          border: 1px solid #e4e7fa;
+          box-sizing: border-box;
+          border-radius: 4px;
+          color: #171717;
+          font-size: 14px;
+
+          display: flex;
+          justify-content: space-between;
+
+          align-items: center;
+          height: 38px;
+
+          padding: 6px 8px;
+          width: 97.4%;
+        }
+      }
     }
 
     .cta {
@@ -137,6 +284,10 @@
       &.red {
         background-color: #ff234f;
       }
+
+      &.orange {
+        background-color: #f68f4b;
+      }
     }
 
     .feature-1 {
@@ -147,6 +298,18 @@
       grid-area: 2 / 2 / 6 / 3;
       margin-left: 10px;
     }
+
+    .feature-3 {
+      grid-area: 4 / 1 / 8 / 2;
+    }
+  }
+
+  .cta {
+    grid-area: 1 / -2 / -1 / -1;
+
+    align-self: flex-end;
+    gap: 12px;
+    display: flex;
   }
 }
 
