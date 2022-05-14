@@ -13,7 +13,7 @@ export function ProjectSidenavIcon() {
         width="14.25"
         height="19.25"
         rx="2.625"
-        stroke="white"
+        stroke="inherit"
         strokeWidth="0.75"
       />
       <line
@@ -21,7 +21,7 @@ export function ProjectSidenavIcon() {
         y1="7.125"
         x2="16.5"
         y2="7.125"
-        stroke="white"
+        stroke="inherit"
         strokeWidth="0.75"
       />
       <line
@@ -29,7 +29,7 @@ export function ProjectSidenavIcon() {
         y1="11.625"
         x2="16.5"
         y2="11.625"
-        stroke="white"
+        stroke="inherit"
         strokeWidth="0.75"
       />
       <line
@@ -37,7 +37,7 @@ export function ProjectSidenavIcon() {
         y1="16.125"
         x2="16.5"
         y2="16.125"
-        stroke="white"
+        stroke="inherit"
         strokeWidth="0.75"
       />
     </svg>

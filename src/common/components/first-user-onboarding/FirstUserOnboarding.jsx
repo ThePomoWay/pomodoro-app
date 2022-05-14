@@ -3,8 +3,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFirstUserStep } from "../../state/selectors";
 import { setFirstUserStep } from "../../state/slice/GlobalSlice";
+import { AddIcon } from "../../svgs/AddIcon";
 import { CursorVector } from "../../svgs/CursorVector";
 import { OnboardingPlay } from "../../svgs/OnboardingPlay";
+import { ProjectSidenavIcon } from "../../svgs/ProjectSidenavIcon";
 import { TimerUI } from "../timer-ui/TimerUI";
 import { CarouselIndicator } from "./CarouselIndicator";
 
@@ -197,20 +199,27 @@ export function FirstUserOnboarding(props) {
                   </div>
                   <div className={styles["second-row"]}>
                     <p className={styles["head"]}>
-                      <span className="font-theme">Add Tasks</span> to work on
-                      today
+                      Organize your tasks using &nbsp;
+                      <span className="font-theme">lists</span>,
+                      <span className="font-theme">labels</span> and &nbsp;
+                      <span className="font-theme">priorities</span>
                     </p>
-                    <div className={styles["empty-task"]}>
-                      <div className={styles["task-circle"]}></div>
-                      <div className={styles["text"]}>
-                        Review Essay for History class
+                    <div className={styles["empty-project"]}>
+                      <div className={styles["items"]}>
+                        <div
+                          className={styles["item"] + " " + styles["selected"]}
+                        >
+                          <div className={styles["left"]}>
+                            <ProjectSidenavIcon />
+                            <span>List</span>
+                          </div>
+                          <div className={styles["right"]}>
+                            <AddIcon />
+                          </div>
+                        </div>
+                        <div className={styles["item"]}></div>
+                        <div className={styles["item"]}></div>
                       </div>
-                    </div>
-                    <div className={styles["cta"]}>
-                      <button className="btn add-task-btn">
-                        + Create Task
-                      </button>
-                      <CursorVector />
                     </div>
                   </div>
                 </div>
@@ -220,23 +229,10 @@ export function FirstUserOnboarding(props) {
                   </div>
                   <div className={styles["second-row"]}>
                     <p className={styles["head"]}>
-                      <span className="font-theme">Estimate</span> the pomodoros
-                      you need to finish the tasks
+                      Add task from project to daily todo by clicking on{" "}
+                      <span className="font-theme">'+'</span>
+                      button
                     </p>
-                    <div className={styles["empty-edit-task"]}>
-                      <div className={styles["text"]}>
-                        Review essay for History class
-                      </div>
-                      <div className={styles["estimated-pomos"]}>
-                        <p>Estimate:</p>
-                        <div className={styles["estimated"]}>
-                          <span className={styles["circle"]}>1</span>
-                          <span className={styles["circle"]}>2</span>
-                          <span className={styles["circle"]}>3</span>
-                          <span className={styles["circle-hollow"]}>4</span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

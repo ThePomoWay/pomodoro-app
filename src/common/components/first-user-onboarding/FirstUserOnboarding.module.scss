@@ -64,6 +64,7 @@
   }
 
   .features {
+    min-height: 50vh;
     .features-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -254,6 +255,30 @@
 
           padding: 6px 8px;
           width: 97.4%;
+
+          .left {
+            display: flex;
+            align-items: center;
+            img {
+              margin-right: 6px;
+            }
+          }
+
+          .button {
+            width: 80px;
+            height: 24px;
+            padding: 6px 11.25px;
+            color: #7a8ae4;
+            letter-spacing: 0.1px;
+            font-weight: 500;
+            font-size: 12px;
+
+            background: #ffffff;
+            border: 1.0177px solid #cbcff7;
+            box-sizing: border-box;
+            border-radius: 4px;
+            text-align: center;
+          }
         }
       }
     }
@@ -310,6 +335,57 @@
     align-self: flex-end;
     gap: 12px;
     display: flex;
+  }
+
+  .empty-project {
+    width: 276px;
+    height: 156px;
+    background: #ffffff;
+    border-radius: 8px;
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
+
+    padding: 16px;
+
+    .items {
+      display: flex;
+      flex-direction: column;
+      .item {
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .left {
+          display: flex;
+          align-items: center;
+          svg {
+            fill: #000000;
+          }
+        }
+
+        .icon {
+          margin-right: 12px;
+        }
+
+        .right {
+          align-self: right;
+          svg {
+            fill: #000000;
+          }
+        }
+
+        &.selected {
+          background: #c7c7c7;
+          opacity: 0.8;
+          border: 1px solid #b3bde0;
+          border-radius: 8px;
+          svg {
+            fill: #c7c7c7;
+            stroke: black;
+          }
+        }
+      }
+    }
   }
 }
 
