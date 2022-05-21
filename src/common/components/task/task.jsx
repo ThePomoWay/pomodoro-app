@@ -23,6 +23,7 @@ import { TaskPauseIcon } from "../../svgs/TaskPauseIcon";
 import { TaskPlayIcon } from "../../svgs/TaskPlayIcon";
 import { TickIcon } from "../../svgs/TickIcon";
 import { UncompleteIcon } from "../../svgs/UncompleteIcon";
+import { roundToOneDecimal } from "../../utils/common";
 import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
@@ -197,7 +198,7 @@ export default function TaskItem(props) {
             >
               {" "}
             </div>{" "}
-            {task.cpomo} /{" "}
+            {roundToOneDecimal(task.cpomo)} /{" "}
             <div
               className={`circle ${styles["estimated"]} ${styles["pomo"]}`}
             ></div>
