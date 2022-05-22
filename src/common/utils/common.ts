@@ -102,6 +102,10 @@ export function scrollToEndOfContainer(domElem, offset = 0) {
   }
 }
 
+export function roundToOneDecimal(num) {
+  return Math.round(num * 10) / 10;
+}
+
 export function allowOnlyOneTab(redirectUrl, ogUrl) {
   let openTabs = Number(localStorage.openTabs);
   if (!openTabs) {
