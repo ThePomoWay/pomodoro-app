@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import AuthService from "../../API/network/AuthService";
@@ -19,6 +19,10 @@ export function AddNewTask(props) {
   const dispatch = useDispatch();
 
   let [showBtn, setShowBtn] = useState(!props.isOpen);
+
+  useEffect(() => {
+    setShowBtn(true);
+  }, [props && props.defaultProjectId]);
 
   let tasksLength = useSelector(selectTasksLength);
 
