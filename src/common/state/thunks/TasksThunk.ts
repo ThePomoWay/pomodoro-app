@@ -23,7 +23,7 @@ import {
   updateTodaysTaskAPI,
 } from "../../API/network/TodaysTaskApis";
 import { findIndex } from "../../utils/array-utils";
-import { getObjFromArr } from "../../utils/common";
+import { getObjFromArr, roundToOneDecimal } from "../../utils/common";
 import { getFormattedDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
 import {
@@ -59,6 +59,7 @@ import {
   updateLocalProjectAsync,
 } from "./ProjectThunk";
 import { projectChangeApi } from "../../API/network/ProjectApis";
+import { DEFAULT_WORK_TIME } from "../../utils/constants";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
@@ -452,6 +453,27 @@ export const incrementCurTaskCpomo = createAsyncThunk(
           csec: updatedTask.csec,
         })
       );
+    }
+  }
+);
+
+export const incrementTaskCpomos = createAsyncThunk(
+  "tasks/updateCpomos",
+  async (summaryArr: any, { getState, dispatch }) => {
+    let state = getState()["tasks"];
+    let userPref = getState()["global"].userPreferences;
+    let defaultWorkTime = userPref.defaultWorkTime || DEFAULT_WORK_TIME;
+    if (summaryArr.length > 0) {
+      for (let entry of summaryArr) {
+        dispatch(
+          updateLocalTaskThunk({
+            ...state.tasks[entry.fid],
+            cpomo:
+              state.tasks[entry.fid].cpomo +
+              roundToOneDecimal(entry.csec / defaultWorkTime),
+          })
+        );
+      }
     }
   }
 );
