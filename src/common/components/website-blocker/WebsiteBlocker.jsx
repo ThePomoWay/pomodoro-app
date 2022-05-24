@@ -1,33 +1,31 @@
-import { useDispatch, useSelector } from "react-redux";
-import styles from "./WebsiteBlocker.module.scss";
-
+import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
-import PieChart from "../pie-chart/PieChart";
-import Navbar from "../navbar/Navbar";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getAnteMeridiemText,
-  getHoursMinsDate,
-  getHourText,
-  getTimeText,
-} from "../../utils/date-utils";
-import { selectBlockedWebsites, selectStats } from "../../state/selectors";
+  selectBlockedWebsites,
+  selectStats,
+  selectTimeTrackingObj,
+} from "../../state/selectors";
+import { showErrorToast } from "../../state/slice/GlobalSlice";
 import {
   addBlockedSite,
   getBlockedSites,
   getHistory,
+  getTimeTrackingDetails,
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
-import { CustomSlider } from "../custom-slider/CustomSlider";
-import { Divider } from "@mui/material";
-import { ExpandMoreOutlined } from "@material-ui/icons";
-import { showErrorToast } from "../../state/slice/GlobalSlice";
 import { getObjFromArr } from "../../utils/common";
+import { getHoursMinsDate, getTimeText } from "../../utils/date-utils";
+import Navbar from "../navbar/Navbar";
+import PieChart from "../pie-chart/PieChart";
+import styles from "./WebsiteBlocker.module.scss";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
 
   let stats = useSelector(selectStats);
   let blockedWebsites = useSelector(selectBlockedWebsites);
+  let timeTrackingObj = useSelector(selectTimeTrackingObj);
   let blockedHostsObj = getObjFromArr(blockedWebsites, "host");
 
   let [showAllSites, setShowAllSites] = useState(true);
@@ -37,6 +35,7 @@ export default function WebsiteBlocker() {
     setTimeout(() => {
       dispatch(getHistory());
       dispatch(getBlockedSites());
+      dispatch(getTimeTrackingDetails());
     }, 1000);
   }, []);
 
@@ -148,13 +147,13 @@ export default function WebsiteBlocker() {
           </p>
         </div>
         <div className={styles["block-stats"]}>
-          {/* <div className={styles["chart"]}>
-            <PieChart />
-          </div> */}
+          <div className={styles["chart"]}>
+            <PieChart chartData={timeTrackingObj} />
+          </div>
           <div className={styles["sites"]}>
             <p className={styles["title"]}>Showing {stats.length} websites</p>
             <div className={styles["legend"]}>
-              {stats.map((item, index) => (
+              {timeTrackingObj.map((item, index) => (
                 <div
                   key={"stats-block" + index}
                   className={`${styles["legend-item"]} ${
@@ -173,12 +172,12 @@ export default function WebsiteBlocker() {
                     <span className={styles["url"]}>{item.host}</span>
                   </div>
                   <div className={styles["right"]}>
-                    {/* <span className={styles["percent"]}>39%</span> */}
+                    <span className={styles["percent"]}>{item.percent}%</span>
                     <span className={styles["time"]}>
                       {/* Last visited: {getAnteMeridiemText(item.lastVisitTime)}
                        */}
-                      Visited {item.visitedCount} times
-                      {/* {getHoursMinsDate(item.timeInSec)} */}
+                      {/* Visited {item.visitedCount} times */}
+                      {getTimeText(item.timeSpent / 60000)}
                     </span>
                     {!(item.host in blockedHostsObj) && (
                       <span

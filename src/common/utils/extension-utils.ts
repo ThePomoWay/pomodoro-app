@@ -11,6 +11,7 @@ import { setExtensionPresent, setFocusMode } from "../state/slice/GlobalSlice";
 import {
   onBlockedSitesLoad,
   onHistoryLoad,
+  onTimeTrackingDetailsReceived,
 } from "../state/thunks/BlockerThunk";
 
 export const START_TIMER_ACTION = "StartTimer";
@@ -23,6 +24,7 @@ export const UPDATE_TIMER_ACTION = "UpdateTimer";
 export const GET_HISTORY_ACTION = "getHistory";
 export const GET_BLOCKED_SITES_ACTION = "getBlockedSites";
 export const SET_FOCUS_MODE_STATE_ACTION = "setFocusMode";
+export const GET_TIME_TRACKING_OBJ_ACTION = "getTimeTrackingObj";
 export let isExtensionPresent = false;
 
 export default function addExtensionListeners() {
@@ -64,6 +66,10 @@ export default function addExtensionListeners() {
 
       if (event.data.action === SET_FOCUS_MODE_STATE_ACTION) {
         store.dispatch(setFocusMode(event.data.data));
+      }
+
+      if (event.data.action === GET_TIME_TRACKING_OBJ_ACTION) {
+        store.dispatch(onTimeTrackingDetailsReceived(event.data.data));
       }
     }
   });

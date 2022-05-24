@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getOriginFromUrl } from "../../utils/common";
 import { sendMessageToExtension } from "../../utils/extension-utils";
-import { setBlockedWebsites, setHistory } from "../slice/BlockerSlice";
+import {
+  setBlockedWebsites,
+  setHistory,
+  setTimeTrackingObj,
+} from "../slice/BlockerSlice";
 
 export const getHistory = createAsyncThunk(
   "blocker/getStats",
@@ -27,6 +32,39 @@ export const getBlockedSites = createAsyncThunk(
     sendMessageToExtension({
       action: "getBlockedSites",
     });
+  }
+);
+
+export const getTimeTrackingDetails = createAsyncThunk(
+  "blocker/getTimeTrackingDetails",
+  async (_, { getState, dispatch }) => {
+    sendMessageToExtension({
+      action: "getTodaysTimeSpent",
+    });
+  }
+);
+
+export const onTimeTrackingDetailsReceived = createAsyncThunk(
+  "blocker/getTimeTracking/success",
+  async (obj: any, { dispatch }) => {
+    let totalTimeSpent = 0;
+    let sites = Object.keys(obj).map((item) => {
+      totalTimeSpent += obj[item];
+      return {
+        url: "https://" + item,
+        timeSpent: obj[item],
+        percent: 0,
+        host: getOriginFromUrl("https://" + item),
+      };
+    });
+
+    sites.forEach((item) => {
+      item.percent = Math.round((item.timeSpent / totalTimeSpent) * 100);
+    });
+
+    sites.sort((a, b) => b.timeSpent - a.timeSpent);
+
+    dispatch(setTimeTrackingObj(sites));
   }
 );
 
