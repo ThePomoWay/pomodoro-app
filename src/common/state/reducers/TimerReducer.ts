@@ -19,6 +19,7 @@ export const initialTimerState = {
   ptime: "",
   isClockRunning: false,
   pomoSummary: {},
+  extraSec: 0,
 };
 
 export let timerReducer = {

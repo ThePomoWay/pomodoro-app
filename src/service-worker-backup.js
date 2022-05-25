@@ -71,20 +71,7 @@ self.addEventListener("message", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  //Obtain an array of Window client objects
-  self.clients.matchAll(options).then(function (clients) {
-    if (clients && clients.length) {
-      //Respond to last focused tab
-      let secsToAdd = 0;
-      if (event.action === "add5") {
-        secsToAdd = 60 * 5;
-      }
-      if (event.action === "add10") {
-        secsToAdd = 60 * 10;
-      }
-      clients[0].postMessage({ action: "add", secs: secsToAdd });
-    }
-  });
+  console.log(event);
 });
 
 // Any other custom service worker logic can go here.

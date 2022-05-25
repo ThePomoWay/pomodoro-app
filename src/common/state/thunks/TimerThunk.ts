@@ -201,6 +201,7 @@ export let updateNextState = createAsyncThunk(
 
             ptime: "",
             pomoSummary: {},
+            extraSec: 0,
           })
         );
         document.title = PAGE_TITLE;
@@ -214,6 +215,7 @@ export let updateNextState = createAsyncThunk(
             lastResumeTime: "",
             psec: 0,
             pomoSummary: {},
+            extraSec: 0,
           })
         );
       }
@@ -235,6 +237,7 @@ export let updateNextState = createAsyncThunk(
             timerInSec: userPreference.defaultWorkTime,
             ptime: "",
             pomoSummary: {},
+            extraSec: 0,
           })
         );
       } else {
@@ -243,6 +246,7 @@ export let updateNextState = createAsyncThunk(
             pomoState: nextState,
             timerInSec: userPreference.defaultWorkTime,
             pomoSummary: {},
+            extraSec: 0,
           })
         );
         document.title = PAGE_TITLE;
@@ -296,7 +300,11 @@ export let tickAsync = createAsyncThunk(
         dispatch(updateNextState({}));
       }
     } else {
-      if (timerSec === 300 && timerState.pomoState === POMO_RUNNING_STATE) {
+      if (
+        timerSec === 300 &&
+        timerState.pomoState === POMO_RUNNING_STATE &&
+        timerState.extraSec === 0
+      ) {
         sendWebNotification("5 mins more to go!");
       }
 
@@ -323,6 +331,7 @@ export const startWorkTimerAsync = createAsyncThunk(
         psec: 0,
         lastResumeTime: new Date().toISOString(),
         timerInSec: userPreference.defaultWorkTime,
+        extraSec: 0,
       })
     );
   }
@@ -350,6 +359,7 @@ export const startTimerAsync = createAsyncThunk(
         psec: 0,
         lastResumeTime: date.toISOString(),
         timerInSec,
+        extraSec: 0,
       })
     );
     playTimerStartSound();
@@ -450,6 +460,7 @@ export const resetTimerAsync = createAsyncThunk(
         timerInSec: userPreference.defaultWorkTime,
         ptime: "",
         psec: 0,
+        extraSec: 0,
       })
     );
   }

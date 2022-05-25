@@ -25,6 +25,14 @@ export const GET_BLOCKED_SITES_ACTION = "getBlockedSites";
 export const SET_FOCUS_MODE_STATE_ACTION = "setFocusMode";
 export let isExtensionPresent = false;
 
+export function addSWListeners() {
+  navigator.serviceWorker.onmessage = (event) => {
+    if (event.data && event.data.action === "add") {
+      store.dispatch(addMinsToClock(event.data.secs));
+    }
+  };
+}
+
 export default function addExtensionListeners() {
   window.addEventListener("message", (event) => {
     if (event.data && event.data.from === "extension") {

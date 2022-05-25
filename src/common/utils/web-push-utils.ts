@@ -1,3 +1,5 @@
+import { showNotification } from "../../serviceWorker";
+
 export function askPermission() {
   return new Promise(function (resolve, reject) {
     if (Notification.permission !== "denied") {
@@ -27,7 +29,9 @@ export function sendWebNotification(msg) {
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === "granted") {
     // If it's okay let's create a notification
-    var notification = new Notification(msg);
+    // var notification = new Notification(msg);
+    //Sending notification via service worker instead.
+    showNotification();
   }
 
   // Otherwise, we need to ask the user for permission
