@@ -1,0 +1,42 @@
+.timer {
+  width: 297.61px;
+  height: 297.61px;
+  background: radial-gradient(
+    99.46% 88.64% at 70.45% 3.41%,
+    #cad2fd 0.69%,
+    #637bf9 60.46%,
+    #334996 100%
+  );
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .text {
+    color: #ffffff;
+
+    text-shadow: 0px 6.76393px 12.4005px #4356b3;
+    font-weight: 300;
+    font-size: 48px;
+  }
+
+  .cta {
+    position: absolute;
+  }
+}
+
+.timer::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}

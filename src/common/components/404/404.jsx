@@ -1,4 +1,5 @@
 import Navbar from "../navbar/Navbar";
+import { TimerUI } from "../timer-ui/TimerUI";
 import styles from "./NotFound.module.scss";
 
 export function NotFound() {
@@ -7,7 +8,7 @@ export function NotFound() {
       <Navbar />
       <div className={styles["container"]}>
         <div className={styles["fluid"]}>
-          <div>
+          <div className={styles["first"]}>
             <p className={styles["title"]}>Hmm.</p>
             <p className={styles["subtitle"]}>
               We couldn't find the page you were looking for. Start training
@@ -24,6 +25,7 @@ export function NotFound() {
               </button>
             </div>
           </div>
+          <TimerUI />
         </div>
       </div>
     </>
