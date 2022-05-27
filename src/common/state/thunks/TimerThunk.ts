@@ -228,7 +228,10 @@ export let updateNextState = createAsyncThunk(
 
       // dispatch(incrementCurTaskCpomo());
     } else {
-      sendWebNotification("It's time for your next focused session!");
+      sendWebNotification(
+        "It's time for your next focused session!",
+        "Start your next pomodoro session now!"
+      );
       let nextState = POMO_IDLE_STATE;
       if (userPreference.autoplayPomo) {
         nextState = POMO_RUNNING_STATE;
