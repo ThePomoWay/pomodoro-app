@@ -72,7 +72,7 @@ self.addEventListener("message", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   //Obtain an array of Window client objects
-  self.clients.matchAll(options).then(function (clients) {
+  self.clients.matchAll({ type: "window" }).then(function (clients) {
     if (clients && clients.length) {
       //Respond to last focused tab
       let secsToAdd = 0;

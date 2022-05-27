@@ -1,12 +1,9 @@
 import {
-  POMO_BREAK_RUNNING_STATE,
-  POMO_BREAK_IDLE_STATE,
-  POMO_IDLE_STATE,
-  POMO_RUNNING_STATE,
-  POMO_PAUSED_STATE,
   DEFAULT_WORK_TIME,
-  DEFAULT_BREAK_TIME,
-  DEFAULT_LONG_BREAK_TIME,
+  POMO_BREAK_RUNNING_STATE,
+  POMO_IDLE_STATE,
+  POMO_PAUSED_STATE,
+  POMO_RUNNING_STATE,
 } from "../../utils/constants";
 
 export const initialTimerState = {
@@ -63,6 +60,7 @@ export let timerReducer = {
       state.pomoSummary = action.payload.pomoSummary;
 
       state.timerInSec = action.payload.timerInSec;
+      state.extraSec = action.payload.extraSec;
     }
 
     // if (state.pomoState.includes("running")) {

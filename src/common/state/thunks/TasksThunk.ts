@@ -59,7 +59,9 @@ import {
   updateLocalProjectAsync,
 } from "./ProjectThunk";
 import { projectChangeApi } from "../../API/network/ProjectApis";
-import { DEFAULT_WORK_TIME } from "../../utils/constants";
+import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
+import { updateTimerState } from "./TimerThunk";
+import { setPomoSummary } from "../slice/TimerSlice";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
@@ -176,6 +178,28 @@ export const markTaskAsCurrent = createAsyncThunk(
   "tasks/markAsCurrent",
   async (task: any, { getState, dispatch }) => {
     let tasks = getState()["tasks"].tasks;
+    let timerState = getState()["timer"];
+    let summary = timerState.pomoSummary;
+
+    if (timerState.pomoState === POMO_RUNNING_STATE) {
+      if (summary[tasks.currentTaskRef]) {
+        summary[tasks.currentTaskRef].csec += Math.round(
+          (Date.now() - summary[tasks.currentTaskRef].startTime) / 1000
+        );
+
+        summary[task.fid].startTime = Date.now();
+        summary[task.fid].endTime = "";
+      }
+    } else {
+      summary = {
+        [task.fid]: {
+          csec: 0,
+          startTime: Date.now(),
+        },
+      };
+    }
+
+    dispatch(setPomoSummary(summary));
     let currentTask = Object.keys(tasks)
       .map((i) => tasks[i])
       .filter((item) => item.isCurrentTask)[0];

@@ -1,5 +1,10 @@
 import { showNotification } from "../../serviceWorker";
 
+export const ACTIONS_ADD_TIME = [
+  { action: "add5", title: "Add 5 minutes" },
+  { action: "add10", title: "Add 10 minutes" },
+];
+
 export function askPermission() {
   return new Promise(function (resolve, reject) {
     if (Notification.permission !== "denied") {
@@ -20,7 +25,7 @@ export function askPermission() {
   });
 }
 
-export function sendWebNotification(msg) {
+export function sendWebNotification(title, desc, actions?) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -31,7 +36,7 @@ export function sendWebNotification(msg) {
     // If it's okay let's create a notification
     // var notification = new Notification(msg);
     //Sending notification via service worker instead.
-    showNotification();
+    showNotification(title, desc, actions);
   }
 
   // Otherwise, we need to ask the user for permission
@@ -39,7 +44,9 @@ export function sendWebNotification(msg) {
     Notification.requestPermission().then(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification(msg);
+        // var notification = new Notification(msg);
+
+        showNotification(title, desc, actions);
       }
     });
   }

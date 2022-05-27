@@ -4,7 +4,9 @@ import App from "./App";
 import { store } from "./common/state/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import addExtensionListeners from "./common/utils/extension-utils";
+import addExtensionListeners, {
+  addSWListeners,
+} from "./common/utils/extension-utils";
 import { ApplyTheme } from "./common/components/apply-theme/ApplyTheme";
 import { registerWorkerEvent } from "./common/utils/worker-util";
 import { initializeTabsCommunication } from "./common/utils/close-background-tabs";
@@ -37,7 +39,8 @@ if (navigator.userAgent !== "ReactSnap") {
   serviceWorker.register();
   initializeTabsCommunication();
 
-  setTimeout(serviceWorker.showNotification, 3000);
+  // setTimeout(serviceWorker.showNotification, 3000);
 }
 
 addExtensionListeners();
+addSWListeners();

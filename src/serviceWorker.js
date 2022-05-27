@@ -142,16 +142,13 @@ export function unregister() {
   }
 }
 
-export function showNotification() {
-  swRegistration.showNotification("5 minutes left for your notification", {
-    body: "Would you like to extend the duration of your Pomodoro session?",
+export function showNotification(title, desc, actions = []) {
+  swRegistration.showNotification(title, {
+    body: desc,
     icon: "images/ccard.png",
     vibrate: [200, 100, 200, 100, 200, 100, 400],
     tag: "request",
-    actions: [
-      { action: "add5", title: "Add 5 minutes", icon: "images/yes.png" },
-      { action: "add10", title: "Add 10 minutes", icon: "images/no.png" },
-    ],
+    actions,
   });
 }
 

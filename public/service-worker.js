@@ -95,7 +95,7 @@
         i = a.iterator || "@@iterator",
         c = a.asyncIterator || "@@asyncIterator",
         o = a.toStringTag || "@@toStringTag";
-      function u(e, t, n) {
+      function s(e, t, n) {
         return (
           Object.defineProperty(e, t, {
             value: n,
@@ -107,13 +107,13 @@
         );
       }
       try {
-        u({}, "");
+        s({}, "");
       } catch (U) {
-        u = function (e, t, n) {
+        s = function (e, t, n) {
           return (e[t] = n);
         };
       }
-      function s(e, t, n, r) {
+      function u(e, t, n, r) {
         var a = t && t.prototype instanceof y ? t : y,
           i = Object.create(a.prototype),
           c = new T(r || []);
@@ -141,13 +141,13 @@
                   n.dispatchException(n.arg);
                 } else "return" === n.method && n.abrupt("return", n.arg);
                 r = p;
-                var u = f(e, t, n);
-                if ("normal" === u.type) {
-                  if (((r = n.done ? v : l), u.arg === d)) continue;
-                  return { value: u.arg, done: n.done };
+                var s = f(e, t, n);
+                if ("normal" === s.type) {
+                  if (((r = n.done ? v : l), s.arg === d)) continue;
+                  return { value: s.arg, done: n.done };
                 }
-                "throw" === u.type &&
-                  ((r = v), (n.method = "throw"), (n.arg = u.arg));
+                "throw" === s.type &&
+                  ((r = v), (n.method = "throw"), (n.arg = s.arg));
               }
             };
           })(e, n, c)),
@@ -161,7 +161,7 @@
           return { type: "throw", arg: U };
         }
       }
-      e.wrap = s;
+      e.wrap = u;
       var h = "suspendedStart",
         l = "suspendedYield",
         p = "executing",
@@ -171,26 +171,26 @@
       function m() {}
       function g() {}
       var x = {};
-      u(x, i, function () {
+      s(x, i, function () {
         return this;
       });
-      var b = Object.getPrototypeOf,
-        w = b && b(b(O([])));
-      w && w !== n && r.call(w, i) && (x = w);
+      var w = Object.getPrototypeOf,
+        b = w && w(w(O([])));
+      b && b !== n && r.call(b, i) && (x = b);
       var k = (g.prototype = y.prototype = Object.create(x));
       function _(e) {
         ["next", "throw", "return"].forEach(function (t) {
-          u(e, t, function (e) {
+          s(e, t, function (e) {
             return this._invoke(t, e);
           });
         });
       }
       function R(e, t) {
         function n(a, i, c, o) {
-          var u = f(e[a], e, i);
-          if ("throw" !== u.type) {
-            var s = u.arg,
-              h = s.value;
+          var s = f(e[a], e, i);
+          if ("throw" !== s.type) {
+            var u = s.arg,
+              h = u.value;
             return h && "object" === typeof h && r.call(h, "__await")
               ? t.resolve(h.__await).then(
                   function (e) {
@@ -202,14 +202,14 @@
                 )
               : t.resolve(h).then(
                   function (e) {
-                    (s.value = e), c(s);
+                    (u.value = e), c(u);
                   },
                   function (e) {
                     return n("throw", e, c, o);
                   }
                 );
           }
-          o(u.arg);
+          o(s.arg);
         }
         var a;
         this._invoke = function (e, r) {
@@ -294,9 +294,9 @@
       }
       return (
         (m.prototype = g),
-        u(k, "constructor", g),
-        u(g, "constructor", m),
-        (m.displayName = u(g, o, "GeneratorFunction")),
+        s(k, "constructor", g),
+        s(g, "constructor", m),
+        (m.displayName = s(g, o, "GeneratorFunction")),
         (e.isGeneratorFunction = function (e) {
           var t = "function" === typeof e && e.constructor;
           return (
@@ -308,7 +308,7 @@
           return (
             Object.setPrototypeOf
               ? Object.setPrototypeOf(e, g)
-              : ((e.__proto__ = g), u(e, o, "GeneratorFunction")),
+              : ((e.__proto__ = g), s(e, o, "GeneratorFunction")),
             (e.prototype = Object.create(k)),
             e
           );
@@ -317,13 +317,13 @@
           return { __await: e };
         }),
         _(R.prototype),
-        u(R.prototype, c, function () {
+        s(R.prototype, c, function () {
           return this;
         }),
         (e.AsyncIterator = R),
         (e.async = function (t, n, r, a, i) {
           void 0 === i && (i = Promise);
-          var c = new R(s(t, n, r, a), i);
+          var c = new R(u(t, n, r, a), i);
           return e.isGeneratorFunction(n)
             ? c
             : c.next().then(function (e) {
@@ -331,11 +331,11 @@
               });
         }),
         _(k),
-        u(k, o, "Generator"),
-        u(k, i, function () {
+        s(k, o, "Generator"),
+        s(k, i, function () {
           return this;
         }),
-        u(k, "toString", function () {
+        s(k, "toString", function () {
           return "[object Generator]";
         }),
         (e.keys = function (e) {
@@ -396,15 +396,15 @@
                 o = c.completion;
               if ("root" === c.tryLoc) return a("end");
               if (c.tryLoc <= this.prev) {
-                var u = r.call(c, "catchLoc"),
-                  s = r.call(c, "finallyLoc");
-                if (u && s) {
+                var s = r.call(c, "catchLoc"),
+                  u = r.call(c, "finallyLoc");
+                if (s && u) {
                   if (this.prev < c.catchLoc) return a(c.catchLoc, !0);
                   if (this.prev < c.finallyLoc) return a(c.finallyLoc);
-                } else if (u) {
+                } else if (s) {
                   if (this.prev < c.catchLoc) return a(c.catchLoc, !0);
                 } else {
-                  if (!s)
+                  if (!u)
                     throw new Error("try statement without catch or finally");
                   if (this.prev < c.finallyLoc) return a(c.finallyLoc);
                 }
@@ -559,7 +559,7 @@
       }
       var c,
         o = !0,
-        u = !1;
+        s = !1;
       return {
         s: function () {
           n = e[Symbol.iterator]();
@@ -569,13 +569,13 @@
           return (o = e.done), e;
         },
         e: function (e) {
-          (u = !0), (c = e);
+          (s = !0), (c = e);
         },
         f: function () {
           try {
             o || null == n.return || n.return();
           } finally {
-            if (u) throw c;
+            if (s) throw c;
           }
         },
       };
@@ -584,14 +584,14 @@
       if (!(e instanceof t))
         throw new TypeError("Cannot call a class as a function");
     }
-    function u(e, t) {
-      return (u =
+    function s(e, t) {
+      return (s =
         Object.setPrototypeOf ||
         function (e, t) {
           return (e.__proto__ = t), e;
         })(e, t);
     }
-    function s(e, t) {
+    function u(e, t) {
       if ("function" !== typeof t && null !== t)
         throw new TypeError(
           "Super expression must either be null or a function"
@@ -599,7 +599,7 @@
       (e.prototype = Object.create(t && t.prototype, {
         constructor: { value: e, writable: !0, configurable: !0 },
       })),
-        t && u(e, t);
+        t && s(e, t);
     }
     function f(e) {
       return (f = Object.setPrototypeOf
@@ -668,7 +668,7 @@
             var r = [null];
             r.push.apply(r, t);
             var a = new (Function.bind.apply(e, r))();
-            return n && u(a, n.prototype), a;
+            return n && s(a, n.prototype), a;
           }).apply(null, arguments);
     }
     function y(e) {
@@ -700,7 +700,7 @@
               configurable: !0,
             },
           })),
-          u(r, e)
+          s(r, e)
         );
       })(e);
     }
@@ -717,7 +717,7 @@
         return r.length > 0 && (t += " :: ".concat(JSON.stringify(r))), t;
       },
       g = (function (e) {
-        s(n, e);
+        u(n, e);
         var t = v(n);
         function n(e, r) {
           var a;
@@ -728,10 +728,10 @@
         return n;
       })(y(Error)),
       x = new Set();
-    function b(e) {
+    function w(e) {
       x.add(e);
     }
-    var w = {
+    var b = {
         googleAnalytics: "googleAnalytics",
         precache: "precache-v2",
         prefix: "workbox",
@@ -739,28 +739,28 @@
         suffix: "undefined" !== typeof registration ? registration.scope : "",
       },
       k = function (e) {
-        return [w.prefix, e, w.suffix]
+        return [b.prefix, e, b.suffix]
           .filter(function (e) {
             return e && e.length > 0;
           })
           .join("-");
       },
       _ = function (e) {
-        return e || k(w.precache);
+        return e || k(b.precache);
       },
       R = function (e) {
-        return e || k(w.runtime);
+        return e || k(b.runtime);
       },
       E = n(0),
       L = n.n(E);
     function q(e, t, n, r, a, i, c) {
       try {
         var o = e[i](c),
-          u = o.value;
-      } catch (s) {
-        return void n(s);
+          s = o.value;
+      } catch (u) {
+        return void n(u);
       }
-      o.done ? t(u) : Promise.resolve(u).then(r, a);
+      o.done ? t(s) : Promise.resolve(s).then(r, a);
     }
     function T(e) {
       return function () {
@@ -838,7 +838,7 @@
       A = (function () {
         var e = T(
           L.a.mark(function e(t) {
-            var n, r, a, i, o, u, s, f;
+            var n, r, a, i, o, s, u, f;
             return L.a.wrap(
               function (e) {
                 for (;;)
@@ -849,16 +849,16 @@
                         (a = t.plugins),
                         (i = j(void 0 === a ? [] : a, "cacheKeyWillBeUsed")),
                         (o = n),
-                        (u = c(i)),
+                        (s = c(i)),
                         (e.prev = 4),
-                        u.s();
+                        s.s();
                     case 6:
-                      if ((s = u.n()).done) {
+                      if ((u = s.n()).done) {
                         e.next = 15;
                         break;
                       }
                       return (
-                        (f = s.value),
+                        (f = u.value),
                         (e.next = 10),
                         f.cacheKeyWillBeUsed.call(f, { mode: r, request: o })
                       );
@@ -871,9 +871,9 @@
                       e.next = 20;
                       break;
                     case 17:
-                      (e.prev = 17), (e.t0 = e.catch(4)), u.e(e.t0);
+                      (e.prev = 17), (e.t0 = e.catch(4)), s.e(e.t0);
                     case 20:
-                      return (e.prev = 20), u.f(), e.finish(20);
+                      return (e.prev = 20), s.f(), e.finish(20);
                     case 23:
                       return e.abrupt("return", o);
                     case 24:
@@ -894,7 +894,7 @@
       M = (function () {
         var e = T(
           L.a.mark(function e(t) {
-            var n, r, a, i, o, u, s, f, h, l;
+            var n, r, a, i, o, s, u, f, h, l;
             return L.a.wrap(
               function (e) {
                 for (;;)
@@ -905,12 +905,12 @@
                         (a = t.event),
                         (i = t.plugins),
                         (o = r),
-                        (u = !1),
-                        (s = c(void 0 === i ? [] : i)),
+                        (s = !1),
+                        (u = c(void 0 === i ? [] : i)),
                         (e.prev = 4),
-                        s.s();
+                        u.s();
                     case 6:
-                      if ((f = s.n()).done) {
+                      if ((f = u.n()).done) {
                         e.next = 19;
                         break;
                       }
@@ -919,7 +919,7 @@
                         break;
                       }
                       return (
-                        (u = !0),
+                        (s = !0),
                         (l = h.cacheWillUpdate),
                         (e.next = 13),
                         l.call(h, { request: n, response: o, event: a })
@@ -937,12 +937,12 @@
                       e.next = 24;
                       break;
                     case 21:
-                      (e.prev = 21), (e.t0 = e.catch(4)), s.e(e.t0);
+                      (e.prev = 21), (e.t0 = e.catch(4)), u.e(e.t0);
                     case 24:
-                      return (e.prev = 24), s.f(), e.finish(24);
+                      return (e.prev = 24), u.f(), e.finish(24);
                     case 27:
                       return (
-                        u || (o = o && 200 === o.status ? o : void 0),
+                        s || (o = o && 200 === o.status ? o : void 0),
                         e.abrupt("return", o || null)
                       );
                     case 29:
@@ -963,7 +963,7 @@
       C = (function () {
         var e = T(
           L.a.mark(function e(t) {
-            var n, r, a, i, o, u, s, f, h, l, p, v, d;
+            var n, r, a, i, o, s, u, f, h, l, p, v, d;
             return L.a.wrap(
               function (e) {
                 for (;;)
@@ -975,20 +975,20 @@
                         (a = t.event),
                         (i = t.matchOptions),
                         (o = t.plugins),
-                        (u = void 0 === o ? [] : o),
+                        (s = void 0 === o ? [] : o),
                         (e.next = 3),
                         self.caches.open(n)
                       );
                     case 3:
                       return (
-                        (s = e.sent),
+                        (u = e.sent),
                         (e.next = 6),
-                        A({ plugins: u, request: r, mode: "read" })
+                        A({ plugins: s, request: r, mode: "read" })
                       );
                     case 6:
-                      return (f = e.sent), (e.next = 9), s.match(f, i);
+                      return (f = e.sent), (e.next = 9), u.match(f, i);
                     case 9:
-                      (h = e.sent), (l = c(u)), (e.prev = 12), l.s();
+                      (h = e.sent), (l = c(s)), (e.prev = 12), l.s();
                     case 14:
                       if ((p = l.n()).done) {
                         e.next = 24;
@@ -1042,7 +1042,7 @@
         put: (function () {
           var e = T(
             L.a.mark(function e(t) {
-              var n, r, a, i, o, u, s, f, h, l, p, v, d, y, m;
+              var n, r, a, i, o, s, u, f, h, l, p, v, d, y, m;
               return L.a.wrap(
                 function (e) {
                   for (;;)
@@ -1053,14 +1053,14 @@
                           (a = t.response),
                           (i = t.event),
                           (o = t.plugins),
-                          (u = void 0 === o ? [] : o),
-                          (s = t.matchOptions),
+                          (s = void 0 === o ? [] : o),
+                          (u = t.matchOptions),
                           (e.next = 4);
                         break;
                       case 4:
                         return (
                           (e.next = 6),
-                          A({ plugins: u, request: r, mode: "write" })
+                          A({ plugins: s, request: r, mode: "write" })
                         );
                       case 6:
                         if (((f = e.sent), a)) {
@@ -1073,7 +1073,7 @@
                       case 10:
                         return (
                           (e.next = 12),
-                          M({ event: i, plugins: u, response: a, request: f })
+                          M({ event: i, plugins: s, response: a, request: f })
                         );
                       case 12:
                         if ((h = e.sent)) {
@@ -1086,14 +1086,14 @@
                       case 18:
                         if (
                           ((l = e.sent),
-                          !((p = j(u, "cacheDidUpdate")).length > 0))
+                          !((p = j(s, "cacheDidUpdate")).length > 0))
                         ) {
                           e.next = 26;
                           break;
                         }
                         return (
                           (e.next = 23),
-                          C({ cacheName: n, matchOptions: s, request: f })
+                          C({ cacheName: n, matchOptions: u, request: f })
                         );
                       case 23:
                         (e.t0 = e.sent), (e.next = 27);
@@ -1201,8 +1201,8 @@
                 (n.push(c.value), !t || n.length !== t);
                 r = !0
               );
-            } catch (u) {
-              (a = !0), (i = u);
+            } catch (s) {
+              (a = !0), (i = s);
             } finally {
               try {
                 r || null == o.return || o.return();
@@ -1443,8 +1443,8 @@
                     i,
                     c,
                     o,
-                    u,
                     s,
+                    u,
                     f,
                     h = arguments;
                   return L.a.wrap(
@@ -1459,9 +1459,9 @@
                               (i = void 0 === a ? null : a),
                               (c = n.direction),
                               (o = void 0 === c ? "next" : c),
-                              (u = n.count),
-                              (s = n.includeKeys),
-                              (f = void 0 !== s && s),
+                              (s = n.count),
+                              (u = n.includeKeys),
+                              (f = void 0 !== u && u),
                               (e.next = 3),
                               this.transaction(
                                 [t],
@@ -1469,16 +1469,16 @@
                                 function (e, n) {
                                   var a = e.objectStore(t),
                                     c = r ? a.index(r) : a,
-                                    s = [],
+                                    u = [],
                                     h = c.openCursor(i, o);
                                   h.onsuccess = function () {
                                     var e = h.result;
                                     e
-                                      ? (s.push(f ? e : e.value),
-                                        u && s.length >= u
-                                          ? n(s)
+                                      ? (u.push(f ? e : e.value),
+                                        s && u.length >= s
+                                          ? n(u)
                                           : e.continue())
-                                      : n(s);
+                                      : n(u);
                                   };
                                 }
                               )
@@ -1554,20 +1554,20 @@
                     i,
                     c,
                     o,
-                    u = arguments;
+                    s = arguments;
                   return L.a.wrap(
                     function (e) {
                       for (;;)
                         switch ((e.prev = e.next)) {
                           case 0:
                             for (
-                              a = u.length,
+                              a = s.length,
                                 i = new Array(a > 3 ? a - 3 : 0),
                                 c = 3;
                               c < a;
                               c++
                             )
-                              i[c - 3] = u[c];
+                              i[c - 3] = s[c];
                             return (
                               (o = function (e, r) {
                                 var a = e.objectStore(n),
@@ -1711,7 +1711,7 @@
         fetch: (function () {
           var e = T(
             L.a.mark(function e(t) {
-              var n, r, a, i, o, u, s, f, h, l, p, v, d, y, m, x, b, w, k, _, R;
+              var n, r, a, i, o, s, u, f, h, l, p, v, d, y, m, x, w, b, k, _, R;
               return L.a.wrap(
                 function (e) {
                   for (;;)
@@ -1731,15 +1731,15 @@
                         }
                         return (e.next = 5), a.preloadResponse;
                       case 5:
-                        if (!(u = e.sent)) {
+                        if (!(s = e.sent)) {
                           e.next = 9;
                           break;
                         }
-                        return e.abrupt("return", u);
+                        return e.abrupt("return", s);
                       case 9:
                         0,
-                          (s = j(o, "fetchDidFail")),
-                          (f = s.length > 0 ? n.clone() : null),
+                          (u = j(o, "fetchDidFail")),
+                          (f = u.length > 0 ? n.clone() : null),
                           (e.prev = 12),
                           (h = c(o)),
                           (e.prev = 14),
@@ -1802,17 +1802,17 @@
                       case 51:
                         0, (x = c(o)), (e.prev = 53), x.s();
                       case 55:
-                        if ((b = x.n()).done) {
+                        if ((w = x.n()).done) {
                           e.next = 64;
                           break;
                         }
-                        if (!("fetchDidSucceed" in (w = b.value))) {
+                        if (!("fetchDidSucceed" in (b = w.value))) {
                           e.next = 62;
                           break;
                         }
                         return (
                           (e.next = 60),
-                          w.fetchDidSucceed.call(w, {
+                          b.fetchDidSucceed.call(b, {
                             event: a,
                             request: y,
                             response: m,
@@ -1835,7 +1835,7 @@
                       case 75:
                         (e.prev = 75),
                           (e.t3 = e.catch(41)),
-                          (k = c(s)),
+                          (k = c(u)),
                           (e.prev = 79),
                           k.s();
                       case 81:
@@ -2034,8 +2034,8 @@
                       a,
                       i,
                       o,
-                      u,
-                      s = this;
+                      s,
+                      u = this;
                     return L.a.wrap(
                       function (e) {
                         for (;;)
@@ -2057,7 +2057,7 @@
                                       var e = a.result;
                                       if (e) {
                                         var o = e.value;
-                                        o.cacheName === s._cacheName &&
+                                        o.cacheName === u._cacheName &&
                                           ((t && o.timestamp < t) ||
                                           (n && c >= n)
                                             ? i.push(e.value)
@@ -2080,12 +2080,12 @@
                                 break;
                               }
                               return (
-                                (u = o.value),
+                                (s = o.value),
                                 (e.next = 11),
-                                this._db.delete(z, u.id)
+                                this._db.delete(z, s.id)
                               );
                             case 11:
-                              a.push(u.url);
+                              a.push(s.url);
                             case 12:
                               e.next = 7;
                               break;
@@ -2333,7 +2333,7 @@
             (this.cachedResponseWillBeUsed = (function () {
               var e = T(
                 L.a.mark(function e(n) {
-                  var r, a, i, c, o, u, s;
+                  var r, a, i, c, o, s, u;
                   return L.a.wrap(function (e) {
                     for (;;)
                       switch ((e.prev = e.next)) {
@@ -2351,12 +2351,12 @@
                         case 3:
                           if (
                             ((o = t._isResponseDateFresh(c)),
-                            I((u = t._getCacheExpiration(i)).expireEntries()),
-                            (s = u.updateTimestamp(a.url)),
+                            I((s = t._getCacheExpiration(i)).expireEntries()),
+                            (u = s.updateTimestamp(a.url)),
                             r)
                           )
                             try {
-                              r.waitUntil(s);
+                              r.waitUntil(u);
                             } catch (f) {
                               0;
                             }
@@ -2404,7 +2404,7 @@
             (this._maxAgeSeconds = n.maxAgeSeconds),
             (this._cacheExpirations = new Map()),
             n.purgeOnQuotaError &&
-              b(function () {
+              w(function () {
                 return t.deleteCacheAndMetadata();
               });
         }
@@ -2551,17 +2551,17 @@
                       : a && void 0 === a.revision && n.push(a.url);
                     var i = ae(a),
                       o = i.cacheKey,
-                      u = i.url,
-                      s =
+                      s = i.url,
+                      u =
                         "string" !== typeof a && a.revision
                           ? "reload"
                           : "default";
                     if (
-                      this._urlsToCacheKeys.has(u) &&
-                      this._urlsToCacheKeys.get(u) !== o
+                      this._urlsToCacheKeys.has(s) &&
+                      this._urlsToCacheKeys.get(s) !== o
                     )
                       throw new g("add-to-cache-list-conflicting-entries", {
-                        firstEntry: this._urlsToCacheKeys.get(u),
+                        firstEntry: this._urlsToCacheKeys.get(s),
                         secondEntry: o,
                       });
                     if ("string" !== typeof a && a.integrity) {
@@ -2571,13 +2571,13 @@
                       )
                         throw new g(
                           "add-to-cache-list-conflicting-integrities",
-                          { url: u }
+                          { url: s }
                         );
                       this._cacheKeysToIntegrities.set(o, a.integrity);
                     }
                     if (
-                      (this._urlsToCacheKeys.set(u, o),
-                      this._urlsToCacheModes.set(u, s),
+                      (this._urlsToCacheKeys.set(s, o),
+                      this._urlsToCacheModes.set(s, u),
                       n.length > 0)
                     ) {
                       var f =
@@ -2608,8 +2608,8 @@
                       a,
                       i,
                       o,
-                      u,
                       s,
+                      u,
                       f,
                       h,
                       l,
@@ -2637,9 +2637,9 @@
                             case 6:
                               return (o = e.sent), (e.next = 9), o.keys();
                             case 9:
-                              (u = e.sent),
-                                (s = new Set(
-                                  u.map(function (e) {
+                              (s = e.sent),
+                                (u = new Set(
+                                  s.map(function (e) {
                                     return e.url;
                                   })
                                 )),
@@ -2649,7 +2649,7 @@
                                   (l = D(h.value, 2)),
                                     (p = l[0]),
                                     (v = l[1]),
-                                    s.has(v)
+                                    u.has(v)
                                       ? i.push(p)
                                       : a.push({ cacheKey: v, url: p });
                               } catch (x) {
@@ -2705,7 +2705,7 @@
               value: (function () {
                 var e = T(
                   L.a.mark(function e() {
-                    var t, n, r, a, i, o, u;
+                    var t, n, r, a, i, o, s;
                     return L.a.wrap(
                       function (e) {
                         for (;;)
@@ -2728,13 +2728,13 @@
                                 e.next = 19;
                                 break;
                               }
-                              if (((u = o.value), r.has(u.url))) {
+                              if (((s = o.value), r.has(s.url))) {
                                 e.next = 17;
                                 break;
                               }
-                              return (e.next = 16), t.delete(u);
+                              return (e.next = 16), t.delete(s);
                             case 16:
-                              a.push(u.url);
+                              a.push(s.url);
                             case 17:
                               e.next = 11;
                               break;
@@ -2768,7 +2768,7 @@
               value: (function () {
                 var e = T(
                   L.a.mark(function e(t) {
-                    var n, r, a, i, o, u, s, f, h, l, p, v;
+                    var n, r, a, i, o, s, u, f, h, l, p, v;
                     return L.a.wrap(
                       function (e) {
                         for (;;)
@@ -2780,14 +2780,14 @@
                                 (a = t.cacheMode),
                                 (i = t.event),
                                 (o = t.plugins),
-                                (u = t.integrity),
-                                (s = new Request(r, {
-                                  integrity: u,
+                                (s = t.integrity),
+                                (u = new Request(r, {
+                                  integrity: s,
                                   cache: a,
                                   credentials: "same-origin",
                                 })),
                                 (e.next = 4),
-                                $.fetch({ event: i, plugins: o, request: s })
+                                $.fetch({ event: i, plugins: o, request: u })
                               );
                             case 4:
                               (f = e.sent), (l = c(o || []));
@@ -2807,7 +2807,7 @@
                                 (e.next = 10),
                                 h.cacheWillUpdate({
                                   event: i,
-                                  request: s,
+                                  request: u,
                                   response: f,
                                 })
                               );
@@ -2840,7 +2840,7 @@
                                   event: i,
                                   plugins: o,
                                   response: f,
-                                  request: n === r ? s : new Request(n),
+                                  request: n === r ? u : new Request(n),
                                   cacheName: this._cacheName,
                                   matchOptions: { ignoreSearch: !0 },
                                 })
@@ -3001,7 +3001,7 @@
       oe = function () {
         return ie || (ie = new ce()), ie;
       };
-    function ue(e) {
+    function se(e) {
       for (
         var t =
             arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : [],
@@ -3019,7 +3019,7 @@
         n();
       return e;
     }
-    var se = L.a.mark(fe);
+    var ue = L.a.mark(fe);
     function fe(e) {
       var t,
         n,
@@ -3027,8 +3027,8 @@
         a,
         i,
         o,
-        u,
         s,
+        u,
         f,
         h,
         l,
@@ -3051,14 +3051,14 @@
                   o.href
                 );
               case 5:
-                return (u = ue(o, n)), (y.next = 8), u.href;
+                return (s = se(o, n)), (y.next = 8), s.href;
               case 8:
-                if (!r || !u.pathname.endsWith("/")) {
+                if (!r || !s.pathname.endsWith("/")) {
                   y.next = 13;
                   break;
                 }
                 return (
-                  ((s = new URL(u.href)).pathname += r), (y.next = 13), s.href
+                  ((u = new URL(s.href)).pathname += r), (y.next = 13), u.href
                 );
               case 13:
                 if (!a) {
@@ -3066,7 +3066,7 @@
                   break;
                 }
                 return (
-                  ((f = new URL(u.href)).pathname += ".html"),
+                  ((f = new URL(s.href)).pathname += ".html"),
                   (y.next = 18),
                   f.href
                 );
@@ -3097,7 +3097,7 @@
                 return y.stop();
             }
         },
-        se,
+        ue,
         null,
         [[21, 31, 34, 37]]
       );
@@ -3112,8 +3112,8 @@
               o = r.get(i);
             if (o) return o;
           }
-        } catch (u) {
-          a.e(u);
+        } catch (s) {
+          a.e(s);
         } finally {
           a.f();
         }
@@ -3133,7 +3133,7 @@
             i = e.cleanURLs,
             c = void 0 === i || i,
             o = e.urlManipulation,
-            u = _();
+            s = _();
           self.addEventListener("fetch", function (e) {
             var t = he(e.request.url, {
               cleanURLs: c,
@@ -3143,7 +3143,7 @@
             });
             if (t) {
               var r = self.caches
-                .open(u)
+                .open(s)
                 .then(function (e) {
                   return e.match(t);
                 })
@@ -3182,7 +3182,7 @@
         o(this, e), (this.handler = me(n)), (this.match = t), (this.method = r);
       },
       xe = (function (e) {
-        s(n, e);
+        u(n, e);
         var t = v(n);
         function n(e, r, a) {
           o(this, n);
@@ -3200,7 +3200,7 @@
         }
         return n;
       })(ge),
-      be = (function () {
+      we = (function () {
         function e() {
           o(this, e), (this._routes = new Map());
         }
@@ -3263,29 +3263,29 @@
                     }),
                     c = i.params,
                     o = i.route,
-                    u = o && o.handler;
+                    s = o && o.handler;
                   if (
-                    (!u && this._defaultHandler && (u = this._defaultHandler),
-                    u)
+                    (!s && this._defaultHandler && (s = this._defaultHandler),
+                    s)
                   ) {
-                    var s;
+                    var u;
                     0;
                     try {
-                      s = u.handle({ url: a, request: n, event: r, params: c });
+                      u = s.handle({ url: a, request: n, event: r, params: c });
                     } catch (f) {
-                      s = Promise.reject(f);
+                      u = Promise.reject(f);
                     }
                     return (
-                      s instanceof Promise &&
+                      u instanceof Promise &&
                         this._catchHandler &&
-                        (s = s.catch(function (e) {
+                        (u = u.catch(function (e) {
                           return t._catchHandler.handle({
                             url: a,
                             request: n,
                             event: r,
                           });
                         })),
-                      s
+                      u
                     );
                   }
                 }
@@ -3302,17 +3302,17 @@
                 try {
                   for (i.s(); !(a = i.n()).done; ) {
                     var o = a.value,
-                      u = void 0,
-                      s = o.match({ url: t, request: n, event: r });
-                    if (s)
+                      s = void 0,
+                      u = o.match({ url: t, request: n, event: r });
+                    if (u)
                       return (
-                        (u = s),
-                        ((Array.isArray(s) && 0 === s.length) ||
-                          (s.constructor === Object &&
-                            0 === Object.keys(s).length) ||
-                          "boolean" === typeof s) &&
-                          (u = void 0),
-                        { route: o, params: u }
+                        (s = u),
+                        ((Array.isArray(u) && 0 === u.length) ||
+                          (u.constructor === Object &&
+                            0 === Object.keys(u).length) ||
+                          "boolean" === typeof u) &&
+                          (s = void 0),
+                        { route: o, params: s }
                       );
                   }
                 } catch (f) {
@@ -3359,9 +3359,9 @@
           e
         );
       })(),
-      we = function () {
+      be = function () {
         return (
-          ye || ((ye = new be()).addFetchListener(), ye.addCacheListener()), ye
+          ye || ((ye = new we()).addFetchListener(), ye.addCacheListener()), ye
         );
       };
     function ke(e, t, n) {
@@ -3386,7 +3386,7 @@
           });
         r = e;
       }
-      return we().registerRoute(r), r;
+      return be().registerRoute(r), r;
     }
     n(4);
     var _e,
@@ -3582,10 +3582,10 @@
             (self.addEventListener("install", ve),
             self.addEventListener("activate", de));
       })([
-        { revision: "a139bf59022e108805906fc8caa39ccf", url: "/index.html" },
+        { revision: "bac38f70b82eb67f49f863c91b2da6e7", url: "/index.html" },
         { revision: null, url: "/static/css/main.47e27ab5.chunk.css" },
         { revision: null, url: "/static/js/2.08092d6a.chunk.js" },
-        { revision: null, url: "/static/js/main.18b41442.chunk.js" },
+        { revision: null, url: "/static/js/main.ff0a835e.chunk.js" },
         { revision: null, url: "/static/js/runtime-main.68073a46.js" },
         { revision: null, url: "/static/media/AvenirLTStd-Black.7ce894e1.otf" },
       ]),
@@ -3601,19 +3601,30 @@
         !n.pathname.match(qe)
       );
     }, ((Le = "/index.html"), oe().createHandlerBoundToURL(Le))),
-      ke(function (e) {
-        var t = e.url;
-        return t.origin === self.location.origin && t.pathname.endsWith(".png");
-      }, new Ee({
-        cacheName: "images",
-        plugins: [new te({ maxEntries: 50 })],
-      })),
+      ke(
+        function (e) {
+          var t = e.url;
+          return (
+            t.origin === self.location.origin && t.pathname.endsWith(".png")
+          );
+        },
+        new Ee({
+          cacheName: "images",
+          plugins: [new te({ maxEntries: 50 })],
+        })
+      ),
       self.addEventListener("message", function (e) {
         e.data && "SKIP_WAITING" === e.data.type && self.skipWaiting();
       }),
       self.addEventListener("notificationclick", function (e) {
-        console.log(e);
-        debugger;
+        self.clients.matchAll({ type: "window" }).then(function (t) {
+          if (t && t.length) {
+            var n = 0;
+            "add5" === e.action && (n = 300),
+              "add10" === e.action && (n = 600),
+              t[0].postMessage({ action: "add", secs: n });
+          }
+        });
       });
   },
 ]);

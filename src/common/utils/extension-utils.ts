@@ -6,6 +6,7 @@ import {
   updateNextState,
   updateTimerState,
   resetTimerAsync,
+  addMinsToClock,
 } from "../state/thunks/TimerThunk";
 import { setExtensionPresent, setFocusMode } from "../state/slice/GlobalSlice";
 import {
