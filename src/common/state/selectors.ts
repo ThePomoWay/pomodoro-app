@@ -135,3 +135,4 @@ export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;
 export const selectStats = (state) => state.blocker.history;
 export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;
 export const selectTimeTrackingObj = (state) => state.blocker.timeTrackingObj;
+export const selectFocusModeObj = (state) => state.blocker.focusTrackingObj;

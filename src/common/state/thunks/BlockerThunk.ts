@@ -3,6 +3,7 @@ import { getOriginFromUrl } from "../../utils/common";
 import { sendMessageToExtension } from "../../utils/extension-utils";
 import {
   setBlockedWebsites,
+  setFocusTimeTrackingObj,
   setHistory,
   setTimeTrackingObj,
 } from "../slice/BlockerSlice";
@@ -48,23 +49,43 @@ export const onTimeTrackingDetailsReceived = createAsyncThunk(
   "blocker/getTimeTracking/success",
   async (obj: any, { dispatch }) => {
     let totalTimeSpent = 0;
-    let sites = Object.keys(obj).map((item) => {
-      totalTimeSpent += obj[item];
+    let timeTrackObj = obj[0];
+    let focusObj = obj[1];
+    let totalSites = Object.keys(timeTrackObj).map((item) => {
+      totalTimeSpent += timeTrackObj[item];
       return {
         url: "https://" + item,
-        timeSpent: obj[item],
+        timeSpent: timeTrackObj[item],
         percent: 0,
         host: getOriginFromUrl("https://" + item),
       };
     });
 
-    sites.forEach((item) => {
+    totalSites.forEach((item) => {
       item.percent = Math.round((item.timeSpent / totalTimeSpent) * 100);
     });
 
-    sites.sort((a, b) => b.timeSpent - a.timeSpent);
+    totalSites.sort((a, b) => b.timeSpent - a.timeSpent);
 
-    dispatch(setTimeTrackingObj(sites));
+    totalTimeSpent = 0;
+    let focusSites = Object.keys(focusObj).map((item) => {
+      totalTimeSpent += focusObj[item];
+      return {
+        url: "https://" + item,
+        timeSpent: focusObj[item],
+        percent: 0,
+        host: getOriginFromUrl("https://" + item),
+      };
+    });
+
+    focusSites.forEach((item) => {
+      item.percent = Math.round((item.timeSpent / totalTimeSpent) * 100);
+    });
+
+    focusSites.sort((a, b) => b.timeSpent - a.timeSpent);
+
+    dispatch(setTimeTrackingObj(totalSites));
+    dispatch(setFocusTimeTrackingObj(focusSites));
   }
 );
 

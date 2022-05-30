@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectBlockedWebsites,
+  selectFocusModeObj,
   selectStats,
   selectTimeTrackingObj,
 } from "../../state/selectors";
@@ -16,6 +17,7 @@ import {
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
 import { getHoursMinsDate, getTimeText } from "../../utils/date-utils";
+import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
@@ -25,11 +27,21 @@ export default function WebsiteBlocker() {
 
   let stats = useSelector(selectStats);
   let blockedWebsites = useSelector(selectBlockedWebsites);
-  let timeTrackingObj = useSelector(selectTimeTrackingObj);
+  let timeTrackingAllObj = useSelector(selectTimeTrackingObj);
+
+  let focusModeObj = useSelector(selectFocusModeObj);
   let blockedHostsObj = getObjFromArr(blockedWebsites, "host");
 
   let [showAllSites, setShowAllSites] = useState(true);
   let [siteInput, setSiteInput] = useState("");
+
+  let [focusModeOnly, setFocusModeOnly] = useState(false);
+
+  let timeTrackingObj = focusModeOnly ? focusModeObj : timeTrackingAllObj;
+
+  let toggleFocusModeOnly = () => {
+    setFocusModeOnly(!focusModeOnly);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,10 +92,6 @@ export default function WebsiteBlocker() {
     <div className={styles["container"]}>
       <Navbar selected="3" />
       <div className={styles["main-content"]}>
-        {/* <div className={styles["time-track"]}>
-          <p className={styles["text"]}>Time Tracking</p>
-          <CustomSlider />
-        </div> */}
         <div className={styles["block-websites"]}>
           <h1 className="font-title">Block Websites</h1>
           <p className="font-normal">
@@ -138,6 +146,10 @@ export default function WebsiteBlocker() {
               </div>
             )}
           </div>
+        </div>
+        <div className={styles["time-track"]}>
+          <p className={styles["text"]}>Focus mode</p>
+          <CustomSlider onChange={toggleFocusModeOnly} />
         </div>
         <div className={styles["stats"]}>
           <h1 className="font-title">Your History</h1>
