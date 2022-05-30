@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getFromCollection } from "../../API/indexed-db-ops/indexedDbCrudWrapper";
 import {
   userPreferencesObjectKey,
@@ -38,17 +38,16 @@ import {
   STATS_TYPE_PAUSED,
 } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
-import { sendMessageToExtension } from "../../utils/extension-message-utils";
+import { sendMessageToExtension } from "../../utils/extension-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import { askPermission, sendWebNotification } from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
-import { initialTimerState, timerReducer } from "../reducers/TimerReducer";
 import {
   setPomoSummary,
   setTimerSec,
   setTimerState,
 } from "../slice/TimerSlice";
-import { incrementCurTaskCpomo, incrementCurTaskCsec } from "./TasksThunk";
+import { incrementCurTaskCsec, incrementTaskCpomos } from "./TasksThunk";
 
 export let getTimerState = createAsyncThunk(
   "timer/getState",
@@ -135,14 +134,8 @@ export let updateTimerState = createAsyncThunk(
       response = await updateTimerStateIdb(updateObj);
     }
 
-    let isExtensionPresent = getState()["global"].extensionPresent;
-
     //@ts-ignore
-    if (
-      isExtensionPresent &&
-      curStateObj &&
-      curStateObj.pomoState !== stateInStore.pomoState
-    ) {
+    if (curStateObj && curStateObj.pomoState !== stateInStore.pomoState) {
       //@ts-ignore
       sendMessageToExtension({
         action: "updateTimerState",
@@ -169,7 +162,13 @@ export let updateNextState = createAsyncThunk(
       playAlarmSound();
     }
     if (state.pomoState === POMO_RUNNING_STATE) {
+      let pomoStartDate = getFormattedDate(state.pomoStartTime);
+      let todayFormatted = getFormattedDate();
+
       let completedPomos = state.completedPomos + 1;
+      if (pomoStartDate !== todayFormatted) {
+        completedPomos = 0;
+      }
       let nextState =
         completedPomos !== 0 && completedPomos % 4 == 0
           ? POMO_LONG_BREAK_IDLE_STATE
@@ -219,7 +218,7 @@ export let updateNextState = createAsyncThunk(
         );
       }
 
-      dispatch(incrementCurTaskCpomo());
+      // dispatch(incrementCurTaskCpomo());
     } else {
       sendWebNotification("It's time for your next focused session!");
       let nextState = POMO_IDLE_STATE;
@@ -375,6 +374,8 @@ export const pauseTimerAsync = createAsyncThunk(
       });
     }
 
+    dispatch(incrementTaskCpomos(summary));
+
     if (AuthService.isLoggedIn()) {
       updateTimerStatsAPI(
         timerState.lastResumeTime ||
@@ -440,6 +441,8 @@ export const resetTimerAsync = createAsyncThunk(
     let state = getState()["timer"].pomoState;
     let userPreference = getState()["global"].userPreferences;
 
+    sendWorkerMsg(CLEAR_INTERVAL);
+
     document.title = PAGE_TITLE;
     dispatch(
       updateTimerState({
@@ -454,7 +457,7 @@ export const resetTimerAsync = createAsyncThunk(
 
 export const completePomodoro = createAsyncThunk(
   "timer/complete",
-  (_, { dispatch, getState }) => {
+  async (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let taskState = getState()["tasks"];
     let pomoSummary = timerState.pomoSummary;
@@ -466,6 +469,16 @@ export const completePomodoro = createAsyncThunk(
         csec: pomoSummary[taskId],
       });
     }
+
+    dispatch(incrementTaskCpomos(summary));
+
+    let userPreference = <any>(
+      await getFromCollection(
+        userPreferencesObjectStoreName,
+        false,
+        userPreferencesObjectKey
+      )
+    );
 
     let completedTid = "";
     if (taskState.currentTaskRef) {
@@ -480,12 +493,18 @@ export const completePomodoro = createAsyncThunk(
 
     if (timerState.pomoState === POMO_RUNNING_STATE) {
       sendWebNotification("Time to take a break!");
+
+      let endDate = new Date(
+        timerState.pomoStartTime +
+          timerState.psec * 1000 +
+          (userPreference.defaultWorkTime || DEFAULT_WORK_TIME) * 1000
+      );
       if (AuthService.isLoggedIn()) {
         //ToDo: add functionality for distracted.
         updateTimerStatsAPI(
           timerState.lastResumeTime ||
             new Date(timerState.pomoStartTime).toISOString(),
-          new Date().toISOString(),
+          endDate.toISOString(),
           STATS_TYPE_COMPLETE,
           new Date(timerState.lastResumeTime).getTime() !==
             timerState.pomoStartTime,
@@ -496,7 +515,7 @@ export const completePomodoro = createAsyncThunk(
         pushToStatsUpdateQueueIDB(
           timerState.lastResumeTime ||
             new Date(timerState.pomoStartTime).toISOString(),
-          new Date().toISOString(),
+          endDate.toISOString(),
           STATS_TYPE_COMPLETE,
           new Date(timerState.lastResumeTime).getTime() !==
             timerState.pomoStartTime,

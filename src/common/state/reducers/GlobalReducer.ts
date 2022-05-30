@@ -38,6 +38,7 @@ export const initialGlobalState = {
     tab: 0,
   },
   multiTabAlertModalState: false,
+  isExtensionModalOpen: false,
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
   products: [],
@@ -117,6 +118,9 @@ export let globalReducer = {
   },
   setMultiTabAlertModal: (state, action) => {
     state.multiTabAlertModalState = action.payload;
+  },
+  setIsExtensionModalOpen: (state, action) => {
+    state.isExtensionModalOpen = action.payload;
   },
   setHideTodaysCompletedTasks: (state, action) => {
     state.hideTodaysCompletedTasks = action.payload;

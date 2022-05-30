@@ -7,6 +7,7 @@ import {
   selectPomoState,
   selectTimer,
 } from "../../state/selectors";
+import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
@@ -35,12 +36,14 @@ import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
 } from "../../utils/constants";
+import { isExtensionPresent } from "../../utils/extension-utils";
 import {
   CLEAR_INTERVAL,
   sendWorkerMsg,
   START_INTERVAL,
 } from "../../utils/worker-util";
 import { Alert } from "../alert/Alert";
+import { CustomSlider } from "../custom-slider/CustomSlider";
 import {
   actionStateMap,
   getTab,
@@ -300,9 +303,13 @@ export default function Timer(props) {
       "%, #C3C3C3 100%)",
   };
 
-  const onFocusModeSwitch = useCallback((e) => {
-    dispatch(focusModeToggle(!focusModeState));
-  });
+  const onFocusModeSwitch = (e) => {
+    if (isExtensionPresent) {
+      dispatch(focusModeToggle(!focusModeState));
+    } else {
+      dispatch(setIsExtensionModalOpen(true));
+    }
+  };
 
   let onTabChange = (nextState) => {
     if (state === POMO_RUNNING_STATE) {
@@ -436,25 +443,36 @@ export default function Timer(props) {
                     </div> */}
           {getCTA(state)}
         </div>
-        {!props.hideBlur && (
+        {/* {!props.hideBlur && (
           <div className={`${styles["blur-bg"]} ${styles[tab]}`}>
             <div className={styles["blur"]}></div>
           </div>
+        )} */}
+
+        {tab === "pomodoro" && (
+          <div className={styles["focus-mode"]}>
+            <span>Focus Mode</span>
+            <CustomSlider
+              value={focusModeState}
+              defaultChecked={focusModeState}
+              onChange={(e) => {
+                onFocusModeSwitch();
+              }}
+            />
+          </div>
         )}
 
-        {/* <div className={styles["focus-mode"]}>
-        <span>Focus Mode</span>
-        <label className="switch">
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              onFocusModeSwitch();
-            }}
-            defaultChecked={focusModeState}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div> */}
+        {/* // <label className="switch">
+          //   <input
+          //     type="checkbox"
+          //     onChange={(e) => {
+          //       onFocusModeSwitch();
+          //     }}
+          //     defaultChecked={focusModeState}
+          //   />
+          //   <span className="slider round"></span>
+          // </label> */}
+        {/* </div> */}
 
         <svg
           version="1.1"

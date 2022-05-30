@@ -7,6 +7,7 @@ import { tasksSlice } from './slice/TasksSlice';
 import { timerSlice } from './slice/TimerSlice'; 
 import { userSlice } from './slice/UserSlice'; 
 import { onboardingSlice } from './slice/OnboardingSlice'; 
+import { blockerSlice } from './slice/BlockerSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     projects: projectSlice.reducer,
     stats: statsSlice.reducer,
     user: userSlice.reducer,
-    onboarding: onboardingSlice.reducer
+    onboarding: onboardingSlice.reducer,
+    blocker: blockerSlice.reducer
   },
 });

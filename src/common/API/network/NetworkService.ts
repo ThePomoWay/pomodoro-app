@@ -9,6 +9,7 @@ import {
 } from "../../offlineSync/offlineSync";
 import { setToast, showErrorToast } from "../../state/slice/GlobalSlice";
 import { selfIpEndpoint } from "./Endpoints";
+import { clearIDB } from "../indexed-db-ops/crud";
 
 function getQueryParamString(e, q) {
   let qString = Object.keys(q)
@@ -47,13 +48,23 @@ function checkErrorResponse(response, check?) {
   if (!response) {
     store.dispatch(showErrorToast("Please try again in some time"));
   } else if (response.status !== 200) {
-    store.dispatch(
-      showErrorToast(
-        response.data.message ||
-          response.data.msg ||
-          "Please try again in some time."
-      )
-    );
+    if (response.status === 401) {
+      store.dispatch(
+        showErrorToast("Logging out. Please login again to continue.")
+      );
+      setTimeout(async () => {
+        await clearIDB();
+        NetworkService.logout();
+      }, 2000);
+    } else {
+      store.dispatch(
+        showErrorToast(
+          response.data.message ||
+            response.data.msg ||
+            "Please try again in some time."
+        )
+      );
+    }
   }
 
   return response;
@@ -95,7 +106,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
-          .then(checkErrorResponse)
+          .then((res) => checkErrorResponse(res, true))
           .catch(() => console.error);
       })
       .catch(() => {});
@@ -127,7 +138,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
-          .then(checkErrorResponse)
+          .then((res) => checkErrorResponse(res, true))
           .catch(console.error);
       })
       .catch(() => {});
@@ -142,7 +153,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
-          .then(checkErrorResponse)
+          .then((res) => checkErrorResponse(res, true))
           .catch(console.error);
       })
       .catch(() => {});
@@ -157,7 +168,7 @@ export class NetworkService {
           headers: getCommonHeaders(),
         })
           .then((res) => res.json())
-          .then(checkErrorResponse)
+          .then((res) => checkErrorResponse(res, true))
           .catch(console.error);
       })
       .catch(() => {});

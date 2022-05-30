@@ -33,11 +33,11 @@ function playSound(audioObj, timeout, url?) {
 let alarmSoundObj = new Audio(alarmAudioUrl);
 
 export function playAlarmSound() {
-  playSound(new Audio(alarmAudioUrl), 5000, alarmAudioUrl);
+  playSound(new Audio(alarmAudioUrl), 6000, alarmAudioUrl);
 }
 let timerStartAudio = new Audio(timerStartAudioUrl);
 export function playTimerStartSound() {
-  playSound(new Audio(timerStartAudioUrl), 5000, timerStartAudioUrl);
+  playSound(new Audio(timerStartAudioUrl), 6000, timerStartAudioUrl);
 }
 
 let completeTaskAudio = new Audio(completeTaskAudioUrl);

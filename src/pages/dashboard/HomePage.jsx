@@ -6,11 +6,11 @@ import { HomepageMobile } from "./mobile/homepage-view-xs";
 export default function Homepage() {
   usePageTracking();
   const isMobileDevice = useMediaQuery({
-    query: "(max-device-width: 1224px)",
+    query: "(max-device-width: 899px)",
   });
 
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1200px)",
+    query: "(min-device-width: 900px)",
   });
 
   if (navigator.userAgent === "ReactSnap") {

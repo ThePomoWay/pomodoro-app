@@ -26,7 +26,10 @@ import {
   PROJECT_COMPLETED_TASK_HIDE,
   TODAYS_COMPLETED_TASK_HIDE,
 } from "../../utils/constants";
-import { sendMessageToExtension } from "../../utils/extension-message-utils";
+import {
+  isExtensionPresent,
+  sendMessageToExtension,
+} from "../../utils/extension-utils";
 import {
   setFocusMode,
   setHideProjectsCompletedTasks,
@@ -125,8 +128,6 @@ export const focusModeToggle = createAsyncThunk(
   async (value: any, { dispatch, getState }) => {
     localStorage.setItem(focusModeLSKey, value);
     dispatch(setFocusMode(value));
-
-    let isExtensionPresent = getState()["global"].extensionPresent;
 
     if (isExtensionPresent) {
       sendMessageToExtension({
