@@ -572,12 +572,16 @@ export const addMinsToClock = createAsyncThunk(
   "timer/addExtraSecs",
   async (seconds, { dispatch, getState }) => {
     let timerState = getState()["timer"];
+    let updateObj = {
+      ...timerState,
+      extraSec: seconds,
+    };
 
-    dispatch(
-      updateTimerState({
-        ...timerState,
-        extraSec: seconds,
-      })
-    );
+    dispatch(updateTimerState(updateObj));
+
+    sendMessageToExtension({
+      action: "updateTimerState",
+      timerState: updateObj,
+    });
   }
 );
