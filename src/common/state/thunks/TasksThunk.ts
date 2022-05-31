@@ -177,18 +177,27 @@ export const updateTaskThunk = createAsyncThunk(
 export const markTaskAsCurrent = createAsyncThunk(
   "tasks/markAsCurrent",
   async (task: any, { getState, dispatch }) => {
-    let tasks = getState()["tasks"].tasks;
+    let taskState = getState()["tasks"];
+    let tasks = taskState.tasks;
     let timerState = getState()["timer"];
-    let summary = timerState.pomoSummary;
+    let summary = window.structuredClone(timerState.pomoSummary);
 
     if (timerState.pomoState === POMO_RUNNING_STATE) {
-      if (summary[tasks.currentTaskRef]) {
-        summary[tasks.currentTaskRef].csec += Math.round(
-          (Date.now() - summary[tasks.currentTaskRef].startTime) / 1000
+      if (summary[taskState.currentTaskRef]) {
+        summary[taskState.currentTaskRef].csec += Math.round(
+          (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
         );
 
+        summary[taskState.currentTaskRef].endTime = Date.now();
+      }
+      if (summary[task.fid]) {
         summary[task.fid].startTime = Date.now();
         summary[task.fid].endTime = "";
+      } else {
+        summary[task.fid] = {
+          csec: 0,
+          startTime: Date.now(),
+        };
       }
     } else {
       summary = {
