@@ -4,10 +4,12 @@ import {
   getAllProductsEndpoint,
 } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
+import { getIp } from "./SelfIpApi";
 
-export function getAllProducts() {
+export async function getAllProducts() {
+  let countryCode = await getIp()
   return NetworkService.get(getAllProductsEndpoint, {
-    country: AuthService.getCountryCode(),
+    country: countryCode
   });
 }
 

@@ -41,6 +41,7 @@ import {
 } from "../slice/GlobalSlice";
 import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
+import { getIp } from "../../API/network/SelfIpApi";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -95,10 +96,11 @@ export const signin = createAsyncThunk(
   "global/signin",
   async (obj: any, { dispatch }) => {
     let response;
+    let countryCode = await getIp()
     if (obj.mode === "google") {
-      response = await googleLoginApi(obj.data);
+      response = await googleLoginApi(obj.data, countryCode);
     } else if (obj.mode === "facebook") {
-      response = await facebookLoginApi(obj.data);
+      response = await facebookLoginApi(obj.data, countryCode);
     }
 
     if (response.data && response.data.uid) {

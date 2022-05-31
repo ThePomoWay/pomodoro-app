@@ -8,6 +8,7 @@ export async function getIp() {
   if (!lsIP) {
     try {
       lsIP = await NetworkService.getIpURL();
+      lsIP = lsIP.substring(2, 4) || "US";
       localStorage.setItem(IP_LS_KEY, lsIP);
     } catch (e) {
       setTimeout(() => {
@@ -20,3 +21,4 @@ export async function getIp() {
   }
   return lsIP;
 }
+

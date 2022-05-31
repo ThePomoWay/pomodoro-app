@@ -17,7 +17,6 @@ import {
 } from "../../common/utils/constants";
 import "./home.scss";
 import { setIsTimerFullScreen } from "../../common/state/slice/GlobalSlice";
-import { getIp } from "../../common/API/network/SelfIpApi";
 
 let initialized = false;
 
@@ -59,8 +58,6 @@ export default function useHomepage() {
     dispatch(getAllProjects());
     dispatch(getAllTags());
     setTimeout(() => dispatch(getTodaysTasks()), 0);
-
-    getIp();
   }, []);
 
   useEffect(() => {

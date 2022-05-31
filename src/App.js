@@ -22,6 +22,7 @@ import PricingModal from "./common/components/pricing-modal/PricingModal";
 import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
+import { getIp } from "./common/API/network/SelfIpApi";
 
 function App() {
   let dispatch = useDispatch();
@@ -35,6 +36,9 @@ function App() {
   if (AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
   }
+
+  // getting users country code on page load and storing in LS
+  getIp()
 
   return (
     <Router>
