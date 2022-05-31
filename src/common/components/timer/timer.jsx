@@ -44,13 +44,7 @@ import {
 } from "../../utils/worker-util";
 import { Alert } from "../alert/Alert";
 import { CustomSlider } from "../custom-slider/CustomSlider";
-import {
-  actionStateMap,
-  getTab,
-  TAB_BREAK,
-  TAB_LONG_BREAK,
-  TAB_POMODORO,
-} from "./timer-utils";
+import { getTab, TAB_BREAK, TAB_LONG_BREAK, TAB_POMODORO } from "./timer-utils";
 import styles from "./timer.module.scss";
 
 const ALERT_TITLE = "Are you sure you want to skip the current session?";

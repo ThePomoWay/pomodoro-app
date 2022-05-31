@@ -16,7 +16,7 @@ import {
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
-import { getHoursMinsDate, getTimeText } from "../../utils/date-utils";
+import { getTimeText } from "../../utils/date-utils";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
@@ -147,10 +147,7 @@ export default function WebsiteBlocker() {
             )}
           </div>
         </div>
-        <div className={styles["time-track"]}>
-          <p className={styles["text"]}>Focus mode</p>
-          <CustomSlider onChange={toggleFocusModeOnly} />
-        </div>
+
         <div className={styles["stats"]}>
           <h1 className="font-title">Your History</h1>
           <p className="font-normal">
@@ -158,12 +155,18 @@ export default function WebsiteBlocker() {
             block some of the website for less distractions
           </p>
         </div>
+        <div className={styles["time-track"]}>
+          <p className={styles["text"]}>Focus mode</p>
+          <CustomSlider onChange={toggleFocusModeOnly} />
+        </div>
         <div className={styles["block-stats"]}>
           <div className={styles["chart"]}>
             <PieChart chartData={timeTrackingObj} />
           </div>
           <div className={styles["sites"]}>
-            <p className={styles["title"]}>Showing {stats.length} websites</p>
+            <p className={styles["title"]}>
+              Showing {timeTrackingObj.length} websites
+            </p>
             <div className={styles["legend"]}>
               {timeTrackingObj.map((item, index) => (
                 <div

@@ -29,11 +29,13 @@ export const GET_TIME_TRACKING_OBJ_ACTION = "getTimeTrackingObj";
 export let isExtensionPresent = false;
 
 export function addSWListeners() {
-  navigator.serviceWorker.onmessage = (event) => {
-    if (event.data && event.data.action === "add") {
-      store.dispatch(addMinsToClock(event.data.secs));
-    }
-  };
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.onmessage = (event) => {
+      if (event.data && event.data.action === "add") {
+        store.dispatch(addMinsToClock(event.data.secs));
+      }
+    };
+  }
 }
 
 export default function addExtensionListeners() {
