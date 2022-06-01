@@ -9,9 +9,14 @@ import {
   markTaskAsCompleteEndpoint,
   markTaskAsIncompleteEndpoint,
   updateTaskEndpoint,
-  updateTodaysTasksEndpoint,
 } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
+
+function transformTask(taskObj) {
+  if (taskObj) {
+    taskObj.cpomo = 0;
+  }
+}
 
 export function getTodaysTasksAPI() {
   return NetworkService.get(
@@ -27,6 +32,7 @@ export function getAllTasksApi(queryObj = {}) {
 }
 
 export function updateTaskAPI(taskObj) {
+  transformTask(taskObj);
   let endpoint = updateTaskEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskObj._id);
@@ -53,10 +59,11 @@ export function createMultipleTaskAPI(tasksArr) {
 }
 
 export function deleteTaskAPI(taskObj, today) {
+  transformTask(taskObj);
   let endpoint = deleteTaskEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskObj._id);
-  return NetworkService.post(endpoint, { today }, taskObj);
+  return NetworkService.delete(endpoint, { today }, taskObj);
 }
 
 export function addToTodaysTaskAPI(taskId) {
@@ -67,6 +74,7 @@ export function addToTodaysTaskAPI(taskId) {
 }
 
 export function markTaskAsCompleteApi(taskObj, today, completedOn, taskId) {
+  transformTask(taskObj);
   let endpoint = markTaskAsCompleteEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskId);
@@ -74,6 +82,7 @@ export function markTaskAsCompleteApi(taskObj, today, completedOn, taskId) {
 }
 
 export function markTaskAsInCompleteApi(taskObj, today, taskId) {
+  transformTask(taskObj);
   let endpoint = markTaskAsIncompleteEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskId);
