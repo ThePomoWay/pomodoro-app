@@ -14,6 +14,7 @@ import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
   getAllProducts,
   createCheckoutSession,
+  createBillingConfiguration,
 } from "../../API/network/PricingApis";
 import {
   DISABLE_FOCUS_MODE,
@@ -214,6 +215,17 @@ export const getProducts = createAsyncThunk(
     dispatch(setProducts(resp.data.products));
   }
 );
+
+export const getBillingConfiguration = createAsyncThunk(
+  "global/bill-config",
+  async (_, {}) => {
+    let resp = await createBillingConfiguration();
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
+  }
+)
 
 export const buyProductThunk = createAsyncThunk(
   "global/buy/product",
