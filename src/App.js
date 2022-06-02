@@ -28,13 +28,14 @@ import {
   showTransactionSuccessModal,
 } from "./common/state/slice/GlobalSlice";
 import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
+import { PostTransactionHandler } from "./pages/post-transaction/PostTransactionHandler";
 
 function App() {
   let dispatch = useDispatch();
 
   dispatch(init());
 
-  dispatch(showTransactionErrorModal());
+  // dispatch(showTransactionErrorModal());
 
   if (AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
@@ -74,6 +75,12 @@ function App() {
         </Route>
         <Route path="/manage">
           <WebsiteBlocker />
+        </Route>
+        <Route path="/success">
+          <PostTransactionHandler />
+        </Route>
+        <Route path="/error">
+          <PostTransactionHandler />
         </Route>
         <Route exact path="/">
           <Homepage />
