@@ -8,12 +8,12 @@ import SubscriptionCanceled from "../subscription-states/SubscriptionCanceled";
 import SubscriptionUnpaid from "../subscription-states/SubscriptionUnpaid";
 import SubscriptionPastDue from "../subscription-states/SubscriptionPastDue";
 import SubscriptionInactive from "../subscription-states/SubscriptionInactive";
+import { SUBSCRIPTION_STATUS_ACTIVE } from "../../utils/constants";
+import { SUBSCRIPTION_STATUS_INACTIVE } from "../../utils/constants";
+import { SUBSCRIPTION_STATUS_PAST_DUE } from "../../utils/constants";
+import { SUBSCRIPTION_STATUS_UNPAID } from "../../utils/constants";
+import { SUBSCRIPTION_STATUS_CANCELED } from "../../utils/constants";
 
-const SUBSCRIPTION_STATUS_INACTIVE = ""
-const SUBSCRIPTION_STATUS_ACTIVE = "active"
-const SUBSCRIPTION_STATUS_UNPAID = "unpaid"
-const SUBSCRIPTION_STATUS_PAST_DUE = "past_due"
-const SUBSCRIPTION_STATUS_CANCELED = "canceled"
 
 export function PaymentSettings(props) {
 

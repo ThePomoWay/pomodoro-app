@@ -9,7 +9,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch, Link, useParams } from "react-router-dom";
 import AuthService from "../../API/network/AuthService";
-import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
+import { selectProjectOrder, selectProjectsObj, selectSubscriptionStatus } from "../../state/selectors";
 import {
   openOnboardingModal,
   setProjectModalState,
