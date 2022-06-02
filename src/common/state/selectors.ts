@@ -136,3 +136,5 @@ export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;
 export const selectProducts = (state) => state.global.products;
 export const selectStats = (state) => state.blocker.history;
 export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;
+
+export const selectTransactionModal = (state) => state.global.transactionModal;

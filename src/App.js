@@ -23,11 +23,18 @@ import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
 import { getIp } from "./common/API/network/SelfIpApi";
+import {
+  showTransactionErrorModal,
+  showTransactionSuccessModal,
+} from "./common/state/slice/GlobalSlice";
+import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
 
 function App() {
   let dispatch = useDispatch();
 
   dispatch(init());
+
+  dispatch(showTransactionErrorModal());
 
   if (AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
@@ -38,7 +45,7 @@ function App() {
   }
 
   // getting users country code on page load and storing in LS
-  getIp()
+  getIp();
 
   return (
     <Router>
@@ -77,6 +84,7 @@ function App() {
       {!isExtensionPresent && <ExtensionModal />}
 
       <PricingModal />
+      <TransactionModal />
     </Router>
   );
 }
