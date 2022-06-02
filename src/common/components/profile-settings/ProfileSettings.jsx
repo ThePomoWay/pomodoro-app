@@ -129,10 +129,10 @@ export function ProfileSettings(props) {
                   {email}
                 </div>
               </div>
-              {/* <div className={styles["theme"]}>
+              <div className={styles["theme"]}>
                 <div className={styles["subtitle"]}>Choose a Theme</div>
                 <ThemeDropdown />
-              </div> */}
+              </div>
             </div>
             {/* <div className={styles["clock-settings"]}>
               <div className="font-sub-heading">Clear all data</div>

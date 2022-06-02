@@ -14,3 +14,22 @@
   margin-right: 0px !important;
   padding: 0px !important;
 }
+
+.MuiPaper-root {
+  background-color: var(--bg-theme) !important;
+  color: var(--text-theme);
+}
+
+
+.MuiTypography-root {
+  color: var(--text-theme) !important;
+}
+
+.MuiIconButton-root:not(.MuiPickersDay-day) {
+  background-color: var(--bg-theme) !important;
+  color: var(--text-theme) !important;
+}
+
+.MuiSlider-markLabel {
+  color: var(--text-theme) !important;
+}

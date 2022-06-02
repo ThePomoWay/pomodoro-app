@@ -19,6 +19,8 @@ import {
   POMO_BREAK_IDLE_STATE,
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
+  themeLSKey,
+  THEME_DARK,
   PROJECT_COMPLETED_TASK_HIDE,
   TODAYS_COMPLETED_TASK_HIDE,
 } from "../../utils/constants";
@@ -31,6 +33,7 @@ import {
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
   setShowFirstUserState,
+  setTheme,
   setUserPreferences,
   showSuccessToast,
 } from "../slice/GlobalSlice";
@@ -41,6 +44,8 @@ export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
     setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
   );
+
+  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_DARK));
 
   dispatch(
     setHideTodaysCompletedTasks(

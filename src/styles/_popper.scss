@@ -6,10 +6,10 @@
   flex-direction: column;
   padding: 4px 0px;
 
-  background: #ffffff;
-  border: 1px solid #cbcee1;
+  background: var(--bg-theme);
+  border: var(--popper-border);
   box-sizing: border-box;
-  box-shadow: 1px 4px 4px rgba(146, 154, 202, 0.36);
+  box-shadow: var(--popper-box-shadow);
   border-radius: 4px;
   .popper-item {
     padding: 8px;
@@ -25,14 +25,14 @@
 
     cursor: pointer;
 
-    color: #6a6f9a;
+    color: var(--popper-color);
 
     &:hover {
-      background-color: #f3f4ff;
+      background-color: var(--popper-hover);
     }
 
     &:not(:first-child) {
-      border-top: 1px solid #e0e3fc;
+      border-top: var(--popper-item-border);
     }
   }
 }

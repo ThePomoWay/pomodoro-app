@@ -13,7 +13,7 @@ export function ProfileHamburger(props) {
         y1="3.5"
         x2="13.9"
         y2="3.5"
-        stroke="black"
+        stroke="inherit"
         strokeLinecap="round"
       />
       <line
@@ -21,7 +21,7 @@ export function ProfileHamburger(props) {
         y1="7.5"
         x2="13.9"
         y2="7.5"
-        stroke="black"
+        stroke="inherit"
         strokeLinecap="round"
       />
       <line
@@ -29,7 +29,7 @@ export function ProfileHamburger(props) {
         y1="11.5"
         x2="13.9"
         y2="11.5"
-        stroke="black"
+        stroke="inherit"
         strokeLinecap="round"
       />
     </svg>

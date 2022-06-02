@@ -1,27 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
-import styles from "./WebsiteBlocker.module.scss";
-
+import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
-import PieChart from "../pie-chart/PieChart";
-import Navbar from "../navbar/Navbar";
-import {
-  getAnteMeridiemText,
-  getHoursMinsDate,
-  getHourText,
-  getTimeText,
-} from "../../utils/date-utils";
+import { useDispatch, useSelector } from "react-redux";
+import Settings from "../../../pages/settings/Settings";
 import { selectBlockedWebsites, selectStats } from "../../state/selectors";
+import { showErrorToast } from "../../state/slice/GlobalSlice";
 import {
   addBlockedSite,
   getBlockedSites,
   getHistory,
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
-import { CustomSlider } from "../custom-slider/CustomSlider";
-import { Divider } from "@mui/material";
-import { ExpandMoreOutlined } from "@material-ui/icons";
-import { showErrorToast } from "../../state/slice/GlobalSlice";
 import { getObjFromArr } from "../../utils/common";
+import Navbar from "../navbar/Navbar";
+import styles from "./WebsiteBlocker.module.scss";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
@@ -80,6 +71,7 @@ export default function WebsiteBlocker() {
   return (
     <div className={styles["container"]}>
       <Navbar selected="3" />
+      <Settings />
       <div className={styles["main-content"]}>
         {/* <div className={styles["time-track"]}>
           <p className={styles["text"]}>Time Tracking</p>

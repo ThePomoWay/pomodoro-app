@@ -229,7 +229,7 @@ export function TodaysTaskContainer(props) {
 
         {completedTasks.length === 0 && tasks.length === 0 && (
           <div className={styles["completed-illustration"]}>
-            <img src="/illustrations/empty-todays.svg" />
+            {/* <img src="/illustrations/empty-todays.svg" /> */}
             <p className={styles["text"]}>
               Start your day by picking something from all tasks, or jot down
               tasks to be done today

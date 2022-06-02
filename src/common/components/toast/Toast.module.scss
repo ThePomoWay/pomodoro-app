@@ -23,21 +23,21 @@
   }
 
   &.success {
-    background: rgba(69, 218, 129, 1);
-    border: 1px solid #27a95b;
-    color: #238349;
+    background: var(--toast-success-bg);
+    border: var(--toast-success-border);
+    color: var(--toast-success-color);
 
     svg {
-      fill: #238349;
+      fill: var(--toast-success-color);
     }
   }
 
   &.failure {
-    background: #eb6767;
-    border: 1px solid #a92727;
-    color: rgb(14, 13, 13);
+    background: var(--toast-failure-bg);
+    border: var(--toast-failure-border);
+    color: var(--toast-failure-color);
     svg {
-      fill: #832323;
+      fill: var(--toast-failure-color);
     }
   }
 }

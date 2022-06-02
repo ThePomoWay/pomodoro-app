@@ -10,17 +10,20 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 36px;
+  color: var(--text-theme);
 }
 
 .font-sub-heading {
   font-weight: 500;
   font-size: 24px;
   line-height: 28px;
+  color: var(--text-theme);
 }
 
 .font-info {
   font-size: 14px;
   line-height: 20px;
+  color: var(--text-theme-2);
 }
 
 .font-big {
@@ -54,7 +57,7 @@
   font-size: 32px;
   line-height: 36px;
 
-  color: #000000;
+  color: var(--text-theme);
 }
 
 .font-light {

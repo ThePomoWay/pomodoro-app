@@ -75,7 +75,7 @@ export function ClockSettingsModal(props) {
       <div className={styles["hr"]}></div>
       <div className={styles["scrollable"]}>
         <div className={styles["settings-text"]}>
-          <MiniClock />
+          {/* <MiniClock /> */}
           Configure your timer settings here
         </div>
         <div className={styles["slider-item"]}>

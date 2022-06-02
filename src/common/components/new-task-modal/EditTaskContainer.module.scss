@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
 
-  background: #ffffff;
-  border: 1px solid #bbc0eb;
+  background: var(--bg-theme);
+  border: var(--edit-border);
   box-sizing: border-box;
   box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.25);
   border-radius: 8px;
@@ -40,7 +40,7 @@
   }
 }
 .content-editable-div {
-  background: #ffffff;
+  background: var(--bg-theme);
   border: none;
   box-sizing: border-box;
   box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.11);
@@ -49,6 +49,8 @@
   font-size: 14px;
   line-height: 18px;
 
+  color: var(--text-theme-3);
+
   &::placeholder {
     font-size: 14px;
     line-height: 18px;
@@ -56,7 +58,6 @@
     color: #afafaf;
   }
 
-  color: #171717;
 
   position: relative;
 
@@ -97,9 +98,6 @@
 
     .estimated-pomos-text {
       color: #808ac4;
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: normal;
       font-size: 12px;
       line-height: 16px;
 
@@ -123,7 +121,7 @@
       }
 
       &:hover {
-        background-color: #fff5f7;
+        background-color: var(--bg-break);
       }
     }
   }
@@ -144,13 +142,13 @@
 
     margin-right: 8px;
 
-    background: #ffffff;
-    border: 1px solid #dee2fc;
-    color: #414141;
+    background: var(--bg-theme);
+    border: var(--edit-border);
+    color:var(--edit-project-color);
     box-sizing: border-box;
     border-radius: 4px;
 
-    filter: drop-shadow(0px 2px 3px rgba(146, 154, 202, 0.35));
+    filter: var(--project-filter);
 
     font-size: 12px;
     line-height: 16px;

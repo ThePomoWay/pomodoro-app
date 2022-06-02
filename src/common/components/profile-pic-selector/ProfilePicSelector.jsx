@@ -12,14 +12,14 @@ export function ProfilePicSelector(props) {
     if (user.image) {
       let index = 0;
       if (user.image.startsWith("/dp/")) {
-        index = Number(user.image.split("/dp/")[1].split(".jpg")[0]);
+        index = Number(user.image.split("/dp/")[1].split(".png")[0]);
       }
       setSelectedIndex(index - 1);
     }
   }, [user]);
 
   let onSave = () => {
-    let str = "/dp/" + (selectedIndex + 1) + ".jpg";
+    let str = "/dp/" + (selectedIndex + 1) + ".png";
     if (str !== user.image) {
       dispatch(updateUserThunk({ image: str }));
     }
@@ -39,7 +39,7 @@ export function ProfilePicSelector(props) {
                 " " +
                 (index === selectedIndex && styles["selected"])
               }
-              src={"/dp/" + (index + 1) + ".jpg"}
+              src={"/dp/" + (index + 1) + ".png"}
             />
           );
         })}
