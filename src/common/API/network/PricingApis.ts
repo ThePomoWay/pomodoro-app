@@ -29,3 +29,16 @@ export function createCheckoutSession(priceId) {
     }
   );
 }
+
+export function createBillingConfiguration() {
+  let endpoint = createCheckoutSessionEndpoint.replace(
+    "{userId}",
+    AuthService.getUserId()
+  );
+  let userInfo = AuthService.getUserAuthInfo();
+  return NetworkService.post(
+    endpoint, {}, {});
+}
+
+
+
