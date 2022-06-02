@@ -26,6 +26,8 @@ import {
   deleteProject,
   setAllProjects,
   updateProject,
+  setFreeProjects,
+  addToFreeProjects,
 } from "../slice/ProjectSlice";
 import {
   setProjectModalState,
@@ -59,12 +61,21 @@ export const createProjectAsync = createAsyncThunk(
           createLocalProjectAsync({
             project: {
               ...obj.project,
+              createdOn: response.data.createdOn,
               _id: response.data.pid,
             },
           })
         );
 
         dispatch(setProjectModalState(false));
+
+        if (obj.project.title !== "Inbox") {
+          dispatch(addToFreeProjects({
+            _id: response.data.pid,
+            title: obj.project.title,
+            createdOn: new Date()
+          }))
+        }
 
         if (obj.redirect) {
           window.location.href = "/all/project/" + response.data.pid;
@@ -198,7 +209,19 @@ export const deleteProjectLocal = createAsyncThunk(
 
 export const deleteProjectAsync = createAsyncThunk(
   "delete/project",
-  async (project, { dispatch }) => {
+  async (projectContainer, { dispatch }) => {
+    let project = projectContainer.project;
+    let projectsObj = projectContainer.allProjects;
+    let projectsArr = [];
+    for (const [key, value] of Object.entries(projectsObj)) {
+      if (value._id !== project._id) {
+        projectsArr.push({
+          _id: value._id,
+          createdOn: value.createdOn
+        })
+      }
+    }
+
     if (AuthService.isLoggedIn()) {
       let response = await deleteProjectApi(project);
       if (!response) {
@@ -207,6 +230,7 @@ export const deleteProjectAsync = createAsyncThunk(
         dispatch(showErrorToast(response.data.message));
       } else {
         dispatch(deleteProjectLocal(project));
+        dispatch(setFreeProjects(projectsArr));
       }
     }
   }
@@ -290,6 +314,7 @@ export const getAllProjects = createAsyncThunk(
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
     dispatch(setAllProjects(response));
+    dispatch(setFreeProjects(response))
   }
 );
 
@@ -317,3 +342,4 @@ export const deleteSectionAsync = createAsyncThunk(
     }
   }
 );
+

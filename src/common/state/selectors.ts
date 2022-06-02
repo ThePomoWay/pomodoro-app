@@ -88,6 +88,7 @@ export const selectTasksFromPriority = (priority) => {
 
 //projects
 export const selectProjectsObj = (state) => state.projects.projects;
+export const selectFreeProjects = (state) => state.projects.freeProjects;
 export const selectProjectOrder = (state) => state.projects.projectOrder;
 export const selectCompletedTaskInProject = (projectId, sectionId) => {
   return (state) => {
