@@ -4,6 +4,7 @@ import {
   DEFAULT_WORK_TIME,
   themeLSKey,
   THEME_DARK,
+  THEME_LIGHT,
 } from "../../utils/constants";
 
 export const initialGlobalState = {
@@ -21,7 +22,7 @@ export const initialGlobalState = {
     duration: 5000,
     type: "success",
   },
-  theme: THEME_DARK,
+  theme: THEME_LIGHT,
   userPreferences: {
     defaultWorkTime: DEFAULT_WORK_TIME,
     defaultBreakTime: DEFAULT_BREAK_TIME,

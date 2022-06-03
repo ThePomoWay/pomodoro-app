@@ -1,6 +1,6 @@
 export const dark = {
   "--navbar-selected-color": "white",
-  "--bg-theme": "#1E1E27",
+  "--bg-theme": "rgb(18 18 18)",
   "--text-theme": "#FFFFFF",
   "--text-theme-2": "#CECECE",
   "--text-theme-3": "white",

@@ -1,12 +1,7 @@
 @font-face {
   font-family: "Sora";
   font-display: swap;
-  src: url("/styles/font/AvenirLTStd-Black.otf") format("opentype");
-}
-@font-face {
-  font-family: "Sora";
-  font-display: swap;
-  src: url("/styles/font/AvenirLTStd-Black.otf") format("opentype");
+  src: url("/styles/font/Circular.ttf") format("truetype");
 }
 
 html,
@@ -98,7 +93,7 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
 }
