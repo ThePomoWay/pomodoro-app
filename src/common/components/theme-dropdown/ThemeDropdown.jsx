@@ -1,16 +1,16 @@
-import { ClickAwayListener } from "@material-ui/core";
-import { ArrowDropDown } from "@material-ui/icons";
-import { Popper, Radio } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectTheme } from "../../state/selectors";
-import { setTheme } from "../../state/slice/GlobalSlice";
+import { setPricingModalState, setTheme } from "../../state/slice/GlobalSlice";
 import { THEME_DARK, THEME_LIGHT } from "../../utils/constants";
-
+import { CustomSlider } from "../custom-slider/CustomSlider";
 import styles from "./ThemeDropdown.module.scss";
 
 export function ThemeDropdown({}) {
   let [themeAnchorEl, setThemeAnchorEl] = useState(false);
+
+  let { isSubscriptionActive } = usePaymentStatus();
   let theme = useSelector(selectTheme);
 
   const onClose = useCallback(() => {
@@ -19,8 +19,12 @@ export function ThemeDropdown({}) {
 
   let dispatch = useDispatch();
 
-  let switchTheme = (theme) => {
-    dispatch(setTheme(theme));
+  let switchTheme = (dark) => {
+    if (isSubscriptionActive) {
+      dispatch(setTheme(dark ? THEME_DARK : THEME_LIGHT));
+    } else {
+      dispatch(setPricingModalState(true));
+    }
   };
 
   // return (
@@ -69,7 +73,7 @@ export function ThemeDropdown({}) {
 
   return (
     <div className={styles["theme"]}>
-      <div
+      {/* <div
         className={styles["option"]}
         onClick={(e) => switchTheme(THEME_LIGHT)}
       >
@@ -80,7 +84,7 @@ export function ThemeDropdown({}) {
           inputProps={{ "aria-label": "Light Theme" }}
         />
         <p>Light Theme</p>
-      </div>
+      </div> */}
 
       {/* <button
         className={`btn ${theme === THEME_LIGHT ? "btn-save" : "btn-theme"}`}
@@ -89,7 +93,7 @@ export function ThemeDropdown({}) {
         Light Theme
       </button> */}
 
-      <div
+      {/* <div
         className={styles["option"]}
         onClick={(e) => switchTheme(THEME_DARK)}
       >
@@ -100,7 +104,7 @@ export function ThemeDropdown({}) {
           inputProps={{ "aria-label": "Dark Theme" }}
         />
         <p>Dark Theme</p>
-      </div>
+      </div> */}
 
       {/* <button
         className={`btn ${theme === THEME_DARK ? "btn-save" : "btn-theme"}`}
@@ -108,6 +112,8 @@ export function ThemeDropdown({}) {
       >
         Dark Theme
       </button> */}
+
+      <CustomSlider value={theme === THEME_DARK} onChange={switchTheme} />
     </div>
   );
 }

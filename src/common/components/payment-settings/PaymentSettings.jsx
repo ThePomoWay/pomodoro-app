@@ -13,30 +13,40 @@ import { SUBSCRIPTION_STATUS_INACTIVE } from "../../utils/constants";
 import { SUBSCRIPTION_STATUS_PAST_DUE } from "../../utils/constants";
 import { SUBSCRIPTION_STATUS_UNPAID } from "../../utils/constants";
 import { SUBSCRIPTION_STATUS_CANCELED } from "../../utils/constants";
-
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 export function PaymentSettings(props) {
-
-  let user = useSelector(selectUserInfo);
-
-  let planExpiry = "";
-  let [subStatus, setSubStatus] = useState(user.subscription.status);
-
-
-  useEffect(() => {
-    setSubStatus(user.subscription && user.subscription.status || SUBSCRIPTION_STATUS_INACTIVE);
-    planExpiry = (user.planExpiry && new Date(user.planExpiry).getMilliseconds() > 0) ? new Date(user.planExpiry) : ""
-  }, [user]);
+  let { subStatus, planExpiry } = usePaymentStatus();
 
   // pricing modal to be replace by Subscription Inactive component
   return (
     <div style={{ position: "relative" }}>
-        {subStatus == SUBSCRIPTION_STATUS_INACTIVE ? <SubscriptionInactive /> : ""}
-        {subStatus == SUBSCRIPTION_STATUS_ACTIVE ? <SubscriptionActive expiry={planExpiry}  /> : ""}
-        {subStatus == SUBSCRIPTION_STATUS_PAST_DUE ? <SubscriptionPastDue expiry={planExpiry} /> : ""}
-        {subStatus == SUBSCRIPTION_STATUS_UNPAID ? <SubscriptionUnpaid expiry={planExpiry}  /> : ""}
-        {subStatus == SUBSCRIPTION_STATUS_CANCELED ? <SubscriptionCanceled expiry={planExpiry}  /> : ""}
-        <PricingModal />
+      {subStatus == SUBSCRIPTION_STATUS_INACTIVE ? (
+        <SubscriptionInactive />
+      ) : (
+        ""
+      )}
+      {subStatus == SUBSCRIPTION_STATUS_ACTIVE ? (
+        <SubscriptionActive expiry={planExpiry} />
+      ) : (
+        ""
+      )}
+      {subStatus == SUBSCRIPTION_STATUS_PAST_DUE ? (
+        <SubscriptionPastDue expiry={planExpiry} />
+      ) : (
+        ""
+      )}
+      {subStatus == SUBSCRIPTION_STATUS_UNPAID ? (
+        <SubscriptionUnpaid expiry={planExpiry} />
+      ) : (
+        ""
+      )}
+      {subStatus == SUBSCRIPTION_STATUS_CANCELED ? (
+        <SubscriptionCanceled expiry={planExpiry} />
+      ) : (
+        ""
+      )}
+      <PricingModal />
     </div>
   );
 }
