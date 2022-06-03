@@ -3,14 +3,17 @@ import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { selectUserInfo, selectTheme } from "../../../state/selectors";
+import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
+import { SunIcon } from "../../../svgs/SunIcon";
+import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
+import { THEME_DARK } from "../../../utils/constants";
+
 import {
   openOnboardingModal,
   setIsExtensionModalOpen,
 } from "../../../state/slice/GlobalSlice";
-import { selectUserInfo } from "../../../state/selectors";
-import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
-import { SunIcon } from "../../../svgs/SunIcon";
-import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
 import { isExtensionPresent } from "../../../utils/extension-utils";
 
 let navItems = [
@@ -109,7 +112,7 @@ export default function NavbarDesktop(props) {
   let isLoggedIn = AuthService.isLoggedIn();
   let dispatch = useDispatch();
 
-  let userInfo = useSelector(selectUserInfo);
+  let theme = useSelector(selectTheme);
   let history = useHistory();
 
   let onOpenOnboardingModal = () => {
@@ -134,7 +137,14 @@ export default function NavbarDesktop(props) {
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
         <span className={styles["app"]}>
-          <img src="/logo/logo-title.svg" />
+          <img
+            src={
+              theme === THEME_DARK
+                ? "/logo/logo-dark.svg"
+                : "/logo/logo-title.svg"
+            }
+            alt="Logo"
+          />
         </span>
 
         <div className={styles["links"]}>

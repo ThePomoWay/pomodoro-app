@@ -1,15 +1,13 @@
-import { useCallback, useState } from "react";
-import GoogleLogin from "react-google-login";
+import { useCallback } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
-import { LoginForm } from "../../../common/components/login-form/LoginForm";
-import styles from "./login-step.module.scss";
-import { signin } from "../../../common/state/thunks/GlobalThunk";
-
-import { SignupStep1 } from "../signup/signup-step-1";
-import { GoogleIcon } from "../../../common/svgs/GoogleIcon";
-import { FacebookIcon } from "../../../common/svgs/FacebookIcon";
 import { useMediaQuery } from "react-responsive";
+import { LoginForm } from "../../../common/components/login-form/LoginForm";
+import { signin } from "../../../common/state/thunks/GlobalThunk";
+import { FacebookIcon } from "../../../common/svgs/FacebookIcon";
+import { GoogleIcon } from "../../../common/svgs/GoogleIcon";
+import styles from "./login-step.module.scss";
 
 export function LoginStep(props) {
   let dispatch = useDispatch();

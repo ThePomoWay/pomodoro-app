@@ -78,6 +78,8 @@ export const EXTENSION_ID = "agbkeeoecdaegljhmkndleobgbimfoog";
 
 export const focusModeLSKey = "focusMode";
 
+export const themeLSKey = "theme";
+
 //Extension actions
 export const ENABLE_FOCUS_MODE = "enableFocusMode";
 export const DISABLE_FOCUS_MODE = "disableFocusMode";

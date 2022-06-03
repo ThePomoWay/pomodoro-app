@@ -1,13 +1,13 @@
-export function DismissTaskIcon() {
+export function DismissTaskIcon(props) {
   return (
     <svg
       width="12"
       height="12"
       viewBox="0 0 12 12"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
-      <rect width="12" height="12" fill="white" />
+      <rect width="12" height="12" fill="inherit" />
       <rect
         x="1.80005"
         y="1.80078"

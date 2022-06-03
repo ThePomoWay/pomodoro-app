@@ -31,6 +31,7 @@ let sampleData = [
 
 export const initialBlockerState = {
   blockedWebsites: [],
+
   history: [],
 };
 

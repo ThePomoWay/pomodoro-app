@@ -3,7 +3,8 @@ import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
-  THEME_LIGHT,
+  themeLSKey,
+  THEME_DARK,
 } from "../../utils/constants";
 
 export const initialGlobalState = {
@@ -22,7 +23,7 @@ export const initialGlobalState = {
     duration: 5000,
     type: "success",
   },
-  theme: THEME_LIGHT,
+  theme: THEME_DARK,
   userPreferences: {
     defaultWorkTime: DEFAULT_WORK_TIME,
     defaultBreakTime: DEFAULT_BREAK_TIME,
@@ -40,6 +41,7 @@ export const initialGlobalState = {
   },
   multiTabAlertModalState: false,
   isExtensionModalOpen: false,
+
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
   products: [],
@@ -106,6 +108,7 @@ export let globalReducer = {
   },
   setTheme: (state, action) => {
     state.theme = action.payload;
+    localStorage.setItem(themeLSKey, action.payload);
   },
   setUserPreferences: (state, action) => {
     state.userPreferences = { ...state.userPreferences, ...action.payload };
@@ -128,6 +131,7 @@ export let globalReducer = {
   setIsExtensionModalOpen: (state, action) => {
     state.isExtensionModalOpen = action.payload;
   },
+
   setHideTodaysCompletedTasks: (state, action) => {
     state.hideTodaysCompletedTasks = action.payload;
   },

@@ -1,11 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
+  
+  background-color: var(--bg-theme);
+  color: var(--text-theme);
 
   .main-content {
     width: 60vw;
     align-self: center;
     margin-top: 44px;
+
 
     .button {
       width: 80px;
@@ -16,10 +20,11 @@
       font-weight: 500;
       font-size: 12px;
 
-      background: #ffffff;
+      background:  var(--bg-theme);
       border: 1.0177px solid #cbcff7;
       box-sizing: border-box;
       border-radius: 4px;
+
       cursor: pointer;
       text-align: center;
     }
@@ -48,6 +53,7 @@
     }
     .left {
       display: flex;
+
       gap: 9px;
       align-items: center;
 
@@ -64,6 +70,7 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 40px;
+
       margin-top: 32px;
 
       .chart {
@@ -71,6 +78,7 @@
       }
       .sites {
         grid-column: 1 / -1;
+
 
         .title {
           margin-bottom: 20px;
@@ -80,6 +88,8 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+
+        max-height: 230px;
 
         overflow-y: scroll;
 
@@ -106,12 +116,13 @@
         justify-content: space-between;
         border: 1px solid #e4e7fa;
         box-sizing: border-box;
+
         border-radius: 9px;
         padding: 9px;
         align-items: center;
 
         .url {
-          color: #171717;
+          color: var(--text-theme-3);
           font-weight: 400;
           font-size: 14px;
         }
@@ -154,6 +165,7 @@
       flex-direction: column;
       gap: 16px;
       margin-top: 20px;
+
       margin-bottom: 80px;
       .blocker {
         display: flex;
@@ -180,13 +192,14 @@
           border: 1px solid #e4e7fa;
           box-sizing: border-box;
           border-radius: 4px;
-          color: #171717;
+          color: var(--text-theme-3);
           font-size: 14px;
 
           display: flex;
           justify-content: space-between;
 
           align-items: center;
+
           height: 38px;
 
           padding: 6px 8px;
