@@ -123,6 +123,7 @@ export const selectUserPreferences = (state) => state.global.userPreferences;
 //Select user info
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
 export const selectUserInfo = (state) => state.user.user;
+export const selectSubscriptionStatus = (state) => (state.user.subscription & state.user.subscription.status) ? state.user.subscription.status : ""
 
 //onboarding
 export const selectStep = (state) => state.onboarding.step;
