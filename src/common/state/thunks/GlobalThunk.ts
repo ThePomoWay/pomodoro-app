@@ -23,6 +23,7 @@ import {
   THEME_DARK,
   PROJECT_COMPLETED_TASK_HIDE,
   TODAYS_COMPLETED_TASK_HIDE,
+  THEME_LIGHT,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -45,7 +46,7 @@ export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
     setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
   );
 
-  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_DARK));
+  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_LIGHT));
 
   dispatch(
     setHideTodaysCompletedTasks(

@@ -35,6 +35,10 @@
     gap: 26px;
     flex: 1;
 
+    &.align-center {
+      justify-content: center;
+    }
+
     .ctas {
       display: flex;
       gap: 40px;
@@ -52,6 +56,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    flex-wrap: wrap;
+    gap: 30px;
 
     .main-circle {
       width: 25vw;
@@ -176,5 +183,141 @@
   display: flex;
   padding: 0px 80px;
 
-  height: 100vh;
+  gap: 20px;
+
+  min-height: 100vh;
+
+  .dot-grid {
+    position: absolute;
+    left: -20px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+  }
+
+  .left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .right {
+    flex: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+
+    .feature-2 {
+      display: flex;
+      gap: 17px;
+      justify-content: center;
+      flex-direction: row;
+
+      .circles {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #6885f6;
+      }
+
+      .feature-desc {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+
+        .feature-title {
+          font-weight: 700;
+          font-size: 30px;
+          line-height: 38px;
+        }
+        .feature-description {
+          font-weight: 450;
+          font-size: 18px;
+          line-height: 32px;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 48px;
+    margin-bottom: 17px;
+  }
+
+  .sub-title {
+    font-weight: 450;
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 40px;
+
+    max-width: 800px;
+  }
+
+  .img {
+    width: 50vw;
+    height: 50vh;
+  }
+
+  .ribbons {
+    position: absolute;
+
+    .ribbon {
+      position: absolute;
+    }
+
+    .ribbon-1 {
+      @extend .ribbon;
+      left: 150px;
+      top: -110px;
+    }
+    .ribbon-2 {
+      @extend .ribbon;
+      left: 150px;
+    }
+    .ribbon-3 {
+      @extend .ribbon;
+      top: -110px;
+    }
+    .ribbon-4 {
+      @extend .ribbon;
+    }
+  }
+
+  .sub-title-i {
+    @extend .sub-title;
+    font-style: italic;
+  }
+}
+
+.boxes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  height: 400px;
+  align-items: center;
+  margin-top: 40px;
+
+  .box {
+    width: 25%;
+    height: 132px;
+    background: #ffffff;
+    box-shadow: 0px 4px 36px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    padding: 24px;
+
+    font-weight: 450;
+    font-size: 20px;
+    opacity: 0.8;
+  }
 }
