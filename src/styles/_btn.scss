@@ -202,3 +202,30 @@
   justify-content: center;
   align-items: center;
 }
+
+.round-btn {
+  background: #6885f6;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 8px;
+
+  width: 212px;
+  height: 52px;
+}
+.round-btn-empty {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 8px;
+
+  width: 212px;
+  height: 52px;
+
+  border: 1px solid #6885f6;
+  border-radius: 40px;
+}
