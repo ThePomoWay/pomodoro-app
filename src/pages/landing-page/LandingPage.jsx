@@ -11,23 +11,33 @@ import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
 import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
 import { DotGrid } from "./DotGrid";
+import { useState } from "react";
+
+import { faqs } from "./faq";
 
 export function LandingPage(props) {
+  let [faqSection, setFaqSection] = useState(0);
+  console.log(faqs);
   return (
     <div>
       <NavbarNew />
       <div className={styles["first-container"]}>
         <div className={styles["left"] + " " + styles["align-center"]}>
           <p className={styles["title"]}>
-            <p>Productive &</p>
-            <p>Distraction Free </p>
-            <p>Work Sessions</p>
+            <p>Timedojo:</p>
+            <p>No more broken promises </p>
+            <p>of staying productive! </p>
           </p>
 
           <p className={styles["sub-title"]}>
-            Are your deadlines overwhelming you? Timedojo gives you the right
-            push to get started on your daily tasks list for the day. We use the
-            proven Pomodoro technique to improve work quality & time management.
+            Are you watching tons of videos on how to overcome procrastination?
+            Timedojo gives you the right push to get started on your daily tasks
+            list. We use the proven Pomodoro technique to improve focus at work
+            & time management. <br /> <br />
+            Our comprehensive range of features includes focused sessions,
+            organising & labelling tasks list, which help you get more work done
+            in the same time. <br /> <br />
+            Explore the path to work life balance!
           </p>
 
           <div className={styles["ctas"]}>
@@ -53,14 +63,10 @@ export function LandingPage(props) {
       </div>
       <div className={styles["container"]}>
         <div className={styles["left"]}>
-          <h2 className={styles["title"]}>
-            Timedojo is not <br /> just the Timer!
-          </h2>
+          <h2 className={styles["title"]}>Why use Timedojo?</h2>
           <h3 className={styles["sub-title"]}>
             There are a thousand reasons to procrastinate, but just one is
-            enough to fight it! Introducing Timedojo: Now, no more broken
-            promises of staying productive! Here is why we are the best at what
-            we do:
+            enough to fight it! Here is why we are the best at what we do:
           </h3>
           <h3 className={styles["sub-title-i"]}>
             Healthier work habits are just a Pomodoro away!
@@ -68,20 +74,20 @@ export function LandingPage(props) {
         </div>
         <div className={styles["right"]}>
           <FeatureCard
-            text={"Undivided Pomo Focus"}
-            desc={"10x better time management by blocking distracting sites"}
+            text={"Undivided Pomo-Focus"}
+            desc={"10x better time management by blocking distracting sites "}
           />
           <FeatureCard
-            text={"Undivided Pomo Focus"}
-            desc={"10x better time management by blocking distracting sites"}
+            text={"Art of Prioritisation"}
+            desc={"Organise tasks with lists, labels and filters"}
           />
           <FeatureCard
-            text={"Undivided Pomo Focus"}
-            desc={"10x better time management by blocking distracting sites"}
+            text={"Streamline Productivity"}
+            desc={"Track focus intensity & consistency"}
           />
           <FeatureCard
-            text={"Undivided Pomo Focus"}
-            desc={"10x better time management by blocking distracting sites"}
+            text={"Empowered to Customise"}
+            desc={"Freedom to decide Pomo goals with customisable clock"}
           />
         </div>
       </div>
@@ -248,14 +254,14 @@ export function LandingPage(props) {
             <div className={styles["step"]}>
               <div className={styles["circle"]}>1</div>
               <p className={styles["text"]}>
-                Break your work into multiple micro-tasks{" "}
+                Break your work into multiple micro-tasks
               </p>
             </div>
             <div className={styles["step"]}>
               <div className={styles["circle"]}>2</div>
               <p className={styles["text"]}>
                 Estimate number of 25- minute intervals (Pomodoros) for each
-                task{" "}
+                task
               </p>
             </div>
             <div className={styles["step"]}>
@@ -274,7 +280,7 @@ export function LandingPage(props) {
               <div className={styles["circle"]}>5</div>
               <p className={styles["text"]}>
                 Treat yourself to an extended break after completing a cycle of
-                4 Pomodoros.{" "}
+                4 Pomodoros.
               </p>
             </div>
 
@@ -295,7 +301,9 @@ export function LandingPage(props) {
           <div className={styles["testimonial-box"]}>
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
-                <div className={styles["img"]}></div>
+                <div className={styles["img"]}>
+                  <img src="/dp-1.png" />
+                </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Ron Howard</div>
                   <div className={styles["role"]}>Freelance Writer</div>
@@ -307,46 +315,53 @@ export function LandingPage(props) {
                 disappointment at the end of the day.
               </div>
             </div>
+
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
-                <div className={styles["img"]}></div>
+                <div className={styles["img"]}>
+                  <img src="/dp-2.png" />
+                </div>
                 <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Ron Howard</div>
+                  <div className={styles["name"]}>Matt</div>
                   <div className={styles["role"]}>Freelance Writer</div>
+                </div>
+              </div>
+              <div className={styles["content"]}>
+                I love how I get focus timer analytics on the platform. Now, I
+                know what time of the day I am the most productive, and I can
+                plan my day accordingly.
+              </div>
+            </div>
+            <div className={styles["testimonial"]}>
+              <div className={styles["header"]}>
+                <div className={styles["img"]}>
+                  <img src="/dp-3.png" />
+                </div>
+                <div className={styles["designation"]}>
+                  <div className={styles["name"]}>Sue</div>
+                  <div className={styles["role"]}>CEO</div>
+                </div>
+              </div>
+              <div className={styles["content"]}>
+                Timedojo helps me organise my admin tasks into labels and
+                filters. This is super helpful in giving me visibility for the
+                rest of the day!
+              </div>
+            </div>
+            <div className={styles["testimonial"]}>
+              <div className={styles["header"]}>
+                <div className={styles["img"]}>
+                  <img src="/dp-4.png" />
+                </div>
+                <div className={styles["designation"]}>
+                  <div className={styles["name"]}>Jim</div>
+                  <div className={styles["role"]}>Brand Manager</div>
                 </div>
               </div>
               <div className={styles["content"]}>
                 Sites that distract me from my deadline can now be blocked
                 during my focus sessions. This platform is truly the best online
                 pomodoro timer!
-              </div>
-            </div>
-            <div className={styles["testimonial"]}>
-              <div className={styles["header"]}>
-                <div className={styles["img"]}></div>
-                <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Ron Howard</div>
-                  <div className={styles["role"]}>Freelance Writer</div>
-                </div>
-              </div>
-              <div className={styles["content"]}>
-                I usually do up to 10 Pomos a day! Estimating tasks in Pomodoros
-                has helped me to not exaggerate my to-do's, saving me from
-                disappointment at the end of the day.
-              </div>
-            </div>
-            <div className={styles["testimonial"]}>
-              <div className={styles["header"]}>
-                <div className={styles["img"]}></div>
-                <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Ron Howard</div>
-                  <div className={styles["role"]}>Freelance Writer</div>
-                </div>
-              </div>
-              <div className={styles["content"]}>
-                I usually do up to 10 Pomos a day! Estimating tasks in Pomodoros
-                has helped me to not exaggerate my to-do's, saving me from
-                disappointment at the end of the day.
               </div>
             </div>
           </div>
@@ -357,67 +372,31 @@ export function LandingPage(props) {
         <div className={styles["center"]}>
           <div className={styles["title"]}>Frequently Asked Questions</div>
           <div className={styles["faq-box"]}>
+            <div className={styles["header"]}>
+              <button
+                className={`btn ${
+                  faqSection === 0 ? "round-btn" : "round-btn-empty"
+                }`}
+                onClick={(e) => setFaqSection(0)}
+              >
+                Pomodoro Technique
+              </button>
+              <button
+                className={`btn ${
+                  faqSection === 1 ? "round-btn" : "round-btn-empty"
+                }`}
+                onClick={(e) => setFaqSection(1)}
+              >
+                Timedojo
+              </button>
+            </div>
             <div className={styles["faqs"]}>
-              <div className={styles["faq"]}>
-                <div className={styles["question"]}>
-                  1. How does Timedojo fight procrastination?
+              {faqs[faqSection].map((item) => (
+                <div className={styles["faq"]}>
+                  <div className={styles["question"]}>{item.question}</div>
+                  <div className={styles["answer"]}>{item.answer}</div>
                 </div>
-                <div className={styles["answer"]}>
-                  Timedojo is a hyper focus tool that helps you in task and time
-                  management. You can now organise your tasks list as per
-                  priority, block distracting sites and begin your focus
-                  sessions to meet deadlines and make the most of your day
-                  successfully.
-                </div>
-              </div>
-              <div className={styles["faq"]}>
-                <div className={styles["question"]}>
-                  1. How does Timedojo fight procrastination?
-                </div>
-                <div className={styles["answer"]}>
-                  Timedojo is a hyper focus tool that helps you in task and time
-                  management. You can now organise your tasks list as per
-                  priority, block distracting sites and begin your focus
-                  sessions to meet deadlines and make the most of your day
-                  successfully.
-                </div>
-              </div>
-              <div className={styles["faq"]}>
-                <div className={styles["question"]}>
-                  1. How does Timedojo fight procrastination?
-                </div>
-                <div className={styles["answer"]}>
-                  Timedojo is a hyper focus tool that helps you in task and time
-                  management. You can now organise your tasks list as per
-                  priority, block distracting sites and begin your focus
-                  sessions to meet deadlines and make the most of your day
-                  successfully.
-                </div>
-              </div>
-              <div className={styles["faq"]}>
-                <div className={styles["question"]}>
-                  1. How does Timedojo fight procrastination?
-                </div>
-                <div className={styles["answer"]}>
-                  Timedojo is a hyper focus tool that helps you in task and time
-                  management. You can now organise your tasks list as per
-                  priority, block distracting sites and begin your focus
-                  sessions to meet deadlines and make the most of your day
-                  successfully.
-                </div>
-              </div>
-              <div className={styles["faq"]}>
-                <div className={styles["question"]}>
-                  1. How does Timedojo fight procrastination?
-                </div>
-                <div className={styles["answer"]}>
-                  Timedojo is a hyper focus tool that helps you in task and time
-                  management. You can now organise your tasks list as per
-                  priority, block distracting sites and begin your focus
-                  sessions to meet deadlines and make the most of your day
-                  successfully.
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
