@@ -2,13 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../state/selectors";
 import { buyProductThunk, getProducts } from "../../state/thunks/GlobalThunk";
-import { DarkModeIcon } from "../../svgs/DarkModeIcon";
-import { PricingModalAnalysisIcon } from "../../svgs/PricingModalAnalysisIcon";
-import { PricingModalBlockIcon } from "../../svgs/PricingModalBlockIcon";
-import { PricingModalMusicIcon } from "../../svgs/PricingModalMusicIcon";
-import { PricingModalUnlockIcon } from "../../svgs/PricingModalUnlockIcon";
-import { PricingNotesIcon } from "../../svgs/PricingNotesIcon";
-import PricingFeatures from "../pricing-features/pricing-features";
+import { CURRENCY_MAP } from "../../utils/constants";
 
 import styles from "../pricing-modal/PricingModal.module.scss";
 
@@ -24,20 +18,33 @@ export function PricingCTAs(props) {
     dispatch(buyProductThunk(item));
   };
 
+  console.log(products);
+
   return (
     <div className={styles["pricing-ctas"]}>
-        <p className={styles["text"]}>Get the best experience at</p>
-        <p className={styles["ctas"]}>
-            {products.map((item) => (
+      <p className={styles["text"]}>Choose your plan</p>
+      <p className={styles["products"]}>
+        {products.map((item) => (
+          <div className={styles["product"]}>
+            <div className={styles["name"]}>
+              {item.name || "monthly package"}
+            </div>
+            <div className={styles["price"]}>
+              <span className={styles["currency"]}>
+                {CURRENCY_MAP[item.currency] || "$"}
+              </span>
+              {item.unit_amount / 100}
+            </div>
             <button
-                className="btn btn-save"
-                key={item._id}
-                onClick={(e) => buyProduct(item)}
+              className={`btn btn-save ${styles["cta"]}`}
+              key={item._id}
+              onClick={(e) => buyProduct(item)}
             >
-                {item.currency} {item.unit_amount / 100} per {item.interval}
+              Buy
             </button>
-            ))}
-        </p>
+          </div>
+        ))}
+      </p>
     </div>
   );
 }

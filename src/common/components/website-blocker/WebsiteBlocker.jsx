@@ -2,7 +2,6 @@ import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Settings from "../../../pages/settings/Settings";
-import { selectBlockedWebsites, selectStats } from "../../state/selectors";
 import {
   selectBlockedWebsites,
   selectFocusModeObj,

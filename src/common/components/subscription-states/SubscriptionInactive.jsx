@@ -1,12 +1,15 @@
 import { PricingCTAs } from "../pricing-ctas/pricing-ctas";
+import PricingFeatures from "../pricing-features/pricing-features";
+import styles from "./Subscription.module.scss";
 
 export default function SubscriptionInactive(props) {
-    return (
-        <div>
-            // Subscription Inactive
-            // List all the product that we have along with features covered below pricing
-
-            <PricingCTAs />
-        </div>
-    );
+  return (
+    <div>
+      <div className={styles["title"]}>Upgrade to Premium</div>
+      <div className={styles["hr"]}></div>
+      <div className={styles["sub-title"]}>Features</div>
+      <PricingFeatures hideHeading={true} />
+      <PricingCTAs />
+    </div>
+  );
 }

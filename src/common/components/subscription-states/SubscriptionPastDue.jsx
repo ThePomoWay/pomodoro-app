@@ -1,21 +1,28 @@
 import { getBillingConfiguration } from "../../state/thunks/GlobalThunk";
 import { useDispatch } from "react-redux";
+import styles from "./Subscription.module.scss";
+import PricingFeatures from "../pricing-features/pricing-features";
+import { PricingCTAs } from "../pricing-ctas/pricing-ctas";
 
 export default function SubscriptionActive(props) {
-    let dispatch = useDispatch();
+  let dispatch = useDispatch();
 
-    function getBillConfigLink() {
-        dispatch(getBillingConfiguration())
-    }
+  return (
+    <div>
+      <div className={styles["title"]}>
+        Your Subscription has <span className={styles["red"]}>EXPIRED</span>
+      </div>
+      <div className={styles["hr"]}></div>
+      <div className={styles["expiry-text"]}>
+        Your premium membership expired on{" "}
+        <span className={styles["red"]}>{props.expiry}</span>
+      </div>
 
-    return (
-        <div>
-            // Subscription Past Due
-            // Inform User that we are failing to fetch money and ask them to update payment info if required from billing configuration
+      <div className={styles["sub-title"]}>Features</div>
 
-            <p> Your plan will auto renew on {props.planExpiry || "expiry is empty"} </p>
+      <PricingFeatures hideHeading={true} />
 
-            <button onClick={getBillConfigLink()}> Manage Payment </button>
-        </div>
-    );
+      <PricingCTAs />
+    </div>
+  );
 }

@@ -1,14 +1,20 @@
 import { PricingCTAs } from "../pricing-ctas/pricing-ctas";
+import PricingFeatures from "../pricing-features/pricing-features";
+import styles from "./Subscription.module.scss";
 
 export default function SubscriptionUnpaid(props) {
-    return (
-        <div>
-            // Subscription Unpaid
-            // Inform User that their plan has expired and that they can buy a new one. Show our products
+  return (
+    <div>
+      <div className={styles["title"]}>
+        Your Subscription is <span className={styles["red"]}>UNPAID</span>
+      </div>
+      <div className={styles["hr"]}></div>
 
-            Your subscription expired on {props.planExpiry || <p>"_"</p>}
-            <PricingCTAs />
-        </div>
-    );
+      <div className={styles["sub-title"]}>Features</div>
+
+      <PricingFeatures hideHeading={true} />
+
+      <PricingCTAs />
+    </div>
+  );
 }
-
