@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getOriginFromUrl } from "../../utils/common";
 import { sendMessageToExtension } from "../../utils/extension-utils";
-import { setBlockedWebsites, setHistory } from "../slice/BlockerSlice";
+import {
+  setBlockedWebsites,
+  setFocusTimeTrackingObj,
+  setHistory,
+  setTimeTrackingObj,
+} from "../slice/BlockerSlice";
 
 export const getHistory = createAsyncThunk(
   "blocker/getStats",
@@ -27,6 +33,59 @@ export const getBlockedSites = createAsyncThunk(
     sendMessageToExtension({
       action: "getBlockedSites",
     });
+  }
+);
+
+export const getTimeTrackingDetails = createAsyncThunk(
+  "blocker/getTimeTrackingDetails",
+  async (_, { getState, dispatch }) => {
+    sendMessageToExtension({
+      action: "getTodaysTimeSpent",
+    });
+  }
+);
+
+export const onTimeTrackingDetailsReceived = createAsyncThunk(
+  "blocker/getTimeTracking/success",
+  async (obj: any, { dispatch }) => {
+    let totalTimeSpent = 0;
+    let timeTrackObj = obj[0];
+    let focusObj = obj[1];
+    let totalSites = Object.keys(timeTrackObj).map((item) => {
+      totalTimeSpent += timeTrackObj[item];
+      return {
+        url: "https://" + item,
+        timeSpent: timeTrackObj[item],
+        percent: 0,
+        host: getOriginFromUrl("https://" + item),
+      };
+    });
+
+    totalSites.forEach((item) => {
+      item.percent = Math.round((item.timeSpent / totalTimeSpent) * 100);
+    });
+
+    totalSites.sort((a, b) => b.timeSpent - a.timeSpent);
+
+    totalTimeSpent = 0;
+    let focusSites = Object.keys(focusObj).map((item) => {
+      totalTimeSpent += focusObj[item];
+      return {
+        url: "https://" + item,
+        timeSpent: focusObj[item],
+        percent: 0,
+        host: getOriginFromUrl("https://" + item),
+      };
+    });
+
+    focusSites.forEach((item) => {
+      item.percent = Math.round((item.timeSpent / totalTimeSpent) * 100);
+    });
+
+    focusSites.sort((a, b) => b.timeSpent - a.timeSpent);
+
+    dispatch(setTimeTrackingObj(totalSites));
+    dispatch(setFocusTimeTrackingObj(focusSites));
   }
 );
 
