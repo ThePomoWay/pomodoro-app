@@ -18,4 +18,9 @@ export const blockerSlice = createSlice({
   },
 });
 
-export const { setBlockedWebsites, setHistory } = blockerSlice.actions;
+export const {
+  setBlockedWebsites,
+  setHistory,
+  setTimeTrackingObj,
+  setFocusTimeTrackingObj,
+} = blockerSlice.actions;

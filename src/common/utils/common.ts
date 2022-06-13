@@ -138,6 +138,13 @@ export function allowOnlyOneTab(redirectUrl, ogUrl) {
   );
 }
 
+export function getOriginFromUrl(url) {
+  if (url) {
+    return url.split("/")[2];
+  }
+  return "";
+}
+
 let unloadQueue = [];
 export function addWindowUnloadFn(fn) {
   unloadQueue.push(fn);
