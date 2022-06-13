@@ -74,10 +74,10 @@
       margin-top: 32px;
 
       .chart {
-        grid-column: 1 / 4;
+        grid-column: 1 / 6;
       }
       .sites {
-        grid-column: 1 / -1;
+        grid-column: 6 / -1;
 
 
         .title {
@@ -186,8 +186,7 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-        
-       
+
         .blocked-site {
           border: 1px solid #e4e7fa;
           box-sizing: border-box;

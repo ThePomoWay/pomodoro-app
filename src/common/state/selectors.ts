@@ -123,7 +123,10 @@ export const selectUserPreferences = (state) => state.global.userPreferences;
 //Select user info
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
 export const selectUserInfo = (state) => state.user.user;
-export const selectSubscriptionStatus = (state) => (state.user.subscription & state.user.subscription.status) ? state.user.subscription.status : ""
+export const selectSubscriptionStatus = (state) =>
+  state.user.subscription & state.user.subscription.status
+    ? state.user.subscription.status
+    : "";
 
 //onboarding
 export const selectStep = (state) => state.onboarding.step;
@@ -141,3 +144,5 @@ export const selectStats = (state) => state.blocker.history;
 export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;
 
 export const selectTransactionModal = (state) => state.global.transactionModal;
+export const selectTimeTrackingObj = (state) => state.blocker.timeTrackingObj;
+export const selectFocusModeObj = (state) => state.blocker.focusTrackingObj;
