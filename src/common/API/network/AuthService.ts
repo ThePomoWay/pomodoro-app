@@ -1,8 +1,3 @@
-import { getCookie } from "../../utils/common";
-import { clearTasksInIDB } from "../indexed-db-ops/crud";
-import { isSyncRequired } from "../../offlineSync/offlineSync";
-
-
 export const userAuthInfoLsKey = "userAuthInfo";
 const uidKey = "uid";
 export const justLoggedInKey = "newSignin";

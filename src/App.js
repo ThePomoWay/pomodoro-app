@@ -21,6 +21,7 @@ import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import { LandingPage } from "./pages/landing-page/LandingPage";
 import { TutorialModal } from "./common/components/tutorial-modal/TutorialModal";
+import { LANDING_PAGE_CLOSE } from "./common/utils/constants";
 
 function App() {
   let dispatch = useDispatch();
@@ -34,6 +35,9 @@ function App() {
   if (AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
   }
+
+  let isLoggedIn = AuthService.isLoggedIn();
+  let isLandingPageVisited = localStorage.getItem(LANDING_PAGE_CLOSE);
 
   return (
     <Router>
@@ -67,7 +71,12 @@ function App() {
           <Homepage />
         </Route>
         <Route exact path="/">
-          <LandingPage />
+          {!isLoggedIn && !isLandingPageVisited ? (
+            <LandingPage />
+          ) : (
+            <Homepage />
+          )}
+          {/* <LandingPage /> */}
         </Route>
       </Switch>
       <Toast />

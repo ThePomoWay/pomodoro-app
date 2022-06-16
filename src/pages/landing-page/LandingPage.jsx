@@ -19,6 +19,7 @@ import { faqs } from "./faq";
 import { useDispatch } from "react-redux";
 import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
 import { ReactComponent as PlaySvg } from "../../common/svgs/PlayLanding.svg";
+import { LANDING_PAGE_CLOSE } from "../../common/utils/constants";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -26,6 +27,7 @@ export function LandingPage(props) {
   let dispatch = useDispatch();
   let getStarted = () => {
     dispatch(openTutorialModal());
+    localStorage.setItem(LANDING_PAGE_CLOSE, "true");
     history.push("/app");
   };
   return (

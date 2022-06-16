@@ -95,3 +95,4 @@ export const THEME_DARK = "dark";
 export const PAGE_TITLE = "TimeDojo - Improve your productivity!";
 
 export const TASK_VARIANT_TODAYS = "todays";
+export const LANDING_PAGE_CLOSE = "landing";
