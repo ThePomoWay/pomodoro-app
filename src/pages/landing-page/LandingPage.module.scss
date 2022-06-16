@@ -7,7 +7,7 @@
   display: flex;
   padding: 0px 80px;
 
-  height: 100vh;
+  min-height: 80vh;
 
   .rect {
     width: 15px;
@@ -107,8 +107,10 @@
     .tp-circle-1 {
       @extend .tp-circle;
 
-      left: 15vw;
-      top: -2vw;
+      width: 35vw;
+      height: 35vw;
+      left: 6vw;
+      top: -4vw;
 
       .rect {
         background: #3e7fff;
@@ -117,7 +119,7 @@
         width: 15px;
         height: 15px;
         position: absolute;
-        left: 10vw;
+        left: 11vw;
         top: 0.5vh;
       }
     }

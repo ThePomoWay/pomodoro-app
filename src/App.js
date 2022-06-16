@@ -20,6 +20,7 @@ import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
 import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import { LandingPage } from "./pages/landing-page/LandingPage";
+import { TutorialModal } from "./common/components/tutorial-modal/TutorialModal";
 
 function App() {
   let dispatch = useDispatch();
@@ -71,6 +72,7 @@ function App() {
       </Switch>
       <Toast />
       <MultiTabAlertModal />
+      <TutorialModal />
       {!isExtensionPresent && <ExtensionModal />}
     </Router>
   );

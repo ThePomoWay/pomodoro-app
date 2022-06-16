@@ -32,4 +32,6 @@ export const {
   setIsExtensionModalOpen,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  openTutorialModal,
+  closeTutorialModal,
 } = globalSlice.actions;

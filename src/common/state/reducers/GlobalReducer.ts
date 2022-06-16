@@ -43,6 +43,7 @@ export const initialGlobalState = {
 
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
+  showTutorialModal: true,
 };
 
 export let globalReducer = {
@@ -130,5 +131,11 @@ export let globalReducer = {
   },
   setHideProjectsCompletedTasks: (state, action) => {
     state.hideProjectCompletedTasks = action.payload;
+  },
+  openTutorialModal: (state, action) => {
+    state.showTutorialModal = true;
+  },
+  closeTutorialModal: (state, action) => {
+    state.showTutorialModal = false;
   },
 };
