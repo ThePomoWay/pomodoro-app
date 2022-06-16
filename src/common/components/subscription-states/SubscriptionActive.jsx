@@ -22,7 +22,7 @@ export default function SubscriptionActive(props) {
 
       <p className={styles["expiry-text"]}>Manage your premium subscription</p>
 
-      <button className="btn add-task-btn" onClick={getBillConfigLink()}>
+      <button className="btn add-task-btn" onClick={getBillConfigLink}>
         Manage
       </button>
     </div>

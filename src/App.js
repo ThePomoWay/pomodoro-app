@@ -79,7 +79,7 @@ function App() {
         <Route path="/success">
           <PostTransactionHandler />
         </Route>
-        <Route path="/error">
+        <Route path="/failure">
           <PostTransactionHandler />
         </Route>
         <Route exact path="/">

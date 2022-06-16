@@ -1,5 +1,6 @@
 import AuthService from "./AuthService";
 import {
+  createBillingPortalEndpoint,
   createCheckoutSessionEndpoint,
   getAllProductsEndpoint,
 } from "./Endpoints";
@@ -31,7 +32,7 @@ export function createCheckoutSession(priceId) {
 }
 
 export function createBillingConfiguration() {
-  let endpoint = createCheckoutSessionEndpoint.replace(
+  let endpoint = createBillingPortalEndpoint.replace(
     "{userId}",
     AuthService.getUserId()
   );

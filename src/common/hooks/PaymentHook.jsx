@@ -9,7 +9,7 @@ import {
 export function usePaymentStatus() {
   let user = useSelector(selectUserInfo);
   let [subStatus, setSubStatus] = useState(user.subscription.status);
-  let [planExpiry, setPlanExpiry] = useState("");
+  let [planExpiry, setPlanExpiry] = useState(user.expiry);
   let [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 
   useEffect(() => {
@@ -18,8 +18,8 @@ export function usePaymentStatus() {
         SUBSCRIPTION_STATUS_INACTIVE
     );
     setPlanExpiry(
-      user.planExpiry && new Date(user.planExpiry).getMilliseconds() > 0
-        ? new Date(user.planExpiry)
+      user.expiry && new Date(user.expiry).getTime() > 0
+        ? user.expiry
         : ""
     );
 
