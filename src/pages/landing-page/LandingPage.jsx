@@ -36,22 +36,16 @@ export function LandingPage(props) {
       <div className={styles["first-container"]}>
         <div className={styles["left"] + " " + styles["align-center"]}>
           <p className={styles["title"]}>
-            <p>Timedojo:</p>
-            <p>No more broken promises </p>
-            <p>of staying productive! </p>
+            <p>Productive & distraction free work sessions</p>
           </p>
 
           <p className={styles["sub-title"]}>
-            Are you watching tons of videos on how to overcome procrastination?
-            Timedojo gives you the right push to get started on your daily tasks
-            list. We use the proven Pomodoro technique to improve focus at work
-            & time management. <br /> <br />
-            Our comprehensive range of features includes focused sessions,
-            organising & labelling tasks list, which help you get more work done
-            in the same time. <br /> <br />
-            Explore the path to work life balance!
+            The Ultimate Pomdoro Timer ⏰ for all your tough to-dos and powerful website blocker 
+            so that you don’t start scrolling youtube or wandering on facebook in your work sessions 🤓
           </p>
-
+          <p className={styles["sub-title"]}>
+          That’s not it, meet you daily focus goal and start earning your badges now 🚀 
+          </p>
           <div className={styles["ctas"]}>
             <button className="btn btn-add-new" onClick={() => getStarted()}>
               Get Started
@@ -86,8 +80,11 @@ export function LandingPage(props) {
           <span className={styles["rect-4"]}></span>
           <h2 className={styles["title"]}>Why use Timedojo?</h2>
           <h3 className={styles["sub-title"]}>
-            There are a thousand reasons to procrastinate, but just one is
-            enough to fight it! Here is why we are the best at what we do:
+          Are you watching tons of videos on how to overcome procrastination? Timedojo gives you the right push to get started on your daily tasks list. 
+          We use the proven Pomodoro  technique to improve focus at work & time management.
+          </h3>
+          <h3 className={styles["sub-title"]}>
+          Here is why we are the best Pomodoro app<span className={styles['emoji']}>   👉</span>
           </h3>
           <h3 className={styles["sub-title-i"]}>
             Healthier work habits are just a Pomodoro away!
@@ -242,6 +239,9 @@ export function LandingPage(props) {
             Pomodoro technique has a 25-5 rule wherein you focus for 25 minutes,
             followed by a 5-minute break.
           </div>
+          <h3 className={styles["sub-title-i"]}>
+          Now, time is on your side!
+          </h3>
         </div>
         <div className={styles["right"]}>
           <BlogginSvg className={styles["max-svg"]} />

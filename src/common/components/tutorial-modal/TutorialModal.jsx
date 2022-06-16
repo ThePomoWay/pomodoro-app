@@ -10,19 +10,19 @@ import styles from "./TutorialModal.module.scss";
 
 let STEP_DETAILS = [
   {
-    title: "Plan Your Day",
+    title: "Plan Everyday in Advance",
     description:
-      "Are your deadlines overwhelming you? Timedojo gives you the right push to get started on your daily tasks list for the day. We use the proven Pomodoro technique to improve work quality & time management. ",
+      "Create Task. Estimate lenght in pomodoros. Press play to start timer.",
   },
   {
     title: "Don’t let tasks slide",
     description:
-      "Are your deadlines overwhelming you? Timedojo gives you the right push to get started on your daily tasks list for the day. We use the proven Pomodoro technique to improve work quality & time management. ",
+      "Keep your tasks organished with projects, labels and priorities. Press '+' to add to today's list.",
   },
   {
     title: "Focus Better",
     description:
-      "Are your deadlines overwhelming you? Timedojo gives you the right push to get started on your daily tasks list for the day. We use the proven Pomodoro technique to improve work quality & time management. ",
+      "Don't let social media get to you. Focus better by blocking all distractions.",
   },
 ];
 
