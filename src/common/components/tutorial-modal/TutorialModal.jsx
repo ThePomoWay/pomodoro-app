@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTutorialModal } from "../../state/selectors";
 import { closeTutorialModal } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
+import { ProgressStrip } from "./ProgressStrip";
 import styles from "./TutorialModal.module.scss";
 
 let STEP_DETAILS = [
@@ -63,6 +64,7 @@ export function TutorialModal(props) {
               <div className={styles["btn"]} onClick={(e) => nextStep()}>
                 <ChevronRight style={{ color: "white" }} />
               </div>
+              <ProgressStrip selected={step} />
             </div>
 
             <div className={styles["right"]}>

@@ -18,6 +18,7 @@ import { useState } from "react";
 import { faqs } from "./faq";
 import { useDispatch } from "react-redux";
 import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
+import { ReactComponent as PlaySvg } from "../../common/svgs/PlayLanding.svg";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -58,7 +59,12 @@ export function LandingPage(props) {
         </div>
         <div className={styles["right"]}>
           <div className={styles["main-circle"]}>
-            <div className={styles["circle-2"]}></div>
+            <div className={styles["circle-2"]}>
+              <div className={styles["text"]}>25:00</div>
+              <div className={styles["play"]}>
+                <PlaySvg />
+              </div>
+            </div>
             <div className={styles["purple-rect"]}></div>
             <span className={styles["tp-circle-1"]}>
               <span className={styles["rect"]}></span>
