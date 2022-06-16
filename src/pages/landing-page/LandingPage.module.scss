@@ -1,3 +1,9 @@
+.rect {
+  width: 15px;
+  height: 15px;
+
+  border-radius: 3px;
+}
 .first-container {
   background-color: var(--bg-theme);
   width: 100vw;
@@ -8,13 +14,6 @@
   padding: 0px 80px;
 
   min-height: 80vh;
-
-  .rect {
-    width: 15px;
-    height: 15px;
-
-    border-radius: 3px;
-  }
 
   .rect-1 {
     @extend .rect;
@@ -27,6 +26,17 @@
     background: #ff6701;
 
     transform: rotate(103deg);
+  }
+
+  .rect-3 {
+    @extend .rect;
+    background: #ff6701;
+
+    transform: rotate(103deg);
+
+    position: absolute;
+    bottom: -10vh;
+    left: 0;
   }
 
   .left {
@@ -189,6 +199,16 @@
 
   min-height: 100vh;
 
+  .rect-4 {
+    @extend .rect;
+    background: #3e7fff;
+    border-radius: 3px;
+    transform: rotate(163deg);
+    position: absolute;
+    top: 22vh;
+    right: 18vw;
+  }
+
   .dot-grid {
     position: absolute;
     left: -20px;
@@ -208,6 +228,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+
+    position: relative;
   }
 
   .desc {

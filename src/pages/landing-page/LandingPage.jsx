@@ -1,6 +1,8 @@
 import NavbarNew from "../../common/components/navbar-new/NavbarNew";
 import { FeatureCard } from "./FeatureCard";
 import styles from "./LandingPage.module.scss";
+
+import { useHistory } from "react-router-dom";
 import { ReactComponent as Ribbon1 } from "../../common/svgs/ribbon-1.svg";
 import { ReactComponent as Ribbon2 } from "../../common/svgs/ribbon-2.svg";
 import { ReactComponent as Ribbon3 } from "../../common/svgs/ribbon-3.svg";
@@ -14,10 +16,17 @@ import { DotGrid } from "./DotGrid";
 import { useState } from "react";
 
 import { faqs } from "./faq";
+import { useDispatch } from "react-redux";
+import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
-  console.log(faqs);
+  let history = useHistory();
+  let dispatch = useDispatch();
+  let getStarted = () => {
+    dispatch(openTutorialModal());
+    history.push("/app");
+  };
   return (
     <div>
       <NavbarNew />
@@ -41,8 +50,10 @@ export function LandingPage(props) {
           </p>
 
           <div className={styles["ctas"]}>
-            <button className="btn btn-add-new">Get Started</button>
-            <p className={styles["add-more"]}>Know More</p>
+            <button className="btn btn-add-new" onClick={() => getStarted()}>
+              Get Started
+            </button>
+            {/* <p className={styles["add-more"]}>Know More</p> */}
           </div>
         </div>
         <div className={styles["right"]}>
@@ -52,6 +63,7 @@ export function LandingPage(props) {
             <span className={styles["tp-circle-1"]}>
               <span className={styles["rect"]}></span>
             </span>
+            <span className={styles["rect-3"]}></span>
 
             <span className={styles["tp-circle-2"]}>
               <span className={styles["rect"]}></span>
@@ -63,6 +75,7 @@ export function LandingPage(props) {
       </div>
       <div className={styles["container"]}>
         <div className={styles["left"]}>
+          <span className={styles["rect-4"]}></span>
           <h2 className={styles["title"]}>Why use Timedojo?</h2>
           <h3 className={styles["sub-title"]}>
             There are a thousand reasons to procrastinate, but just one is

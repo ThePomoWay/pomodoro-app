@@ -20,7 +20,7 @@ let navItems = [
   {
     icon: <SunIcon />,
     title: "Today's Tasks",
-    to: "/",
+    to: "/app",
   },
   {
     icon: (

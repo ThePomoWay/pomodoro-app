@@ -63,7 +63,7 @@ function App() {
         <Route path="/manage">
           <WebsiteBlocker />
         </Route>
-        <Route path="/timer">
+        <Route path="/app">
           <Homepage />
         </Route>
         <Route exact path="/">
