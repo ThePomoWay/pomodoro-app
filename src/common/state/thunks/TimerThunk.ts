@@ -39,7 +39,10 @@ import {
   STATS_TYPE_PAUSED,
 } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
-import { sendMessageToExtension } from "../../utils/extension-utils";
+import {
+  sendMessageToExtension,
+  UPDATE_TIMER_ACTION,
+} from "../../utils/extension-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
 import {
   ACTIONS_ADD_TIME,
@@ -144,7 +147,7 @@ export let updateTimerState = createAsyncThunk(
     if (curStateObj && curStateObj.pomoState !== stateInStore.pomoState) {
       //@ts-ignore
       sendMessageToExtension({
-        action: "updateTimerState",
+        action: UPDATE_TIMER_ACTION,
         timerState: updateObj,
       });
     }
@@ -580,7 +583,7 @@ export const addMinsToClock = createAsyncThunk(
     dispatch(updateTimerState(updateObj));
 
     sendMessageToExtension({
-      action: "updateTimerState",
+      action: UPDATE_TIMER_ACTION,
       timerState: updateObj,
     });
   }

@@ -16,7 +16,7 @@ import {
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
-import { getTimeText } from "../../utils/date-utils";
+import { getFormattedTime, getTimeText } from "../../utils/date-utils";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
@@ -56,9 +56,12 @@ export default function WebsiteBlocker() {
       siteInput = "https://" + siteInput;
     }
     try {
+      siteInput = siteInput.replace("www.", "");
       let url = new URL(siteInput);
       if (url.hostname in blockedHostsObj) {
         dispatch(showErrorToast("Host already blocked"));
+      } else if (url.hostname.includes("timedojo.io")) {
+        dispatch(showErrorToast("Timedojo cannot be blocked"));
       } else {
         dispatch(
           addBlockedSite({
@@ -129,7 +132,7 @@ export default function WebsiteBlocker() {
                       "http://www.google.com/s2/favicons?domain=" + item.host
                     }
                   />
-                  {item.url}
+                  {item.host}
                 </div>
                 <button
                   className={styles["button"]}
@@ -192,7 +195,7 @@ export default function WebsiteBlocker() {
                       {/* Last visited: {getAnteMeridiemText(item.lastVisitTime)}
                        */}
                       {/* Visited {item.visitedCount} times */}
-                      {getTimeText(item.timeSpent / 60000)}
+                      {getFormattedTime(item.timeSpent / 1000)}
                     </span>
                     {!(item.host in blockedHostsObj) && (
                       <span
