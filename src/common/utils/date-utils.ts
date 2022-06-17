@@ -83,6 +83,23 @@ export function getTimeText(mins) {
   return `${Math.floor(mins / 60)} hr ${m} mins`;
 }
 
+export function getFormattedTime(secs) {
+  if (!secs) {
+    return "";
+  }
+  secs = Math.floor(secs);
+  if (secs < 60) {
+    return secs + " secs";
+  }
+  let m = secs / 60;
+  if (m < 60) {
+    return Math.floor(m) + " mins";
+  }
+  let h = Math.floor(m / 60);
+  m = m % 60;
+  return `${Math.floor(h)} hr ${m} mins`;
+}
+
 export function daysInMonth(date) {
   date = new Date(date);
   return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();

@@ -27,7 +27,7 @@ function PieChart(props) {
           responsive: true,
           plugins: {
             legend: {
-              position: "top",
+              position: "bottom",
             },
           },
         }}

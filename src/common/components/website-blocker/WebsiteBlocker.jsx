@@ -1,6 +1,8 @@
 import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation } from "react-router-dom";
 import {
   selectBlockedWebsites,
   selectFocusModeObj,
@@ -16,7 +18,7 @@ import {
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
-import { getTimeText } from "../../utils/date-utils";
+import { getFormattedTime, getTimeText } from "../../utils/date-utils";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
@@ -43,22 +45,27 @@ export default function WebsiteBlocker() {
     setFocusModeOnly(!focusModeOnly);
   };
 
+  let location = useLocation();
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(getHistory());
       dispatch(getBlockedSites());
       dispatch(getTimeTrackingDetails());
     }, 1000);
-  }, []);
+  }, [location]);
 
   const addSiteToBlockedSites = (siteInput) => {
     if (!siteInput.startsWith("http")) {
       siteInput = "https://" + siteInput;
     }
     try {
+      siteInput = siteInput.replace("www.", "");
       let url = new URL(siteInput);
       if (url.hostname in blockedHostsObj) {
         dispatch(showErrorToast("Host already blocked"));
+      } else if (url.hostname.includes("timedojo.io")) {
+        dispatch(showErrorToast("Timedojo cannot be blocked"));
       } else {
         dispatch(
           addBlockedSite({
@@ -129,7 +136,7 @@ export default function WebsiteBlocker() {
                       "http://www.google.com/s2/favicons?domain=" + item.host
                     }
                   />
-                  {item.url}
+                  {item.host}
                 </div>
                 <button
                   className={styles["button"]}
@@ -187,12 +194,14 @@ export default function WebsiteBlocker() {
                     <span className={styles["url"]}>{item.host}</span>
                   </div>
                   <div className={styles["right"]}>
-                    <span className={styles["percent"]}>{item.percent}%</span>
+                    {item.percent > 0 && (
+                      <span className={styles["percent"]}>{item.percent}%</span>
+                    )}
                     <span className={styles["time"]}>
                       {/* Last visited: {getAnteMeridiemText(item.lastVisitTime)}
                        */}
                       {/* Visited {item.visitedCount} times */}
-                      {getTimeText(item.timeSpent / 60000)}
+                      {getFormattedTime(item.timeSpent / 1000)}
                     </span>
                     {!(item.host in blockedHostsObj) && (
                       <span
