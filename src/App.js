@@ -20,6 +20,9 @@ import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
 import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import { NotFound } from "./common/components/404/404";
+import CompletedTasks from "./pages/completed-tasks/completed-tasks";
+
+import "../src/styles/styles/index.less";
 
 function App() {
   let dispatch = useDispatch();
@@ -61,6 +64,9 @@ function App() {
         </Route>
         <Route path="/manage">
           <WebsiteBlocker />
+        </Route>
+        <Route path="/completed-tasks">
+          <CompletedTasks />
         </Route>
         <Route exact path="/">
           <Homepage />

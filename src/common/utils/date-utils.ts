@@ -121,3 +121,24 @@ export function getAnteMeridiemText(time = new Date()) {
 
   return `${hours}:${mins} ${st}`;
 }
+
+export function getReadableDate(time = new Date()) {
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return (
+    month[time.getMonth()] + " " + time.getDate() + ", " + time.getFullYear()
+  );
+}

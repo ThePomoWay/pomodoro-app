@@ -14,6 +14,7 @@ import {
   addToTodaysTaskAPI,
   createTaskAPI,
   deleteTaskAPI,
+  getAllTasksApi,
   markTaskAsCompleteApi,
   markTaskAsInCompleteApi,
   updateTaskAPI,
@@ -465,6 +466,37 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
         updateLocalProjectAsync({
           ...project,
           to: taskOrderCopy,
+        })
+      );
+    }
+  }
+);
+
+export const getAllCompletedTasks = createAsyncThunk(
+  "tasks/get",
+  async (payload: any, { dispatch }) => {
+    let today = new Date();
+    let defaultStartDate =
+      (payload && new Date(payload.startDate)) ||
+      new Date(new Date().setDate(today.getDate() - 7));
+    let defaultEndDate =
+      (payload && new Date(payload.endDate)) ||
+      new Date(new Date().setDate(today.getDate()));
+
+    let completedTasksResponse = await getAllTasksApi({
+      from: new Date(defaultStartDate).toISOString(),
+      till: new Date(defaultEndDate).toISOString(),
+      completed: true,
+    });
+
+    let completedTasks = [];
+    if (completedTasksResponse.status === 200) {
+      completedTasks = completedTasksResponse.data.tasks;
+      dispatch(
+        updateCompletedTasks({
+          to: defaultEndDate.toISOString(),
+          from: defaultStartDate.toISOString(),
+          tasks: completedTasksResponse.data.tasks,
         })
       );
     }
