@@ -1,6 +1,8 @@
 import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation } from "react-router-dom";
 import {
   selectBlockedWebsites,
   selectFocusModeObj,
@@ -43,13 +45,15 @@ export default function WebsiteBlocker() {
     setFocusModeOnly(!focusModeOnly);
   };
 
+  let location = useLocation();
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(getHistory());
       dispatch(getBlockedSites());
       dispatch(getTimeTrackingDetails());
     }, 1000);
-  }, []);
+  }, [location]);
 
   const addSiteToBlockedSites = (siteInput) => {
     if (!siteInput.startsWith("http")) {
@@ -190,7 +194,9 @@ export default function WebsiteBlocker() {
                     <span className={styles["url"]}>{item.host}</span>
                   </div>
                   <div className={styles["right"]}>
-                    <span className={styles["percent"]}>{item.percent}%</span>
+                    {item.percent > 0 && (
+                      <span className={styles["percent"]}>{item.percent}%</span>
+                    )}
                     <span className={styles["time"]}>
                       {/* Last visited: {getAnteMeridiemText(item.lastVisitTime)}
                        */}
