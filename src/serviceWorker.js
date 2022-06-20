@@ -144,12 +144,17 @@ export function unregister() {
 }
 
 export function showNotification(title, desc, actions = []) {
-  swRegistration.showNotification(title, {
-    body: desc,
-    icon: "images/ccard.png",
-    vibrate: [200, 100, 200, 100, 200, 100, 400],
-    tag: "request",
-    actions,
+  swRegistration.getNotifications().then((res) => {
+    res.forEach((item) => item.close());
+    setTimeout(() => {
+      swRegistration.showNotification(title, {
+        body: desc,
+        icon: "images/ccard.png",
+        vibrate: [200, 100, 200, 100, 200, 100, 400],
+        tag: "request",
+        actions,
+      });
+    }, 0);
   });
 }
 
