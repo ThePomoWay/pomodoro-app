@@ -65,9 +65,7 @@ function App() {
         <Route path="/manage">
           <WebsiteBlocker />
         </Route>
-        <Route path="/completed-tasks">
-          <CompletedTasks />
-        </Route>
+
         <Route exact path="/">
           <Homepage />
         </Route>

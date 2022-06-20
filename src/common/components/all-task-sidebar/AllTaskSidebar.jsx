@@ -6,6 +6,8 @@ import ProjectSidebar from "../project-sidebar/ProjectSidebar";
 import { TagsSidebar } from "../tags-sidebar/TagsSidebar";
 import styles from "./AllTaskSidebar.module.scss";
 
+import { ReactComponent as CompletedTaskSvg } from "../../svgs/CompletedTaskSvg.svg";
+
 export default () => {
   let path = window.location.pathname;
 
@@ -19,6 +21,16 @@ export default () => {
         >
           <InboxSvg />
           Inbox
+        </div>
+      </Link>
+      <Link to="/all/completed-tasks">
+        <div
+          className={`${styles["sidebar-item"]} ${
+            path === "/all/completed-tasks" && styles["selected"]
+          }`}
+        >
+          <CompletedTaskSvg />
+          Completed Tasks
         </div>
       </Link>
       <ProjectSidebar className={styles["sidebar-item"]} />

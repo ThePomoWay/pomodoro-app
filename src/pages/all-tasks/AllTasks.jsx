@@ -68,6 +68,7 @@ import {
 } from "../../common/state/thunks/ProjectThunk";
 import Settings from "../settings/Settings";
 import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
+import CompletedTasks from "../completed-tasks/completed-tasks";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -380,6 +381,10 @@ export default () => {
 
                 <Route path={`${path}/priority/:priority`}>
                   <PriorityContainer />
+                </Route>
+
+                <Route path={`${path}/completed-tasks`}>
+                  <CompletedTasks />
                 </Route>
               </Switch>
             </div>
