@@ -418,7 +418,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
     if (AuthService.isLoggedIn()) {
       if (obj.task._id) {
         let response = await markTaskAsInCompleteApi(
-          obj.task,
+          JSON.parse(JSON.stringify(obj.task)),
           obj.container === "todays",
           obj.task._id
         );
