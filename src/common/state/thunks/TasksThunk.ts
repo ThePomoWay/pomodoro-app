@@ -25,7 +25,7 @@ import {
 } from "../../API/network/TodaysTaskApis";
 import { findIndex } from "../../utils/array-utils";
 import { getObjFromArr, roundToOneDecimal } from "../../utils/common";
-import { getFormattedDate } from "../../utils/date-utils";
+import { getFormattedDate, getReadableDate } from "../../utils/date-utils";
 import { playCompleteTaskSound } from "../../utils/sound-utils";
 import {
   saveTaskInOfflineStore,
@@ -45,6 +45,7 @@ import {
   setAllTasks,
   setCurrentTaskRef,
   setTodaysTasks,
+  updateCompletedTasks,
   updateTask,
   updateTodaysTasks,
 } from "../slice/TasksSlice";
@@ -63,6 +64,7 @@ import { projectChangeApi } from "../../API/network/ProjectApis";
 import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
 import { updateTimerState } from "./TimerThunk";
 import { setPomoSummary } from "../slice/TimerSlice";
+import { getAllProjectsFromIDB } from "../../API/indexed-db-ops/projectCrud";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
@@ -474,7 +476,7 @@ export const markTaskAsInCompleteThunk = createAsyncThunk(
 
 export const getAllCompletedTasks = createAsyncThunk(
   "tasks/get",
-  async (payload: any, { dispatch }) => {
+  async (payload: any, { dispatch, getState }) => {
     let today = new Date();
     let defaultStartDate =
       (payload && new Date(payload.startDate)) ||
@@ -490,13 +492,32 @@ export const getAllCompletedTasks = createAsyncThunk(
     });
 
     let completedTasks = [];
+
+    let projects = getObjFromArr(await getAllProjectsFromIDB(), "_id", true);
+    let userPref = getState()["global"].userPreferences;
+    let defaultWorkTime = userPref.defaultWorkTime || DEFAULT_WORK_TIME;
     if (completedTasksResponse.status === 200) {
-      completedTasks = completedTasksResponse.data.tasks;
+      completedTasks = completedTasksResponse.data.tasks.map((item) => ({
+        ...item,
+        readCreatedOn: getReadableDate(new Date(item.createdOn)),
+        readCompletedOn: getReadableDate(new Date(item.completedOn)),
+        readProject:
+          item.project &&
+          item.project.projectID &&
+          projects[item.project.projectID].title,
+        totalDays:
+          Math.floor(
+            (new Date(item.completedOn).getTime() -
+              new Date(item.createdOn).getTime()) /
+              (1000 * 3600 * 24)
+          ) + 1,
+        cpomo: roundToOneDecimal(item.csec / defaultWorkTime),
+      }));
       dispatch(
         updateCompletedTasks({
           to: defaultEndDate.toISOString(),
           from: defaultStartDate.toISOString(),
-          tasks: completedTasksResponse.data.tasks,
+          tasks: completedTasks,
         })
       );
     }

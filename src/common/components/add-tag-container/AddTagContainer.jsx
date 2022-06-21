@@ -176,7 +176,7 @@ export default function AddTagContainer(props) {
   return (
     <div className={`${styles["tags-container"]} popover`}>
       <div className={styles["create-tags-container"]}>
-        {!createLabelView && showCreateTag && (
+        {!props.hideCreateTag && !createLabelView && showCreateTag && (
           <span
             className={`text-small text-gray ${styles["create-text"]}`}
             onClick={(e) => setShowCreateTag(!showCreateTag)}

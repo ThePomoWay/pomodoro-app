@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   useTable,
@@ -13,8 +13,16 @@ import { useEffect } from "react";
 import CustomDateRangePicker from "../../common/components/date-range-picker/date-range-picker";
 import { getReadableDate } from "../../common/utils/date-utils";
 import { getCSVDownloadLink } from "../../common/utils/download-CSV.ts";
+import { ClickAwayListener, Popper } from "@material-ui/core";
+
+import { ReactComponent as ChevronDown } from "../../common/svgs/ChevronDown.svg";
 
 import styles from "./CompletedTasks.module.scss";
+import ProjectSelector from "../../common/components/project-selector/ProjectSelector";
+import AddTagContainer from "../../common/components/add-tag-container/AddTagContainer";
+import { PrioritySelector } from "../../common/components/priority-selector/PrioritySelector";
+
+import "./rsuite.min.css";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -30,7 +38,6 @@ function GlobalFilter({
 
   return (
     <span>
-      Search:{" "}
       <input
         value={value || ""}
         onChange={(e) => {
@@ -38,10 +45,7 @@ function GlobalFilter({
           onChange(e.target.value);
         }}
         placeholder={`${count} records...`}
-        style={{
-          fontSize: "1.1rem",
-          border: "0",
-        }}
+        className={styles["search-bar"]}
       />
     </span>
   );
@@ -90,8 +94,15 @@ let getDownloadFileName = function () {
   );
 };
 
-export default function CompletedTasks() {
+export default function CompletedTasks(props) {
   let dataCompletedTasks = useSelector(selectAllCompletedTasks);
+
+  let [completedTasksArr, setCompletedTasksArr] = useState([]);
+
+  useEffect(() => {
+    setCompletedTasksArr(dataCompletedTasks);
+  }, [dataCompletedTasks]);
+
   let dispatch = useDispatch();
   useEffect(() => {
     // todo : change this with completed tasks api
@@ -100,6 +111,67 @@ export default function CompletedTasks() {
 
     dispatch(getAllCompletedTasks(payload));
   }, []);
+  let [project, setProject] = useState({
+    projectID: "",
+    secID: "",
+  });
+
+  const setProjectId = (projectId, sectionId) => {
+    setProject({
+      projectID: projectId,
+      secID: sectionId,
+    });
+
+    setCompletedTasksArr(
+      dataCompletedTasks.filter((item) => item.project.projectID === projectId)
+    );
+  };
+
+  let [tagAnchorEl, setTagAnchorEl] = useState(null);
+  let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
+  let [projectAnchorEl, setProjectAnchorEl] = useState(null);
+
+  let [priority, setPriority] = useState(-1);
+
+  let [selectedTags, setSelectedTags] = useState([]);
+  const onTagAnchorClose = () => {
+    setTagAnchorEl(null);
+  };
+
+  const onProjectAnchorClose = () => {
+    setProjectAnchorEl(null);
+  };
+
+  const onProjectAnchorClick = (e) => {
+    if (!props.viewOnlyProject) {
+      setProjectAnchorEl(e.currentTarget);
+      e.stopPropagation();
+    }
+  };
+
+  const onTagAnchorClick = (e) => {
+    setTagAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const onPriorityAnchorClick = (e) => {
+    setPriorityAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const onLabelUpdate = (tags) => {
+    setSelectedTags(tags);
+  };
+
+  const closeAllPopover = () => {
+    onProjectAnchorClose();
+    onPriorityAnchorClose();
+    onTagAnchorClose();
+  };
+
+  const onPriorityAnchorClose = (e) => {
+    setPriorityAnchorEl(null);
+  };
 
   let getDates = function (value) {
     payload.startDate = value[0];
@@ -123,6 +195,10 @@ export default function CompletedTasks() {
 
   const columns = React.useMemo(
     () => [
+      {
+        Header: "Project",
+        accessor: "readProject",
+      },
       {
         Header: "Title",
         accessor: "title", // accessor is the "key" in the data
@@ -162,7 +238,7 @@ export default function CompletedTasks() {
     preGlobalFilteredRows,
     setGlobalFilter,
   } = useTable(
-    { columns, data: dataCompletedTasks || dataDefault },
+    { columns, data: completedTasksArr || dataDefault },
     useFilters,
     useGlobalFilter,
     useAsyncDebounce,
@@ -171,36 +247,108 @@ export default function CompletedTasks() {
 
   return (
     <div className={styles["container"]}>
-      <CustomDateRangePicker getDates={getDates}></CustomDateRangePicker>
-      <table>
-        <tr>
-          <th
-            colSpan={visibleColumns.length}
-            style={{
-              textAlign: "left",
+      <div className={styles["heading"]}>
+        <span className={styles["title"]}>Completed Tasks</span>
+        <CustomDateRangePicker getDates={getDates}></CustomDateRangePicker>
+      </div>
+      <div className={styles["search-container"]}>
+        <div className={styles["left"]}>
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+          <ClickAwayListener
+            onClickAway={(e) => {
+              closeAllPopover();
             }}
           >
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={state.globalFilter}
-              setGlobalFilter={setGlobalFilter}
-            />
-          </th>
-        </tr>
+            <div className={styles["filter-items"]}>
+              <div
+                className={styles["filter-item"]}
+                onClick={(e) => {
+                  onProjectAnchorClick(e);
+                }}
+              >
+                <ChevronDown />
+                Project
+                <Popper
+                  open={Boolean(projectAnchorEl)}
+                  id="project-popover"
+                  anchorEl={projectAnchorEl}
+                  onClose={(e) => {
+                    onProjectAnchorClose(e);
+                  }}
+                  position="bottom-left"
+                >
+                  <ProjectSelector onChange={setProjectId} project={project} />
+                </Popper>
+              </div>
+
+              <div
+                className={styles["filter-item"]}
+                onClick={(e) => {
+                  closeAllPopover();
+                  onPriorityAnchorClick(e);
+                }}
+              >
+                <ChevronDown />
+                Priority
+                <Popper
+                  open={Boolean(priorityAncholEl)}
+                  id="priority-popover"
+                  anchorEl={priorityAncholEl}
+                  position="bottom-left"
+                >
+                  <PrioritySelector
+                    priority={priority}
+                    onChange={(item) => {
+                      setPriority(item);
+                      setCompletedTasksArr(
+                        dataCompletedTasks.filter(
+                          (item) => item.priority === item
+                        )
+                      );
+                      onPriorityAnchorClose();
+                    }}
+                  />
+                </Popper>
+              </div>
+            </div>
+          </ClickAwayListener>
+        </div>
+        <a
+          style={{ boxSizing: "border-box" }}
+          className="btn add-task-btn"
+          href={getCompleteTaskCSV(rows)}
+          download={getDownloadFileName()}
+        >
+          Export as CSV
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th
+              colSpan={visibleColumns.length}
+              style={{
+                textAlign: "left",
+              }}
+            ></th>
+          </tr>
+        </thead>
       </table>
-      <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
+      <table {...getTableProps()} className={styles["table"]}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr
+              className={styles["table-header"]}
+              {...headerGroup.getHeaderGroupProps()}
+            >
               {headerGroup.headers.map((column) => (
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  style={{
-                    borderBottom: "solid 3px red",
-                    background: "aliceblue",
-                    color: "black",
-                    fontWeight: "bold",
-                  }}
+                  className={styles["table-header-item"]}
                 >
                   {column.render("Header")}
                   <span>
@@ -219,16 +367,12 @@ export default function CompletedTasks() {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr className={styles["task-row"]} {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <td
+                      className={styles["task-item"]}
                       {...cell.getCellProps()}
-                      style={{
-                        padding: "10px",
-                        border: "solid 1px gray",
-                        background: "papayawhip",
-                      }}
                     >
                       {cell.render("Cell")}
                     </td>
@@ -239,9 +383,6 @@ export default function CompletedTasks() {
           })}
         </tbody>
       </table>
-      <a href={getCompleteTaskCSV(rows)} download={getDownloadFileName()}>
-        Download CSV
-      </a>
     </div>
   );
 }
