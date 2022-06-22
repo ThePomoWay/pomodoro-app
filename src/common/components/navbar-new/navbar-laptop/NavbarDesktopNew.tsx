@@ -144,54 +144,13 @@ export default function NavbarDesktopNew(props) {
         </span>
 
         <div className={styles["links"]}>
-          <div className={styles["link-items"]}>
-            {navItems.map((item, index) => {
-              if (!item.loggedOutOnly) {
-                return (
-                  <Link
-                    key={"Navbar" + index}
-                    to={item.to}
-                    className={`${styles["link-item"]} ${
-                      styles["link-item-" + (index + 1)]
-                    } ${
-                      String(index) === props.selected ? styles["selected"] : ""
-                    }`}
-                  >
-                    {/* {item.icon} */}
-                    {item.title}
-                  </Link>
-                );
-              }
-              return (
-                <div
-                  key={"Navbar-" + index}
-                  onClick={() => navigateTo(item)}
-                  className={`${styles["link-item"]} ${
-                    styles["link-item-" + (index + 1)]
-                  } ${
-                    String(index) === props.selected ? styles["selected"] : ""
-                  }`}
-                >
-                  {/* {item.icon} */}
-                  {item.title}
-                </div>
-              );
-            })}
-            <div
-              onClick={() => navigateTo(manageFocus)}
-              className={`${styles["link-item"]} ${
-                "3" === props.selected ? styles["selected"] : ""
-              }`}
-            >
-              Manage
-            </div>
-
+          <div className={styles["right-nav"]}>
             {(isLoggedIn && <ProfileDropdown />) || (
               <button
                 className={`${styles["login"]} btn btn-premium`}
                 onClick={(e) => onOpenOnboardingModal()}
               >
-                Log In
+                Log In / Sign Up
               </button>
             )}
           </div>

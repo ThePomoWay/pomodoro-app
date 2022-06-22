@@ -55,6 +55,9 @@
 
       align-items: center;
 
+      position: relative;
+      top: 30px;
+
       .know-more {
         font-weight: 700;
         font-size: 18px;
@@ -207,6 +210,14 @@
   }
 }
 
+.do-you {
+  padding-top: 7vh !important;
+}
+
+.achiever {
+  margin-top: -9vh;
+}
+
 .container {
   background-color: var(--bg-theme);
   width: 100vw;
@@ -218,7 +229,7 @@
 
   gap: 20px;
 
-  min-height: 100vh;
+  min-height: 83vh;
 
   .rect-4 {
     @extend .rect;
@@ -251,6 +262,11 @@
     flex-direction: column;
 
     position: relative;
+
+    .first-text {
+      position: absolute;
+      top: calc(23vh - 56px);
+    }
   }
 
   .desc {
@@ -275,6 +291,17 @@
     flex-wrap: wrap;
     gap: 20px;
     align-items: center;
+    position: relative;
+
+    .features {
+      height: 450px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      position: absolute;
+      top: calc(15vh - 56px);
+    }
 
     .feature-2 {
       display: flex;
