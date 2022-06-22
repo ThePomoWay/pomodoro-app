@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserPreferences } from "../../state/selectors";
 import { updateUserPref } from "../../state/thunks/GlobalThunk";
-import { MiniClock } from "../../svgs/MiniClock";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import {
   pomoBreakMarks,
@@ -75,7 +74,7 @@ export function ClockSettingsModal(props) {
       <div className={styles["hr"]}></div>
       <div className={styles["scrollable"]}>
         <div className={styles["settings-text"]}>
-          <MiniClock />
+          {/* <MiniClock /> */}
           Configure your timer settings here
         </div>
         <div className={styles["slider-item"]}>

@@ -340,7 +340,7 @@ export default () => {
 
                     {alltasks.length === 0 && completedTasks.length === 0 && (
                       <div className={styles["illustration"]}>
-                        <img src="/illustrations/empty-all.svg" />
+                        {/* <img src="/illustrations/empty-all.svg" /> */}
                         <p className={styles["text"]}>
                           Organize your tasks and lists here.
                         </p>

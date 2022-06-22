@@ -1,7 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
-import Footer from "../../../common/components/footer/footer";
 import Navbar from "../../../common/components/navbar/Navbar";
 import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
 import Timer from "../../../common/components/timer/timer";
@@ -12,14 +11,12 @@ import {
 import { setIsTimerFullScreen } from "../../../common/state/slice/GlobalSlice";
 import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
 import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
-import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
 import { MaximizeIcon } from "../../../common/svgs/MaximizeIcon";
+import { ShrinkIcon } from "../../../common/svgs/ShrinkIcon";
 import { scrollToEndOfContainer } from "../../../common/utils/common";
-import { POMO_RUNNING_STATE } from "../../../common/utils/constants";
 import OnBoarding from "../../onboarding/Onboarding";
 import Settings from "../../settings/Settings";
 import useHomepage from "../HomePage-hook";
-
 import styles from "./homepage-laptop.module.scss";
 
 export function HomepageLaptop() {

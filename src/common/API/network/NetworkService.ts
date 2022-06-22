@@ -8,6 +8,7 @@ import {
   offlineData,
 } from "../../offlineSync/offlineSync";
 import { setToast, showErrorToast } from "../../state/slice/GlobalSlice";
+import { selfIpEndpoint } from "./Endpoints";
 import { clearIDB } from "../indexed-db-ops/crud";
 
 function getQueryParamString(e, q) {
@@ -186,5 +187,9 @@ export class NetworkService {
           "You are currently offline and have unsaved data. Please check network connection to not lose on changes before logging out"
         );
       });
+  }
+
+  static getIpURL() {
+    return fetch(selfIpEndpoint).then((resp) => resp.text());
   }
 }

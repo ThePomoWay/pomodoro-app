@@ -5,6 +5,7 @@ import AuthService from "../../API/network/AuthService";
 import { selectTasksLength } from "../../state/selectors";
 import {
   openOnboardingModal,
+  setPricingModalState,
   showErrorToast,
 } from "../../state/slice/GlobalSlice";
 import { addTaskToProjectLocal } from "../../state/thunks/ProjectThunk";
@@ -69,12 +70,16 @@ export function AddNewTask(props) {
   };
 
   let onToggle = () => {
-    if (!AuthService.isLoggedIn() && tasksLength > 9) {
-      dispatch(showErrorToast("Please login to create more tasks"));
-      dispatch(openOnboardingModal());
+    if (!props.enableTaskCreation) {
+      dispatch(setPricingModalState(true))
     } else {
-      setShowBtn(!showBtn);
-      props.onToggle && props.onToggle(!showBtn);
+      if (!AuthService.isLoggedIn() && tasksLength > 9) {
+        dispatch(showErrorToast("Please login to create more tasks"));
+        dispatch(openOnboardingModal());
+      } else {
+        setShowBtn(!showBtn);
+        props.onToggle && props.onToggle(!showBtn);
+      }
     }
   };
 

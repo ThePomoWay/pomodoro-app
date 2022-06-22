@@ -67,7 +67,7 @@
   }
 
   .selected {
-    background: #3c51ba;
+    background: var(--all-task-sidebar-selected-bg);
     border-radius: 4px;
   }
 }

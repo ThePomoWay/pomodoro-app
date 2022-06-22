@@ -1,6 +1,7 @@
 import { ExpandMoreOutlined } from "@material-ui/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Settings from "../../../pages/settings/Settings";
 import {
   selectBlockedWebsites,
   selectFocusModeObj,
@@ -91,6 +92,7 @@ export default function WebsiteBlocker() {
   return (
     <div className={styles["container"]}>
       <Navbar selected="3" />
+      <Settings />
       <div className={styles["main-content"]}>
         <div className={styles["block-websites"]}>
           <h1 className="font-title">Block Websites</h1>

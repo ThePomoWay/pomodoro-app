@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
+import { getIp } from "../../API/network/SelfIpApi";
 import {
   loginApi,
   registerApi,
@@ -24,11 +25,12 @@ export const register = createAsyncThunk(
   "global/register",
   async (obj: any, { dispatch, getState }) => {
     let state = getState()["onboarding"];
+    let countryCode = await getIp()
     let response = await registerApi({
       email: state.registerEmail,
       name: obj.name,
-      password: obj.password,
-    });
+      password: obj.password
+    }, countryCode);
 
     if (response.data && response.data.uid) {
       AuthService.login(response.data);
@@ -39,7 +41,8 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "global/login",
   async (obj: any, { dispatch }) => {
-    let response = await loginApi(obj);
+    let countryCode = await getIp()
+    let response = await loginApi(obj, countryCode);
     if (response.status !== 200) {
       dispatch(
         setLoginPasswordError(response.data.msg || "Incorrect password")

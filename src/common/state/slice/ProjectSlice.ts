@@ -16,4 +16,6 @@ export const {
   updateProject,
   setEditProjectId,
   setAllProjects,
+  setFreeProjects,
+  addToFreeProjects,
 } = projectSlice.actions;

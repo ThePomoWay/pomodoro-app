@@ -1,4 +1,13 @@
 .theme {
   display: flex;
   gap: 4px;
+  color: var(--text-theme);
+  flex-direction: column;
+
+  .option {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+  }
 }

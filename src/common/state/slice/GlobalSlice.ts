@@ -32,4 +32,9 @@ export const {
   setIsExtensionModalOpen,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  setPricingModalState,
+  setProducts,
+  showTransactionSuccessModal,
+  showTransactionErrorModal,
+  closeTransactionModal,
 } = globalSlice.actions;

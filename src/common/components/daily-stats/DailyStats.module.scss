@@ -19,8 +19,8 @@
     .estimated-pomo {
       width: 20px;
       height: 20px;
-      background: #ffffff;
-      border: 1px solid #d8d8d8;
+      background: var(--daily-stats-estimated-bg);
+      border: var(--daily-stats-estimated-border);
       box-sizing: border-box;
       // box-shadow: inset -1px 3px 6px rgba(0, 0, 0, 0.12);
       border-radius: 10px;
@@ -32,7 +32,7 @@
       align-items: center;
       justify-content: center;
 
-      color: #bfbfbf;
+      color: var(--daily-stats-estimated-color);
     }
 
     .completed-pomo {
@@ -40,7 +40,7 @@
       height: 20px;
       border-radius: 10px;
 
-      font-family: Roboto;
+
       font-style: normal;
       font-weight: normal;
       font-size: 12px;
@@ -52,14 +52,10 @@
 
       text-align: center;
 
-      color: #7686d8;
+      color: var(--daily-stats-completed-color);
 
-      background: radial-gradient(
-        110.42% 110.42% at 70.83% -10.42%,
-        #edeffe 0%,
-        #c5cbfa 100%
-      );
-      box-shadow: 0px 4px 4px rgba(219, 223, 254, 0.5);
+      background: var(--daily-stats-completed-bg);
+      box-shadow: var(--daily-stats-completed-box-shadow)
     }
   }
 
@@ -69,6 +65,6 @@
 
     font-weight: 500;
     font-size: 14px;
-    color: #858585;
+    color: var(--daily-stats-aprx-time-color);
   }
 }

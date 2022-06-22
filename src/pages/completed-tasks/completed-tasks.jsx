@@ -1,26 +1,24 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { ClickAwayListener, Popper } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  useTable,
+  useAsyncDebounce,
   useFilters,
   useGlobalFilter,
-  useAsyncDebounce,
   useSortBy,
+  useTable,
 } from "react-table";
+import CustomDateRangePicker from "../../common/components/date-range-picker/date-range-picker";
 import { selectAllCompletedTasks } from "../../common/state/selectors";
 import { getAllCompletedTasks } from "../../common/state/thunks/TasksThunk";
-import { useEffect } from "react";
-import CustomDateRangePicker from "../../common/components/date-range-picker/date-range-picker";
 import { getReadableDate } from "../../common/utils/date-utils";
 import { getCSVDownloadLink } from "../../common/utils/download-CSV.ts";
-import { ClickAwayListener, Popper } from "@material-ui/core";
 
 import { ReactComponent as ChevronDown } from "../../common/svgs/ChevronDown.svg";
 
-import styles from "./CompletedTasks.module.scss";
-import ProjectSelector from "../../common/components/project-selector/ProjectSelector";
-import AddTagContainer from "../../common/components/add-tag-container/AddTagContainer";
 import { PrioritySelector } from "../../common/components/priority-selector/PrioritySelector";
+import ProjectSelector from "../../common/components/project-selector/ProjectSelector";
+import styles from "./CompletedTasks.module.scss";
 
 import "./rsuite.min.css";
 

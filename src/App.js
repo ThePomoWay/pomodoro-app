@@ -17,17 +17,31 @@ import { MultiTabAlertModal } from "./common/components/singe-tab-modal/MultiTab
 import { PrivacyPolicy } from "./pages/privacy-policy/PrivacyPolicy";
 import { TermsOfService } from "./pages/terms-of-service/TermsOfService";
 import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
-import { isExtensionPresent } from "./common/utils/extension-utils";
-import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
+
 import { NotFound } from "./common/components/404/404";
 import CompletedTasks from "./pages/completed-tasks/completed-tasks";
 
 import "../src/styles/styles/index.less";
 
+import PricingModal from "./common/components/pricing-modal/PricingModal";
+
+import { isExtensionPresent } from "./common/utils/extension-utils";
+import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
+import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
+import { getIp } from "./common/API/network/SelfIpApi";
+import {
+  showTransactionErrorModal,
+  showTransactionSuccessModal,
+} from "./common/state/slice/GlobalSlice";
+import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
+import { PostTransactionHandler } from "./pages/post-transaction/PostTransactionHandler";
+
 function App() {
   let dispatch = useDispatch();
 
   dispatch(init());
+
+  // dispatch(showTransactionErrorModal());
 
   if (AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
@@ -36,6 +50,9 @@ function App() {
   if (AuthService.isJustLoggedIn() && AuthService.isLoggedIn()) {
     syncIdb();
   }
+
+  // getting users country code on page load and storing in LS
+  getIp();
 
   return (
     <Router>
@@ -65,6 +82,12 @@ function App() {
         <Route path="/manage">
           <WebsiteBlocker />
         </Route>
+        <Route path="/success">
+          <PostTransactionHandler />
+        </Route>
+        <Route path="/error">
+          <PostTransactionHandler />
+        </Route>
 
         <Route exact path="/">
           <Homepage />
@@ -76,6 +99,9 @@ function App() {
       <Toast />
       <MultiTabAlertModal />
       {!isExtensionPresent && <ExtensionModal />}
+
+      <PricingModal />
+      <TransactionModal />
     </Router>
   );
 }

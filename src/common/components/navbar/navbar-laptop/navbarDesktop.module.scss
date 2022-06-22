@@ -69,6 +69,7 @@
 
       svg {
         margin-right: 9.5px;
+        color: var(--link-svg-color);
       }
 
       // &-1 {
@@ -85,7 +86,7 @@
 
       &.selected {
         // border-bottom: 3px solid black;
-        color: #4b60ce;
+        color: var(--navbar-selected-color);
         font-weight: 500;
         position: relative;
 

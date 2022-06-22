@@ -13,6 +13,8 @@ export function DailyStats(props) {
   let cPomos = useSelector(selectCompletedPomos);
   let defaults = useSelector(selectDefaultTimes);
 
+  cPomos = 1;
+
   let ePomos = 0;
   for (let task of todaysTasks) {
     if (task.cpomo < task.epomo) {
