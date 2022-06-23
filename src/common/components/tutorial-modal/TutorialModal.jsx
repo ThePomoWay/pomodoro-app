@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTutorialModal } from "../../state/selectors";
 import { closeTutorialModal } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
-import { TickIcon } from "../../svgs/TickIcon";
 import { ProgressStrip } from "./ProgressStrip";
 import styles from "./TutorialModal.module.scss";
 
 import { ReactComponent as TickWhite } from "../../svgs/TickWhite.svg";
+import { LANDING_PAGE_CLOSE } from "../../utils/constants";
 
 let STEP_DETAILS = [
   {
@@ -35,11 +35,14 @@ export function TutorialModal(props) {
 
   let handleClose = () => {
     dispatch(closeTutorialModal());
+
+    localStorage.setItem(LANDING_PAGE_CLOSE, "true");
   };
 
   let [step, setStep] = useState(0);
 
   let nextStep = () => {
+    localStorage.setItem(LANDING_PAGE_CLOSE, "true");
     if (step < 2) {
       setStep(step + 1);
     } else {

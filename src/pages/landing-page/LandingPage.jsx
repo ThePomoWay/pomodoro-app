@@ -3,10 +3,6 @@ import { FeatureCard } from "./FeatureCard";
 import styles from "./LandingPage.module.scss";
 
 import { useHistory } from "react-router-dom";
-import { ReactComponent as Ribbon1 } from "../../common/svgs/ribbon-1.svg";
-import { ReactComponent as Ribbon2 } from "../../common/svgs/ribbon-2.svg";
-import { ReactComponent as Ribbon3 } from "../../common/svgs/ribbon-3.svg";
-import { ReactComponent as Ribbon4 } from "../../common/svgs/ribbon-4.svg";
 
 import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 
