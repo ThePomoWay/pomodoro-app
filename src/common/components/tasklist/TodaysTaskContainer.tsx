@@ -39,14 +39,6 @@ export function TodaysTaskContainer(props) {
 
   let hideCompletedTasks = useSelector(selectHideTodaysCompletedTasks);
 
-  const isMobileDevice = useMediaQuery({
-    query: "(max-device-width: 1224px)",
-  });
-
-  let hideOnboardingScreen = useSelector(selectHideFirstUserScreen);
-
-  let editTaskRef = useSelector(selectEditTaskRef);
-
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
   let [showAlert, setShowAlert] = useState(false);
   let [isAddTaskOpen, setIsAddTaskOpen] = useState(true);
@@ -101,38 +93,6 @@ export function TodaysTaskContainer(props) {
     dispatch(toggleHideTodaysCompletedTasks());
   };
 
-  if (!hideOnboardingScreen && !isMobileDevice) {
-    return (
-      <div className={styles["empty-state"]}>
-        <h1 className={styles["welcome-title"]}>
-          <span>👋</span>
-          <span> Welcome to TimeDojo, an online Pomodoro Timer!</span>
-        </h1>
-        <div className={styles["create-task"]}>
-          <div className={styles["text-container"]}>
-            <span className={styles["text"]}>Create Tasks </span>
-            to do today and start the timer
-          </div>
-          <div>
-            <AddNewTask
-              isTodaysTask={true}
-              onToggle={hideFirstScreen}
-              onSave={props.onSave}
-            />
-          </div>
-        </div>
-        <div className={styles["timer"]}>
-          <div className={styles["or"]}>OR</div>
-          <div className={styles["timer-text"]}>Simply Start the timer</div>
-        </div>
-        <div className={styles["panda-illus"]}>
-          <img src="/panda-welcome.png" />
-        </div>
-
-        {/* <img src="/empty-tasks.png" alt="Empty tasks"/> */}
-      </div>
-    );
-  }
   return (
     <div className={styles["task-list"]}>
       <Alert

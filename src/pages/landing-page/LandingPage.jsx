@@ -5,6 +5,10 @@ import styles from "./LandingPage.module.scss";
 import { useHistory } from "react-router-dom";
 
 import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
+import { ReactComponent as Block } from "../../common/svgs/block-landing.svg";
+import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
+import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
+import { ReactComponent as Bookmark } from "../../common/svgs/bookmark.svg";
 
 import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
 import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
@@ -47,7 +51,11 @@ export function LandingPage(props) {
             badges 🚀🚀
           </p>
           <div className={styles["ctas"]}>
-            <button className="btn btn-add-new" onClick={() => getStarted()}>
+            <button
+              style={{ fontSize: "18px", fontWeight: "700" }}
+              className="btn btn-add-new"
+              onClick={() => getStarted()}
+            >
               Get Started
             </button>
             {/* <p className={styles["add-more"]}>Know More</p> */}
@@ -100,20 +108,24 @@ export function LandingPage(props) {
             <FeatureCard
               text={"Undivided Pomo-Focus"}
               desc={"10x better time management by blocking distracting sites "}
+              svg={<Block />}
             />
             <FeatureCard
               text={"Art of Prioritisation"}
               desc={"Organise tasks with lists, labels and filters"}
+              svg={<Clock />}
             />
             <FeatureCard
               text={"Block Distractions"}
               desc={
                 "Block distracting websites during your focused work sessions."
               }
+              svg={<Gamification />}
             />
             <FeatureCard
               text={"Empowered to Customise"}
               desc={"Freedom to decide Pomo goals with customisable clock"}
+              svg={<Bookmark />}
             />
           </div>
         </div>
