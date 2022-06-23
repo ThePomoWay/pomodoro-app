@@ -21,6 +21,8 @@ import ProjectSelector from "../../common/components/project-selector/ProjectSel
 import styles from "./CompletedTasks.module.scss";
 
 import "./rsuite.min.css";
+import { usePaymentStatus } from "../../common/hooks/PaymentHook";
+import { setPricingModalState } from "../../common/state/slice/GlobalSlice";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -51,38 +53,6 @@ function GlobalFilter({
 
 let payload = {};
 
-let getCompleteTaskCSV = function (rows) {
-  let fileName =
-    "CT_" +
-    getReadableDate(payload.startDate).replace(/\s/g, "") +
-    "_" +
-    getReadableDate(payload.endDate).replace(/\s/g, "");
-  let headerRow = [
-    "title",
-    "createdOn",
-    "completedOn",
-    "totalDays",
-    "epomo",
-    "cpomo",
-  ];
-  let contentRow = [];
-  if (rows && rows.length >= 1) {
-    rows.forEach(function (row) {
-      let arr = [
-        row.values.title,
-        '"' + row.values.readCreatedOn + '"',
-        '"' + row.values.readCompletedOn + '"',
-        row.values.totalDays,
-        row.values.epomo,
-        row.values.cpomo,
-      ];
-      contentRow.push(arr);
-    });
-  }
-
-  return getCSVDownloadLink(fileName, headerRow, contentRow);
-};
-
 let getDownloadFileName = function () {
   return (
     "CT_" +
@@ -96,6 +66,44 @@ export default function CompletedTasks(props) {
   let dataCompletedTasks = useSelector(selectAllCompletedTasks);
 
   let [completedTasksArr, setCompletedTasksArr] = useState([]);
+
+  let { isSubscriptionActive } = usePaymentStatus();
+
+  let getCompleteTaskCSV = function (rows) {
+    if (isSubscriptionActive) {
+      let fileName =
+        "CT_" +
+        getReadableDate(payload.startDate).replace(/\s/g, "") +
+        "_" +
+        getReadableDate(payload.endDate).replace(/\s/g, "");
+      let headerRow = [
+        "title",
+        "createdOn",
+        "completedOn",
+        "totalDays",
+        "epomo",
+        "cpomo",
+      ];
+      let contentRow = [];
+      if (rows && rows.length >= 1) {
+        rows.forEach(function (row) {
+          let arr = [
+            row.values.title,
+            '"' + row.values.readCreatedOn + '"',
+            '"' + row.values.readCompletedOn + '"',
+            row.values.totalDays,
+            row.values.epomo,
+            row.values.cpomo,
+          ];
+          contentRow.push(arr);
+        });
+      }
+
+      return window.open(getCSVDownloadLink(fileName, headerRow, contentRow));
+    } else {
+      dispatch(setPricingModalState(true));
+    }
+  };
 
   useEffect(() => {
     setCompletedTasksArr(dataCompletedTasks);
@@ -247,7 +255,9 @@ export default function CompletedTasks(props) {
     <div className={styles["container"]}>
       <div className={styles["heading"]}>
         <span className={styles["title"]}>Completed Tasks</span>
-        <CustomDateRangePicker getDates={getDates}></CustomDateRangePicker>
+        <div className={styles["custom-date-range"]}>
+          <CustomDateRangePicker getDates={getDates}></CustomDateRangePicker>
+        </div>
       </div>
       <div className={styles["search-container"]}>
         <div className={styles["left"]}>
@@ -318,7 +328,7 @@ export default function CompletedTasks(props) {
         <a
           style={{ boxSizing: "border-box" }}
           className="btn add-task-btn"
-          href={getCompleteTaskCSV(rows)}
+          onClick={(e) => getCompleteTaskCSV(rows)}
           download={getDownloadFileName()}
         >
           Export as CSV

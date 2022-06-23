@@ -27,7 +27,6 @@ import PricingModal from "./common/components/pricing-modal/PricingModal";
 
 import { isExtensionPresent } from "./common/utils/extension-utils";
 import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
-import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
 import { getIp } from "./common/API/network/SelfIpApi";
 import {
   showTransactionErrorModal,
