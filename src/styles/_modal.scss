@@ -47,7 +47,8 @@
 
   &.big-modal {
     width: 84vw;
-    max-height: 90vh;
+    max-height: 85vh;
+    min-height: 85vh;
   }
 
   .modal-content {

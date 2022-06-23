@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTutorialModal } from "../../state/selectors";
 import { closeTutorialModal } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
+import { TickIcon } from "../../svgs/TickIcon";
 import { ProgressStrip } from "./ProgressStrip";
 import styles from "./TutorialModal.module.scss";
+
+import { ReactComponent as TickWhite } from "../../svgs/TickWhite.svg";
 
 let STEP_DETAILS = [
   {
@@ -53,18 +56,31 @@ export function TutorialModal(props) {
       <div className="modal-container big-modal">
         <div className="modal-content">
           <span className="close" onClick={(e) => handleClose()}>
-            <CloseIcon />
+            <CloseIcon width="30" height="30" />
           </span>
           <div className={styles["container"]}>
             <div className={styles["left"]}>
-              <div className={styles["title"]}>{STEP_DETAILS[step].title}</div>
-              <div className={styles["description"]}>
-                {STEP_DETAILS[step].description}
+              <div className={styles["first"]}>
+                <div className={styles["title"]}>
+                  {STEP_DETAILS[step].title}
+                </div>
+                <div className={styles["description"]}>
+                  {STEP_DETAILS[step].description}
+                </div>
               </div>
-              <div className={styles["btn"]} onClick={(e) => nextStep()}>
-                <ChevronRight style={{ color: "white" }} />
+
+              <div className={styles["second"]}>
+                <div className={styles["btn"]} onClick={(e) => nextStep()}>
+                  {step < 2 && (
+                    <ChevronRight
+                      style={{ color: "white", width: "50%", height: "50%" }}
+                    />
+                  )}
+                  {step == 2 && <TickWhite />}
+                </div>
+
+                <ProgressStrip selected={step} onChange={(e) => setStep(e)} />
               </div>
-              <ProgressStrip selected={step} />
             </div>
 
             <div className={styles["right"]}>

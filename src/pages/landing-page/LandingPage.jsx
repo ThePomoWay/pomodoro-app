@@ -110,8 +110,10 @@ export function LandingPage(props) {
               desc={"Organise tasks with lists, labels and filters"}
             />
             <FeatureCard
-              text={"Streamline Productivity"}
-              desc={"Track focus intensity & consistency"}
+              text={"Block Distractions"}
+              desc={
+                "Block distracting websites during your focused work sessions."
+              }
             />
             <FeatureCard
               text={"Empowered to Customise"}

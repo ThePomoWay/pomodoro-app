@@ -43,7 +43,7 @@ export const initialGlobalState = {
 
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
-  showTutorialModal: false,
+  showTutorialModal: true,
 };
 
 export let globalReducer = {
