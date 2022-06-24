@@ -35,10 +35,6 @@ export default function AnalysisPage(props) {
     query: "(min-device-width: 1200px)",
   });
 
-  const isBigScreen = useMediaQuery({
-    query: "(min-device-width: 1201px )",
-  });
-
   if (isDesktop) {
     return <AnalysisLaptop />;
   }

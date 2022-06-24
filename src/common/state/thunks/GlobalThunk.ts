@@ -32,6 +32,8 @@ import {
 import {
   isExtensionPresent,
   sendMessageToExtension,
+  SYNC_USER_PREF,
+  UPDATE_TIMER_ACTION,
 } from "../../utils/extension-utils";
 import {
   setFocusMode,
@@ -131,6 +133,23 @@ export const logout = createAsyncThunk(
   }
 );
 
+export const extensionSyncAll = createAsyncThunk(
+  "global/extension/sync",
+  async (_, { dispatch, getState }) => {
+    let timerState = getState()["timer"];
+    let userPreferences = getState()["global"].userPreferences;
+
+    sendMessageToExtension({
+      action: SYNC_USER_PREF,
+      data: userPreferences,
+    });
+    sendMessageToExtension({
+      action: UPDATE_TIMER_ACTION,
+      timerState: timerState,
+    });
+  }
+);
+
 export const focusModeToggle = createAsyncThunk(
   "global/focus/toggle",
   async (value: any, { dispatch, getState }) => {
@@ -152,6 +171,11 @@ export const updateUserPrefLocal = createAsyncThunk(
     await updateCollectionIdb(userPreferencesObjectStoreName, {
       key: userPreferencesObjectKey,
       ...updateObj,
+    });
+
+    sendMessageToExtension({
+      action: SYNC_USER_PREF,
+      data: updateObj,
     });
     dispatch(setUserPreferences(updateObj));
 

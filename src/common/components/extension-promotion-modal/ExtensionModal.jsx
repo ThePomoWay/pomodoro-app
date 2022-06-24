@@ -17,8 +17,9 @@ export function ExtensionModal(props) {
   };
 
   let openChromeStore = () => {
-    window.location.href =
-      "https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3";
+    window.open(
+      "https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
+    );
   };
 
   return (
