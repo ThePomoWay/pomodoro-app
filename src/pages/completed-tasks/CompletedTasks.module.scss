@@ -14,7 +14,7 @@
       display: flex;
       align-items: center;
 
-      color: #000000;
+      color: var(--text-theme);
 
       margin-bottom: 20px;
     }
@@ -33,7 +33,6 @@
     .left {
       display: flex;
       gap: 6px;
-      padding: 12px;
 
       .filter-items {
         display: flex;
@@ -62,10 +61,12 @@
         border-bottom: 1px solid rgba(20, 102, 207, 0.3);
         box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.05);
         width: 20vw;
-        height: 37px;
+        height: 42px;
         border-top: none;
         border-left: none;
         border-right: none;
+        box-sizing: border-box;
+        padding: 8px;
       }
     }
   }
@@ -85,7 +86,7 @@
 
     font-weight: 450;
     font-size: 14px;
-    color: #202124;
+    color: var(--text-theme-4);
 
     // display: flex;
     text-align: center;
@@ -98,7 +99,7 @@
   }
 
   .task-row {
-    background: #ffffff;
+    background: var(--bg-theme);
     border: 1.02119px solid #e0e3fc;
     box-shadow: inset 0px 3.06356px 9.19068px rgba(153, 153, 153, 0.11);
     border-radius: 2.04237px;

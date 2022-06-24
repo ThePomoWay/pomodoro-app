@@ -51,14 +51,17 @@ import {
 import { Alert } from "../alert/Alert";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 import { toggleHideProjectsCompletedTasks } from "../../state/thunks/GlobalThunk";
-import { SUBSCRIPTION_STATUS_ACTIVE, SUBSCRIPTION_STATUS_PAST_DUE } from "../../utils/constants";
+import {
+  SUBSCRIPTION_STATUS_ACTIVE,
+  SUBSCRIPTION_STATUS_PAST_DUE,
+} from "../../utils/constants";
 
 export function ProjectContainer(props) {
   let { projectId } = useParams();
 
   let projectsObj = useSelector(selectProjectsObj);
   let freeProjects = useSelector(selectFreeProjects);
-  let enableTaskCreation = false
+  let disableTaskCreation = true;
   let tags = useSelector(selectTagsAsObj);
   let todaysTaskIds = useSelector(selectTodaysTaskIds);
   let todaysTaskIdsObj = getObjFromArr(todaysTaskIds);
@@ -72,8 +75,7 @@ export function ProjectContainer(props) {
   let dispatch = useDispatch();
 
   let tasks = useSelector(selectTasksAsobj);
-  let user = useSelector(selectUserInfo)
-
+  let user = useSelector(selectUserInfo);
 
   let [showEditTaskContainer, setShowEditTaskContainer] = useState(false);
   let [isDragging, setIsDragging] = useState(false);
@@ -89,12 +91,16 @@ export function ProjectContainer(props) {
 
   let a = Date.now();
 
-  if (user.subscription && (user.subscription.status == SUBSCRIPTION_STATUS_ACTIVE || user.subscription.status == SUBSCRIPTION_STATUS_PAST_DUE)) {
-    enableTaskCreation = true
+  if (
+    user.subscription &&
+    (user.subscription.status == SUBSCRIPTION_STATUS_ACTIVE ||
+      user.subscription.status == SUBSCRIPTION_STATUS_PAST_DUE)
+  ) {
+    disableTaskCreation = false;
   } else {
-    for (var i =0; i < freeProjects.length; i++) {
+    for (var i = 0; i < freeProjects.length; i++) {
       if (freeProjects[i]._id === projectId) {
-        enableTaskCreation = true;
+        disableTaskCreation = false;
         break;
       }
     }
@@ -314,7 +320,9 @@ export function ProjectContainer(props) {
   let history = useHistory();
 
   const onDeleteProject = useCallback((e) => {
-    dispatch(deleteProjectAsync({project: projectVar, allProjects: projectsObj}));
+    dispatch(
+      deleteProjectAsync({ project: projectVar, allProjects: projectsObj })
+    );
     setShowAlert(false);
     setMoreAnchorEl(null);
     setTimeout(() => {
@@ -436,7 +444,7 @@ export function ProjectContainer(props) {
 
             <div className={styles["project-add-new-task"]}>
               <AddNewTask
-                enableTaskCreation={enableTaskCreation}
+                disableTaskCreation={disableTaskCreation}
                 onSave={(a) => addTaskToProject(a)}
                 defaultProjectId={projectVar._id}
                 viewOnlyProject={true}

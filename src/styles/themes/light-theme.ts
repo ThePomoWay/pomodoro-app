@@ -4,6 +4,7 @@ export const light = {
   "--text-theme": "black",
   "--text-theme-2": "#242424",
   "--text-theme-3": "#171717",
+  "--text-theme-4": "#202124",
   "--brand-text-color": "#2e3c87",
   "--border-navbar-theme": "0.5px solid #cacaca",
   "--bg-work": "#f5f7ff",
