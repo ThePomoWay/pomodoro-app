@@ -163,7 +163,9 @@ export default function WebsiteBlocker() {
           </p>
         </div>
         <div className={styles["time-track"]}>
-          <p className={styles["text"]}>Focus mode</p>
+          <p className={styles["text"]}>
+            {focusModeOnly ? "Focus mode tracking" : "Overall tracking"}
+          </p>
           <CustomSlider onChange={toggleFocusModeOnly} />
         </div>
         <div className={styles["block-stats"]}>

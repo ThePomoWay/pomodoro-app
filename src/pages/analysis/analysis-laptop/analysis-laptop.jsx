@@ -199,7 +199,6 @@ export function AnalysisLaptop(props) {
             value={date}
             onChange={(newValue) => {
               setDate(newValue);
-              console.log(newValue);
               callStatsApi(selectedTabIndex, newValue);
             }}
           />
