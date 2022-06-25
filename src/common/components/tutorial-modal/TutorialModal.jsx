@@ -87,7 +87,9 @@ export function TutorialModal(props) {
             </div>
 
             <div className={styles["right"]}>
-              <img className={styles["img"]} src="landing-img.png" />
+              <video className={styles["img"]} loop autoPlay muted>
+                <source src="/video.mp4"></source>
+              </video>
             </div>
           </div>
         </div>
