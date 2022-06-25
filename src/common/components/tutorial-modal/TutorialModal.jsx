@@ -14,8 +14,12 @@ import { LANDING_PAGE_CLOSE } from "../../utils/constants";
 let STEP_DETAILS = [
   {
     title: "Plan Everyday in Advance",
-    description:
-      "Create Task. Estimate lenght in pomodoros. Press play to start timer.",
+    description: (
+      <>
+        1. Create Task. <br /> 2. Estimate length in pomodoros. <br /> 3. Press
+        play to start timer.
+      </>
+    ),
   },
   {
     title: "Don’t let tasks slide",
