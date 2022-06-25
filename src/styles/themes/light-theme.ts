@@ -174,4 +174,5 @@ export const light = {
   "--slider-focus-box-shadow": "0 0 1px #e0e3ff",
   "--feature-text-color": "#3F4358",
   "--analysis-hover": "#ecf0ff",
+  "--bg-focus-mode-tracking": "#f4f5fc",
 };

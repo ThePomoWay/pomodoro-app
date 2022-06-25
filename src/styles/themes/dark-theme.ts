@@ -181,4 +181,5 @@ export const dark = {
   "--slider-focus-box-shadow": "0 0 1px #e0e3ff",
   "--feature-text-color": "white",
   "--analysis-hover": "#2a2c34",
+  "--bg-focus-mode-tracking": "#131313",
 };

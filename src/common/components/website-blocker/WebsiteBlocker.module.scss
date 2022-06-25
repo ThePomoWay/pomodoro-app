@@ -12,7 +12,7 @@
 
     .button {
       width: 80px;
-      height: 24px;
+      height: 30px;
       padding: 6px 11.25px;
       color: #7a8ae4;
       letter-spacing: 0.1px;
@@ -20,9 +20,12 @@
       font-size: 12px;
 
       background: var(--bg-theme);
-      border: 1.0177px solid #cbcff7;
+      border: 1px solid #cbcff7;
       box-sizing: border-box;
       border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       cursor: pointer;
       text-align: center;
@@ -37,7 +40,7 @@
       gap: 16px;
     }
     .time-track {
-      background-color: #f4f5fc;
+      background-color: var(--bg-focus-mode-tracking);
       border-radius: 8px;
       display: flex;
       padding: 8px;
@@ -191,7 +194,7 @@
           border: 1px solid #e4e7fa;
           box-sizing: border-box;
           border-radius: 8px;
-          color: #171717;
+          color: var(--text-theme-3);
           font-size: 14px;
 
           display: flex;

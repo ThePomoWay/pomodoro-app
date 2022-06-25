@@ -96,7 +96,7 @@ export function getFormattedTime(secs) {
     return Math.floor(m) + " mins";
   }
   let h = Math.floor(m / 60);
-  m = m % 60;
+  m = Math.floor(m % 60);
   return `${Math.floor(h)} hr ${m} mins`;
 }
 
