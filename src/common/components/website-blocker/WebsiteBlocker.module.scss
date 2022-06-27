@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  
+
   background-color: var(--bg-theme);
   color: var(--text-theme);
 
@@ -9,7 +9,6 @@
     width: 60vw;
     align-self: center;
     margin-top: 44px;
-
 
     .button {
       width: 80px;
@@ -20,7 +19,7 @@
       font-weight: 500;
       font-size: 12px;
 
-      background:  var(--bg-theme);
+      background: var(--bg-theme);
       border: 1.0177px solid #cbcff7;
       box-sizing: border-box;
       border-radius: 4px;
@@ -30,7 +29,7 @@
     }
 
     .blocked-bg {
-      border: 1px solid #f4c4c6 !important;
+      border: 1px solid #c4cef4 !important;
     }
     .stats {
       display: flex;
@@ -74,11 +73,10 @@
       margin-top: 32px;
 
       .chart {
-        grid-column: 1 / 4;
+        grid-column: 1 / 6;
       }
       .sites {
-        grid-column: 1 / -1;
-
+        grid-column: 6 / -1;
 
         .title {
           margin-bottom: 20px;
@@ -92,6 +90,8 @@
         max-height: 230px;
 
         overflow-y: scroll;
+
+        max-height: 270px;
 
         /* width */
         &::-webkit-scrollbar {
@@ -186,13 +186,12 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-        
-       
+
         .blocked-site {
           border: 1px solid #e4e7fa;
           box-sizing: border-box;
-          border-radius: 4px;
-          color: var(--text-theme-3);
+          border-radius: 8px;
+          color: #171717;
           font-size: 14px;
 
           display: flex;
@@ -200,10 +199,12 @@
 
           align-items: center;
 
-          height: 38px;
-
-          padding: 6px 8px;
+          padding: 12px;
           width: 97.4%;
+
+          img {
+            width: 16px;
+          }
         }
       }
     }

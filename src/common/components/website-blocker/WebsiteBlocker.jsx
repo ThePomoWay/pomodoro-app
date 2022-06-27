@@ -3,15 +3,28 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Settings from "../../../pages/settings/Settings";
 import { selectBlockedWebsites, selectStats } from "../../state/selectors";
+
+import { useLocation } from "react-router-dom";
+import {
+  selectBlockedWebsites,
+  selectFocusModeObj,
+  selectStats,
+  selectTimeTrackingObj,
+} from "../../state/selectors";
 import { showErrorToast } from "../../state/slice/GlobalSlice";
 import {
   addBlockedSite,
   getBlockedSites,
   getHistory,
+  getTimeTrackingDetails,
   removeFromBlockedSites,
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
+
+import { getFormattedTime, getTimeText } from "../../utils/date-utils";
+import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
+import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
 
 export default function WebsiteBlocker() {
@@ -19,26 +32,43 @@ export default function WebsiteBlocker() {
 
   let stats = useSelector(selectStats);
   let blockedWebsites = useSelector(selectBlockedWebsites);
+  let timeTrackingAllObj = useSelector(selectTimeTrackingObj);
+
+  let focusModeObj = useSelector(selectFocusModeObj);
   let blockedHostsObj = getObjFromArr(blockedWebsites, "host");
 
   let [showAllSites, setShowAllSites] = useState(true);
   let [siteInput, setSiteInput] = useState("");
 
+  let [focusModeOnly, setFocusModeOnly] = useState(false);
+
+  let timeTrackingObj = focusModeOnly ? focusModeObj : timeTrackingAllObj;
+
+  let toggleFocusModeOnly = () => {
+    setFocusModeOnly(!focusModeOnly);
+  };
+
+  let location = useLocation();
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(getHistory());
       dispatch(getBlockedSites());
+      dispatch(getTimeTrackingDetails());
     }, 1000);
-  }, []);
+  }, [location]);
 
   const addSiteToBlockedSites = (siteInput) => {
     if (!siteInput.startsWith("http")) {
       siteInput = "https://" + siteInput;
     }
     try {
+      siteInput = siteInput.replace("www.", "");
       let url = new URL(siteInput);
       if (url.hostname in blockedHostsObj) {
         dispatch(showErrorToast("Host already blocked"));
+      } else if (url.hostname.includes("timedojo.io")) {
+        dispatch(showErrorToast("Timedojo cannot be blocked"));
       } else {
         dispatch(
           addBlockedSite({
@@ -73,10 +103,6 @@ export default function WebsiteBlocker() {
       <Navbar selected="3" />
       <Settings />
       <div className={styles["main-content"]}>
-        {/* <div className={styles["time-track"]}>
-          <p className={styles["text"]}>Time Tracking</p>
-          <CustomSlider />
-        </div> */}
         <div className={styles["block-websites"]}>
           <h1 className="font-title">Block Websites</h1>
           <p className="font-normal">
@@ -114,7 +140,7 @@ export default function WebsiteBlocker() {
                       "http://www.google.com/s2/favicons?domain=" + item.host
                     }
                   />
-                  {item.url}
+                  {item.host}
                 </div>
                 <button
                   className={styles["button"]}
@@ -132,6 +158,7 @@ export default function WebsiteBlocker() {
             )}
           </div>
         </div>
+
         <div className={styles["stats"]}>
           <h1 className="font-title">Your History</h1>
           <p className="font-normal">
@@ -139,14 +166,22 @@ export default function WebsiteBlocker() {
             block some of the website for less distractions
           </p>
         </div>
+        <div className={styles["time-track"]}>
+          <p className={styles["text"]}>
+            {focusModeOnly ? "Focus mode tracking" : "Overall tracking"}
+          </p>
+          <CustomSlider onChange={toggleFocusModeOnly} />
+        </div>
         <div className={styles["block-stats"]}>
-          {/* <div className={styles["chart"]}>
-            <PieChart />
-          </div> */}
+          <div className={styles["chart"]}>
+            <PieChart chartData={timeTrackingObj} />
+          </div>
           <div className={styles["sites"]}>
-            <p className={styles["title"]}>Showing {stats.length} websites</p>
+            <p className={styles["title"]}>
+              Showing {timeTrackingObj.length} websites
+            </p>
             <div className={styles["legend"]}>
-              {stats.map((item, index) => (
+              {timeTrackingObj.map((item, index) => (
                 <div
                   key={"stats-block" + index}
                   className={`${styles["legend-item"]} ${
@@ -165,12 +200,14 @@ export default function WebsiteBlocker() {
                     <span className={styles["url"]}>{item.host}</span>
                   </div>
                   <div className={styles["right"]}>
-                    {/* <span className={styles["percent"]}>39%</span> */}
+                    {item.percent > 0 && (
+                      <span className={styles["percent"]}>{item.percent}%</span>
+                    )}
                     <span className={styles["time"]}>
                       {/* Last visited: {getAnteMeridiemText(item.lastVisitTime)}
                        */}
-                      Visited {item.visitedCount} times
-                      {/* {getHoursMinsDate(item.timeInSec)} */}
+                      {/* Visited {item.visitedCount} times */}
+                      {getFormattedTime(item.timeSpent / 1000)}
                     </span>
                     {!(item.host in blockedHostsObj) && (
                       <span

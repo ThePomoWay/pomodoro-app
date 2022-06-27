@@ -70,7 +70,7 @@ export function getNextSunday(d = new Date()) {
 }
 
 export function getTimeText(mins) {
-  mins = mins.toFixed(1);
+  mins = Math.floor(mins);
   if (mins < 60) {
     mins = Number(mins);
     return mins + " mins";
@@ -81,6 +81,23 @@ export function getTimeText(mins) {
     return `${m} mins`;
   }
   return `${Math.floor(mins / 60)} hr ${m} mins`;
+}
+
+export function getFormattedTime(secs) {
+  if (!secs) {
+    return "";
+  }
+  secs = Math.floor(secs);
+  if (secs < 60) {
+    return secs + " secs";
+  }
+  let m = secs / 60;
+  if (m < 60) {
+    return Math.floor(m) + " mins";
+  }
+  let h = Math.floor(m / 60);
+  m = m % 60;
+  return `${Math.floor(h)} hr ${m} mins`;
 }
 
 export function daysInMonth(date) {

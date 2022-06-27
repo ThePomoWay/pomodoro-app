@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { showNotification } from "../../../serviceWorker";
 import { getFromCollection } from "../../API/indexed-db-ops/indexedDbCrudWrapper";
 import {
   userPreferencesObjectKey,
@@ -38,9 +39,16 @@ import {
   STATS_TYPE_PAUSED,
 } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
-import { sendMessageToExtension } from "../../utils/extension-utils";
+import {
+  sendMessageToExtension,
+  UPDATE_TIMER_ACTION,
+} from "../../utils/extension-utils";
 import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
-import { askPermission, sendWebNotification } from "../../utils/web-push-utils";
+import {
+  ACTIONS_ADD_TIME,
+  askPermission,
+  sendWebNotification,
+} from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
 import {
   setPomoSummary,
@@ -83,7 +91,8 @@ export let getTimerState = createAsyncThunk(
         let timerInSec = getTimerInSec(
           defaultTotalTime,
           response.pomoStartTime,
-          response.psec
+          response.psec,
+          response.extraSec
         );
 
         if (timerInSec <= 0) {
@@ -138,7 +147,7 @@ export let updateTimerState = createAsyncThunk(
     if (curStateObj && curStateObj.pomoState !== stateInStore.pomoState) {
       //@ts-ignore
       sendMessageToExtension({
-        action: "updateTimerState",
+        action: UPDATE_TIMER_ACTION,
         timerState: updateObj,
       });
     }
@@ -201,6 +210,7 @@ export let updateNextState = createAsyncThunk(
 
             ptime: "",
             pomoSummary: {},
+            extraSec: 0,
           })
         );
         document.title = PAGE_TITLE;
@@ -214,13 +224,17 @@ export let updateNextState = createAsyncThunk(
             lastResumeTime: "",
             psec: 0,
             pomoSummary: {},
+            extraSec: 0,
           })
         );
       }
 
       // dispatch(incrementCurTaskCpomo());
     } else {
-      sendWebNotification("It's time for your next focused session!");
+      sendWebNotification(
+        "It's time for your next focused session!",
+        "Start your next pomodoro session now!"
+      );
       let nextState = POMO_IDLE_STATE;
       if (userPreference.autoplayPomo) {
         nextState = POMO_RUNNING_STATE;
@@ -235,6 +249,7 @@ export let updateNextState = createAsyncThunk(
             timerInSec: userPreference.defaultWorkTime,
             ptime: "",
             pomoSummary: {},
+            extraSec: 0,
           })
         );
       } else {
@@ -243,6 +258,7 @@ export let updateNextState = createAsyncThunk(
             pomoState: nextState,
             timerInSec: userPreference.defaultWorkTime,
             pomoSummary: {},
+            extraSec: 0,
           })
         );
         document.title = PAGE_TITLE;
@@ -260,16 +276,16 @@ export let tickAsync = createAsyncThunk(
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
 
-    if (timerState.pomoState === POMO_RUNNING_STATE) {
-      let curTaskId = taskState.currentTaskRef;
-      if (curTaskId) {
-        if (!pomoSummary[curTaskId]) {
-          pomoSummary[curTaskId] = 2;
-        } else {
-          pomoSummary[curTaskId] += 1;
-        }
-      }
-    }
+    // if (timerState.pomoState === POMO_RUNNING_STATE) {
+    //   let curTaskId = taskState.currentTaskRef;
+    //   if (curTaskId) {
+    //     if (!pomoSummary[curTaskId]) {
+    //       pomoSummary[curTaskId] = 2;
+    //     } else {
+    //       pomoSummary[curTaskId] += 1;
+    //     }
+    //   }
+    // }
 
     let defaultTotalTime = userPreference.defaultWorkTime;
 
@@ -282,7 +298,8 @@ export let tickAsync = createAsyncThunk(
     let timerSec = getTimerInSec(
       defaultTotalTime,
       timerState.pomoStartTime,
-      timerState.psec
+      timerState.psec,
+      timerState.extraSec
     );
     if (timerSec <= 0) {
       dispatch(setTimerSec(0));
@@ -296,8 +313,16 @@ export let tickAsync = createAsyncThunk(
         dispatch(updateNextState({}));
       }
     } else {
-      if (timerSec === 300 && timerState.pomoState === POMO_RUNNING_STATE) {
-        sendWebNotification("5 mins more to go!");
+      if (
+        timerSec === 300 &&
+        timerState.pomoState === POMO_RUNNING_STATE &&
+        timerState.extraSec === 0
+      ) {
+        sendWebNotification(
+          "5 mins more to go!",
+          "Would you like to extend the duration of your Pomodoro session?",
+          ACTIONS_ADD_TIME
+        );
       }
 
       dispatch(setTimerSec(timerSec));
@@ -323,6 +348,7 @@ export const startWorkTimerAsync = createAsyncThunk(
         psec: 0,
         lastResumeTime: new Date().toISOString(),
         timerInSec: userPreference.defaultWorkTime,
+        extraSec: 0,
       })
     );
   }
@@ -350,6 +376,7 @@ export const startTimerAsync = createAsyncThunk(
         psec: 0,
         lastResumeTime: date.toISOString(),
         timerInSec,
+        extraSec: 0,
       })
     );
     playTimerStartSound();
@@ -361,16 +388,21 @@ export const pauseTimerAsync = createAsyncThunk(
   (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let taskState = getState()["tasks"];
-    let pomoSummary = timerState.pomoSummary;
+    let pomoSummary = window.structuredClone(timerState.pomoSummary);
 
     sendWorkerMsg(CLEAR_INTERVAL);
 
     let summary = [];
     for (let taskId in pomoSummary) {
+      if (!pomoSummary[taskId].endTime) {
+        pomoSummary[taskId].csec += Math.round(
+          (Date.now() - pomoSummary[taskId].startTime) / 1000
+        );
+      }
       summary.push({
         tid: taskState.tasks[taskId]._id,
         fid: taskState.tasks[taskId].fid,
-        csec: pomoSummary[taskId],
+        csec: pomoSummary[taskId].csec,
       });
     }
 
@@ -450,6 +482,7 @@ export const resetTimerAsync = createAsyncThunk(
         timerInSec: userPreference.defaultWorkTime,
         ptime: "",
         psec: 0,
+        extraSec: 0,
       })
     );
   }
@@ -460,13 +493,19 @@ export const completePomodoro = createAsyncThunk(
   async (_, { dispatch, getState }) => {
     let timerState = getState()["timer"];
     let taskState = getState()["tasks"];
-    let pomoSummary = timerState.pomoSummary;
+    let pomoSummary = window.structuredClone(timerState.pomoSummary);
+
     let summary = [];
     for (let taskId in pomoSummary) {
+      if (!pomoSummary[taskId].endTime) {
+        pomoSummary[taskId].csec += Math.round(
+          (Date.now() - pomoSummary[taskId].startTime) / 1000
+        );
+      }
       summary.push({
-        tid: taskState.tasks[taskId]._id || "",
+        tid: taskState.tasks[taskId]._id,
         fid: taskState.tasks[taskId].fid,
-        csec: pomoSummary[taskId],
+        csec: pomoSummary[taskId].csec,
       });
     }
 
@@ -492,11 +531,16 @@ export const completePomodoro = createAsyncThunk(
     dispatch(setPomoSummary({}));
 
     if (timerState.pomoState === POMO_RUNNING_STATE) {
-      sendWebNotification("Time to take a break!");
+      sendWebNotification(
+        "Time to take a break!",
+        "Hope you had a good focus session!",
+        []
+      );
 
       let endDate = new Date(
         timerState.pomoStartTime +
           timerState.psec * 1000 +
+          timerState.extraSec * 1000 +
           (userPreference.defaultWorkTime || DEFAULT_WORK_TIME) * 1000
       );
       if (AuthService.isLoggedIn()) {
@@ -524,5 +568,23 @@ export const completePomodoro = createAsyncThunk(
         );
       }
     }
+  }
+);
+
+export const addMinsToClock = createAsyncThunk(
+  "timer/addExtraSecs",
+  async (seconds, { dispatch, getState }) => {
+    let timerState = getState()["timer"];
+    let updateObj = {
+      ...timerState,
+      extraSec: seconds,
+    };
+
+    dispatch(updateTimerState(updateObj));
+
+    sendMessageToExtension({
+      action: UPDATE_TIMER_ACTION,
+      timerState: updateObj,
+    });
   }
 );

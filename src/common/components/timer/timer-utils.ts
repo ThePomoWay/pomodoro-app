@@ -43,8 +43,11 @@ export function getTab(state) {
   return TAB_POMODORO;
 }
 
-export function getTimerInSec(defaultTotalTime, pomoStartTime, psec) {
+export function getTimerInSec(defaultTotalTime, pomoStartTime, psec, extraSec) {
   let diff = (Date.now() - pomoStartTime) / 1000;
+  if (!extraSec) {
+    extraSec = 0;
+  }
 
-  return Math.ceil(defaultTotalTime - diff + psec);
+  return Math.ceil(defaultTotalTime - diff + psec + extraSec);
 }

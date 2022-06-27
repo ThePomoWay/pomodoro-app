@@ -1,17 +1,20 @@
+import { setFocusMode } from "../state/slice/GlobalSlice";
 import { store } from "../state/store";
 import {
+  onBlockedSitesLoad,
+  onHistoryLoad,
+  onTimeTrackingDetailsReceived,
+} from "../state/thunks/BlockerThunk";
+import { extensionSyncAll } from "../state/thunks/GlobalThunk";
+import {
+  addMinsToClock,
   pauseTimerAsync,
+  resetTimerAsync,
   resumeTimerAsync,
   startTimerAsync,
   updateNextState,
   updateTimerState,
-  resetTimerAsync,
 } from "../state/thunks/TimerThunk";
-import { setExtensionPresent, setFocusMode } from "../state/slice/GlobalSlice";
-import {
-  onBlockedSitesLoad,
-  onHistoryLoad,
-} from "../state/thunks/BlockerThunk";
 
 export const START_TIMER_ACTION = "StartTimer";
 export const PAUSE_TIMER_ACTION = "PauseTimer";
@@ -23,7 +26,22 @@ export const UPDATE_TIMER_ACTION = "UpdateTimer";
 export const GET_HISTORY_ACTION = "getHistory";
 export const GET_BLOCKED_SITES_ACTION = "getBlockedSites";
 export const SET_FOCUS_MODE_STATE_ACTION = "setFocusMode";
+export const GET_TIME_TRACKING_OBJ_ACTION = "getTimeTrackingObj";
+export const SYNC_ALL = "syncAll";
+
+export const SYNC_USER_PREF = "syncUserPref";
+
 export let isExtensionPresent = false;
+
+export function addSWListeners() {
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.onmessage = (event) => {
+      if (event.data && event.data.action === "add") {
+        store.dispatch(addMinsToClock(event.data.secs));
+      }
+    };
+  }
+}
 
 export default function addExtensionListeners() {
   window.addEventListener("message", (event) => {
@@ -64,6 +82,14 @@ export default function addExtensionListeners() {
 
       if (event.data.action === SET_FOCUS_MODE_STATE_ACTION) {
         store.dispatch(setFocusMode(event.data.data));
+      }
+
+      if (event.data.action === GET_TIME_TRACKING_OBJ_ACTION) {
+        store.dispatch(onTimeTrackingDetailsReceived(event.data.data));
+      }
+
+      if (event.data.action === SYNC_ALL) {
+        store.dispatch(extensionSyncAll());
       }
     }
   });

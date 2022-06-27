@@ -219,6 +219,8 @@ export function AnalysisLaptop(props) {
     );
   };
 
+  console.log(stats);
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <div className={styles["container"]}>
@@ -239,7 +241,8 @@ export function AnalysisLaptop(props) {
               <div className={styles["streak-container"]}>
                 <div className={styles["longest-streak"]}>
                   <h3 className={`font-big ${styles["text-red"]}`}>
-                    {(user.overallStat &&
+                    {(user &&
+                      user.overallStat &&
                       user.overallStat.ls &&
                       user.overallStat.ls.length) ||
                       0}{" "}
@@ -252,7 +255,8 @@ export function AnalysisLaptop(props) {
                 </div>
                 <div className={styles["current-streak"]}>
                   <h3 className={`font-big ${styles["text-blue"]}`}>
-                    {(user.overallStat &&
+                    {(user &&
+                      user.overallStat &&
                       user.overallStat.rs &&
                       user.overallStat.rs.length) ||
                       0}{" "}

@@ -33,6 +33,8 @@ export const initialBlockerState = {
   blockedWebsites: [],
 
   history: [],
+  timeTrackingObj: [],
+  focusTrackingObj: [],
 };
 
 export let blockerReducer = {
@@ -41,5 +43,11 @@ export let blockerReducer = {
   },
   setHistory: (state, action) => {
     state.history = action.payload;
+  },
+  setTimeTrackingObj: (state, action) => {
+    state.timeTrackingObj = action.payload;
+  },
+  setFocusTimeTrackingObj: (state, action) => {
+    state.focusTrackingObj = action.payload;
   },
 };

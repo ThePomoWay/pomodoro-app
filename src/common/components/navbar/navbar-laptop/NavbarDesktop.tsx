@@ -199,7 +199,7 @@ export default function NavbarDesktop(props) {
               "3" === props.selected ? styles["selected"] : ""
             }`}
           >
-            Manage
+            Manage Focus
           </div>
 
           {(isLoggedIn && <ProfileDropdown />) || (

@@ -86,6 +86,7 @@ export function processStatsRange(
       }),
       datasets: [
         {
+          label: "Time spent in mins",
           data: [...Array(24)].map((item) => 0),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -99,6 +100,7 @@ export function processStatsRange(
           : [...Array(daysInMonth(to))].map((_, index) => index + 1 + " "),
       datasets: [
         {
+          label: "No. of pomodoros",
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
           data:
@@ -115,6 +117,7 @@ export function processStatsRange(
           : [...Array(daysInMonth(to))].map((_, index) => index + 1 + " "),
       datasets: [
         {
+          label: "Number of Completed Tasks",
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
           data:

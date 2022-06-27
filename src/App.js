@@ -22,6 +22,7 @@ import { ExtensionModal } from "./common/components/extension-promotion-modal/Ex
 import { LandingPage } from "./pages/landing-page/LandingPage";
 import { TutorialModal } from "./common/components/tutorial-modal/TutorialModal";
 import { LANDING_PAGE_CLOSE } from "./common/utils/constants";
+import { NotFound } from "./common/components/404/404";
 
 function App() {
   let dispatch = useDispatch();
@@ -77,6 +78,9 @@ function App() {
             <Homepage />
           )}
           {/* <LandingPage /> */}
+        </Route>
+        <Route path="">
+          <NotFound />
         </Route>
       </Switch>
       <Toast />

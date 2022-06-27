@@ -137,3 +137,5 @@ export const selectStats = (state) => state.blocker.history;
 export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;
 
 export const selectTutorialModal = (state) => state.global.showTutorialModal;
+export const selectTimeTrackingObj = (state) => state.blocker.timeTrackingObj;
+export const selectFocusModeObj = (state) => state.blocker.focusTrackingObj;
