@@ -103,18 +103,21 @@ export default function WebsiteBlocker() {
       <Settings />
       <div className={styles["main-content"]}>
         <div className={styles["stats"]}>
-          <h1 className="font-title">Your History</h1>
+          <div className={styles["heading"]}>
+            <h1 className="font-title">Your History</h1>
+            <div className={styles["time-track"]}>
+              <p className={styles["text"]}>
+                {focusModeOnly ? "Focus mode tracking" : "Overall tracking"}
+              </p>
+              <CustomSlider onChange={toggleFocusModeOnly} />
+            </div>
+          </div>
           <p className="font-normal">
-            Analyze where and which website do you spend most of your time and
-            block some of the website for less distractions
+            Analyze time spent on sites and block distracting ones. We don't
+            save this data.
           </p>
         </div>
-        <div className={styles["time-track"]}>
-          <p className={styles["text"]}>
-            {focusModeOnly ? "Focus mode tracking" : "Overall tracking"}
-          </p>
-          <CustomSlider onChange={toggleFocusModeOnly} />
-        </div>
+
         <div className={styles["block-stats"]}>
           <div className={styles["chart"]}>
             <PieChart chartData={timeTrackingObj} />
