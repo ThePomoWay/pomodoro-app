@@ -10,6 +10,12 @@ export default class AuthService {
     return !!userInfo.uid;
   }
 
+  static getCountryCode() {
+    let cc = localStorage.getItem("cc");
+
+    return cc || "US";
+  }
+
   static getUserId() {
     let userInfo = AuthService.getUserAuthInfo();
     return userInfo.uid;

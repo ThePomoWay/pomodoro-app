@@ -17,7 +17,6 @@ import { scrollToEndOfContainer } from "../../../common/utils/common";
 import OnBoarding from "../../onboarding/Onboarding";
 import Settings from "../../settings/Settings";
 import useHomepage from "../HomePage-hook";
-
 import styles from "./homepage-laptop.module.scss";
 
 export function HomepageLaptop() {

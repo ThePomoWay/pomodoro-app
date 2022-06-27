@@ -8,6 +8,7 @@ import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { EditRounded } from "../../svgs/EditRounded";
 import { updateUserThunk } from "../../state/thunks/UserThunk";
 import { ThemeDropdown } from "../theme-dropdown/ThemeDropdown";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 const dpTransitionStyles = {
   entering: {

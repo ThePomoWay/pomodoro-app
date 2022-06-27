@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "../../API/network/AuthService";
 import { getUserApi, updateUserApi } from "../../API/network/UserApis";
+import { SUBSCRIPTION_STATUS_ACTIVE, SUBSCRIPTION_STATUS_PAST_DUE } from "../../utils/constants";
 import { getFormattedDate } from "../../utils/date-utils";
 import { showErrorToast, showSuccessToast } from "../slice/GlobalSlice";
 import { setUser } from "../slice/UserSlice";
@@ -8,7 +9,7 @@ import { updateUserPrefLocal } from "./GlobalThunk";
 
 export let getUserAsync = createAsyncThunk(
   "user/get",
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
     let response = await getUserApi(AuthService.getUserId());
     if (
       response &&

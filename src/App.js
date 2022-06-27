@@ -1,33 +1,37 @@
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import AuthService from "./common/API/network/AuthService";
+import { NotFound } from "./common/components/404/404";
+import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import { Sidebar } from "./common/components/sidebar/sidebar";
+import { MultiTabAlertModal } from "./common/components/singe-tab-modal/MultiTabAlertModal";
+import { Toast } from "./common/components/toast/Toast";
+import { TutorialModal } from "./common/components/tutorial-modal/TutorialModal";
+import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
+import { init } from "./common/state/thunks/GlobalThunk";
 import { getUserAsync } from "./common/state/thunks/UserThunk";
+import { LANDING_PAGE_CLOSE } from "./common/utils/constants";
+import { isExtensionPresent } from "./common/utils/extension-utils";
 import { syncIdb } from "./common/utils/sync";
 import AboutUs from "./pages/about-us/AbousUsPage";
 import AllTasks from "./pages/all-tasks/AllTasks";
 import AnalysisPage from "./pages/analysis/Analysispage";
-import Settings from "./pages/settings/Settings";
 import CloseTabs from "./pages/close-tab/CloseTab";
 import Homepage from "./pages/dashboard/HomePage";
-import { init } from "./common/state/thunks/GlobalThunk";
-import { Toast } from "./common/components/toast/Toast";
-import { MultiTabAlertModal } from "./common/components/singe-tab-modal/MultiTabAlertModal";
-import { PrivacyPolicy } from "./pages/privacy-policy/PrivacyPolicy";
-import { TermsOfService } from "./pages/terms-of-service/TermsOfService";
-import WebsiteBlocker from "./common/components/website-blocker/WebsiteBlocker";
-import { isExtensionPresent } from "./common/utils/extension-utils";
-import { ExtensionModal } from "./common/components/extension-promotion-modal/ExtensionModal";
 import { LandingPage } from "./pages/landing-page/LandingPage";
-import { TutorialModal } from "./common/components/tutorial-modal/TutorialModal";
-import { LANDING_PAGE_CLOSE } from "./common/utils/constants";
-import { NotFound } from "./common/components/404/404";
+import { PrivacyPolicy } from "./pages/privacy-policy/PrivacyPolicy";
+import Settings from "./pages/settings/Settings";
+import { TermsOfService } from "./pages/terms-of-service/TermsOfService";
+
+import { PostTransactionHandler } from "./pages/post-transaction/PostTransactionHandler";
 
 function App() {
   let dispatch = useDispatch();
 
   dispatch(init());
+
+  // dispatch(showTransactionErrorModal());
 
   if (AuthService.isLoggedIn()) {
     dispatch(getUserAsync());
@@ -39,6 +43,8 @@ function App() {
 
   let isLoggedIn = AuthService.isLoggedIn();
   let isLandingPageVisited = localStorage.getItem(LANDING_PAGE_CLOSE);
+  // getting users country code on page load and storing in LS
+  getIp();
 
   return (
     <Router>
@@ -71,6 +77,12 @@ function App() {
         <Route path="/app">
           <Homepage />
         </Route>
+        <Route path="/success">
+          <PostTransactionHandler />
+        </Route>
+        <Route path="/failure">
+          <PostTransactionHandler />
+        </Route>
         <Route exact path="/">
           {!isLoggedIn && !isLandingPageVisited ? (
             <LandingPage />
@@ -79,6 +91,7 @@ function App() {
           )}
           {/* <LandingPage /> */}
         </Route>
+
         <Route path="">
           <NotFound />
         </Route>
@@ -87,6 +100,9 @@ function App() {
       <MultiTabAlertModal />
       <TutorialModal />
       {!isExtensionPresent && <ExtensionModal />}
+
+      <PricingModal />
+      <TransactionModal />
     </Router>
   );
 }

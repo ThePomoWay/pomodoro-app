@@ -5,6 +5,7 @@ import styles from "./Settings.module.scss";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Navbar from "../../common/components/navbar/Navbar";
 import { ProfileSettings } from "../../common/components/profile-settings/ProfileSettings";
+import { PaymentSettings } from "../../common/components/payment-settings/PaymentSettings";
 import { ClockSettings } from "../../common/components/clock-settings/ClockSettings";
 import { SoundSettings } from "../../common/components/sound-settings/SoundSettings";
 import { ClockSettingsModal } from "../../common/components/clock-settings-modal/ClockSettingsModal";
@@ -45,6 +46,7 @@ export default function Settings(props) {
             <div className={styles["settings"]}>
               {tab === 0 && <ProfileSettings />}
               {tab === 1 && <ClockSettingsModal />}
+              {tab === 2 && <PaymentSettings />}
             </div>
           </div>
         </div>

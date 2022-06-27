@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
@@ -15,6 +16,7 @@ export const initialGlobalState = {
   onboardingModalOpen: false,
   projectModalOpen: false,
   labelModalOpen: false,
+  pricingModalOpen: false,
   hideFirstUserScreen: false,
   toast: {
     open: false,
@@ -44,6 +46,12 @@ export const initialGlobalState = {
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
   showTutorialModal: false,
+  products: [],
+  transactionModal: {
+    open: false,
+    type: "success",
+    data: {},
+  },
 };
 
 export let globalReducer = {
@@ -137,5 +145,32 @@ export let globalReducer = {
   },
   closeTutorialModal: (state, action) => {
     state.showTutorialModal = false;
+  },
+  setPricingModalState: (state, action) => {
+    state.pricingModalOpen = action.payload;
+  },
+  setProducts: (state, action) => {
+    state.products = action.payload;
+  },
+  showTransactionSuccessModal: (state, action) => {
+    state.transactionModal = {
+      open: true,
+      type: "success",
+      data: action.payload,
+    };
+  },
+  showTransactionErrorModal: (state, action) => {
+    state.transactionModal = {
+      open: true,
+      type: "error",
+      data: action.payload,
+    };
+  },
+  closeTransactionModal: (state, action) => {
+    state.transactionModal = {
+      open: false,
+      type: "",
+      data: {},
+    };
   },
 };

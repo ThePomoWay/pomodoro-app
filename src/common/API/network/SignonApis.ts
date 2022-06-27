@@ -9,27 +9,33 @@ import {
 } from "./Endpoints";
 import { NetworkService } from "./NetworkService";
 
-export function googleLoginApi(tokenObj) {
+export function googleLoginApi(tokenObj, countryCode) {
   return NetworkService.post(
     googleLoginEndpoint,
-    {},
+    {
+      country: countryCode
+    },
     { tokenId: tokenObj.tokenId }
   );
 }
 
-export function facebookLoginApi(accessToken) {
+export function facebookLoginApi(accessToken, countryCode) {
   return NetworkService.post(
     facebookLoginEndpoint,
-    {},
+    {
+      country: countryCode
+    },
     { tokenId: accessToken }
   );
 }
 
-export function registerApi(obj) {
+export function registerApi(obj, countryCode) {
+  obj.country = countryCode || ""
   return NetworkService.post(registerEndpoint, {}, obj);
 }
 
-export function loginApi(obj) {
+export function loginApi(obj, countryCode) {
+  obj.country = countryCode || ""
   return NetworkService.post(loginEndpoint, {}, obj);
 }
 

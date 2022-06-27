@@ -4,7 +4,7 @@ import { selectTheme } from "../../state/selectors";
 
 import { light } from "../../../styles/themes/light-theme";
 import { dark } from "../../../styles/themes/dark-theme";
-import { THEME_DARK, THEME_LIGHT } from "../../utils/constants";
+import { THEME_DARK } from "../../utils/constants";
 
 export function ApplyTheme({ children }) {
   let theme = useSelector(selectTheme);

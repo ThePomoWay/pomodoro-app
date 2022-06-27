@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserPreferences } from "../../state/selectors";
 import { updateUserPref } from "../../state/thunks/GlobalThunk";
-import { MiniClock } from "../../svgs/MiniClock";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import {
   pomoBreakMarks,

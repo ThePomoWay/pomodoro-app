@@ -12,6 +12,11 @@ import AuthService from "../../API/network/AuthService";
 import { NetworkService } from "../../API/network/NetworkService";
 import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
+  getAllProducts,
+  createCheckoutSession,
+  createBillingConfiguration,
+} from "../../API/network/PricingApis";
+import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
   FIRST_USER_KEY,
@@ -35,6 +40,7 @@ import {
   setFocusMode,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  setProducts,
   setShowFirstUserState,
   setTheme,
   setUserPreferences,
@@ -42,6 +48,7 @@ import {
 } from "../slice/GlobalSlice";
 import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
+import { getIp } from "../../API/network/SelfIpApi";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -98,10 +105,11 @@ export const signin = createAsyncThunk(
   "global/signin",
   async (obj: any, { dispatch }) => {
     let response;
+    let countryCode = await getIp()
     if (obj.mode === "google") {
-      response = await googleLoginApi(obj.data);
+      response = await googleLoginApi(obj.data, countryCode);
     } else if (obj.mode === "facebook") {
-      response = await facebookLoginApi(obj.data);
+      response = await facebookLoginApi(obj.data, countryCode);
     }
 
     if (response.data && response.data.uid) {
@@ -226,5 +234,36 @@ export const toggleHideProjectsCompletedTasks = createAsyncThunk(
     );
 
     dispatch(setHideProjectsCompletedTasks(!hideProjectCompletedTasks));
+  }
+);
+
+export const getProducts = createAsyncThunk(
+  "global/products",
+  async (_, { dispatch, getState }) => {
+    let resp = await getAllProducts();
+
+    dispatch(setProducts(resp.data.products));
+  }
+);
+
+export const getBillingConfiguration = createAsyncThunk(
+  "global/bill-config",
+  async (_, {}) => {
+    let resp = await createBillingConfiguration();
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
+  }
+)
+
+export const buyProductThunk = createAsyncThunk(
+  "global/buy/product",
+  async (product, { dispatch }) => {
+    let resp = await createCheckoutSession(product.stripeID);
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
   }
 );
