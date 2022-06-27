@@ -193,7 +193,7 @@ export default function WebsiteBlocker() {
         <div className={styles["block-websites"]}>
           <h1 className="font-title">Block Websites</h1>
           <p className="font-normal">
-            Analyze where and which website you spend most time on
+            Block websites during work sessions and browse when free
           </p>
 
           <div className={styles["blocker"]}>
