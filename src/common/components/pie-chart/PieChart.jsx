@@ -1,8 +1,7 @@
-import { ArcElement, Chart, Tooltip, Legend } from "chart.js";
+import { ArcElement, Chart, Tooltip } from "chart.js";
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { getOriginFromUrl } from "../../utils/common";
-import { getTimeText } from "../../utils/date-utils";
 
 Chart.register(ArcElement, Tooltip);
 

@@ -73,10 +73,14 @@
       margin-top: 32px;
 
       .chart {
-        grid-column: 1 / 6;
+        grid-column: 1 / 5;
+        justify-content: center;
+        position: relative;
+        top: 50px;
       }
+
       .sites {
-        grid-column: 6 / -1;
+        grid-column: 5 / -1;
 
         .title {
           margin-bottom: 20px;

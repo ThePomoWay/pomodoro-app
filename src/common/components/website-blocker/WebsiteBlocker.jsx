@@ -102,62 +102,6 @@ export default function WebsiteBlocker() {
       <Navbar selected="3" />
       <Settings />
       <div className={styles["main-content"]}>
-        <div className={styles["block-websites"]}>
-          <h1 className="font-title">Block Websites</h1>
-          <p className="font-normal">
-            Analyze where and which website you spend most time on
-          </p>
-
-          <div className={styles["blocker"]}>
-            {/* <div className={styles["http"]}>https://</div> */}
-            <input
-              className={"input " + styles["block-input"]}
-              value={siteInput}
-              onChange={(e) => {
-                setSiteInput(e.target.value);
-              }}
-              placeholder="Type URL here..."
-              onKeyUp={(e) => onKeyUp(e)}
-            />
-            <button
-              className="btn add-task-btn"
-              onClick={(e) => addSiteToBlockedSites(siteInput)}
-            >
-              + ADD SITE
-            </button>
-          </div>
-          <div className={styles["blocked-sites"]}>
-            {blockedWebsites.map((item, index) => (
-              <div
-                className={styles["blocked-site"] + " " + styles["blocked-bg"]}
-                key={"blocked-" + index}
-              >
-                <div className={styles["left"]}>
-                  <img
-                    src={
-                      item.favicon ||
-                      "http://www.google.com/s2/favicons?domain=" + item.host
-                    }
-                  />
-                  {item.host}
-                </div>
-                <button
-                  className={styles["button"]}
-                  onClick={(e) => removeSite(item)}
-                >
-                  UNBLOCK
-                </button>
-              </div>
-            ))}
-
-            {blockedWebsites.length === 0 && (
-              <div className={styles["blocked-site"]}>
-                Blocked sites will appear here
-              </div>
-            )}
-          </div>
-        </div>
-
         <div className={styles["stats"]}>
           <h1 className="font-title">Your History</h1>
           <p className="font-normal">
@@ -239,6 +183,61 @@ export default function WebsiteBlocker() {
                 onClick={(e) => setShowAllSites(true)}
               >
                 See More <ExpandMoreOutlined style={{ fill: "#7586E3" }} />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={styles["block-websites"]}>
+          <h1 className="font-title">Block Websites</h1>
+          <p className="font-normal">
+            Analyze where and which website you spend most time on
+          </p>
+
+          <div className={styles["blocker"]}>
+            {/* <div className={styles["http"]}>https://</div> */}
+            <input
+              className={"input " + styles["block-input"]}
+              value={siteInput}
+              onChange={(e) => {
+                setSiteInput(e.target.value);
+              }}
+              placeholder="Type URL here..."
+              onKeyUp={(e) => onKeyUp(e)}
+            />
+            <button
+              className="btn add-task-btn"
+              onClick={(e) => addSiteToBlockedSites(siteInput)}
+            >
+              + ADD SITE
+            </button>
+          </div>
+          <div className={styles["blocked-sites"]}>
+            {blockedWebsites.map((item, index) => (
+              <div
+                className={styles["blocked-site"] + " " + styles["blocked-bg"]}
+                key={"blocked-" + index}
+              >
+                <div className={styles["left"]}>
+                  <img
+                    src={
+                      item.favicon ||
+                      "http://www.google.com/s2/favicons?domain=" + item.host
+                    }
+                  />
+                  {item.host}
+                </div>
+                <button
+                  className={styles["button"]}
+                  onClick={(e) => removeSite(item)}
+                >
+                  UNBLOCK
+                </button>
+              </div>
+            ))}
+
+            {blockedWebsites.length === 0 && (
+              <div className={styles["blocked-site"]}>
+                Blocked sites will appear here
               </div>
             )}
           </div>
