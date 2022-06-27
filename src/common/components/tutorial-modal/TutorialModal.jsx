@@ -20,16 +20,19 @@ let STEP_DETAILS = [
         play to start timer.
       </>
     ),
+    video: "create_task.mp4",
   },
   {
     title: "Don’t let tasks slide",
     description:
       "Keep your tasks organished with projects, labels and priorities. Press '+' to add to today's list.",
+    video: "Project.mp4",
   },
   {
     title: "Focus Better",
     description:
       "Don't let social media get to you. Focus better by blocking all distractions.",
+    video: "Focus.mp4",
   },
 ];
 
@@ -91,9 +94,13 @@ export function TutorialModal(props) {
             </div>
 
             <div className={styles["right"]}>
-              <video className={styles["img"]} loop autoPlay muted>
-                <source src="/video.mp4"></source>
-              </video>
+              <video
+                src={STEP_DETAILS[step].video}
+                className={styles["img"]}
+                loop
+                autoPlay
+                muted
+              ></video>
             </div>
           </div>
         </div>

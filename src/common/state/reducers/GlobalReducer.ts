@@ -45,7 +45,7 @@ export const initialGlobalState = {
 
   hideTodaysCompletedTasks: false,
   hideProjectCompletedTasks: false,
-  showTutorialModal: false,
+  showTutorialModal: true,
   products: [],
   transactionModal: {
     open: false,
