@@ -70,8 +70,8 @@ export function AddNewTask(props) {
   };
 
   let onToggle = () => {
-    if (!props.enableTaskCreation) {
-      dispatch(setPricingModalState(true))
+    if (props.disableTaskCreation) {
+      dispatch(setPricingModalState(true));
     } else {
       if (!AuthService.isLoggedIn() && tasksLength > 9) {
         dispatch(showErrorToast("Please login to create more tasks"));

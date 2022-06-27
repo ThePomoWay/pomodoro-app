@@ -4,6 +4,7 @@ export const dark = {
   "--text-theme": "#FFFFFF",
   "--text-theme-2": "#CECECE",
   "--text-theme-3": "white",
+  "--text-theme-4": "#80838d",
   "--brand-text-color": "#8AA2FF",
   "--border-navbar-theme": "0.5px solid #434C83",
   "--bg-work": "#1E1E27",
@@ -180,4 +181,5 @@ export const dark = {
   "--slider-focus-box-shadow": "0 0 1px #e0e3ff",
   "--feature-text-color": "white",
   "--analysis-hover": "#2a2c34",
+  "--bg-focus-mode-tracking": "#131313",
 };

@@ -4,13 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import Settings from "../../../pages/settings/Settings";
 
 import { useLocation } from "react-router-dom";
+
 import {
   selectBlockedWebsites,
   selectFocusModeObj,
   selectStats,
   selectTimeTrackingObj,
 } from "../../state/selectors";
-import { showErrorToast } from "../../state/slice/GlobalSlice";
+import {
+  setPricingModalState,
+  showErrorToast,
+} from "../../state/slice/GlobalSlice";
 import {
   addBlockedSite,
   getBlockedSites,
@@ -25,6 +29,7 @@ import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
@@ -40,6 +45,8 @@ export default function WebsiteBlocker() {
   let [siteInput, setSiteInput] = useState("");
 
   let [focusModeOnly, setFocusModeOnly] = useState(false);
+
+  let { isSubscriptionActive } = usePaymentStatus();
 
   let timeTrackingObj = focusModeOnly ? focusModeObj : timeTrackingAllObj;
 
@@ -69,14 +76,18 @@ export default function WebsiteBlocker() {
       } else if (url.hostname.includes("timedojo.io")) {
         dispatch(showErrorToast("Timedojo cannot be blocked"));
       } else {
-        dispatch(
-          addBlockedSite({
-            url: url.href,
-            host: url.hostname,
-            origin: url.origin,
-          })
-        );
-        setSiteInput("");
+        if (!isSubscriptionActive && blockedWebsites.length > 4) {
+          dispatch(setPricingModalState(true));
+        } else {
+          dispatch(
+            addBlockedSite({
+              url: url.href,
+              host: url.hostname,
+              origin: url.origin,
+            })
+          );
+          setSiteInput("");
+        }
       }
     } catch (err) {
       dispatch(showErrorToast("Please enter a valid URL"));

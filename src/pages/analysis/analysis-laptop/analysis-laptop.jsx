@@ -1,40 +1,39 @@
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { ArrowDownward } from "@material-ui/icons";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { useCallback, useState } from "react";
-import Navbar from "../../../common/components/navbar/Navbar";
-import { TabsComponent } from "../../../common/components/tabs-component/TabsComponent";
-import styles from "./analysis-laptop.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import AuthService from "../../../common/API/network/AuthService";
+import Navbar from "../../../common/components/navbar/Navbar";
+import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
+import { TabsComponent } from "../../../common/components/tabs-component/TabsComponent";
 import {
   selectOldStats,
   selectStats,
   selectUser,
 } from "../../../common/state/selectors/statsSelector";
+import { getStatsAsync } from "../../../common/state/thunks/StatsThunk";
+import { CompletedPomoSvg } from "../../../common/svgs/CompletedPomoSvg";
+import { CompletedPomoSvgDark } from "../../../common/svgs/CompletedPomoSvgDark";
+import { PauseStats } from "../../../common/svgs/PauseStats";
+import { Statistics } from "../../../common/svgs/Stats";
+import { Streak } from "../../../common/svgs/streak";
+import { TaskSvg } from "../../../common/svgs/TaskSvg";
+import { UndisturbedPomoSvg } from "../../../common/svgs/UndisturbedPomoSvg";
+import { months, THEME_LIGHT } from "../../../common/utils/constants";
 import {
   getNextSunday,
   getPreviousMonday,
   getTodaysDateFormatted,
   getWeekFormattedDate,
 } from "../../../common/utils/date-utils";
-import { getStatsAsync } from "../../../common/state/thunks/StatsThunk";
-import { Streak } from "../../../common/svgs/streak";
-import { Statistics } from "../../../common/svgs/Stats";
-import { CompletedPomoSvg } from "../../../common/svgs/CompletedPomoSvg";
-import { CompletedPomoSvgDark } from "../../../common/svgs/CompletedPomoSvgDark";
-import { UndisturbedPomoSvg } from "../../../common/svgs/UndisturbedPomoSvg";
-import { TaskSvg } from "../../../common/svgs/TaskSvg";
-import { PauseStats } from "../../../common/svgs/PauseStats";
-import { Block } from "../../../common/svgs/Block";
-import OnBoarding from "../../onboarding/Onboarding";
-import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
-import { months, THEME_LIGHT } from "../../../common/utils/constants";
 import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
-import AuthService from "../../../common/API/network/AuthService";
+import styles from "./analysis-laptop.module.scss";
 
-import Settings from "../../settings/Settings";
+import { usePaymentStatus } from "../../../common/hooks/PaymentHook";
 import { selectTheme } from "../../../common/state/selectors";
 import { UndisturbedPomoSvgDark } from "../../../common/svgs/UndisturbedPomoSvgDark";
+import Settings from "../../settings/Settings";
 
 const tabs = [
   {
@@ -60,6 +59,8 @@ export function AnalysisLaptop(props) {
   let user = useSelector(selectUser);
 
   let theme = useSelector(selectTheme);
+
+  let { isSubscriptionActive } = usePaymentStatus();
 
   let dispatch = useDispatch();
 

@@ -1,0 +1,120 @@
+.container {
+  padding: 38px 24px 0px 84px;
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+
+    .title {
+      font-weight: 500;
+      font-size: 24px;
+
+      display: flex;
+      align-items: center;
+
+      color: var(--text-theme);
+
+      margin-bottom: 20px;
+    }
+
+    .custom-date-range {
+      position: relative;
+      left: -200px;
+    }
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      display: flex;
+      gap: 6px;
+
+      .filter-items {
+        display: flex;
+        gap: 10px;
+      }
+
+      .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        background: rgba(97, 129, 251, 0.02);
+        border-bottom: 1px solid rgba(20, 102, 207, 0.3);
+        box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.05);
+
+        padding: 8px;
+        color: rgba(71, 92, 200, 0.75);
+        font-weight: 450;
+        font-size: 16px;
+
+        cursor: pointer;
+      }
+
+      .search-bar {
+        background: rgba(97, 129, 251, 0.02);
+        border-bottom: 1px solid rgba(20, 102, 207, 0.3);
+        box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.05);
+        width: 20vw;
+        height: 42px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        box-sizing: border-box;
+        padding: 8px;
+      }
+    }
+  }
+
+  .table-header {
+  }
+
+  .table-header-item {
+    padding: 6px 10px;
+    width: 136px;
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.05);
+
+    border-radius: 2px;
+    margin-right: 8px;
+
+    font-weight: 450;
+    font-size: 14px;
+    color: var(--text-theme-4);
+
+    // display: flex;
+    text-align: center;
+    flex: 1;
+  }
+
+  .table {
+    border-spacing: 0 1em;
+    border-collapse: separate;
+  }
+
+  .task-row {
+    background: var(--bg-theme);
+    border: 1.02119px solid #e0e3fc;
+    box-shadow: inset 0px 3.06356px 9.19068px rgba(153, 153, 153, 0.11);
+    border-radius: 2.04237px;
+
+    padding: 6px 10px;
+
+    .task-item {
+      width: 136px;
+      flex: 1;
+
+      font-weight: 450;
+      font-size: 14px;
+      color: #a6a6a6;
+      text-align: center;
+      padding: 10px;
+    }
+  }
+}

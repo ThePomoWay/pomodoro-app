@@ -25,8 +25,12 @@ import Settings from "./pages/settings/Settings";
 import { TermsOfService } from "./pages/terms-of-service/TermsOfService";
 
 import { PostTransactionHandler } from "./pages/post-transaction/PostTransactionHandler";
-import { getIp } from "./common/API/network/SelfIpApi";
+
+import "../src/styles/styles/index.less";
+
 import PricingModal from "./common/components/pricing-modal/PricingModal";
+
+import { getIp } from "./common/API/network/SelfIpApi";
 import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
 
 function App() {
