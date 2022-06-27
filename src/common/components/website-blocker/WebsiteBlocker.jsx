@@ -123,9 +123,9 @@ export default function WebsiteBlocker() {
             <PieChart chartData={timeTrackingObj} />
           </div>
           <div className={styles["sites"]}>
-            <p className={styles["title"]}>
+            {/* <p className={styles["title"]}>
               Showing {timeTrackingObj.length} websites
-            </p>
+            </p> */}
             <div className={styles["legend"]}>
               {timeTrackingObj.map((item, index) => (
                 <div

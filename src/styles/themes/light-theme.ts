@@ -1,6 +1,7 @@
 export const light = {
   "--navbar-selected-color": "#4b60ce",
-  "--bg-theme": "#f5f7fe",
+  "--bg-theme": "#FFFFFF",
+  "--bg-theme-2": "#f5f7fe",
   "--text-theme": "black",
   "--text-theme-2": "#242424",
   "--text-theme-3": "#171717",
