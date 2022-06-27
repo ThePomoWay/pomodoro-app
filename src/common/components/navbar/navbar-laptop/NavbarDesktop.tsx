@@ -1,14 +1,12 @@
-import styles from "./navbarDesktop.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import styles from "./navbarDesktop.module.scss";
 
-import { selectUserInfo, selectTheme } from "../../../state/selectors";
-import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
+import { selectTheme } from "../../../state/selectors";
 import { SunIcon } from "../../../svgs/SunIcon";
-import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
 import { THEME_DARK } from "../../../utils/constants";
+import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 
 import {
   openOnboardingModal,
@@ -117,6 +115,10 @@ export default function NavbarDesktop(props) {
 
   let onOpenOnboardingModal = () => {
     dispatch(openOnboardingModal());
+  };
+
+  let navigateToHome = () => {
+    history.push("/");
   };
 
   let navigateTo = (item) => {
