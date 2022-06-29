@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getTasks } from "../../API/APIService";
 import {
   createIDBTask,
-  updateIDBTask,
   deleteIDBTask,
+  updateIDBTask,
 } from "../../API/indexed-db-ops/crud";
 import {
   getTodaysTasksFromIdb,
@@ -23,10 +23,6 @@ import {
   removeFromTodaysTasksApi,
   updateTodaysTaskAPI,
 } from "../../API/network/TodaysTaskApis";
-import { findIndex } from "../../utils/array-utils";
-import { getObjFromArr, roundToOneDecimal } from "../../utils/common";
-import { getFormattedDate, getReadableDate } from "../../utils/date-utils";
-import { playCompleteTaskSound } from "../../utils/sound-utils";
 import {
   saveTaskInOfflineStore,
   task_complete,
@@ -35,8 +31,20 @@ import {
   task_incomplete,
   task_update,
 } from "../../offlineSync/offlineSync";
+import { findIndex } from "../../utils/array-utils";
+import { getObjFromArr, roundToOneDecimal } from "../../utils/common";
+import { getReadableDate } from "../../utils/date-utils";
+import { playCompleteTaskSound } from "../../utils/sound-utils";
 
-import { initialTaskState, taskReducer } from "../reducers/TaskReducer";
+import { getAllProjectsFromIDB } from "../../API/indexed-db-ops/projectCrud";
+import { projectChangeApi } from "../../API/network/ProjectApis";
+import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
+import {
+  openOnboardingModal,
+  setToast,
+  showErrorToast,
+  showSuccessToast,
+} from "../slice/GlobalSlice";
 import {
   addToCompletedTasks,
   createTask,
@@ -49,22 +57,12 @@ import {
   updateTask,
   updateTodaysTasks,
 } from "../slice/TasksSlice";
-import {
-  openOnboardingModal,
-  setToast,
-  showErrorToast,
-  showSuccessToast,
-} from "../slice/GlobalSlice";
+import { setPomoSummary } from "../slice/TimerSlice";
 import {
   addTaskToProjectLocal,
   removeTaskFromProject,
   updateLocalProjectAsync,
 } from "./ProjectThunk";
-import { projectChangeApi } from "../../API/network/ProjectApis";
-import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
-import { updateTimerState } from "./TimerThunk";
-import { setPomoSummary } from "../slice/TimerSlice";
-import { getAllProjectsFromIDB } from "../../API/indexed-db-ops/projectCrud";
 
 export const getAllTasks = createAsyncThunk(
   "tasks/get",
@@ -78,7 +76,7 @@ export const createLocalTaskThunk = createAsyncThunk(
   "tasks/local/create",
   async (payload: any, { dispatch }) => {
     dispatch(createTask(payload));
-    let response = await createIDBTask(payload.task);
+    await createIDBTask(payload.task);
   }
 );
 
@@ -123,7 +121,7 @@ export const updateLocalTaskThunk = createAsyncThunk(
   async (task: any, { dispatch }) => {
     dispatch(updateTask(task));
 
-    let response = await updateIDBTask(task);
+    await updateIDBTask(task);
     return task;
   }
 );
@@ -316,7 +314,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
     if (obj.task.project.secID) {
       taskOrderCopy = [...project.sections[obj.task.project.secID].to];
 
-      taskOrderCopy.splice(<number>findIndex(taskOrderCopy, obj.task.fid), 1);
+      taskOrderCopy.splice(findIndex(taskOrderCopy, obj.task.fid) as number, 1);
       //let completedTaskOrder = [...project.sections[obj.sectionId].completedTaskOrder, obj.task.fid]
       //@ts-ignore
       dispatch(
@@ -332,7 +330,7 @@ export const markTaskAsCompleteLocal = createAsyncThunk(
         })
       );
     } else {
-      let index = <number>findIndex(taskOrderCopy, obj.task.fid);
+      let index = findIndex(taskOrderCopy, obj.task.fid) as number;
       if (index !== -1) {
         taskOrderCopy.splice(index, 1);
         //let completedTaskOrder = [...project.completedTaskOrder, obj.task.fid]
@@ -587,10 +585,8 @@ export const incrementCurTaskCsec = createAsyncThunk(
 
 export const getTodaysTasks = createAsyncThunk(
   "tasks/getTodaysTasks",
-  async (_, { dispatch, getState }) => {
+  async (_, { dispatch }) => {
     let todaysTasks = await getTodaysTasksFromIdb();
-
-    let tasks = getState()["tasks"].tasks;
 
     dispatch(setTodaysTasks(todaysTasks));
   }

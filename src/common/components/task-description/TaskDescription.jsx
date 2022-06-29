@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./TaskDescription.module.scss";
 
 export default function TaskDescription(props) {
@@ -6,7 +6,7 @@ export default function TaskDescription(props) {
 
   let [value, setValue] = useState(props.value || "");
   let [noLines, setNoLines] = useState(0);
-  let initialLastVal = "";
+
   let splitVal = [];
   if (props.value) {
     splitVal = props.value.split("\n");
@@ -14,7 +14,7 @@ export default function TaskDescription(props) {
   }
   let [lastLine, setLastLine] = useState(splitVal[splitVal.length - 1] || "");
 
-  let onKeyDownBullet = useCallback((e) => {
+  let onKeyDownBullet = (e) => {
     if (e.code === "Enter" && lastLine.length > 0) {
       if (noLines === 0) {
         setValue(lastLine + "\n");
@@ -34,16 +34,16 @@ export default function TaskDescription(props) {
         setNoLines(noLines - 1);
       }
     }
-  });
+  };
 
-  let onChangeBullet = useCallback((e) => {
+  let onChangeBullet = (e) => {
     setLastLine(e.target.value);
     props.onChange && props.onChange(value + e.target.value);
-  });
+  };
 
-  let onChangeValue = useCallback((e) => {
+  let onChangeValue = (e) => {
     props.onChange && props.onChange(e.target.value);
-  });
+  };
   if (isBulleted) {
     let splitValue = value.split("\n");
     return (

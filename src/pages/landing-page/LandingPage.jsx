@@ -141,7 +141,11 @@ export function LandingPage(props) {
             proven Pomodoro technique to improve work quality & time management.
           </div>
 
-          <img src="/landing-img.png" className={styles["img"]} />
+          <img
+            src="/landing-img.png"
+            alt="Landing Page"
+            className={styles["img"]}
+          />
         </div>
       </div>
 
@@ -342,7 +346,7 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-1.png" />
+                  <img src="/dp-1.png" alt="Profile" />
                 </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Ron Howard</div>
@@ -359,7 +363,7 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-2.png" />
+                  <img src="/dp-2.png" alt="Profile" />
                 </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Matt</div>
@@ -375,7 +379,7 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-3.png" />
+                  <img src="/dp-3.png" alt="Profile" />
                 </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Sue</div>
@@ -391,7 +395,7 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-4.png" />
+                  <img src="/dp-4.png" alt="Profile" />
                 </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Jim</div>

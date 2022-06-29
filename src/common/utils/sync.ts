@@ -233,7 +233,7 @@ export async function syncTasks() {
 
 export async function syncProjects(projects, tasksObj) {
   if (projects && projects.length > 0) {
-    let res = await clearProjectsFromIDB(true);
+    await clearProjectsFromIDB(true);
     for (let project of projects) {
       store.dispatch(
         createLocalProjectAsync({
@@ -246,7 +246,7 @@ export async function syncProjects(projects, tasksObj) {
 
 export async function syncTags(tags) {
   if (tags && tags.length > 0) {
-    let res = await clearTagsFromIDB();
+    await clearTagsFromIDB();
     for (let tag of tags) {
       if (!tag.isArchived) {
         store.dispatch(createLocalTagThunk(tag));

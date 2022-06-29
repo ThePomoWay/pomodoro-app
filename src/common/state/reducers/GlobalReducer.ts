@@ -1,10 +1,8 @@
-import { stat } from "fs";
 import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
   DEFAULT_WORK_TIME,
   themeLSKey,
-  THEME_DARK,
   THEME_LIGHT,
 } from "../../utils/constants";
 

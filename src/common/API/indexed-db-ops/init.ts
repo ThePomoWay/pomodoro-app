@@ -1,4 +1,3 @@
-import { generateUniqueId } from "../../utils/common";
 import {
   DEFAULT_BREAK_TIME,
   DEFAULT_LONG_BREAK_TIME,
@@ -37,7 +36,7 @@ export function initIdb() {
           todaysTasksObjectStoreName,
           { keyPath: "key" }
         );
-        let tagsObjectStore = db.createObjectStore(tagsObjectStoreName, {
+        db.createObjectStore(tagsObjectStoreName, {
           keyPath: "fid",
         });
         let projectsObjectStore = db.createObjectStore(

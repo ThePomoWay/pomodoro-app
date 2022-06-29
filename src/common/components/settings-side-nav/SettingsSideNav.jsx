@@ -1,9 +1,9 @@
 import { Person } from "@material-ui/icons";
-import styles from "./SettingsSideNav.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setSettingsTab } from "../../state/slice/GlobalSlice";
 import { selectSettingsTab } from "../../state/selectors";
+import { setSettingsTab } from "../../state/slice/GlobalSlice";
 import { ReactComponent as PaymentIcon } from "../../svgs/SettingsPricing.svg";
+import styles from "./SettingsSideNav.module.scss";
 
 const tabs = [
   {
@@ -50,8 +50,7 @@ const tabs = [
   // },
 ];
 
-export function SettingsSideNav(props) {
-  let path = window.location.pathname;
+export function SettingsSideNav() {
   let dispatch = useDispatch();
   let tab = useSelector(selectSettingsTab);
   let changeTab = (index) => {

@@ -1,5 +1,3 @@
-import { getHours } from "date-fns";
-import { NewLineKind } from "typescript";
 import { months, shortWeekDays } from "../../utils/constants";
 import {
   daysInMonth,

@@ -1,8 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
-import { Close } from "@material-ui/icons";
 import Modal from "@mui/material/Modal";
-import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { selectOnboardingOpen, selectStep } from "../../common/state/selectors";
@@ -25,10 +23,6 @@ import { LoginStep } from "./login/login-step";
 import { LoginStep2 } from "./login/login-step-2";
 import { SignupStep2 } from "./signup/signup-step-2";
 
-const onSubmit = async (values) => {
-  window.alert(JSON.stringify(values, 0, 2));
-};
-
 export default function OnBoarding(props) {
   let dispatch = useDispatch();
 
@@ -36,17 +30,13 @@ export default function OnBoarding(props) {
 
   let step = useSelector(selectStep);
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     dispatch(setStep(1));
     dispatch(closeOnboardingModal());
-  });
+  };
 
   const isMobileDevice = useMediaQuery({
     query: "(max-device-width: 1224px)",
-  });
-
-  const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1200px)",
   });
 
   return (

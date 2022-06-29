@@ -1,5 +1,5 @@
 import { ExpandMoreOutlined } from "@material-ui/icons";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Settings from "../../../pages/settings/Settings";
 
@@ -8,7 +8,6 @@ import { useLocation } from "react-router-dom";
 import {
   selectBlockedWebsites,
   selectFocusModeObj,
-  selectStats,
   selectTimeTrackingObj,
 } from "../../state/selectors";
 import {
@@ -24,17 +23,17 @@ import {
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
 
-import { getFormattedTime, getTimeText } from "../../utils/date-utils";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
+import { getFormattedTime } from "../../utils/date-utils";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
-import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
 
-  let stats = useSelector(selectStats);
+  // let stats = useSelector(selectStats);
   let blockedWebsites = useSelector(selectBlockedWebsites);
   let timeTrackingAllObj = useSelector(selectTimeTrackingObj);
 
@@ -62,7 +61,7 @@ export default function WebsiteBlocker() {
       dispatch(getBlockedSites());
       dispatch(getTimeTrackingDetails());
     }, 1000);
-  }, [location]);
+  }, [location, dispatch]);
 
   const addSiteToBlockedSites = (siteInput) => {
     if (!siteInput.startsWith("http")) {
@@ -98,14 +97,14 @@ export default function WebsiteBlocker() {
     dispatch(removeFromBlockedSites(obj));
   };
 
-  const onKeyUp = useCallback((e) => {
+  const onKeyUp = (e) => {
     if (e.key === "Enter") {
       addSiteToBlockedSites(siteInput);
     }
-  });
+  };
 
   if (!showAllSites) {
-    stats = stats.slice(0, 4);
+    // stats = stats.slice(0, 4);
   }
 
   return (
@@ -151,6 +150,7 @@ export default function WebsiteBlocker() {
                         item.favicon ||
                         "http://www.google.com/s2/favicons?domain=" + item.host
                       }
+                      alt="Website favicon"
                       width="16"
                       height="16"
                     />
@@ -237,6 +237,7 @@ export default function WebsiteBlocker() {
                       item.favicon ||
                       "http://www.google.com/s2/favicons?domain=" + item.host
                     }
+                    alt="favicon"
                   />
                   {item.host}
                 </div>

@@ -1,27 +1,22 @@
 import styles from "./forgot-password.module.scss";
 
-import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
-import { useCallback, useState } from "react";
+import { Field, Form } from "react-final-form";
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectPasswordResetEmail } from "../../../common/state/selectors";
 import { resetPassword } from "../../../common/state/thunks/OnboardingThunk";
 
 export function ForgotPasswordStep2(props) {
   let userEmail = useSelector(selectPasswordResetEmail);
 
-  let [userPassword, setUserPassword] = useState("");
-  let [userOTP, setUserOTP] = useState("");
-
   let dispatch = useDispatch();
 
-  let onSubmit = useCallback((vals) => {
+  let onSubmit = (vals) => {
     debugger;
     vals.email = userEmail;
     dispatch(resetPassword(vals));
-  });
+  };
 
   return (
     <div className={styles["container"]}>
@@ -32,7 +27,7 @@ export function ForgotPasswordStep2(props) {
           password: "",
           otp: "",
         }}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
+        render={({ handleSubmit, submitting, pristine }) => (
           <form onSubmit={handleSubmit} className={styles["form"]}>
             <div className={styles["forma"]}>
               <Field

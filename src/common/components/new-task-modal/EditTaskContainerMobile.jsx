@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
-import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
+import { selectTagsAsObj } from "../../state/selectors";
 import { generateUniqueId } from "../../utils/common";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
 import styles from "./EditTaskContainer.module.scss";
@@ -27,7 +27,6 @@ export default function EditTaskContainerMobile(props) {
   let taskToBeEdited = props.task || {};
 
   let tags = useSelector(selectTagsAsObj);
-  let projectsObj = useSelector(selectProjectsObj);
 
   let ref = useRef(null);
 
@@ -36,7 +35,7 @@ export default function EditTaskContainerMobile(props) {
   let [description, setDescription] = useState(
     taskToBeEdited.description || ""
   );
-  let [schedule, setSchedule] = useState(taskToBeEdited.schedule || new Date());
+  let schedule = taskToBeEdited.schedule || new Date();
   let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.epomo || 0);
   let [isBulleted, setIsBulleted] = useState(
     taskToBeEdited.isBulleted || false
@@ -47,10 +46,6 @@ export default function EditTaskContainerMobile(props) {
       secID: props.defaultSectionId || "",
     }
   );
-
-  let [tagAnchorEl, setTagAnchorEl] = useState(null);
-  let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
-  let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
   let [selectedTags, setSelectedTags] = useState(taskToBeEdited.labels || []);
 
@@ -67,36 +62,7 @@ export default function EditTaskContainerMobile(props) {
     }
   }, []);
 
-  const onTagAnchorClick = useCallback((e) => {
-    setTagAnchorEl(e.currentTarget);
-    e.stopPropagation();
-  });
-
-  const onTagAnchorClose = useCallback((e) => {
-    setTagAnchorEl(null);
-  });
-
-  const onProjectAnchorClick = useCallback((e) => {
-    if (!props.viewOnlyProject) {
-      setProjectAnchorEl(e.currentTarget);
-      e.stopPropagation();
-    }
-  });
-
-  const onProjectAnchorClose = useCallback((e) => {
-    setProjectAnchorEl(null);
-  });
-
-  const onPriorityAnchorClick = useCallback((e) => {
-    setPriorityAnchorEl(e.currentTarget);
-    e.stopPropagation();
-  });
-
-  const onPriorityAnchorClose = useCallback((e) => {
-    setPriorityAnchorEl(null);
-  });
-
-  let resetContainer = useCallback((taskToBeEdited) => {
+  let resetContainer = (taskToBeEdited) => {
     setTitle(taskToBeEdited.title || "");
     setPriority(taskToBeEdited.priority || -1);
     setDescription(taskToBeEdited.description || "");
@@ -116,7 +82,7 @@ export default function EditTaskContainerMobile(props) {
       ref.current.textContent = taskToBeEdited.title || "";
       setEndOfContentEditable(ref.current);
     }
-  }, []);
+  };
 
   let doSaveTask = () => {
     if (title) {
@@ -165,11 +131,11 @@ export default function EditTaskContainerMobile(props) {
     // setShowTitleInput(true);
   };
 
-  let doCancelTask = useCallback(() => {
+  let doCancelTask = () => {
     props.saveTask({});
-  }, []);
+  };
 
-  const onTitleInput = useCallback((e) => {
+  const onTitleInput = (e) => {
     // if (e.key === 'Enter' && title) {
     //     doSaveTask();
     // }
@@ -183,31 +149,16 @@ export default function EditTaskContainerMobile(props) {
     // }
 
     setTitle(e.target.value.replace(/(\r\n|\n|\r)/gm, ""));
-  });
+  };
 
-  const onTitleKeyChange = useCallback((e) => {
+  const onTitleKeyChange = (e) => {
     if (e.key === "Enter" && title) {
       doSaveTask();
       e.stopPropagation();
     }
-  });
+  };
 
-  const onLabelUpdate = useCallback((tags) => {
-    setSelectedTags(tags);
-  });
-
-  const removeTag = useCallback((item) => {
-    setSelectedTags(selectedTags.filter((i) => i !== item));
-  });
-
-  const setProjectId = useCallback((projectId, sectionId) => {
-    setProject({
-      projectID: projectId,
-      secID: sectionId,
-    });
-  });
-
-  const getTaskTags = useCallback(() => {
+  const getTaskTags = () => {
     return (
       <div className={styles["task-tags-list"]}>
         {selectedTags.map((item, ind) => (
@@ -222,7 +173,7 @@ export default function EditTaskContainerMobile(props) {
         ))}
       </div>
     );
-  });
+  };
 
   // useEffect(() => {
   //   ref.current.focus();

@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { ArrowDownward } from "@material-ui/icons";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../../common/API/network/AuthService";
 import Navbar from "../../../common/components/navbar/Navbar";
@@ -30,7 +30,6 @@ import {
 import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
 import styles from "./analysis-laptop.module.scss";
 
-import { usePaymentStatus } from "../../../common/hooks/PaymentHook";
 import { selectTheme } from "../../../common/state/selectors";
 import { UndisturbedPomoSvgDark } from "../../../common/svgs/UndisturbedPomoSvgDark";
 import Settings from "../../settings/Settings";
@@ -60,11 +59,9 @@ export function AnalysisLaptop(props) {
 
   let theme = useSelector(selectTheme);
 
-  let { isSubscriptionActive } = usePaymentStatus();
-
   let dispatch = useDispatch();
 
-  let callStatsApi = useCallback((ind, d) => {
+  let callStatsApi = (ind, d) => {
     let startDate,
       mid,
       endDate = new Date(d).setHours(23, 59, 59, 999);
@@ -99,21 +96,21 @@ export function AnalysisLaptop(props) {
         mid,
       })
     );
-  }, []);
+  };
 
-  let onTabChange = useCallback((ind) => {
+  let onTabChange = (ind) => {
     let d = date;
-    if (ind == 1) {
+    if (ind === 1) {
       d = weekDate;
     }
-    if (ind == 2) {
+    if (ind === 2) {
       d = monthDate;
     }
     setSelectedTabIndex(ind);
     callStatsApi(ind, d);
-  }, []);
+  };
 
-  let getDiffSvg = useCallback((a, b) => {
+  let getDiffSvg = (a, b) => {
     if (a < b) {
       return (
         <svg
@@ -134,9 +131,9 @@ export function AnalysisLaptop(props) {
       return <ArrowDownward style={{ color: "#DD726B" }} />;
     }
     return <span></span>;
-  });
+  };
 
-  let getDiffText = useCallback((a, b) => {
+  let getDiffText = (a, b) => {
     if (a < b) {
       return `${b - a} more than yesterday`;
     }
@@ -144,7 +141,7 @@ export function AnalysisLaptop(props) {
       return `${a - b} less than yesterday`;
     }
     return `Same as yesterday`;
-  });
+  };
 
   let getSliderText = () => {
     let today = getTodaysDateFormatted();
@@ -219,8 +216,6 @@ export function AnalysisLaptop(props) {
       </div>
     );
   };
-
-  console.log(stats);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

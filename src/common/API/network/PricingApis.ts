@@ -8,9 +8,9 @@ import { NetworkService } from "./NetworkService";
 import { getIp } from "./SelfIpApi";
 
 export async function getAllProducts() {
-  let countryCode = await getIp()
+  let countryCode = await getIp();
   return NetworkService.get(getAllProductsEndpoint, {
-    country: countryCode
+    country: countryCode,
   });
 }
 
@@ -19,7 +19,6 @@ export function createCheckoutSession(priceId) {
     "{userId}",
     AuthService.getUserId()
   );
-  let userInfo = AuthService.getUserAuthInfo();
   return NetworkService.post(
     endpoint,
     { priceId },
@@ -36,10 +35,5 @@ export function createBillingConfiguration() {
     "{userId}",
     AuthService.getUserId()
   );
-  let userInfo = AuthService.getUserAuthInfo();
-  return NetworkService.post(
-    endpoint, {}, {});
+  return NetworkService.post(endpoint, {}, {});
 }
-
-
-

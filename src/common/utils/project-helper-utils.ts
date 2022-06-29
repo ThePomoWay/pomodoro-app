@@ -1,8 +1,7 @@
-import { taskObjectStoreName } from "../API/indexed-db-ops/init";
 import { getObjFromArr } from "./common";
 
 export function processBEProject(project, taskObj) {
-  let sectionIdMap = getObjFromArr(project.sections || [], "secID", true);
+  // let sectionIdMap = getObjFromArr(project.sections || [], "secID", true);
 
   let to = [];
 

@@ -30,17 +30,17 @@ function playSound(audioObj, timeout, url?) {
   }
 }
 
-let alarmSoundObj = new Audio(alarmAudioUrl);
+// let alarmSoundObj = new Audio(alarmAudioUrl);
 
 export function playAlarmSound() {
   playSound(new Audio(alarmAudioUrl), 6000, alarmAudioUrl);
 }
-let timerStartAudio = new Audio(timerStartAudioUrl);
+// let timerStartAudio = new Audio(timerStartAudioUrl);
 export function playTimerStartSound() {
   playSound(new Audio(timerStartAudioUrl), 6000, timerStartAudioUrl);
 }
 
-let completeTaskAudio = new Audio(completeTaskAudioUrl);
+// let completeTaskAudio = new Audio(completeTaskAudioUrl);
 export function playCompleteTaskSound() {
   playSound(new Audio(completeTaskAudioUrl), 1000, completeTaskAudioUrl);
 }

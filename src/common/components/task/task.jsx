@@ -1,6 +1,6 @@
 import { Popover } from "@material-ui/core";
 import { MoreHorizRounded } from "@material-ui/icons";
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";
 import { setIsTimerFullScreen } from "../../state/slice/GlobalSlice";
@@ -13,7 +13,6 @@ import {
   pauseTimerAsync,
   resumeTimerAsync,
   startWorkTimerAsync,
-  updateTimerState,
 } from "../../state/thunks/TimerThunk";
 import { AddTaskIcon } from "../../svgs/AddTaskIcon";
 import { DeleteIcon } from "../../svgs/DeleteIcon";
@@ -46,17 +45,17 @@ export default function TaskItem(props) {
   let pomoState = useSelector(selectPomoState);
   let isRunning = pomoState === POMO_RUNNING_STATE;
 
-  const selectCurrentTask = useCallback(() => {
-    dispatch(markTaskAsCurrent(task));
-  }, [dispatch]);
+  // const selectCurrentTask = () => {
+  //   dispatch(markTaskAsCurrent(task));
+  // };
 
-  const doEditTask = useCallback(() => {
+  const doEditTask = () => {
     dispatch(setEditTask(task.fid));
-  }, [dispatch]);
+  };
 
-  const doDeleteTask = useCallback(() => {
+  const doDeleteTask = () => {
     dispatch(deleteTaskThunk(task));
-  }, [dispatch, task]);
+  };
 
   const doPlayTask = () => {
     dispatch(markTaskAsCurrent(task));
@@ -74,20 +73,20 @@ export default function TaskItem(props) {
     dispatch(pauseTimerAsync());
   };
 
-  const doAddTask = useCallback(() => {
+  const doAddTask = () => {
     props.doAddTask && props.doAddTask(task);
-  });
+  };
 
-  const doRemoveTask = useCallback(() => {
+  const doRemoveTask = () => {
     props.doRemoveTask && props.doRemoveTask(task);
-  });
+  };
 
-  const toggleMarkAsComplete = useCallback((e) => {
+  const toggleMarkAsComplete = (e) => {
     props.onComplete && props.onComplete(task);
     e.stopPropagation();
-  });
+  };
 
-  const getCTA = useCallback(() => {
+  const getCTA = () => {
     if (showAddBtn) {
       return (
         <span className={styles["task-actions-two"]}>
@@ -176,21 +175,21 @@ export default function TaskItem(props) {
       );
     }
     return <span></span>;
-  });
+  };
 
   let [anchorEl, setAnchorEl] = useState(null);
 
-  let onMoreOptionsClick = useCallback((e) => {
+  let onMoreOptionsClick = (e) => {
     setAnchorEl(e.currentTarget);
     e.stopPropagation();
-  });
+  };
 
-  let handleClose = useCallback((e) => {
+  let handleClose = (e) => {
     setAnchorEl(null);
     e.stopPropagation();
-  });
+  };
 
-  let getEstimatedPomoHtml = useCallback(() => {
+  let getEstimatedPomoHtml = () => {
     if (task.epomo) {
       return (
         <span className={styles["estimated-pomos-tag"]}>
@@ -224,7 +223,7 @@ export default function TaskItem(props) {
       );
     }
     return null;
-  });
+  };
 
   return (
     <div

@@ -1,12 +1,12 @@
 import styles from "./forgot-password.module.scss";
 
-import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { Field, Form } from "react-final-form";
 
 import { useDispatch } from "react-redux";
-import { validateEmail } from "../../../common/utils/validators";
 import { initiatePasswordChange } from "../../../common/state/thunks/OnboardingThunk";
+import { validateEmail } from "../../../common/utils/validators";
 
 export function ForgotPasswordStep1() {
   let dispatch = useDispatch();
@@ -17,9 +17,9 @@ export function ForgotPasswordStep1() {
 
   let [emailError, setEmailError] = useState(false);
 
-  let onSubmit = useCallback((vals) => {
+  let onSubmit = (vals) => {
     dispatch(initiatePasswordChange(vals));
-  });
+  };
 
   let validate = (vals) => {
     let error = !validateEmail(vals.email);

@@ -5,7 +5,6 @@ import { selectTransactionModal } from "../../state/selectors";
 import { closeTransactionModal } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
 
-import { ReactComponent as PricingRibbon } from "../../svgs/pricing-ribbon.svg";
 import { TransactionFailure } from "./TransactionFailure";
 import { TransactionSuccess } from "./TransactionSuccess";
 

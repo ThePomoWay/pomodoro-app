@@ -1,27 +1,17 @@
-import {
-  AddCircleOutlineOutlined,
-  Flag,
-  FlagOutlined,
-  Label,
-  LabelOutlined,
-} from "@material-ui/icons";
-import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectTagsAsArr } from "../../state/selectors";
 import { Link } from "react-router-dom";
-import styles from "./PrioritiesSidebar.module.scss";
-import { priorityColorMap, priorityName } from "../../utils/constants";
 import { PriorityIcon } from "../../svgs/PriorityIcon";
+import { priorityColorMap, priorityName } from "../../utils/constants";
+import styles from "./PrioritiesSidebar.module.scss";
 
 export function PrioritySidebar(props) {
-  let [priorityExpanded, setPriorityExpanded] = useState(true);
+  // let [priorityExpanded, setPriorityExpanded] = useState(true);
 
   let priorities = priorityColorMap;
 
   let pathname = window.location.pathname;
   let selectedPriority = Number(pathname.split("/all/priority/")[1]);
 
-  const getPriorities = useCallback(() => {
+  const getPriorities = () => {
     return (
       <div>
         {[...Array(priorities.length - 1)].map((item, index) => (
@@ -38,7 +28,7 @@ export function PrioritySidebar(props) {
         ))}
       </div>
     );
-  });
+  };
 
   return (
     <div>
@@ -53,7 +43,7 @@ export function PrioritySidebar(props) {
         ></span> */}
       </div>
       <div className={styles["priorities-sidebar-second"]}>
-        {priorityExpanded && getPriorities()}
+        {getPriorities()}
       </div>
     </div>
   );

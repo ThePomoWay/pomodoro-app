@@ -1,5 +1,5 @@
 export const userAuthInfoLsKey = "userAuthInfo";
-const uidKey = "uid";
+
 export const justLoggedInKey = "newSignin";
 
 export default class AuthService {

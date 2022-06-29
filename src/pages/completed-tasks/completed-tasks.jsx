@@ -116,7 +116,7 @@ export default function CompletedTasks(props) {
     payload.endDate = new Date(new Date().setDate(new Date().getDate()));
 
     dispatch(getAllCompletedTasks(payload));
-  }, []);
+  }, [dispatch]);
   let [project, setProject] = useState({
     projectID: "",
     secID: "",
@@ -133,16 +133,10 @@ export default function CompletedTasks(props) {
     );
   };
 
-  let [tagAnchorEl, setTagAnchorEl] = useState(null);
   let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
   let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
   let [priority, setPriority] = useState(-1);
-
-  let [selectedTags, setSelectedTags] = useState([]);
-  const onTagAnchorClose = () => {
-    setTagAnchorEl(null);
-  };
 
   const onProjectAnchorClose = () => {
     setProjectAnchorEl(null);
@@ -155,24 +149,14 @@ export default function CompletedTasks(props) {
     }
   };
 
-  const onTagAnchorClick = (e) => {
-    setTagAnchorEl(e.currentTarget);
-    e.stopPropagation();
-  };
-
   const onPriorityAnchorClick = (e) => {
     setPriorityAnchorEl(e.currentTarget);
     e.stopPropagation();
   };
 
-  const onLabelUpdate = (tags) => {
-    setSelectedTags(tags);
-  };
-
   const closeAllPopover = () => {
     onProjectAnchorClose();
     onPriorityAnchorClose();
-    onTagAnchorClose();
   };
 
   const onPriorityAnchorClose = (e) => {
@@ -325,14 +309,14 @@ export default function CompletedTasks(props) {
             </div>
           </ClickAwayListener>
         </div>
-        <a
+        <button
           style={{ boxSizing: "border-box" }}
           className="btn add-task-btn"
           onClick={(e) => getCompleteTaskCSV(rows)}
           download={getDownloadFileName()}
         >
           Export as CSV
-        </a>
+        </button>
       </div>
       <table>
         <thead>

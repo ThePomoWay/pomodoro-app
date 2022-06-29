@@ -1,12 +1,11 @@
-import { Flag, Label } from "@material-ui/icons";
-import styles from "./PriorityContainer.module.scss";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectTasksFromPriority } from "../../state/selectors";
-import UndraggableList from "../undraggable-list/UndraggableList";
-import { priorityColorMap, priorityName } from "../../utils/constants";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { selectTasksFromPriority } from "../../state/selectors";
 import { setLastAllTaskUrl } from "../../state/slice/GlobalSlice";
+import { priorityName } from "../../utils/constants";
+import UndraggableList from "../undraggable-list/UndraggableList";
+import styles from "./PriorityContainer.module.scss";
 
 export default function PriorityContainer(props) {
   let { priority } = useParams();
@@ -16,7 +15,7 @@ export default function PriorityContainer(props) {
   let dispatch = useDispatch();
   useEffect(() => {
     dispatch(setLastAllTaskUrl(window.location.pathname));
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles["container"]}>

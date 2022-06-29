@@ -1,7 +1,6 @@
 import { Add } from "@material-ui/icons";
-import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthService from "../../API/network/AuthService";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
@@ -11,28 +10,23 @@ import {
   setProjectModalState,
 } from "../../state/slice/GlobalSlice";
 import { ProjectSidenavIcon } from "../../svgs/ProjectSidenavIcon";
-import { ReactComponent as Lock } from "../../svgs/lock.svg";
 
 import styles from "./projectSidebar.module.scss";
 
-export default () => {
-  let { path } = useRouteMatch();
-
+export default function ProjectSidebar() {
   let projectsObj = useSelector(selectProjectsObj);
   let projectsOrder = useSelector(selectProjectOrder);
 
   let { isSubscriptionActive } = usePaymentStatus();
-
-  let [projectExpanded, setProjectExpanded] = useState(true);
 
   let dispatch = useDispatch();
 
   let pathname = window.location.pathname;
   let projectId = pathname.split("/all/project/")[1];
 
-  const onProjectClick = useCallback((projectId) => {
-    window.location.href = `/all/project/${projectId}`;
-  });
+  // const onProjectClick = useCallback((projectId) => {
+  //   window.location.href = `/all/project/${projectId}`;
+  // });
 
   const getProjects = () => {
     if (projectsOrder.length <= Object.keys(projectsObj).length) {
@@ -63,7 +57,7 @@ export default () => {
     return <div></div>;
   };
 
-  const openNewProjectModal = useCallback(() => {
+  const openNewProjectModal = () => {
     if (AuthService.isLoggedIn()) {
       if (projectsOrder.length > 5 && !isSubscriptionActive) {
         dispatch(setPricingModalState(true));
@@ -73,7 +67,7 @@ export default () => {
     } else {
       dispatch(openOnboardingModal());
     }
-  });
+  };
 
   return (
     <div>
@@ -91,8 +85,8 @@ export default () => {
         {/* <div className={`${styles["sidebar-row"]} ${styles["create-project"]}`}>
           Create a project
         </div> */}
-        {projectExpanded && getProjects()}
+        {getProjects()}
       </div>
     </div>
   );
-};
+}

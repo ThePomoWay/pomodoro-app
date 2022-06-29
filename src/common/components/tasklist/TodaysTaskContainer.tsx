@@ -1,36 +1,29 @@
 import { useCallback, useState } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectHideFirstUserScreen,
+  selectHideTodaysCompletedTasks,
   selectTagsAsObj,
   selectTodaysCompletedTasks,
   selectTodaysTasks,
-  selectEditTaskRef,
-  selectHideTodaysCompletedTasks,
 } from "../../state/selectors";
 import DraggableTaskList from "../draggable-task-list/DraggableTaskList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
-import { DragDropContext } from "react-beautiful-dnd";
 
-import styles from "./todaysTaskContainer.module.scss";
 import {
   clearTodaysTasksThunk,
-  markTaskAsInCompleteThunk,
   rearrangeTodaysTask,
   removeFromTodaysTasks,
 } from "../../state/thunks/TasksThunk";
+import styles from "./todaysTaskContainer.module.scss";
 
-import { DailyStats } from "../daily-stats/DailyStats";
-import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
 import { ClickAwayListener, Popper } from "@mui/material";
-import { MoreIconSvg } from "../../svgs/MoreIconSvg";
+import { toggleHideTodaysCompletedTasks } from "../../state/thunks/GlobalThunk";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
+import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { Alert } from "../alert/Alert";
-import {
-  hideFirstUserScreen,
-  toggleHideTodaysCompletedTasks,
-} from "../../state/thunks/GlobalThunk";
-import { useMediaQuery } from "react-responsive";
+import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
+import { DailyStats } from "../daily-stats/DailyStats";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
@@ -41,7 +34,6 @@ export function TodaysTaskContainer(props) {
 
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
   let [showAlert, setShowAlert] = useState(false);
-  let [isAddTaskOpen, setIsAddTaskOpen] = useState(true);
 
   let onClose = () => {
     setMoreAnchorEl(null);
@@ -57,37 +49,40 @@ export function TodaysTaskContainer(props) {
     dispatch(removeFromTodaysTasks({ fid: task.fid, _id: task._id }));
   };
 
-  let onDragEnd = useCallback((result) => {
-    if (result.destination && result.source) {
-      if (
-        result.destination.droppableId === result.source.droppableId &&
-        result.destination.index === result.source.index
-      ) {
-        return;
+  let onDragEnd = useCallback(
+    (result) => {
+      if (result.destination && result.source) {
+        if (
+          result.destination.droppableId === result.source.droppableId &&
+          result.destination.index === result.source.index
+        ) {
+          return;
+        }
+
+        dispatch(
+          rearrangeTodaysTask({
+            source: result.source.index,
+            destination: result.destination.index,
+          })
+        );
       }
+    },
+    [dispatch]
+  );
 
-      dispatch(
-        rearrangeTodaysTask({
-          source: result.source.index,
-          destination: result.destination.index,
-        })
-      );
-    }
-  }, []);
-
-  let onTaskUncomplete = useCallback((task) => {
-    dispatch(markTaskAsInCompleteThunk({ task, container: "todays" }));
-  }, []);
+  // let onTaskUncomplete = useCallback((task) => {
+  //   dispatch(markTaskAsInCompleteThunk({ task, container: "todays" }));
+  // }, []);
 
   let onDeleteAllTasks = useCallback(() => {
     dispatch(clearTodaysTasksThunk());
     setShowAlert(false);
-  }, []);
+  }, [dispatch]);
 
-  let hideFirstScreen = () => {
-    dispatch(hideFirstUserScreen());
-    setIsAddTaskOpen(false);
-  };
+  // let hideFirstScreen = () => {
+  //   dispatch(hideFirstUserScreen());
+  //   setIsAddTaskOpen(false);
+  // };
 
   let toggleHideCompletedTasks = () => {
     dispatch(toggleHideTodaysCompletedTasks());
@@ -182,7 +177,7 @@ export function TodaysTaskContainer(props) {
         <div className={styles["add-new-task"]}>
           <AddNewTask
             isTodaysTask={true}
-            isOpen={!isAddTaskOpen}
+            isOpen={false}
             onSave={props.onSave}
           ></AddNewTask>
         </div>

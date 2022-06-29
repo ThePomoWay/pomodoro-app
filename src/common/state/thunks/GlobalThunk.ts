@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clearIDB } from "../../API/indexed-db-ops/crud";
 import {
   getFromCollection,
@@ -10,12 +10,14 @@ import {
 } from "../../API/indexed-db-ops/init";
 import AuthService from "../../API/network/AuthService";
 import { NetworkService } from "../../API/network/NetworkService";
-import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
-  getAllProducts,
-  createCheckoutSession,
   createBillingConfiguration,
+  createCheckoutSession,
+  getAllProducts,
 } from "../../API/network/PricingApis";
+import { getIp } from "../../API/network/SelfIpApi";
+import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
+import { updateUserApi } from "../../API/network/UserApis";
 import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
@@ -24,11 +26,10 @@ import {
   POMO_BREAK_IDLE_STATE,
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
-  themeLSKey,
-  THEME_DARK,
   PROJECT_COMPLETED_TASK_HIDE,
-  TODAYS_COMPLETED_TASK_HIDE,
+  themeLSKey,
   THEME_LIGHT,
+  TODAYS_COMPLETED_TASK_HIDE,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -47,8 +48,6 @@ import {
   showSuccessToast,
 } from "../slice/GlobalSlice";
 import { setTimerSec } from "../slice/TimerSlice";
-import { updateUserApi } from "../../API/network/UserApis";
-import { getIp } from "../../API/network/SelfIpApi";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -105,7 +104,7 @@ export const signin = createAsyncThunk(
   "global/signin",
   async (obj: any, { dispatch }) => {
     let response;
-    let countryCode = await getIp()
+    let countryCode = await getIp();
     if (obj.mode === "google") {
       response = await googleLoginApi(obj.data, countryCode);
     } else if (obj.mode === "facebook") {
@@ -201,7 +200,7 @@ export const updateUserPref = createAsyncThunk(
 
     let updateObj = { ...userPreferences, ...obj };
 
-    let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });
+    await updateUserApi({ ...user, settings: { clock: updateObj } });
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));
@@ -248,14 +247,14 @@ export const getProducts = createAsyncThunk(
 
 export const getBillingConfiguration = createAsyncThunk(
   "global/bill-config",
-  async (_, {}) => {
+  async (_) => {
     let resp = await createBillingConfiguration();
 
     if (resp.data.url) {
       window.open(resp.data.url);
     }
   }
-)
+);
 
 export const buyProductThunk = createAsyncThunk(
   "global/buy/product",

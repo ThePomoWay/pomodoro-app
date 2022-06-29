@@ -33,6 +33,7 @@ export function ProfilePicSelector(props) {
           return (
             <img
               key={"profile" + index}
+              alt="Profile"
               onClick={(e) => setSelectedIndex(index)}
               className={
                 styles["image"] +

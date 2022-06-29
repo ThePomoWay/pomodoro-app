@@ -1,8 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getStatsApi } from "../../API/network/StatsApis";
 import { getAllTasksApi } from "../../API/network/TaskApis";
 import { getFormattedDate } from "../../utils/date-utils";
-import { initialStatsState, statsReducer } from "../reducers/StatsReducer";
 import { setAllStats } from "../slice/StatsSlice";
 import { processStats } from "./StatsSliceHelper";
 

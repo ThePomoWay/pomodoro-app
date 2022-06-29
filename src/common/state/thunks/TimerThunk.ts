@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { showNotification } from "../../../serviceWorker";
 import { getFromCollection } from "../../API/indexed-db-ops/indexedDbCrudWrapper";
 import {
   userPreferencesObjectKey,
@@ -61,14 +60,12 @@ export let getTimerState = createAsyncThunk(
   "timer/getState",
   async (_, { dispatch, getState }) => {
     let formattedDate = getFormattedDate();
-    let response = <any>await getTimerStateFromIdb(formattedDate);
-    let userPreference = <any>(
-      await getFromCollection(
-        userPreferencesObjectStoreName,
-        false,
-        userPreferencesObjectKey
-      )
-    );
+    let response = (await getTimerStateFromIdb(formattedDate)) as any;
+    let userPreference = (await getFromCollection(
+      userPreferencesObjectStoreName,
+      false,
+      userPreferencesObjectKey
+    )) as any;
     if (!response) {
       dispatch(updateTimerState({ create: true }));
     } else {
@@ -113,34 +110,30 @@ export let getTimerState = createAsyncThunk(
   }
 );
 
-export let saveDefaultTimer = createAsyncThunk(
-  "timer/saveState",
-  async (_, { dispatch }) => {
-    let formattedDate = getFormattedDate();
-    let response = await getTimerStateFromIdb(formattedDate);
-  }
-);
+export let saveDefaultTimer = createAsyncThunk("timer/saveState", async (_) => {
+  let formattedDate = getFormattedDate();
+  await getTimerStateFromIdb(formattedDate);
+});
 
 export let updateTimerState = createAsyncThunk(
   "timer/create/update",
   async (curStateObj: any, { getState, dispatch }) => {
     let date = getFormattedDate();
     let stateInStore = getState()["timer"];
-    let response;
 
     let updateObj = {
       ...stateInStore,
       date,
     };
     if (curStateObj.create) {
-      response = await createTimerStateIdb(updateObj);
+      await createTimerStateIdb(updateObj);
     } else {
       updateObj = {
         ...updateObj,
         ...curStateObj,
         date,
       };
-      response = await updateTimerStateIdb(updateObj);
+      await updateTimerStateIdb(updateObj);
     }
 
     //@ts-ignore
@@ -179,7 +172,7 @@ export let updateNextState = createAsyncThunk(
         completedPomos = 0;
       }
       let nextState =
-        completedPomos !== 0 && completedPomos % 4 == 0
+        completedPomos !== 0 && completedPomos % 4 === 0
           ? POMO_LONG_BREAK_IDLE_STATE
           : POMO_BREAK_IDLE_STATE;
       let nextTimerInSec =
@@ -271,7 +264,6 @@ export let tickAsync = createAsyncThunk(
   "timer/tick",
   async (_, { getState, dispatch }) => {
     let timerState = getState()["timer"];
-    let taskState = getState()["tasks"];
     let userPreference = getState()["global"].userPreferences;
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
@@ -511,13 +503,11 @@ export const completePomodoro = createAsyncThunk(
 
     dispatch(incrementTaskCpomos(summary));
 
-    let userPreference = <any>(
-      await getFromCollection(
-        userPreferencesObjectStoreName,
-        false,
-        userPreferencesObjectKey
-      )
-    );
+    let userPreference = (await getFromCollection(
+      userPreferencesObjectStoreName,
+      false,
+      userPreferencesObjectKey
+    )) as any;
 
     let completedTid = "";
     if (taskState.currentTaskRef) {

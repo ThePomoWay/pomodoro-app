@@ -1,14 +1,12 @@
 import styles from "./signup.module.scss";
 
+import { useState } from "react";
 import { Field, Form } from "react-final-form";
-import { TextField } from "mui-rff";
-import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
-import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
-import { SentimentSatisfied } from "@material-ui/icons";
-import { register } from "../../../common/state/thunks/OnboardingThunk";
 import { setStep } from "../../../common/state/slice/OnboardingSlice";
+import { register } from "../../../common/state/thunks/OnboardingThunk";
+import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
+import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
 
 export function SignupStep2(props) {
   let [nameError, setNameError] = useState(false);
@@ -16,15 +14,7 @@ export function SignupStep2(props) {
 
   let dispatch = useDispatch();
 
-  let validate = (vals) => {
-    return (
-      vals.name &&
-      vals.name.length > 0 &&
-      vals.password &&
-      vals.password.length >= 8
-    );
-  };
-  let onSubmit = useCallback((vals) => {
+  let onSubmit = (vals) => {
     if (vals.name && vals.name.length && vals.password.length >= 8) {
       dispatch(register(vals));
     } else {
@@ -40,7 +30,7 @@ export function SignupStep2(props) {
         setPasswordError("");
       }
     }
-  });
+  };
 
   let goBack = () => {
     dispatch(setStep(LOGIN_REGISTER_STEP));

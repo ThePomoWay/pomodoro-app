@@ -86,7 +86,7 @@ export function TutorialModal(props) {
                       style={{ color: "white", width: "50%", height: "50%" }}
                     />
                   )}
-                  {step == 2 && <TickWhite />}
+                  {step === 2 && <TickWhite />}
                 </div>
 
                 <ProgressStrip selected={step} onChange={(e) => setStep(e)} />

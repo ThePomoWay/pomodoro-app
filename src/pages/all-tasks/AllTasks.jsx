@@ -1,31 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DraggableTaskList from "../../common/components/draggable-task-list/DraggableTaskList";
 import Navbar from "../../common/components/navbar/Navbar";
 
 import {
-  selectTodaysTaskIds,
-  selectTodaysTasks,
-  selectProjectsObj,
-  selectTasksAsobj,
-  selectDefaultTimes,
   selectCompletedPomos,
   selectCompletedTaskInProject,
-  selectLastAllTaskUrl,
+  selectDefaultTimes,
   selectHideProjectsCompletedTasks,
+  selectLastAllTaskUrl,
+  selectProjectsObj,
+  selectTasksAsobj,
+  selectTodaysTaskIds,
+  selectTodaysTasks,
 } from "../../common/state/selectors";
-import {
-  addToTodaysTasks,
-  getTodaysTasks,
-  rearrangeTodaysTask,
-  removeFromTodaysTasks,
-  getAllTasks,
-} from "../../common/state/thunks/TasksThunk";
 import {
   addToAllTasks,
   rearrangeAllTasks,
   removeFromAllTasks,
 } from "../../common/state/slice/TasksSlice";
+import {
+  addToTodaysTasks,
+  getAllTasks,
+  getTodaysTasks,
+  rearrangeTodaysTask,
+  removeFromTodaysTasks,
+} from "../../common/state/thunks/TasksThunk";
 import {
   TASK_VARIANT_TODAYS,
   todaysTasksDropId,
@@ -33,44 +33,43 @@ import {
 
 import { DragDropContext } from "react-beautiful-dnd";
 
-import styles from "./AllTasks.module.scss";
+import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
 import {
   getObjFromArr,
   scrollToEndOfContainer,
 } from "../../common/utils/common";
-import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
+import styles from "./AllTasks.module.scss";
 
-import { Switch, useRouteMatch, Route } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
 import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
 
-import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
-import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
-import LabelContainer from "../../common/components/label-container/LabelContainer";
-import { getAllTags } from "../../common/state/thunks/TagsThunk";
-import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
-import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
-import OnBoarding from "../onboarding/Onboarding";
-import AuthService from "../../common/API/network/AuthService";
-import { getTimeText } from "../../common/utils/date-utils";
-import { getTimerState } from "../../common/state/thunks/TimerThunk";
 import { ClickAwayListener, Popper } from "@material-ui/core";
 import { MoreHorizRounded } from "@material-ui/icons";
+import AuthService from "../../common/API/network/AuthService";
 import CompletedTasksList from "../../common/components/completed-tasks-collapsible/CompletedTasksList";
+import LabelContainer from "../../common/components/label-container/LabelContainer";
+import NewLabelContainer from "../../common/components/new-label-container/NewLabelContainer";
+import { AddNewTask } from "../../common/components/new-task-btn/AddNewTask";
+import PriorityContainer from "../../common/components/priority-container/PriorityContainer";
+import { ProjectContainer } from "../../common/components/project-container/ProjectContainer";
+import { getAllTags } from "../../common/state/thunks/TagsThunk";
+import { getTimerState } from "../../common/state/thunks/TimerThunk";
+import { getTimeText } from "../../common/utils/date-utils";
+import OnBoarding from "../onboarding/Onboarding";
 
 import { useHistory } from "react-router-dom";
 import { setLastAllTaskUrl } from "../../common/state/slice/GlobalSlice";
-import usePageTracking from "../../usePageTracking";
+import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
 import {
   getAllProjects,
   rearrangeTaskInProjectAsync,
-  updateLocalProjectAsync,
 } from "../../common/state/thunks/ProjectThunk";
-import Settings from "../settings/Settings";
-import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
+import usePageTracking from "../../usePageTracking";
 import CompletedTasks from "../completed-tasks/completed-tasks";
+import Settings from "../settings/Settings";
 
-export default () => {
+export default function AllTasks() {
   let todaystasks = useSelector(selectTodaysTasks);
 
   let todaysTaskIds = useSelector(selectTodaysTaskIds);
@@ -99,18 +98,18 @@ export default () => {
   let lastUrl = useSelector(selectLastAllTaskUrl);
   let history = useHistory();
   useEffect(() => {
-    return history.listen((location, action) => {
+    return history.listen((location) => {
       if (location.pathname.startsWith("/all")) {
         dispatch(setLastAllTaskUrl(location.pathname));
       }
     });
-  }, []);
+  }, [dispatch, history]);
 
   useEffect(() => {
     if (window.location.pathname !== lastUrl) {
       history.push(lastUrl);
     }
-  }, []);
+  }, [history, lastUrl]);
 
   let projectId = AuthService.getInboxProjectId();
 
@@ -125,111 +124,106 @@ export default () => {
     dispatch(getAllProjects());
     dispatch(getAllTags());
     dispatch(getTimerState());
-  }, []);
+  }, [dispatch]);
 
-  let onDragEnd = useCallback(
-    (result) => {
-      if (result.destination && result.source) {
-        if (
-          result.destination.droppableId === result.source.droppableId &&
-          result.destination.index === result.source.index
-        ) {
-          return;
-        }
-
-        if (result.destination.droppableId === result.source.droppableId) {
-          if (result.source.droppableId !== todaysTasksDropId) {
-            let projectId = AuthService.getInboxProjectId();
-            let projectCopy = JSON.parse(
-              JSON.stringify(projectsObj[projectId])
-            );
-
-            let taskId = result.draggableId.split("task-")[1];
-
-            let source = {
-              isSection: false,
-              hid: projectId,
-              to: [],
-            };
-            let destination = {
-              isSection: false,
-              hid: projectId,
-              to: [],
-            };
-
-            projectCopy.to.splice(result.source.index, 1);
-
-            projectCopy.to.splice(result.destination.index, 0, taskId);
-            destination.to = projectCopy.to.map((item) => tasksObj[item]._id);
-
-            dispatch(
-              rearrangeTaskInProjectAsync({
-                body: {
-                  source: destination,
-                  destination,
-                  taskId: tasksObj[taskId]._id,
-                  projectId: projectId,
-                  isSame: true,
-                },
-                project: projectCopy,
-              })
-            );
-
-            // dispatch(updateLocalProjectAsync(projectCopy));
-          }
-
-          let action =
-            result.source.droppableId === todaysTasksDropId
-              ? rearrangeTodaysTask
-              : rearrangeAllTasks;
-          dispatch(
-            action({
-              source: result.source.index,
-              destination: result.destination.index,
-            })
-          );
-        } else {
-          let removeAction =
-            result.source.droppableId === todaysTasksDropId
-              ? removeFromTodaysTasks
-              : removeFromAllTasks;
-          let addAction;
-          let item;
-
-          if (result.destination.droppableId === todaysTasksDropId) {
-            addAction = addToTodaysTasks;
-            item = todaystasks[result.source.index].fid;
-          } else {
-            addAction = addToAllTasks;
-            item = alltasks[result.source.index].fid;
-          }
-
-          dispatch(
-            removeAction({
-              index: result.source.index,
-            })
-          );
-
-          dispatch(
-            addAction({
-              index: result.destination.index,
-              item,
-            })
-          );
-        }
+  let onDragEnd = (result) => {
+    if (result.destination && result.source) {
+      if (
+        result.destination.droppableId === result.source.droppableId &&
+        result.destination.index === result.source.index
+      ) {
+        return;
       }
-    },
-    [projectsObj]
-  );
 
-  const doRemoveTask = useCallback((task) => {
+      if (result.destination.droppableId === result.source.droppableId) {
+        if (result.source.droppableId !== todaysTasksDropId) {
+          let projectId = AuthService.getInboxProjectId();
+          let projectCopy = JSON.parse(JSON.stringify(projectsObj[projectId]));
+
+          let taskId = result.draggableId.split("task-")[1];
+
+          // let source = {
+          //   isSection: false,
+          //   hid: projectId,
+          //   to: [],
+          // };
+          let destination = {
+            isSection: false,
+            hid: projectId,
+            to: [],
+          };
+
+          projectCopy.to.splice(result.source.index, 1);
+
+          projectCopy.to.splice(result.destination.index, 0, taskId);
+          destination.to = projectCopy.to.map((item) => tasksObj[item]._id);
+
+          dispatch(
+            rearrangeTaskInProjectAsync({
+              body: {
+                source: destination,
+                destination,
+                taskId: tasksObj[taskId]._id,
+                projectId: projectId,
+                isSame: true,
+              },
+              project: projectCopy,
+            })
+          );
+
+          // dispatch(updateLocalProjectAsync(projectCopy));
+        }
+
+        let action =
+          result.source.droppableId === todaysTasksDropId
+            ? rearrangeTodaysTask
+            : rearrangeAllTasks;
+        dispatch(
+          action({
+            source: result.source.index,
+            destination: result.destination.index,
+          })
+        );
+      } else {
+        let removeAction =
+          result.source.droppableId === todaysTasksDropId
+            ? removeFromTodaysTasks
+            : removeFromAllTasks;
+        let addAction;
+        let item;
+
+        if (result.destination.droppableId === todaysTasksDropId) {
+          addAction = addToTodaysTasks;
+          item = todaystasks[result.source.index].fid;
+        } else {
+          addAction = addToAllTasks;
+          item = alltasks[result.source.index].fid;
+        }
+
+        dispatch(
+          removeAction({
+            index: result.source.index,
+          })
+        );
+
+        dispatch(
+          addAction({
+            index: result.destination.index,
+            item,
+          })
+        );
+      }
+    }
+  };
+
+  const doRemoveTask = (task) => {
     dispatch(
       removeFromTodaysTasks({
         fid: task.fid,
         _id: task._id,
       })
     );
-  });
+  };
 
   let { path } = useRouteMatch();
 
@@ -448,7 +442,10 @@ export default () => {
                       />
                     )) || (
                       <div className={styles["illustration"]}>
-                        <img src="/illustrations/empty-today-mini.svg" />
+                        <img
+                          src="/illustrations/empty-today-mini.svg"
+                          alt="Empty state"
+                        />
                         <p className={styles["text-light"]}>
                           Tap on the plus button in the tasks to add to today’s
                         </p>
@@ -488,4 +485,4 @@ export default () => {
       <NewLabelContainer />
     </div>
   );
-};
+}

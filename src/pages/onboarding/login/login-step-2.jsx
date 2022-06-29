@@ -1,21 +1,19 @@
 import styles from "../signup/signup.module.scss";
 
 import { Field, Form } from "react-final-form";
-import { TextField } from "mui-rff";
-import { useCallback, useState } from "react";
-import {
-  setLoginPasswordError,
-  setStep,
-} from "../../../common/state/slice/OnboardingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectLoginName,
   selectLoginPasswordError,
   selectRegisterEmail,
 } from "../../../common/state/selectors";
+import {
+  setLoginPasswordError,
+  setStep,
+} from "../../../common/state/slice/OnboardingSlice";
+import { login } from "../../../common/state/thunks/OnboardingThunk";
 import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
 import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
-import { login } from "../../../common/state/thunks/OnboardingThunk";
 
 export function LoginStep2(props) {
   let name = useSelector(selectLoginName);
@@ -28,10 +26,10 @@ export function LoginStep2(props) {
     dispatch(setStep(LOGIN_REGISTER_STEP));
   };
 
-  let validate = useCallback((vals) => {
+  let validate = (vals) => {
     return vals.password && vals.password.length < 4;
-  });
-  let onSubmit = useCallback((vals) => {
+  };
+  let onSubmit = (vals) => {
     if (vals.password && vals.password.length >= 4) {
       dispatch(
         login({
@@ -42,7 +40,7 @@ export function LoginStep2(props) {
     } else {
       dispatch(setLoginPasswordError("Password and Email don't match"));
     }
-  });
+  };
 
   return (
     <div className={styles["container"]}>

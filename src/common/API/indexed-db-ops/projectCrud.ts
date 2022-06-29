@@ -1,4 +1,3 @@
-import { generateUniqueId } from "../../utils/common";
 import { initIdb, projectsObjectStoreName } from "./init";
 
 let db = null;

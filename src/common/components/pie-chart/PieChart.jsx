@@ -9,7 +9,6 @@ function PieChart(props) {
   let chartData = props.chartData;
   if (chartData && chartData.length) {
     if (chartData.length > 7) {
-      let others;
       chartData = [
         ...chartData.slice(0, 6),
         {

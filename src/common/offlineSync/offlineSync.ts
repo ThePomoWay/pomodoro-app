@@ -1,177 +1,171 @@
 import { getTasks } from "../API/APIService";
 import { updateIDBTask } from "../API/indexed-db-ops/crud";
-import { updateTodaysTasksInIdb } from "../API/indexed-db-ops/todaysTasks";
-import { tasksSlice, updateTask } from "../state/slice/TasksSlice";
+import { updateTask } from "../state/slice/TasksSlice";
 import { store } from "../state/store";
 
 // template to save sync data while offline
 export function getDefaultSyncState() {
-    return {
-        isSyncRequired: false,
-        tasks: {
-            create: [],
-            update: [],
-            delete: [],
-            complete: [],
-            incomplete: [],
-            todays: []
-        },
-        pomoSummaries: {
-            stats: []
-        },
-    }
+  return {
+    isSyncRequired: false,
+    tasks: {
+      create: [],
+      update: [],
+      delete: [],
+      complete: [],
+      incomplete: [],
+      todays: [],
+    },
+    pomoSummaries: {
+      stats: [],
+    },
+  };
 }
 
-export const task_create = "create"
-export const task_update = "update"
-export const task_delete = "delete"
-export const task_complete = "complete"
-export const task_incomplete = "incomplete"
-export const offlineData = "offlineData"
+export const task_create = "create";
+export const task_update = "update";
+export const task_delete = "delete";
+export const task_complete = "complete";
+export const task_incomplete = "incomplete";
+export const offlineData = "offlineData";
 
 function getDefaultTaskIDStructure() {
-    return {
-        fid: "",
-        _id: ""
-    }
+  return {
+    fid: "",
+    _id: "",
+  };
 }
 
 function setOfflineDataInLS(syncInfo) {
-    localStorage.setItem(offlineData, JSON.stringify(syncInfo))
+  localStorage.setItem(offlineData, JSON.stringify(syncInfo));
 }
 
 function removeOfflineDataInLS() {
-    localStorage.removeItem(offlineData)
+  localStorage.removeItem(offlineData);
 }
 
 function getOfflineDataFromLS() {
-    let syncData = localStorage.getItem(offlineData);
-    if (syncData) {
-        syncInfo = JSON.parse(syncData)
-    } else {
-        syncInfo = getDefaultSyncState()
-    }
-    return syncInfo
+  let syncData = localStorage.getItem(offlineData);
+  if (syncData) {
+    syncInfo = JSON.parse(syncData);
+  } else {
+    syncInfo = getDefaultSyncState();
+  }
+  return syncInfo;
 }
 
 function refreshTodaysTaskArr() {
-    syncInfo.tasks.todays = [];
-    let storeData = store.getState()
-    if (storeData && storeData["tasks"] && storeData["tasks"].todaysTasks) {
-        storeData["tasks"].todaysTasks.forEach(element => {
-            if (storeData["tasks"].tasks[element]) {
-                var todaysTask = getDefaultTaskIDStructure()
-                todaysTask.fid = element
-                if (storeData["tasks"].tasks[element]._id) {
-                    todaysTask._id = storeData["tasks"].tasks[element]._id
-                }
-                syncInfo.tasks.todays.push(todaysTask)
-            }
-        });
-    }
-} 
+  syncInfo.tasks.todays = [];
+  let storeData = store.getState();
+  if (storeData && storeData["tasks"] && storeData["tasks"].todaysTasks) {
+    storeData["tasks"].todaysTasks.forEach((element) => {
+      if (storeData["tasks"].tasks[element]) {
+        var todaysTask = getDefaultTaskIDStructure();
+        todaysTask.fid = element;
+        if (storeData["tasks"].tasks[element]._id) {
+          todaysTask._id = storeData["tasks"].tasks[element]._id;
+        }
+        syncInfo.tasks.todays.push(todaysTask);
+      }
+    });
+  }
+}
 
 export function isSyncRequired() {
-    return syncInfo.isSyncRequired
+  return syncInfo.isSyncRequired;
 }
 
 export async function updateStoreAndIndexDB(mapFIDtoTID) {
-    // get all tasks from index db and update
-    let response = await getTasks();
-    if (response) {
-        for (var i = 0; i < response.length; i++) {
-            response[i]._id = mapFIDtoTID[response[i].fid] || ""
-            if (mapFIDtoTID[response[i].fid]) {
-                await updateIDBTask(response[i])
-            }
-        }
+  // get all tasks from index db and update
+  let response = await getTasks();
+  if (response) {
+    for (var i = 0; i < response.length; i++) {
+      response[i]._id = mapFIDtoTID[response[i].fid] || "";
+      if (mapFIDtoTID[response[i].fid]) {
+        await updateIDBTask(response[i]);
+      }
     }
+  }
 
-    // get all tasks from store and update
-    let storeData = store.getState()
-    let taskInStore = storeData["tasks"].tasks || {}
-    for (let key in taskInStore) {
-        if (!taskInStore[key]._id) {
-            if (mapFIDtoTID[key]) {
-                store.dispatch(updateTask({...taskInStore[key], _id: mapFIDtoTID[key]}));
-            }
-        }
+  // get all tasks from store and update
+  let storeData = store.getState();
+  let taskInStore = storeData["tasks"].tasks || {};
+  for (let key in taskInStore) {
+    if (!taskInStore[key]._id) {
+      if (mapFIDtoTID[key]) {
+        store.dispatch(
+          updateTask({ ...taskInStore[key], _id: mapFIDtoTID[key] })
+        );
+      }
     }
+  }
 }
 
 export function getSyncInfo() {
-    return syncInfo
+  return syncInfo;
 }
 
 export function syncSuccessful(mapFIDtoTID) {
-    syncInfo = getDefaultSyncState()
-    removeOfflineDataInLS()
-    updateStoreAndIndexDB(mapFIDtoTID)
+  syncInfo = getDefaultSyncState();
+  removeOfflineDataInLS();
+  updateStoreAndIndexDB(mapFIDtoTID);
 }
 
 // TODO: import and update todays task as well
-export function saveTaskInOfflineStore(taskInfo = {_id : "", fid: ""}, action = "today_task_rearrange") {
-    if (action == task_create) {
-        if (!taskInfo._id) {
-            syncInfo.tasks.create.push(taskInfo)
-        }
-    } else if (action == task_update) {
-        if (taskInfo._id) {
-            syncInfo.tasks.update.push(taskInfo)
-        } else {
-            for(var i = 0; i < syncInfo.tasks.create.length; i++) {
-                if (syncInfo.tasks.create[i].fid == taskInfo.fid) {
-                    syncInfo.tasks.create[i] = taskInfo
-                }
-            }
-        }
-    } else if (action == task_delete) {
-        if (taskInfo._id) {
-            syncInfo.tasks.delete.push(taskInfo)
-        } else {
-            for(var i = 0; i < syncInfo.tasks.create.length; i++) {
-                if (syncInfo.tasks.create[i].fid == taskInfo.fid) {
-                    syncInfo.tasks.create.splice(i, 1)
-                }
-            }
-        }
-    } else if (action == task_complete) {
-        syncInfo.tasks.complete.push(taskInfo)
-    } else if (action == task_incomplete) {
-        if (taskInfo._id) {
-            syncInfo.tasks.incomplete.push(taskInfo)
-        } else {
-            for(var i = 0; i < syncInfo.tasks.complete.length; i++) {
-                if (syncInfo.tasks.complete[i].fid == taskInfo.fid) {
-                    syncInfo.tasks.complete.splice(i, 1)
-                }
-            }
-        }
-    }  else {
-        console.error("incorrect action provided")
+export function saveTaskInOfflineStore(
+  taskInfo = { _id: "", fid: "" },
+  action = "today_task_rearrange"
+) {
+  var i;
+  if (action === task_create) {
+    if (!taskInfo._id) {
+      syncInfo.tasks.create.push(taskInfo);
     }
+  } else if (action === task_update) {
+    if (taskInfo._id) {
+      syncInfo.tasks.update.push(taskInfo);
+    } else {
+      for (i = 0; i < syncInfo.tasks.create.length; i++) {
+        if (syncInfo.tasks.create[i].fid === taskInfo.fid) {
+          syncInfo.tasks.create[i] = taskInfo;
+        }
+      }
+    }
+  } else if (action === task_delete) {
+    if (taskInfo._id) {
+      syncInfo.tasks.delete.push(taskInfo);
+    } else {
+      for (i = 0; i < syncInfo.tasks.create.length; i++) {
+        if (syncInfo.tasks.create[i].fid === taskInfo.fid) {
+          syncInfo.tasks.create.splice(i, 1);
+        }
+      }
+    }
+  } else if (action === task_complete) {
+    syncInfo.tasks.complete.push(taskInfo);
+  } else if (action === task_incomplete) {
+    if (taskInfo._id) {
+      syncInfo.tasks.incomplete.push(taskInfo);
+    } else {
+      for (i = 0; i < syncInfo.tasks.complete.length; i++) {
+        if (syncInfo.tasks.complete[i].fid === taskInfo.fid) {
+          syncInfo.tasks.complete.splice(i, 1);
+        }
+      }
+    }
+  } else {
+    console.error("incorrect action provided");
+  }
 
-    // update todays task positions
-    refreshTodaysTaskArr()
-    syncInfo.isSyncRequired = true;
-    setOfflineDataInLS(syncInfo)
+  // update todays task positions
+  refreshTodaysTaskArr();
+  syncInfo.isSyncRequired = true;
+  setOfflineDataInLS(syncInfo);
 }
 
 export function savePomoSummariesInOfflineStore(statInfo) {
-    syncInfo.pomoSummaries.stats.push(statInfo)
-    syncInfo.isSyncRequired = true;
-    setOfflineDataInLS(syncInfo)
+  syncInfo.pomoSummaries.stats.push(statInfo);
+  syncInfo.isSyncRequired = true;
+  setOfflineDataInLS(syncInfo);
 }
 
-var syncInfo = getOfflineDataFromLS()
-
-
-
-
-
-
-
-
-
-
-
+var syncInfo = getOfflineDataFromLS();

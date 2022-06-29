@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserInfo } from "../../state/selectors";
-import { clearAllData } from "../../state/thunks/GlobalThunk";
-import styles from "./ProfileSettings.module.scss";
 import { Transition } from "react-transition-group";
-import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
-import { EditRounded } from "../../svgs/EditRounded";
+import { selectUserInfo } from "../../state/selectors";
 import { updateUserThunk } from "../../state/thunks/UserThunk";
+import { EditRounded } from "../../svgs/EditRounded";
+import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { ThemeDropdown } from "../theme-dropdown/ThemeDropdown";
-import { usePaymentStatus } from "../../hooks/PaymentHook";
+import styles from "./ProfileSettings.module.scss";
 
 const dpTransitionStyles = {
   entering: {
@@ -29,9 +27,7 @@ const profileTransitionStyles = {
   exiting: { transform: "translateX(0px)", opacity: 0, position: "absolute" },
   exited: { transform: "translateX(-500px)", opacity: 0, position: "absolute" },
 };
-export function ProfileSettings(props) {
-  let [isModalOpen, setIsModalOpen] = useState(false);
-
+export function ProfileSettings() {
   let user = useSelector(selectUserInfo);
   let [name, setName] = useState(user.name);
   let [email, setEmail] = useState(user.email);
@@ -44,17 +40,6 @@ export function ProfileSettings(props) {
 
     setEmail(user.email);
   }, [user]);
-
-  let openModal = () => {
-    setIsModalOpen(true);
-  };
-  let closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  let clearAll = () => {
-    dispatch(clearAllData());
-  };
 
   let saveProfile = () => {
     dispatch(
@@ -97,6 +82,7 @@ export function ProfileSettings(props) {
                   >
                     <img
                       src={user.image || "/default.png"}
+                      alt="User"
                       className={styles["profile-icon"]}
                     />
                     <div className={styles["edit-icon"]}>

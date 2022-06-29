@@ -1,23 +1,15 @@
-import {
-  Add,
-  AddCircleOutlineOutlined,
-  Label,
-  LabelOutlined,
-} from "@material-ui/icons";
-import { useCallback, useState } from "react";
+import { Add } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { selectNewLabelModal, selectTagsAsArr } from "../../state/selectors";
 import { Link } from "react-router-dom";
-import styles from "./TagsSidebar.module.scss";
+import AuthService from "../../API/network/AuthService";
+import { selectTagsAsArr } from "../../state/selectors";
 import {
   openOnboardingModal,
   setLabelModalState,
 } from "../../state/slice/GlobalSlice";
-import AuthService from "../../API/network/AuthService";
+import styles from "./TagsSidebar.module.scss";
 
 export function TagsSidebar(props) {
-  let [tagExpanded, setTagExpanded] = useState(true);
-
   let tags = useSelector(selectTagsAsArr);
 
   let pathname = window.location.pathname;
@@ -25,15 +17,15 @@ export function TagsSidebar(props) {
 
   let dispatch = useDispatch();
 
-  const onNewLabelModalOpen = useCallback(() => {
+  const onNewLabelModalOpen = () => {
     if (AuthService.isLoggedIn()) {
       dispatch(setLabelModalState(true));
     } else {
       dispatch(openOnboardingModal());
     }
-  });
+  };
 
-  const getTags = useCallback(() => {
+  const getTags = () => {
     if (tags.length > 0) {
       return (
         <div>
@@ -68,7 +60,7 @@ export function TagsSidebar(props) {
       );
     }
     return <div></div>;
-  });
+  };
 
   return (
     <div>
@@ -97,7 +89,7 @@ export function TagsSidebar(props) {
       <div className={styles["tags-sidebar-second"]}>
         {/* <div className={`${styles["sidebar-row"]}`}>Create a Label</div> */}
 
-        {tagExpanded && getTags()}
+        {getTags()}
       </div>
     </div>
   );

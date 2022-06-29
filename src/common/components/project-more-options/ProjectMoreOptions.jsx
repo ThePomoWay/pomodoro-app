@@ -1,4 +1,3 @@
-import styles from "./ProjectMoreOptions.module.scss";
 export function ProjectMoreOptions(props) {
   return (
     <div className="popper-container">

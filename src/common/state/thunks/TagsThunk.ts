@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createIDBTag,
   deleteIDBTag,
@@ -11,7 +11,6 @@ import {
   deleteTagApi,
   updateTagApi,
 } from "../../API/network/TagsApis";
-import { initialTagState, tagsReducer } from "../reducers/TagsReducer";
 import { showErrorToast } from "../slice/GlobalSlice";
 import { deleteTag, setAllTags, updateTag } from "../slice/TagsSlice";
 
@@ -19,7 +18,7 @@ export const createLocalTagThunk = createAsyncThunk(
   "create/tags/local",
   async (tag: any, { dispatch }) => {
     dispatch(updateTag(tag));
-    let response = createIDBTag(tag);
+    createIDBTag(tag);
   }
 );
 
@@ -50,7 +49,7 @@ export const updateTagThunk = createAsyncThunk(
   "update/tags",
   async (tag, { dispatch }) => {
     dispatch(updateTag(tag));
-    let response = await updateIDBTag(tag);
+    await updateIDBTag(tag);
     if (AuthService.isLoggedIn()) {
       await updateTagApi(tag);
     }

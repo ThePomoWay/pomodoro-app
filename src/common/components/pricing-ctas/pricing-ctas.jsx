@@ -13,12 +13,10 @@ export function PricingCTAs(props) {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
   let buyProduct = (item) => {
     dispatch(buyProductThunk(item));
   };
-
-  console.log(products);
 
   return (
     <div className={styles["pricing-ctas"]}>

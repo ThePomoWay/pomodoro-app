@@ -1,5 +1,5 @@
 import { SkipNext } from "@material-ui/icons";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectDefaultTimes,
@@ -51,11 +51,11 @@ const ALERT_TITLE = "Are you sure you want to skip the current session?";
 const ALERT_DESCRIPTION =
   "This action will reset the current timer. Progress on pomodoro won't be recorded";
 
-const TIMER_BG_COLOR = {
-  [TAB_POMODORO]: "#344493",
-  [TAB_BREAK]: "#344493",
-  [TAB_LONG_BREAK]: "#344493",
-};
+// const TIMER_BG_COLOR = {
+//   [TAB_POMODORO]: "#344493",
+//   [TAB_BREAK]: "#344493",
+//   [TAB_LONG_BREAK]: "#344493",
+// };
 
 let getTotalTime = function (defaults, tab) {
   if (tab === TAB_POMODORO) {
@@ -120,113 +120,110 @@ export default function Timer(props) {
     props.onTimerStart && props.onTimerStart();
   };
 
-  const doStopTimer = useCallback(() => {
+  const doStopTimer = () => {
     sendWorkerMsg(CLEAR_INTERVAL);
 
     props.onReset && props.onReset();
     dispatch(resetTimerAsync());
-  });
+  };
 
-  const doSkipBreak = useCallback(() => {
+  const doSkipBreak = () => {
     sendWorkerMsg(CLEAR_INTERVAL);
 
     dispatch(updateNextState({ disableAlarm: true }));
-  });
-  const getCTA = useCallback(
-    (state) => {
-      if (state === POMO_IDLE_STATE) {
-        return (
-          <div
-            className={`${styles["timer-cta"]} grid grid-center`}
-            onClick={(e) => doStartTimer(true)}
-          >
+  };
+  const getCTA = (state) => {
+    if (state === POMO_IDLE_STATE) {
+      return (
+        <div
+          className={`${styles["timer-cta"]} grid grid-center`}
+          onClick={(e) => doStartTimer(true)}
+        >
+          <PlaySvg />
+        </div>
+      );
+    }
+
+    if (state === POMO_RUNNING_STATE) {
+      return (
+        <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
+          <span onClick={doPauseTimer}>
+            {" "}
+            <PauseSvg />{" "}
+          </span>
+          <span onClick={() => setShowAlertModal("stop")}>
+            {" "}
+            <RewindSvg />{" "}
+          </span>
+        </div>
+      );
+    }
+
+    if (state === POMO_PAUSED_STATE) {
+      return (
+        <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
+          <span onClick={(e) => doResumeTimer()}>
+            {" "}
             <PlaySvg />
-          </div>
-        );
-      }
+          </span>
+          <span onClick={() => setShowAlertModal("stop")}>
+            <RewindSvg />
+          </span>
+        </div>
+      );
+    }
 
-      if (state === POMO_RUNNING_STATE) {
-        return (
-          <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={doPauseTimer}>
-              {" "}
-              <PauseSvg />{" "}
-            </span>
-            <span onClick={() => setShowAlertModal("stop")}>
-              {" "}
-              <RewindSvg />{" "}
-            </span>
-          </div>
-        );
-      }
+    if (
+      state === POMO_BREAK_IDLE_STATE ||
+      state === POMO_LONG_BREAK_IDLE_STATE
+    ) {
+      return (
+        <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
+          <span onClick={(e) => doStartTimer(true)}>
+            {" "}
+            <PlaySvg />
+          </span>
+          <span onClick={doSkipBreak}>
+            <SkipNext />{" "}
+          </span>
+        </div>
+      );
+    }
+    if (
+      state === POMO_BREAK_RUNNING_STATE ||
+      state === POMO_LONG_BREAK_RUNNING_STATE
+    ) {
+      return (
+        <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
+          <span onClick={doPauseTimer}>
+            {" "}
+            <PauseSvg />
+          </span>
+          <span onClick={doSkipBreak}>
+            <SkipNext />{" "}
+          </span>
+        </div>
+      );
+    }
 
-      if (state === POMO_PAUSED_STATE) {
-        return (
-          <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={(e) => doResumeTimer()}>
-              {" "}
-              <PlaySvg />
-            </span>
-            <span onClick={() => setShowAlertModal("stop")}>
-              <RewindSvg />
-            </span>
-          </div>
-        );
-      }
-
-      if (
-        state === POMO_BREAK_IDLE_STATE ||
-        state === POMO_LONG_BREAK_IDLE_STATE
-      ) {
-        return (
-          <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={(e) => doStartTimer(true)}>
-              {" "}
-              <PlaySvg />
-            </span>
-            <span onClick={doSkipBreak}>
-              <SkipNext />{" "}
-            </span>
-          </div>
-        );
-      }
-      if (
-        state === POMO_BREAK_RUNNING_STATE ||
-        state === POMO_LONG_BREAK_RUNNING_STATE
-      ) {
-        return (
-          <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={doPauseTimer}>
-              {" "}
-              <PauseSvg />
-            </span>
-            <span onClick={doSkipBreak}>
-              <SkipNext />{" "}
-            </span>
-          </div>
-        );
-      }
-
-      if (
-        state === POMO_LONG_BREAK_PAUSED_STATE ||
-        state === POMO_BREAK_PAUSED_STATE
-      ) {
-        return (
-          <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
-            <span onClick={(e) => doResumeTimer(false)}>
-              {" "}
-              <PlaySvg />
-            </span>
-            <span onClick={doSkipBreak}>
-              {" "}
-              <SkipNext />
-            </span>
-          </div>
-        );
-      }
-    },
-    [state]
-  );
+    if (
+      state === POMO_LONG_BREAK_PAUSED_STATE ||
+      state === POMO_BREAK_PAUSED_STATE
+    ) {
+      return (
+        <div className={`${styles["timer-cta"]} grid ${styles["cta-2"]}`}>
+          <span onClick={(e) => doResumeTimer(false)}>
+            {" "}
+            <PlaySvg />
+          </span>
+          <span onClick={doSkipBreak}>
+            {" "}
+            <SkipNext />
+          </span>
+        </div>
+      );
+    }
+  };
 
   useEffect(() => {
     // if(timerSec <= 0) {
@@ -264,11 +261,11 @@ export default function Timer(props) {
       dispatch(tickAsync());
     }
     initialized = true;
-  }, [state]);
+  }, [state, dispatch, props, timerSec]);
 
   let tab = getTab(state);
 
-  let changePomoState = useCallback((nextState) => {
+  let changePomoState = (nextState) => {
     let tab = getTab(nextState);
     let nextTimerInSecs = defaults.defaultWorkTime;
     if (tab === TAB_BREAK) {
@@ -282,20 +279,20 @@ export default function Timer(props) {
         timerInSec: nextTimerInSecs,
       })
     );
-  });
+  };
 
   let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
 
-  let timerStyle = {
-    background:
-      "linear-gradient(0deg, " +
-      TIMER_BG_COLOR[tab] +
-      " 0%, #5468ce " +
-      percentComplete +
-      "%, white " +
-      (percentComplete + 1) +
-      "%, #C3C3C3 100%)",
-  };
+  // let timerStyle = {
+  //   background:
+  //     "linear-gradient(0deg, " +
+  //     TIMER_BG_COLOR[tab] +
+  //     " 0%, #5468ce " +
+  //     percentComplete +
+  //     "%, white " +
+  //     (percentComplete + 1) +
+  //     "%, #C3C3C3 100%)",
+  // };
 
   const onFocusModeSwitch = (e) => {
     if (isExtensionPresent) {
@@ -395,7 +392,7 @@ export default function Timer(props) {
               id="water"
               className={styles["water"]}
               style={{
-                transform: "translate(0" + "," + (100 - percentComplete) + "%)",
+                transform: `translate(0, ${100 - percentComplete}%)`,
               }}
             >
               <div

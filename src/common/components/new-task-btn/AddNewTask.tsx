@@ -27,10 +27,6 @@ export function AddNewTask(props) {
 
   let tasksLength = useSelector(selectTasksLength);
 
-  const isMobileDevice = useMediaQuery({
-    query: "(max-device-width: 0px)",
-  });
-
   const isBigScreen = useMediaQuery({
     query: "(min-device-width: 1201px )",
   });

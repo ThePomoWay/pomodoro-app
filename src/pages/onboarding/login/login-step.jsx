@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
@@ -16,7 +15,7 @@ export function LoginStep(props) {
     query: "(max-device-width: 1224px)",
   });
 
-  const responseGoogle = useCallback((response) => {
+  const responseGoogle = (response) => {
     if (!response.error) {
       dispatch(
         signin({
@@ -25,20 +24,16 @@ export function LoginStep(props) {
         })
       );
     }
-  });
+  };
 
-  const componentClicked = useCallback(() => {
-    console.log("fb btn clicked");
-  });
-
-  const responseFacebook = useCallback((response) => {
+  const responseFacebook = (response) => {
     dispatch(
       signin({
         mode: "facebook",
         data: response.accessToken,
       })
     );
-  });
+  };
 
   return (
     <div className={styles["container"]}>
@@ -75,7 +70,6 @@ export function LoginStep(props) {
           <FacebookLogin
             appId="958233501449664"
             autoLoad={false}
-            onClick={componentClicked}
             callback={responseFacebook}
             render={(renderProps) => (
               <button

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectProjectsObj,
@@ -27,26 +27,26 @@ export default function UndraggableList(props) {
 
   let dispatch = useDispatch();
 
-  const toggleCompletedTasks = useCallback((task) => {
+  const toggleCompletedTasks = (task) => {
     dispatch(markTaskAsCompleteThunk({ task }));
-  });
-  const doSetEditTask = useCallback((task) => {
+  };
+  const doSetEditTask = (task) => {
     if (task.fid) {
       setEditTaskIndex(task.fid);
     }
-  });
+  };
 
-  const doSaveTask = useCallback((task) => {
+  const doSaveTask = (task) => {
     if (task.fid) {
       dispatch(updateTaskThunk(task));
     }
 
     setEditTaskIndex("");
-  });
+  };
 
-  const doAddTask = useCallback((task) => {
+  const doAddTask = (task) => {
     dispatch(addToTodaysTasks({ fid: task.fid, _id: task._id }));
-  });
+  };
 
   const doRemoveTask = (task) => {
     dispatch(removeFromTodaysTasks({ fid: task.fid, _id: task._id }));

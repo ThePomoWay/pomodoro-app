@@ -1,12 +1,8 @@
 import { ClickAwayListener } from "@material-ui/core";
+import { ExpandMoreOutlined, MoreHorizRounded } from "@material-ui/icons";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import {
-  ExpandMoreOutlined,
-  Menu,
-  MenuBookOutlined,
-  MoreHorizRounded,
-} from "@material-ui/icons";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCompletedTaskInProject,
@@ -16,25 +12,23 @@ import {
   selectTodaysTaskIds,
 } from "../../state/selectors";
 import { SECTION_DROPPABLE_ID } from "../../utils/droppable-ids";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 
-import styles from "./Section.module.scss";
-import { getObjFromArr } from "../../utils/common";
-import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
+import { Popper } from "@mui/material";
+import { setEditTask } from "../../state/slice/TasksSlice";
 import {
   markTaskAsCompleteThunk,
   markTaskAsInCompleteThunk,
   updateTaskThunk,
 } from "../../state/thunks/TasksThunk";
-import { setEditTask } from "../../state/slice/TasksSlice";
-import { Popper } from "@mui/material";
-import { SectionMoreOptions } from "../section-more-options/SectionMoreOptions";
+import { getObjFromArr } from "../../utils/common";
+import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
-import { Alert } from "../alert/Alert";
+import { SectionMoreOptions } from "../section-more-options/SectionMoreOptions";
+import styles from "./Section.module.scss";
 
-export default (props) => {
+export default function Section(props) {
   let tasks = useSelector(selectTasksAsobj);
   let tags = useSelector(selectTagsAsObj);
   let todaysTaskIdsObj = getObjFromArr(useSelector(selectTodaysTaskIds));
@@ -47,17 +41,14 @@ export default (props) => {
 
   let dispatch = useDispatch();
 
-  let [showEditTaskContainer, setShowEditTaskContainer] = useState(false);
   let [expanded, setExpanded] = useState(!!props.defaultExpanded);
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
-  let [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const addTaskToSection = useCallback((task) => {
+  const addTaskToSection = (task) => {
     props.onAddTask && props.onAddTask(task, props.section);
-    setShowEditTaskContainer(false);
-  });
+  };
 
-  const doCompleteTask = useCallback((task) => {
+  const doCompleteTask = (task) => {
     if (!task.isComplete) {
       dispatch(
         markTaskAsCompleteThunk({
@@ -77,16 +68,16 @@ export default (props) => {
         })
       );
     }
-  });
+  };
 
-  const onMoreClose = useCallback(() => {
+  const onMoreClose = () => {
     setMoreAnchorEl(null);
-  });
+  };
 
-  const onMoreClick = useCallback((e) => {
+  const onMoreClick = (e) => {
     setMoreAnchorEl(e.currentTarget);
     e.stopPropagation();
-  });
+  };
 
   let doSaveTask = (task) => {
     if (task && task.fid) {
@@ -101,9 +92,9 @@ export default (props) => {
     }
   };
 
-  const onEditSection = useCallback((e) => {
+  const onEditSection = (e) => {
     e.stopPropagation();
-  });
+  };
 
   if (props.section) {
     let section = props.section;
@@ -238,4 +229,4 @@ export default (props) => {
   }
 
   return <div>Loading...</div>;
-};
+}

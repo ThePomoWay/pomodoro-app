@@ -1,33 +1,29 @@
 import { ClickAwayListener } from "@material-ui/core";
-import { ArrowDropDown } from "@material-ui/icons";
 import { Popper } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AuthService from "../../API/network/AuthService";
 
-import { Link } from "react-router-dom";
-
-import styles from "./ProfileDropdown.module.scss";
-import { logout } from "../../state/thunks/GlobalThunk";
+import { selectTheme, selectUserInfo } from "../../state/selectors";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
-import { selectUserInfo, selectTheme } from "../../state/selectors";
+import { logout } from "../../state/thunks/GlobalThunk";
 import { ProfileHamburger } from "../../svgs/ProfileHamburger";
 import { THEME_LIGHT } from "../../utils/constants";
+import styles from "./ProfileDropdown.module.scss";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
   let userInfo = useSelector(selectUserInfo);
   let theme = useSelector(selectTheme);
 
-  const onClose = useCallback(() => {
+  const onClose = () => {
     setProfileAnchorEl(null);
-  });
+  };
 
   let dispatch = useDispatch();
 
-  let onLogout = useCallback(() => {
+  let onLogout = () => {
     dispatch(logout());
-  });
+  };
 
   let openSettings = () => {
     dispatch(setSettingsModal(true));
@@ -44,7 +40,10 @@ export function ProfileDropdown(props) {
             <ProfileHamburger
               stroke={theme === THEME_LIGHT ? "black" : "white"}
             />
-            <img src={(userInfo && userInfo.image) || "/dp/1.png"} />
+            <img
+              alt="User Info"
+              src={(userInfo && userInfo.image) || "/dp/1.png"}
+            />
             {/* <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
             </span> */}
@@ -69,6 +68,7 @@ export function ProfileDropdown(props) {
                 className="popper-item"
                 href="mailto:feedback@timedojo.io"
                 target="_blank"
+                rel="noreferrer"
               >
                 Send Feedback ❤️
               </a>

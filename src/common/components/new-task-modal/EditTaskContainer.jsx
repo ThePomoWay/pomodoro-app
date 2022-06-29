@@ -1,15 +1,10 @@
 import { ClickAwayListener, Popper } from "@material-ui/core";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
-import {
-  selectProjectsObj,
-  selectTagsAsArr,
-  selectTagsAsObj,
-} from "../../state/selectors";
+import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";
 import { showErrorToast } from "../../state/slice/GlobalSlice";
-import { PriorityFlag } from "../../svgs/PriorityFlag";
 import { PriorityIcon } from "../../svgs/PriorityIcon";
 import { generateUniqueId } from "../../utils/common";
 import { priorityColorMap } from "../../utils/constants";
@@ -51,7 +46,7 @@ export default function EditTaskContainer(props) {
   let [description, setDescription] = useState(
     taskToBeEdited.description || ""
   );
-  let [schedule, setSchedule] = useState(taskToBeEdited.schedule || new Date());
+  let schedule = taskToBeEdited.schedule || new Date();
   let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.epomo || 0);
   let [isBulleted, setIsBulleted] = useState(
     taskToBeEdited.isBulleted || false
@@ -84,34 +79,34 @@ export default function EditTaskContainer(props) {
     }
   }, []);
 
-  const onTagAnchorClick = useCallback((e) => {
+  const onTagAnchorClick = (e) => {
     setTagAnchorEl(e.currentTarget);
     e.stopPropagation();
-  });
+  };
 
-  const onTagAnchorClose = useCallback((e) => {
+  const onTagAnchorClose = (e) => {
     setTagAnchorEl(null);
-  });
+  };
 
-  const onProjectAnchorClick = useCallback((e) => {
+  const onProjectAnchorClick = (e) => {
     if (!props.viewOnlyProject) {
       setProjectAnchorEl(e.currentTarget);
       e.stopPropagation();
     }
-  });
+  };
 
-  const onProjectAnchorClose = useCallback((e) => {
+  const onProjectAnchorClose = (e) => {
     setProjectAnchorEl(null);
-  });
+  };
 
-  const onPriorityAnchorClick = useCallback((e) => {
+  const onPriorityAnchorClick = (e) => {
     setPriorityAnchorEl(e.currentTarget);
     e.stopPropagation();
-  });
+  };
 
-  const onPriorityAnchorClose = useCallback((e) => {
+  const onPriorityAnchorClose = (e) => {
     setPriorityAnchorEl(null);
-  });
+  };
 
   const closeAllPopover = () => {
     onPriorityAnchorClose();
@@ -119,7 +114,7 @@ export default function EditTaskContainer(props) {
     onTagAnchorClose();
   };
 
-  let resetContainer = useCallback((taskToBeEdited) => {
+  let resetContainer = (taskToBeEdited) => {
     setTitle(taskToBeEdited.title || "");
     setPriority(taskToBeEdited.priority || -1);
     setDescription(taskToBeEdited.description || "");
@@ -139,7 +134,7 @@ export default function EditTaskContainer(props) {
       ref.current.textContent = taskToBeEdited.title || "";
       setEndOfContentEditable(ref.current);
     }
-  }, []);
+  };
 
   let doSaveTask = () => {
     if (title) {
@@ -192,11 +187,11 @@ export default function EditTaskContainer(props) {
     // setShowTitleInput(true);
   };
 
-  let doCancelTask = useCallback(() => {
+  let doCancelTask = () => {
     props.saveTask({});
-  }, []);
+  };
 
-  const onTitleInput = useCallback((e) => {
+  const onTitleInput = (e) => {
     // if (e.key === 'Enter' && title) {
     //     doSaveTask();
     // }
@@ -210,31 +205,27 @@ export default function EditTaskContainer(props) {
     // }
 
     setTitle(e.target.value.replace(/(\r\n|\n|\r)/gm, ""));
-  });
+  };
 
-  const onTitleKeyChange = useCallback((e) => {
+  const onTitleKeyChange = (e) => {
     if (e.key === "Enter" && title) {
       doSaveTask();
       e.stopPropagation();
     }
-  });
+  };
 
-  const onLabelUpdate = useCallback((tags) => {
+  const onLabelUpdate = (tags) => {
     setSelectedTags(tags);
-  });
+  };
 
-  const removeTag = useCallback((item) => {
-    setSelectedTags(selectedTags.filter((i) => i !== item));
-  });
-
-  const setProjectId = useCallback((projectId, sectionId) => {
+  const setProjectId = (projectId, sectionId) => {
     setProject({
       projectID: projectId,
       secID: sectionId,
     });
-  });
+  };
 
-  const getTaskTags = useCallback(() => {
+  const getTaskTags = () => {
     return (
       <div className={styles["task-tags-list"]}>
         {selectedTags.map((item, ind) => {
@@ -254,7 +245,7 @@ export default function EditTaskContainer(props) {
         })}
       </div>
     );
-  });
+  };
 
   // useEffect(() => {
   //   ref.current.focus();

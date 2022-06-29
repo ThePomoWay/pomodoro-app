@@ -1,22 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCompletedTaskInProject,
+  selectEditTaskRef,
+  selectFreeProjects,
+  selectHideProjectsCompletedTasks,
   selectProjectById,
   selectProjectsObj,
   selectTagsAsObj,
   selectTasksAsobj,
   selectTodaysTaskIds,
-  selectEditTaskRef,
-  selectHideProjectsCompletedTasks,
   selectUserInfo,
-  selectFreeProjects,
 } from "../../state/selectors";
 
-import { useParams, useHistory } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { DraggableTaskItem } from "../draggable-task/DraggableTask";
-import SectionList from "../section-list/SectionList";
+import { useHistory, useParams } from "react-router-dom";
+import { setEditProjectId } from "../../state/slice/ProjectSlice";
+import { setEditTask } from "../../state/slice/TasksSlice";
 import {
   createSectionAsync,
   deleteProjectAsync,
@@ -25,7 +25,6 @@ import {
   updateLocalProjectAsync,
   updateProjectAsync,
 } from "../../state/thunks/ProjectThunk";
-import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import {
   addToTodaysTasks,
   markTaskAsCompleteThunk,
@@ -34,27 +33,28 @@ import {
   updateLocalTaskThunk,
   updateTaskThunk,
 } from "../../state/thunks/TasksThunk";
-import { setEditTask } from "../../state/slice/TasksSlice";
 import { PROJECT_DROPPABLE_ID } from "../../utils/droppable-ids";
+import { DraggableTaskItem } from "../draggable-task/DraggableTask";
+import SectionList from "../section-list/SectionList";
 
-import styles from "./ProjectContainer.module.scss";
-import { getObjFromArr } from "../../utils/common";
-import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
-import { AddNewTask } from "../new-task-btn/AddNewTask";
-import { MoreHorizRounded } from "@material-ui/icons";
 import { ClickAwayListener, Popper } from "@material-ui/core";
-import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
+import { MoreHorizRounded } from "@material-ui/icons";
 import {
   setLastAllTaskUrl,
   setProjectModalState,
 } from "../../state/slice/GlobalSlice";
-import { Alert } from "../alert/Alert";
-import EditTaskContainer from "../new-task-modal/EditTaskContainer";
 import { toggleHideProjectsCompletedTasks } from "../../state/thunks/GlobalThunk";
+import { getObjFromArr } from "../../utils/common";
 import {
   SUBSCRIPTION_STATUS_ACTIVE,
   SUBSCRIPTION_STATUS_PAST_DUE,
 } from "../../utils/constants";
+import { Alert } from "../alert/Alert";
+import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
+import { AddNewTask } from "../new-task-btn/AddNewTask";
+import EditTaskContainer from "../new-task-modal/EditTaskContainer";
+import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
+import styles from "./ProjectContainer.module.scss";
 
 export function ProjectContainer(props) {
   let { projectId } = useParams();
@@ -77,7 +77,6 @@ export function ProjectContainer(props) {
   let tasks = useSelector(selectTasksAsobj);
   let user = useSelector(selectUserInfo);
 
-  let [showEditTaskContainer, setShowEditTaskContainer] = useState(false);
   let [isDragging, setIsDragging] = useState(false);
   let [isTaskDragging, setIsTaskDragging] = useState(false);
 
@@ -89,12 +88,10 @@ export function ProjectContainer(props) {
 
   let [defaultExpandedSectionId, setDefaultExpandedSectionId] = useState("");
 
-  let a = Date.now();
-
   if (
     user.subscription &&
-    (user.subscription.status == SUBSCRIPTION_STATUS_ACTIVE ||
-      user.subscription.status == SUBSCRIPTION_STATUS_PAST_DUE)
+    (user.subscription.status === SUBSCRIPTION_STATUS_ACTIVE ||
+      user.subscription.status === SUBSCRIPTION_STATUS_PAST_DUE)
   ) {
     disableTaskCreation = false;
   } else {
@@ -119,11 +116,11 @@ export function ProjectContainer(props) {
   };
   let projectVar = useSelector(selectProjectById(projectId));
 
-  const onSectionCreate = useCallback((section) => {
+  const onSectionCreate = (section) => {
     dispatch(createSectionAsync({ project: projectVar, section }));
-  });
+  };
 
-  const onAddTaskToSection = useCallback((task, section) => {
+  const onAddTaskToSection = (task, section) => {
     // dispatch(createTaskThunk({ task }));
     dispatch(
       updateLocalProjectAsync({
@@ -137,9 +134,9 @@ export function ProjectContainer(props) {
         },
       })
     );
-  });
+  };
 
-  const onDragEnd = useCallback((result) => {
+  const onDragEnd = (result) => {
     if (result.source && result.destination) {
       if (result.type === "section") {
         let sectionOrderCopy = JSON.parse(JSON.stringify(projectVar.so));
@@ -248,30 +245,30 @@ export function ProjectContainer(props) {
 
     setIsDragging(false);
     setIsTaskDragging(false);
-  });
+  };
 
-  const onBeforeDragStart = useCallback((res) => {
+  const onBeforeDragStart = (res) => {
     if (!res.draggableId.startsWith("task-")) {
       setIsDragging(true);
     } else {
       setIsTaskDragging(true);
     }
-  });
+  };
 
-  const doAddTask = useCallback((task) => {
+  const doAddTask = (task) => {
     dispatch(addToTodaysTasks({ fid: task.fid, _id: task._id }));
-  });
+  };
 
-  const doRemoveTask = useCallback((task) => {
+  const doRemoveTask = (task) => {
     dispatch(
       removeFromTodaysTasks({
         fid: task.fid,
         _id: task._id,
       })
     );
-  });
+  };
 
-  const doCompleteTask = useCallback((task) => {
+  const doCompleteTask = (task) => {
     if (!task.isComplete) {
       dispatch(
         markTaskAsCompleteThunk({
@@ -289,37 +286,33 @@ export function ProjectContainer(props) {
         })
       );
     }
-  });
+  };
 
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
-  const onMoreAnchorClick = useCallback((e) => {
+  const onMoreAnchorClick = (e) => {
     setMoreAnchorEl(e.currentTarget);
     e.stopPropagation();
-  });
+  };
 
-  const onMoreClose = useCallback((e) => {
+  const onMoreClose = (e) => {
     setMoreAnchorEl(null);
     e && e.stopPropagation();
-  });
+  };
 
-  const openProjectModal = useCallback((e) => {
+  const openProjectModal = (e) => {
     dispatch(setProjectModalState(true));
     dispatch(setEditProjectId(projectVar._id));
-  });
+  };
 
-  const toggleCompletedTasks = useCallback((e) => {
+  const toggleCompletedTasks = (e) => {
     dispatch(toggleHideProjectsCompletedTasks());
     //setShowCompletedSection(!showCompletedSection);
     onMoreClose();
-  });
-
-  const onShowAlert = useCallback((e) => {
-    setShowAlert(true);
-  });
+  };
 
   let history = useHistory();
 
-  const onDeleteProject = useCallback((e) => {
+  const onDeleteProject = (e) => {
     dispatch(
       deleteProjectAsync({ project: projectVar, allProjects: projectsObj })
     );
@@ -328,14 +321,14 @@ export function ProjectContainer(props) {
     setTimeout(() => {
       history.push("/all");
     }, 1000);
-  });
+  };
 
-  let doSaveTask = useCallback((task) => {
+  let doSaveTask = (task) => {
     if (task && task.fid) {
       dispatch(updateTaskThunk(task));
     }
     dispatch(setEditTask(""));
-  });
+  };
 
   let doEditTask = (task) => {
     dispatch(setEditTask(task.fid));
@@ -347,13 +340,13 @@ export function ProjectContainer(props) {
 
   useEffect(() => {
     dispatch(setLastAllTaskUrl(window.location.pathname));
-  }, []);
+  }, [dispatch]);
 
   if (projectVar) {
-    let totalTasks = projectVar.to.length;
-    for (let sectionId of projectVar.so) {
-      totalTasks += projectVar.sections[sectionId].to.length;
-    }
+    // let totalTasks = projectVar.to.length;
+    // for (let sectionId of projectVar.so) {
+    //   totalTasks += projectVar.sections[sectionId].to.length;
+    // }
 
     return (
       <div className={styles["project-container"]}>
@@ -481,7 +474,7 @@ export function ProjectContainer(props) {
             />
           ) || (
             <div className="flex flex-center">
-              <img src="/project-empty.jpg" />
+              <img src="/project-empty.jpg" alt="Project is empty" />
               <span className="text-small text-gray">
                 Create Sections to organize your tasks{" "}
               </span>

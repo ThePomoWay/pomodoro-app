@@ -1,5 +1,5 @@
 import { Done } from "@material-ui/icons";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";
 import { selectProjectsObj } from "../../state/selectors";
@@ -13,27 +13,25 @@ export default function ProjectSelector(props) {
   let [selectedProjectId, setSelectedProjectId] = useState(
     (props.project && props.project.projectID) || ""
   );
-  let [selectedSectionId, setSelectedSectionId] = useState(
-    (props.project && props.project.secID) || ""
-  );
 
-  const onProjectSelect = useCallback((projectId) => {
+  const onProjectSelect = (projectId) => {
     setSelectedProjectId(projectId);
-    props.onChange && props.onChange(projectId, selectedSectionId);
-  });
+    props.onChange &&
+      props.onChange(projectId, (props.project && props.project.secID) || "");
+  };
 
-  const onSectionSelect = useCallback((projectId, secId, e) => {
-    setSelectedProjectId(projectId);
-    setSelectedSectionId(secId);
+  // const onSectionSelect = useCallback((projectId, secId, e) => {
+  //   setSelectedProjectId(projectId);
+  //   setSelectedSectionId(secId);
 
-    props.onChange && props.onChange(projectId, secId);
+  //   props.onChange && props.onChange(projectId, secId);
 
-    e.stopPropagation();
-  });
+  //   e.stopPropagation();
+  // });
 
-  const onLogin = useCallback(() => {
+  const onLogin = () => {
     dispatch(openOnboardingModal());
-  });
+  };
 
   if (projectIds.length === 0) {
     return (
@@ -50,13 +48,9 @@ export default function ProjectSelector(props) {
       <div className="popover-title">
         {(AuthService.isLoggedIn() && <p>Select another project</p>) || (
           <p>
-            <a
-              href="javascript:void(0)"
-              className={styles["login"]}
-              onClick={(e) => onLogin()}
-            >
+            <button className={styles["login"]} onClick={(e) => onLogin()}>
               Login
-            </a>{" "}
+            </button>
             to create a project
           </p>
         )}

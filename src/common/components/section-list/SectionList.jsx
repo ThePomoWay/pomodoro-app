@@ -1,28 +1,24 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import AddNewSection from "../add-new-section/AddNewSection";
 import Section from "../section/Section";
 
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import styles from "./SectionList.module.scss";
 import { Alert } from "../alert/Alert";
+import styles from "./SectionList.module.scss";
 
-export default (props) => {
-  const onCreateSection = useCallback(
-    (section) => props.onCreateSection && props.onCreateSection(section)
-  );
-  const onAddTask = useCallback(
-    (task, section) =>
-      props.onAddTaskToSection && props.onAddTaskToSection(task, section)
-  );
-
+export default function SectionList(props) {
+  const onCreateSection = (section) =>
+    props.onCreateSection && props.onCreateSection(section);
+  const onAddTask = (task, section) =>
+    props.onAddTaskToSection && props.onAddTaskToSection(task, section);
   let [deleteSectionId, setDeleteSectionId] = useState("");
   let [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const onDelete = useCallback((sectionId) => {
+  const onDelete = (sectionId) => {
     setDeleteSectionId(sectionId);
     setShowDeleteModal(true);
-  });
+  };
 
   const onDeleteSection = (e) => {
     props.onSectionDelete && props.onSectionDelete(deleteSectionId);
@@ -101,4 +97,4 @@ export default (props) => {
       </Droppable>
     </div>
   );
-};
+}
