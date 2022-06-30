@@ -7,8 +7,7 @@
 .first-container {
   background-color: var(--bg-theme-2);
   width: 100vw;
-  overflow-y: initial;
-  overflow-x: hidden;
+  overflow: hidden;
   box-sizing: border-box;
 
   display: flex;
@@ -221,6 +220,7 @@
 
 .container {
   background-color: var(--bg-theme-2);
+  color: var(--text-theme);
   width: 100vw;
   overflow: hidden;
   box-sizing: border-box;
