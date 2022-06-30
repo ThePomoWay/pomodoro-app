@@ -86,7 +86,6 @@ export function LandingPage(props) {
       <div className={styles["container"]}>
         <div className={styles["left"]}>
           <div className={styles["first-text"]}>
-            <span className={styles["rect-4"]}></span>
             <h2 className={styles["title"]}>Why use Timedojo?</h2>
             <h3 className={styles["sub-title"]}>
               Are you watching tons of videos on how to overcome

@@ -185,50 +185,54 @@ export const markTaskAsCurrent = createAsyncThunk(
     let timerState = getState()["timer"];
     let summary = window.structuredClone(timerState.pomoSummary);
 
-    if (timerState.pomoState === POMO_RUNNING_STATE) {
-      if (summary[taskState.currentTaskRef]) {
-        summary[taskState.currentTaskRef].csec += Math.round(
-          (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
-        );
+    let fid = (task && task.fid) || taskState.currentTaskRef;
 
-        summary[taskState.currentTaskRef].endTime = Date.now();
-      }
-      if (summary[task.fid]) {
-        summary[task.fid].startTime = Date.now();
-        summary[task.fid].endTime = "";
+    if (fid) {
+      if (timerState.pomoState === POMO_RUNNING_STATE) {
+        if (summary[taskState.currentTaskRef]) {
+          summary[taskState.currentTaskRef].csec += Math.round(
+            (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
+          );
+
+          summary[taskState.currentTaskRef].endTime = Date.now();
+        }
+        if (summary[fid]) {
+          summary[fid].startTime = Date.now();
+          summary[fid].endTime = "";
+        } else {
+          summary[fid] = {
+            csec: 0,
+            startTime: Date.now(),
+          };
+        }
       } else {
-        summary[task.fid] = {
-          csec: 0,
-          startTime: Date.now(),
+        summary = {
+          [fid]: {
+            csec: 0,
+            startTime: Date.now(),
+          },
         };
       }
-    } else {
-      summary = {
-        [task.fid]: {
-          csec: 0,
-          startTime: Date.now(),
-        },
-      };
-    }
 
-    dispatch(setPomoSummary(summary));
-    let currentTask = Object.keys(tasks)
-      .map((i) => tasks[i])
-      .filter((item) => item.isCurrentTask)[0];
-    if (!currentTask) {
+      dispatch(setPomoSummary(summary));
+      let currentTask = Object.keys(tasks)
+        .map((i) => tasks[i])
+        .filter((item) => item.isCurrentTask)[0];
+      if (!currentTask) {
+        //@ts-ignore
+        dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
+        return;
+      }
+      if (currentTask.fid === fid) {
+        return;
+      }
+
+      //@ts-ignore
+      dispatch(updateLocalTaskThunk({ ...currentTask, isCurrentTask: false }));
+
       //@ts-ignore
       dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
-      return;
     }
-    if (currentTask.fid === task.fid) {
-      return;
-    }
-
-    //@ts-ignore
-    dispatch(updateLocalTaskThunk({ ...currentTask, isCurrentTask: false }));
-
-    //@ts-ignore
-    dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
   }
 );
 

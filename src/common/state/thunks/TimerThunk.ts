@@ -55,7 +55,11 @@ import {
   setTimerSec,
   setTimerState,
 } from "../slice/TimerSlice";
-import { incrementCurTaskCsec, incrementTaskCpomos } from "./TasksThunk";
+import {
+  incrementCurTaskCsec,
+  incrementTaskCpomos,
+  markTaskAsCurrent,
+} from "./TasksThunk";
 
 export let getTimerState = createAsyncThunk(
   "timer/getState",
@@ -379,6 +383,8 @@ export const startTimerAsync = createAsyncThunk(
         extraSec: 0,
       })
     );
+
+    dispatch(markTaskAsCurrent({}));
     playTimerStartSound();
   }
 );
@@ -464,6 +470,8 @@ export const resumeTimerAsync = createAsyncThunk(
         lastResumeTime: new Date().toISOString(),
       })
     );
+
+    dispatch(markTaskAsCurrent({}));
   }
 );
 
