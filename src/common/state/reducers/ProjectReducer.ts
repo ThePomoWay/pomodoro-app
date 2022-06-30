@@ -37,7 +37,7 @@ export const projectReducer = {
     });
     // TODO :  sort projects array first
     projectArray.sort(function(a,b){
-      return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime();
+      return new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime();
     });
     freeProjects = projectArray.slice(0, FREE_PROJECT_COUNT)
     state.freeProjects = freeProjects;
