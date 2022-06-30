@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserInfo } from "../../state/selectors";
-import styles from "./PaymentSettings.module.scss";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
+import {
+  SUBSCRIPTION_STATUS_ACTIVE,
+  SUBSCRIPTION_STATUS_CANCELED,
+  SUBSCRIPTION_STATUS_INACTIVE,
+  SUBSCRIPTION_STATUS_PAST_DUE,
+  SUBSCRIPTION_STATUS_UNPAID,
+} from "../../utils/constants";
 import PricingModal from "../pricing-modal/PricingModal";
 import SubscriptionActive from "../subscription-states/SubscriptionActive";
 import SubscriptionCanceled from "../subscription-states/SubscriptionCanceled";
-import SubscriptionUnpaid from "../subscription-states/SubscriptionUnpaid";
-import SubscriptionPastDue from "../subscription-states/SubscriptionPastDue";
 import SubscriptionInactive from "../subscription-states/SubscriptionInactive";
-import { SUBSCRIPTION_STATUS_ACTIVE } from "../../utils/constants";
-import { SUBSCRIPTION_STATUS_INACTIVE } from "../../utils/constants";
-import { SUBSCRIPTION_STATUS_PAST_DUE } from "../../utils/constants";
-import { SUBSCRIPTION_STATUS_UNPAID } from "../../utils/constants";
-import { SUBSCRIPTION_STATUS_CANCELED } from "../../utils/constants";
-import { usePaymentStatus } from "../../hooks/PaymentHook";
+import SubscriptionPastDue from "../subscription-states/SubscriptionPastDue";
+import SubscriptionUnpaid from "../subscription-states/SubscriptionUnpaid";
 
 export function PaymentSettings(props) {
   let { subStatus, planExpiry } = usePaymentStatus();

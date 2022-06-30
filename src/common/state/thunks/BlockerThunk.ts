@@ -116,7 +116,7 @@ export const removeFromBlockedSites = createAsyncThunk(
   async (obj: any, { getState, dispatch }) => {
     let blockedSites = getState()["blocker"].blockedWebsites;
     let updatedBlockedSites = blockedSites.filter(
-      (item) => item.url !== obj.url
+      (item) => item.host !== obj.host
     );
     sendMessageToExtension({
       action: "removeFromBlockedSites",

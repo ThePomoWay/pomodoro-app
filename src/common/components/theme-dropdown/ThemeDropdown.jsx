@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectTheme } from "../../state/selectors";
@@ -13,15 +13,11 @@ export function ThemeDropdown({}) {
   let { isSubscriptionActive } = usePaymentStatus();
   let theme = useSelector(selectTheme);
 
-  const onClose = useCallback(() => {
-    setThemeAnchorEl(null);
-  });
-
   let dispatch = useDispatch();
 
-  let switchTheme = (dark) => {
+  let switchTheme = () => {
     if (isSubscriptionActive) {
-      dispatch(setTheme(dark ? THEME_DARK : THEME_LIGHT));
+      dispatch(setTheme(theme === THEME_DARK ? THEME_LIGHT : THEME_DARK));
     } else {
       dispatch(setPricingModalState(true));
     }

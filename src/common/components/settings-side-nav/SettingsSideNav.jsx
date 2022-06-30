@@ -51,7 +51,6 @@ const tabs = [
 ];
 
 export function SettingsSideNav(props) {
-  let path = window.location.pathname;
   let dispatch = useDispatch();
   let tab = useSelector(selectSettingsTab);
   let changeTab = (index) => {

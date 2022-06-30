@@ -14,13 +14,12 @@
       width: 80px;
       height: 30px;
       padding: 6px 11.25px;
-      color: #7a8ae4;
+
       letter-spacing: 0.1px;
       font-weight: 500;
       font-size: 12px;
 
-      background: var(--bg-theme);
-      border: 1px solid #cbcff7;
+      background: inherit;
       box-sizing: border-box;
       border-radius: 4px;
       display: flex;
@@ -29,6 +28,12 @@
 
       cursor: pointer;
       text-align: center;
+
+      color: var(--block-btn-color);
+
+      &.unblock {
+        color: #7a8ae4;
+      }
     }
 
     .blocked-bg {
@@ -126,40 +131,6 @@
         }
       }
 
-      .legend-item {
-        display: flex;
-        justify-content: space-between;
-        border: var(--task-border);
-
-        box-shadow: var(--task-box-shadow);
-        box-sizing: border-box;
-
-        border-radius: 9px;
-        padding: 9px;
-        align-items: center;
-
-        .url {
-          color: var(--text-theme-3);
-          font-weight: 400;
-          font-size: 14px;
-        }
-
-        .right {
-          display: flex;
-          gap: 20px;
-          align-items: center;
-
-          .time {
-            color: #898989;
-            font-size: 14px;
-          }
-          .percent {
-            font-size: 14px;
-            font-weight: 500;
-          }
-        }
-      }
-
       .see-more {
         display: flex;
         width: 100%;
@@ -174,6 +145,41 @@
         align-items: center;
         gap: 4px;
         cursor: pointer;
+      }
+    }
+    .legend-item {
+      display: flex;
+      justify-content: space-between;
+      border: var(--task-border);
+
+      box-shadow: var(--task-box-shadow);
+      box-sizing: border-box;
+
+      background: var(--bg-task-theme);
+
+      border-radius: 9px;
+      padding: 9px;
+      align-items: center;
+
+      .url {
+        color: var(--text-theme-3);
+        font-weight: 400;
+        font-size: 14px;
+      }
+
+      .right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        .time {
+          color: #898989;
+          font-size: 14px;
+        }
+        .percent {
+          font-size: 14px;
+          font-weight: 500;
+        }
       }
     }
 

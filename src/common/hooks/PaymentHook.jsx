@@ -18,9 +18,7 @@ export function usePaymentStatus() {
         SUBSCRIPTION_STATUS_INACTIVE
     );
     setPlanExpiry(
-      user.expiry && new Date(user.expiry).getTime() > 0
-        ? user.expiry
-        : ""
+      user.expiry && new Date(user.expiry).getTime() > 0 ? user.expiry : ""
     );
 
     setIsSubscriptionActive(

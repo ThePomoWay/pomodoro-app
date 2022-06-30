@@ -28,7 +28,7 @@
 
 .modal-container {
   position: relative;
-  width: 60vw;
+  width: 45vw;
   max-height: 68vh;
   background-color: white;
   outline: none;
@@ -49,6 +49,10 @@
     width: 84vw;
     max-height: 75vh;
     min-height: 75vh;
+  }
+
+  &.medium-modal {
+    width: 60vw;
   }
 
   .modal-content {

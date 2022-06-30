@@ -182,4 +182,7 @@ export const dark = {
   "--feature-text-color": "white",
   "--analysis-hover": "#2a2c34",
   "--bg-focus-mode-tracking": "#131313",
+  "--shrink-icon": "#1E1E27",
+
+  "--block-btn-color": "#dc5d5d",
 };

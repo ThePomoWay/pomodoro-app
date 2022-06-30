@@ -141,9 +141,7 @@ export default function WebsiteBlocker() {
               {timeTrackingObj.map((item, index) => (
                 <div
                   key={"stats-block" + index}
-                  className={`${styles["legend-item"]} ${
-                    item.host in blockedHostsObj && styles["blocked-bg"]
-                  }`}
+                  className={`${styles["legend-item"]}`}
                 >
                   <div className={styles["left"]}>
                     <img
@@ -179,7 +177,7 @@ export default function WebsiteBlocker() {
 
                     {item.host in blockedHostsObj && (
                       <span
-                        className={styles["button"]}
+                        className={`${styles["button"]} ${styles["unblock"]}`}
                         onClick={(e) => {
                           removeSite(item);
                         }}
@@ -227,10 +225,7 @@ export default function WebsiteBlocker() {
           </div>
           <div className={styles["blocked-sites"]}>
             {blockedWebsites.map((item, index) => (
-              <div
-                className={styles["blocked-site"] + " " + styles["blocked-bg"]}
-                key={"blocked-" + index}
-              >
+              <div className={styles["legend-item"]} key={"blocked-" + index}>
                 <div className={styles["left"]}>
                   <img
                     src={
@@ -241,7 +236,7 @@ export default function WebsiteBlocker() {
                   {item.host}
                 </div>
                 <button
-                  className={styles["button"]}
+                  className={`${styles["button"]} ${styles["unblock"]}`}
                   onClick={(e) => removeSite(item)}
                 >
                   UNBLOCK
