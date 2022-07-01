@@ -46,14 +46,14 @@ export function getMinsDiff(a, b) {
 }
 
 export function getHourText(hour) {
-  let st = "AM";
+  let st = " AM";
   if (hour > 11) {
     if (hour > 12) {
       hour %= 12;
     }
-    st = "PM";
+    st = " PM";
   }
-  return hour + ":00" + st;
+  return hour + "-" + (((hour + 1)%13) || "1") + st;
 }
 
 export function getPreviousMonday(date = new Date()) {

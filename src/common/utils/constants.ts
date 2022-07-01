@@ -17,7 +17,7 @@ export const SUBSCRIPTION_STATUS_UNPAID = "unpaid";
 export const SUBSCRIPTION_STATUS_PAST_DUE = "past_due";
 export const SUBSCRIPTION_STATUS_CANCELED = "canceled";
 
-export const FREE_PROJECT_COUNT = 4;
+export const FREE_PROJECT_COUNT = 2;
 export const FREE_LABEL_COUNT = 4;
 export const FREE_BLOCK_SITE_COUNT = 4;
 
