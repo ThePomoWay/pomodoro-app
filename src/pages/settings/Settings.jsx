@@ -2,7 +2,7 @@ import { SettingsSideNav } from "../../common/components/settings-side-nav/Setti
 import styles from "./Settings.module.scss";
 
 import { Modal } from "@mui/material";
-import { ClockSettingsModal } from "../../common/components/clock-settings-modal/ClockSettingsModal";
+import { ClockSettings } from "../../common/components/clock-setting/ClockSettings";
 import { PaymentSettings } from "../../common/components/payment-settings/PaymentSettings";
 import { ProfileSettings } from "../../common/components/profile-settings/ProfileSettings";
 
@@ -39,7 +39,7 @@ export default function Settings(props) {
             </div>
             <div className={styles["settings"]}>
               {tab === 0 && <ProfileSettings />}
-              {tab === 1 && <ClockSettingsModal />}
+              {tab === 1 && <ClockSettings />}
               {tab === 2 && <PaymentSettings />}
             </div>
           </div>

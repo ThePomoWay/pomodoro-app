@@ -52,6 +52,7 @@ export const initialGlobalState = {
     type: "success",
     data: {},
   },
+  clockModalState: false,
 };
 
 export let globalReducer = {
@@ -172,5 +173,11 @@ export let globalReducer = {
       type: "",
       data: {},
     };
+  },
+  showClockSettingsModal: (state, action) => {
+    state.clockModalState = true;
+  },
+  hideClockSettingsModal: (state, action) => {
+    state.clockModalState = false;
   },
 };

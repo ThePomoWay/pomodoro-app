@@ -13,8 +13,6 @@ export function DailyStats(props) {
   let cPomos = useSelector(selectCompletedPomos);
   let defaults = useSelector(selectDefaultTimes);
 
-  cPomos = 1;
-
   let ePomos = 0;
   for (let task of todaysTasks) {
     if (task.cpomo < task.epomo) {
@@ -26,7 +24,7 @@ export function DailyStats(props) {
     <div className={styles["completed-pomos"]}>
       {(ePomos === 0 && cPomos === 0 && (
         <span style={{ marginLeft: "6px" }}>
-          You haven't added estimates yet.
+          Add estimates to plan time better.
         </span>
       )) || (
         <div className="flex" style={{ width: "100%" }}>
@@ -51,9 +49,9 @@ export function DailyStats(props) {
               ))}
           </div>
 
-          {ePomos > 0 && (
+          {cPomos > 0 && (
             <div className={styles["apprx-time"]}>
-              ~{getTimeText((ePomos * defaults.defaultWorkTime) / 60)}
+              {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}
             </div>
           )}
         </div>

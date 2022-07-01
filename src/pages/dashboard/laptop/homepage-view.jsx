@@ -1,3 +1,4 @@
+import { SettingsApplicationsOutlined } from "@material-ui/icons";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
@@ -8,7 +9,11 @@ import {
   getTab,
   TAB_POMODORO,
 } from "../../../common/components/timer/timer-utils";
-import { setIsTimerFullScreen } from "../../../common/state/slice/GlobalSlice";
+import {
+  setIsTimerFullScreen,
+  setSettingsModal,
+  showClockSettingsModal,
+} from "../../../common/state/slice/GlobalSlice";
 import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
 import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
 import { MaximizeIcon } from "../../../common/svgs/MaximizeIcon";
@@ -18,6 +23,9 @@ import OnBoarding from "../../onboarding/Onboarding";
 import Settings from "../../settings/Settings";
 import useHomepage from "../HomePage-hook";
 import styles from "./homepage-laptop.module.scss";
+
+import { ReactComponent as SettingsIcon } from "../../../common/svgs/SettingsIcon.svg";
+import ClockSettingsModal from "../../../common/components/clock-settings-modal/ClockSettingsModal";
 
 export function HomepageLaptop() {
   let {
@@ -33,6 +41,10 @@ export function HomepageLaptop() {
 
   let doFullScreen = () => {
     dispatch(setIsTimerFullScreen(true));
+  };
+
+  let openSettingsModal = () => {
+    dispatch(showClockSettingsModal());
   };
 
   let onPause = () => {
@@ -55,6 +67,7 @@ export function HomepageLaptop() {
     <div className={styles["container"]}>
       <OnBoarding />
       <Settings />
+      <ClockSettingsModal />
       <Navbar selected="0"></Navbar>
       <div
         className={`${styles["main-content"]} ${
@@ -71,9 +84,14 @@ export function HomepageLaptop() {
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
           {!isTimerFullScreen && (
-            <div className={styles["maximize-icon"]}>
-              <MaximizeIcon onClick={doFullScreen} />
-            </div>
+            <>
+              <div className={styles["maximize-icon"]}>
+                <MaximizeIcon onClick={doFullScreen} />
+              </div>
+              <div className={styles["settings-icon"]}>
+                <SettingsIcon onClick={openSettingsModal} />
+              </div>
+            </>
           )}
           <div className={`${styles["timer"]}`}>
             <Timer

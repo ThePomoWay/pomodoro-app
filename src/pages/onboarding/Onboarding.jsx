@@ -58,7 +58,9 @@ export default function OnBoarding(props) {
     >
       <div
         className={
-          isMobileDevice ? "modal-container-mobile" : "modal-container"
+          isMobileDevice
+            ? "modal-container-mobile"
+            : "modal-container medium-modal"
         }
       >
         <div className="modal-content">

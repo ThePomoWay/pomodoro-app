@@ -65,9 +65,9 @@ export function LandingPage(props) {
           <div className={styles["main-circle"]}>
             <div className={styles["circle-2"]}>
               <div className={styles["text"]}>25:00</div>
-              <div className={styles["play"]}>
+              {/* <div className={styles["play"]}>
                 <PlaySvg />
-              </div>
+              </div> */}
             </div>
             <div className={styles["purple-rect"]}></div>
             <span className={styles["tp-circle-1"]}>
@@ -115,9 +115,9 @@ export function LandingPage(props) {
               svg={<Clock />}
             />
             <FeatureCard
-              text={"Block Distractions"}
+              text={"Win Awards "}
               desc={
-                "Block distracting websites during your focused work sessions."
+                "Challenge yourself and win awards by taking part in our monthly and weekly challenges!"
               }
               svg={<Gamification />}
             />

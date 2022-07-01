@@ -8,8 +8,9 @@ export default function SubscriptionInactive(props) {
       <div className={styles["title"]}>Upgrade to Premium</div>
       <div className={styles["hr"]}></div>
       <div className={styles["sub-title"]}>Features</div>
-      <PricingFeatures hideHeading={true} />
+
       <PricingCTAs />
+      <PricingFeatures hideHeading={true} />
     </div>
   );
 }

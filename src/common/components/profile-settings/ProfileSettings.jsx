@@ -30,8 +30,6 @@ const profileTransitionStyles = {
   exited: { transform: "translateX(-500px)", opacity: 0, position: "absolute" },
 };
 export function ProfileSettings(props) {
-  let [isModalOpen, setIsModalOpen] = useState(false);
-
   let user = useSelector(selectUserInfo);
   let [name, setName] = useState(user.name);
   let [email, setEmail] = useState(user.email);
@@ -44,13 +42,6 @@ export function ProfileSettings(props) {
 
     setEmail(user.email);
   }, [user]);
-
-  let openModal = () => {
-    setIsModalOpen(true);
-  };
-  let closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   let clearAll = () => {
     dispatch(clearAllData());

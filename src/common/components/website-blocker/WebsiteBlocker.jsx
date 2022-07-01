@@ -12,6 +12,7 @@ import {
   selectTimeTrackingObj,
 } from "../../state/selectors";
 import {
+  openOnboardingModal,
   setPricingModalState,
   showErrorToast,
 } from "../../state/slice/GlobalSlice";
@@ -30,6 +31,7 @@ import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
+import AuthService from "../../API/network/AuthService";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
@@ -65,32 +67,36 @@ export default function WebsiteBlocker() {
   }, [location]);
 
   const addSiteToBlockedSites = (siteInput) => {
-    if (!siteInput.startsWith("http")) {
-      siteInput = "https://" + siteInput;
-    }
-    try {
-      siteInput = siteInput.replace("www.", "");
-      let url = new URL(siteInput);
-      if (url.hostname in blockedHostsObj) {
-        dispatch(showErrorToast("Website already blocked"));
-      } else if (url.hostname.includes("timedojo.io")) {
-        dispatch(showErrorToast("Timedojo cannot be blocked"));
-      } else {
-        if (!isSubscriptionActive && blockedWebsites.length > 4) {
-          dispatch(setPricingModalState(true));
-        } else {
-          dispatch(
-            addBlockedSite({
-              url: url.href,
-              host: url.hostname,
-              origin: url.origin,
-            })
-          );
-          setSiteInput("");
-        }
+    if (!AuthService.isLoggedIn()) {
+      dispatch(openOnboardingModal());
+    } else {
+      if (!siteInput.startsWith("http")) {
+        siteInput = "https://" + siteInput;
       }
-    } catch (err) {
-      dispatch(showErrorToast("Please enter a valid URL"));
+      try {
+        siteInput = siteInput.replace("www.", "");
+        let url = new URL(siteInput);
+        if (url.hostname in blockedHostsObj) {
+          dispatch(showErrorToast("Website already blocked"));
+        } else if (url.hostname.includes("timedojo.io")) {
+          dispatch(showErrorToast("Timedojo cannot be blocked"));
+        } else {
+          if (!isSubscriptionActive && blockedWebsites.length > 4) {
+            dispatch(setPricingModalState(true));
+          } else {
+            dispatch(
+              addBlockedSite({
+                url: url.href,
+                host: url.hostname,
+                origin: url.origin,
+              })
+            );
+            setSiteInput("");
+          }
+        }
+      } catch (err) {
+        dispatch(showErrorToast("Please enter a valid URL"));
+      }
     }
   };
 
