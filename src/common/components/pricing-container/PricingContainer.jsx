@@ -10,8 +10,8 @@ import styles from "../pricing-modal/PricingModal.module.scss";
 export function PricingContainer(props) {
   return (
     <div className={styles["pricing-container"]}>
-      <PricingFeatures />
       <PricingCTAs />
+      <PricingFeatures />
     </div>
   );
 }

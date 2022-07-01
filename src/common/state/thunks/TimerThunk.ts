@@ -43,7 +43,11 @@ import {
   sendMessageToExtension,
   UPDATE_TIMER_ACTION,
 } from "../../utils/extension-utils";
-import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
+import {
+  playAlarmSound,
+  playTickSound,
+  playTimerStartSound,
+} from "../../utils/sound-utils";
 import {
   ACTIONS_ADD_TIME,
   askPermission,
@@ -279,6 +283,8 @@ export let tickAsync = createAsyncThunk(
     let userPreference = getState()["global"].userPreferences;
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
+
+    playTickSound();
 
     // if (timerState.pomoState === POMO_RUNNING_STATE) {
     //   let curTaskId = taskState.currentTaskRef;

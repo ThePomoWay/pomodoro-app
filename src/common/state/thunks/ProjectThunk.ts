@@ -70,15 +70,19 @@ export const createProjectAsync = createAsyncThunk(
         dispatch(setProjectModalState(false));
 
         if (obj.project.title !== "Inbox") {
-          dispatch(addToFreeProjects({
-            _id: response.data.pid,
-            title: obj.project.title,
-            createdOn: new Date()
-          }))
+          dispatch(
+            addToFreeProjects({
+              _id: response.data.pid,
+              title: obj.project.title,
+              createdOn: new Date(),
+            })
+          );
         }
 
         if (obj.redirect) {
-          window.location.href = "/all/project/" + response.data.pid;
+          setTimeout(() => {
+            window.location.href = "/all/project/" + response.data.pid;
+          }, 1000);
         }
       }
 
@@ -217,8 +221,8 @@ export const deleteProjectAsync = createAsyncThunk(
       if (value._id !== project._id) {
         projectsArr.push({
           _id: value._id,
-          createdOn: value.createdOn
-        })
+          createdOn: value.createdOn,
+        });
       }
     }
 
@@ -314,7 +318,7 @@ export const getAllProjects = createAsyncThunk(
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
     dispatch(setAllProjects(response));
-    dispatch(setFreeProjects(response))
+    dispatch(setFreeProjects(response));
   }
 );
 
@@ -342,4 +346,3 @@ export const deleteSectionAsync = createAsyncThunk(
     }
   }
 );
-

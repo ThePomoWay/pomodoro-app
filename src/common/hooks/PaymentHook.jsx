@@ -5,6 +5,7 @@ import {
   SUBSCRIPTION_STATUS_ACTIVE,
   SUBSCRIPTION_STATUS_INACTIVE,
 } from "../utils/constants";
+import { getReadableDate } from "../utils/date-utils";
 
 export function usePaymentStatus() {
   let user = useSelector(selectUserInfo);
@@ -18,7 +19,9 @@ export function usePaymentStatus() {
         SUBSCRIPTION_STATUS_INACTIVE
     );
     setPlanExpiry(
-      user.expiry && new Date(user.expiry).getTime() > 0 ? user.expiry : ""
+      user.expiry && new Date(user.expiry).getTime() > 0
+        ? getReadableDate(user.expiry)
+        : ""
     );
 
     setIsSubscriptionActive(

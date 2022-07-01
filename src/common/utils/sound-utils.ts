@@ -4,6 +4,7 @@ let currentAudioObj: any;
 const completeTaskAudioUrl = "/sounds/complete-task-2-cropped.wav";
 const alarmAudioUrl = "/sounds/end-timer.mp3";
 const timerStartAudioUrl = "/sounds/start-timer.mp3";
+const tickAudioUrl = "/sounds/tick.mp3";
 
 function resetSoundPlayerTimeout() {
   soundPlayerTimeout = 0;
@@ -43,4 +44,8 @@ export function playTimerStartSound() {
 let completeTaskAudio = new Audio(completeTaskAudioUrl);
 export function playCompleteTaskSound() {
   playSound(new Audio(completeTaskAudioUrl), 1000, completeTaskAudioUrl);
+}
+
+export function playTickSound() {
+  playSound(new Audio(tickAudioUrl), 800, tickAudioUrl);
 }

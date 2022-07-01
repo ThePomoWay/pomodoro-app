@@ -76,7 +76,7 @@
 
   .table-header-item {
     padding: 6px 10px;
-    width: 136px;
+    min-width: 136px;
     background: rgba(0, 0, 0, 0.01);
     border: 1px solid rgba(18, 18, 18, 0.1);
     box-shadow: inset 0px 3px 9px rgba(153, 153, 153, 0.05);
@@ -99,20 +99,20 @@
   }
 
   .task-row {
-    background: var(--bg-theme);
-    border: 1.02119px solid #e0e3fc;
-    box-shadow: inset 0px 3.06356px 9.19068px rgba(153, 153, 153, 0.11);
-    border-radius: 2.04237px;
+    background: var(--bg-task-theme);
+    border: var(--task-border);
+
+    box-shadow: var(--task-box-shadow);
+    border-radius: 8px;
 
     padding: 6px 10px;
 
     .task-item {
-      width: 136px;
       flex: 1;
 
       font-weight: 450;
       font-size: 14px;
-      color: #a6a6a6;
+      color: var(--text-theme);
       text-align: center;
       padding: 10px;
     }

@@ -56,6 +56,7 @@ export function ProfileDropdown(props) {
             anchorEl={profileAnchorEl}
             onClose={onClose}
             position="bottom-left"
+            className="popper"
           >
             <div
               className="popper-container"

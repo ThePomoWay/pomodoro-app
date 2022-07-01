@@ -77,6 +77,7 @@ export default function CompletedTasks(props) {
         "_" +
         getReadableDate(payload.endDate).replace(/\s/g, "");
       let headerRow = [
+        "project",
         "title",
         "createdOn",
         "completedOn",
@@ -88,6 +89,7 @@ export default function CompletedTasks(props) {
       if (rows && rows.length >= 1) {
         rows.forEach(function (row) {
           let arr = [
+            row.values.readProject,
             row.values.title,
             '"' + row.values.readCreatedOn + '"',
             '"' + row.values.readCompletedOn + '"',
@@ -293,7 +295,7 @@ export default function CompletedTasks(props) {
                 </Popper>
               </div>
 
-              <div
+              {/* <div
                 className={styles["filter-item"]}
                 onClick={(e) => {
                   closeAllPopover();
@@ -321,7 +323,7 @@ export default function CompletedTasks(props) {
                     }}
                   />
                 </Popper>
-              </div>
+              </div> */}
             </div>
           </ClickAwayListener>
         </div>
