@@ -47,4 +47,9 @@
 
     padding: 8px 6px;
   }
+
+  .tag-row {
+    max-height: 202px;
+    overflow: scroll;
+  }
 }

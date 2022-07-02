@@ -36,7 +36,7 @@ export function TagsSidebar(props) {
   const getTags = useCallback(() => {
     if (tags.length > 0) {
       return (
-        <div>
+        <div className={styles["tag-row"]}>
           {tags.map((item) => (
             <Link key={`sidebar-${item.fid}`} to={`/all/labels/${item.fid}`}>
               <div

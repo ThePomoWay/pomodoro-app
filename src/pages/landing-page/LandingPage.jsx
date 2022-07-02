@@ -4,22 +4,22 @@ import styles from "./LandingPage.module.scss";
 
 import { useHistory } from "react-router-dom";
 
-import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 import { ReactComponent as Block } from "../../common/svgs/block-landing.svg";
-import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
-import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
 import { ReactComponent as Bookmark } from "../../common/svgs/bookmark.svg";
+import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
+import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
+import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 
-import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
-import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
-import { DotGrid } from "./DotGrid";
 import { useState } from "react";
+import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
+import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
+import { DotGrid } from "./DotGrid";
 
-import { faqs } from "./faq";
 import { useDispatch } from "react-redux";
+import Footer from "../../common/components/footer/footer";
 import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
-import { ReactComponent as PlaySvg } from "../../common/svgs/PlayLanding.svg";
 import { LANDING_PAGE_CLOSE } from "../../common/utils/constants";
+import { faqs } from "./faq";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -140,7 +140,7 @@ export function LandingPage(props) {
             proven Pomodoro technique to improve work quality & time management.
           </div>
 
-          <img src="/landing-img.png" className={styles["img"]} />
+          <img src="/ss.png" className={styles["img"]} />
         </div>
       </div>
 
@@ -440,6 +440,8 @@ export function LandingPage(props) {
           </div>
         </div>
       </div>
+
+      <Footer></Footer>
     </div>
   );
 }

@@ -1,71 +1,42 @@
-import { Lock } from "@material-ui/icons";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectCompletedPomos,
-  selectIfExtensionInstalled,
-  selectTodaysTasks,
-} from "../../state/selectors";
-import { updateFocusModeState } from "../../state/thunks/GlobalThunk";
-import "./footer.scss";
+import styles from "./footer.module.scss";
 
 export default function Footer() {
-  let todaysTasks = useSelector(selectTodaysTasks);
-  let cPomos = useSelector(selectCompletedPomos);
-
-  let ePomos = 0;
-  for (let task of todaysTasks) {
-    ePomos += task.estimatedPomos;
-  }
-
-  let dispatch = useDispatch();
-
-  let isExtensionInstalled = useSelector(selectIfExtensionInstalled);
-
-  let [focusModeState, setFocusModeState] = useState(isExtensionInstalled);
-
-  useEffect(() => {
-    if (focusModeState !== isExtensionInstalled) {
-      setFocusModeState(isExtensionInstalled);
-    }
-  }, [isExtensionInstalled]);
-
-  const onFocusModeClick = useCallback(() => {
-    dispatch(updateFocusModeState(!focusModeState));
-    setFocusModeState(!focusModeState);
-  }, []);
-
   return (
-    <div className="footer-container">
-      <div className="footer">
-        {/* <div className="meeting">
-                    <span className="label">Upcoming meeting</span>
-                    <span className="box"> 4:00PM <span>Tech Review</span>
-                    </span>
-                </div> */}
-        <div className="completed-pomos">
-          <span className="completed-pomos-title">Today's Pomodoros: </span>
-          <div className="completed-pomos-circles">
-            {[...Array(cPomos)].map((item, index) => (
-              <div
-                key={`completed-pomo-${index}`}
-                className="round-border filled"
-              >
-                {index + 1}
-              </div>
-            ))}
-            {/* {ePomos > cPomos && [...Array(ePomos - cPomos)].map((item, index) => (<span key={`pending-pomo-${index}`} className="round-border"></span>))} */}
+    <div className={styles["footer-container"]}>
+      <div className={styles["first"]}>
+        <img className={styles["img"]} src="/logo/logo-title.svg" />
+        <p>Zenpanda Technologies Private Limited</p>
+
+        <p>Plot no. 12, Road no. 14, Sector 12, Navi Mumbai, Maharashtra, 🇮🇳</p>
+      </div>
+      <div className={styles["second"]}>
+        <a className={styles["link"]} href="/about-us">
+          About Us
+        </a>
+        <a className={styles["link"]} href="/sitemap.xml">
+          Sitemap
+        </a>
+        <a className={styles["link"]} href="mailto:feedback@timedojo.io">
+          Feedback
+        </a>
+        <a className={styles["link"]} href="/privacy-policy">
+          Privacy Policy
+        </a>
+      </div>
+      <div className={styles["third"]}>
+        <p className={styles["title"]}>Our Apps</p>
+        <div className={styles["extension"]}>
+          <img className="ext-img" src="/logo/logo-round.svg" />
+          <div>
+            <p className={styles["white"]}>Chome Extension</p>
+            <a
+              className={styles["link"]}
+              href="https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
+            >
+              Download Now
+            </a>
           </div>
         </div>
-        {/* <div className="focus-mode">
-                    <span>Focus Mode</span>
-                    <label className="switch">
-                        <input type="checkbox" onChange={(e) => onFocusModeClick()} defaultChecked={focusModeState} />
-                        <span className="slider round">
-                            
-                        </span>
-                    </label>
-                </div> */}
       </div>
     </div>
   );

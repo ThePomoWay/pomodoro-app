@@ -39,6 +39,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    max-height: 204px;
+    overflow: scroll;
   }
   .sidebar-row {
     display: flex;
