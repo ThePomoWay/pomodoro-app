@@ -9,10 +9,6 @@ export default function Homepage() {
     query: "(max-device-width: 899px)",
   });
 
-  const isDesktop = useMediaQuery({
-    query: "(min-device-width: 900px)",
-  });
-
   if (navigator.userAgent === "ReactSnap") {
     return <div></div>;
   }

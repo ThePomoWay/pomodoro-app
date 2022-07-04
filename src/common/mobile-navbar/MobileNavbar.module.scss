@@ -1,0 +1,19 @@
+.nav {
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  width: 100vw;
+
+  background-color: #ffffff;
+
+  padding: 10px 20px;
+  box-sizing: border-box;
+  justify-content: space-between;
+
+  .selected {
+    svg {
+      fill: purple;
+    }
+  }
+}

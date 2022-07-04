@@ -1,6 +1,6 @@
 import Navbar from "../../../common/components/navbar/Navbar";
-import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
 import Timer from "../../../common/components/timer/timer";
+import { LandingPageMobile } from "../../landing-page/mobile/LandingPageMobile";
 import OnBoarding from "../../onboarding/Onboarding";
 import useHomepage from "../HomePage-hook";
 import styles from "./homepage-mobile.module.scss";
@@ -14,8 +14,9 @@ export function HomepageMobile() {
         <div className={styles["timer"]}>
           <Timer hideBlur={true} />
         </div>
-        <TodaysTaskContainer />
+        {/* <TodaysTaskContainer /> */}
       </div>
+      <LandingPageMobile />
 
       <OnBoarding />
     </div>

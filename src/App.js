@@ -32,11 +32,17 @@ import PricingModal from "./common/components/pricing-modal/PricingModal";
 
 import { getIp } from "./common/API/network/SelfIpApi";
 import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
+import { useMediaQuery } from "react-responsive";
+import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
 
 function App() {
   let dispatch = useDispatch();
 
   dispatch(init());
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 899px)",
+  });
 
   // dispatch(showTransactionErrorModal());
 
@@ -81,23 +87,35 @@ function App() {
         <Route path="/manage">
           <WebsiteBlocker />
         </Route>
-        <Route path="/app">
-          <Homepage />
-        </Route>
+        {!isMobileDevice && (
+          <Route path="/app">
+            <Homepage />
+          </Route>
+        )}
+
         <Route path="/success">
           <PostTransactionHandler />
         </Route>
         <Route path="/failure">
           <PostTransactionHandler />
         </Route>
-        <Route exact path="/">
-          {!isLoggedIn && !isLandingPageVisited ? (
-            <LandingPage />
-          ) : (
+
+        {!isMobileDevice && (
+          <Route exact path="/">
+            {!isLoggedIn && !isLandingPageVisited ? (
+              <LandingPage />
+            ) : (
+              <Homepage />
+            )}
+            {/* <LandingPage /> */}
+          </Route>
+        )}
+
+        {isMobileDevice && (
+          <Route exact path="/">
             <Homepage />
-          )}
-          {/* <LandingPage /> */}
-        </Route>
+          </Route>
+        )}
 
         <Route path="">
           <NotFound />
@@ -105,8 +123,10 @@ function App() {
       </Switch>
       <Toast />
       <MultiTabAlertModal />
-      <TutorialModal />
+      {!isMobileDevice && <TutorialModal />}
       {!isExtensionPresent && <ExtensionModal />}
+
+      {isMobileDevice && <MobileNavbar />}
 
       <PricingModal />
       <TransactionModal />

@@ -1,6 +1,7 @@
 import { SkipNext } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import {
   selectDefaultTimes,
   selectFocusMode,
@@ -286,16 +287,9 @@ export default function Timer(props) {
 
   let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
 
-  let timerStyle = {
-    background:
-      "linear-gradient(0deg, " +
-      TIMER_BG_COLOR[tab] +
-      " 0%, #5468ce " +
-      percentComplete +
-      "%, white " +
-      (percentComplete + 1) +
-      "%, #C3C3C3 100%)",
-  };
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 899px)",
+  });
 
   const onFocusModeSwitch = (e) => {
     if (isExtensionPresent) {
@@ -443,7 +437,7 @@ export default function Timer(props) {
           </div>
         )} */}
 
-        {tab === "pomodoro" && (
+        {tab === "pomodoro" && !isMobileDevice && (
           <div className={styles["focus-mode"]}>
             <span>Focus Mode</span>
             <CustomSlider
