@@ -68,7 +68,7 @@ export default (props) => {
           >
             {props.tasks.map((item, index) => {
               if (!item) {
-                return <div></div>;
+                return <div key={"empty_" + index}></div>;
               }
               if (
                 props.isEditable &&
@@ -76,7 +76,7 @@ export default (props) => {
                 editableTask.fid === item.fid
               ) {
                 return (
-                  <div className={styles["edit-task-container"]}>
+                  <div className={styles["edit-task-container"]} key={item.fid}>
                     <EditTaskContainer
                       key={item.fid}
                       task={item}
