@@ -4,7 +4,7 @@ import { Pie } from "react-chartjs-2";
 import { getOriginFromUrl } from "../../utils/common";
 import { getTimeText } from "../../utils/date-utils";
 
-Chart.register(ArcElement, Tooltip, Legend);
+Chart.register(ArcElement, Tooltip);
 
 function PieChart(props) {
   let chartData = props.chartData;
@@ -25,11 +25,6 @@ function PieChart(props) {
       <Pie
         options={{
           responsive: true,
-          plugins: {
-            legend: {
-              position: "bottom",
-            },
-          },
         }}
         data={{
           datasets: [

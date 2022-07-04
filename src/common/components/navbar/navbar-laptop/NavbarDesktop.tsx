@@ -116,6 +116,10 @@ export default function NavbarDesktop(props) {
     dispatch(openOnboardingModal());
   };
 
+  let navigateToHome = () => {
+    history.push("/");
+  };
+
   let navigateTo = (item) => {
     if (item.to === manageFocus.to) {
       if (!isExtensionPresent) {
@@ -133,7 +137,7 @@ export default function NavbarDesktop(props) {
   return (
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
-        <span className={styles["app"]}>
+        <span className={styles["app"]} onClick={(e) => navigateToHome()}>
           <img src="/logo/logo-title.svg" />
         </span>
 
