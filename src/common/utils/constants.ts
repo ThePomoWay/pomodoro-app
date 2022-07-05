@@ -111,3 +111,5 @@ export const CURRENCY_MAP = {
   usd: "$",
   inr: "₹",
 };
+
+export const DESKTOP_PROMOTION_KEY = "DektopPromotion";

@@ -34,6 +34,8 @@ import { getIp } from "./common/API/network/SelfIpApi";
 import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
 import { useMediaQuery } from "react-responsive";
 import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
+import { SettingsMobile } from "./pages/settings-mobile/SettingsMobile";
+import { DesktopPromotion } from "./common/components/desktop-promotion/DesktopPromotion";
 
 function App() {
   let dispatch = useDispatch();
@@ -75,9 +77,17 @@ function App() {
         <Route exact path="/analysis">
           <AnalysisPage />
         </Route>
-        <Route path="/settings">
-          <Settings />
-        </Route>
+        {!isMobileDevice && (
+          <Route path="/settings">
+            <Settings />
+          </Route>
+        )}
+        {isMobileDevice && (
+          <Route path="/settings">
+            <SettingsMobile />
+          </Route>
+        )}
+
         <Route path="/privacy-policy">
           <PrivacyPolicy />
         </Route>
@@ -127,6 +137,8 @@ function App() {
       {!isExtensionPresent && <ExtensionModal />}
 
       {isMobileDevice && <MobileNavbar />}
+
+      {isMobileDevice && <DesktopPromotion />}
 
       <PricingModal />
       <TransactionModal />

@@ -9,7 +9,17 @@
 
   padding: 10px 20px;
   box-sizing: border-box;
-  justify-content: space-between;
+
+  .item {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
 
   .selected {
     svg {

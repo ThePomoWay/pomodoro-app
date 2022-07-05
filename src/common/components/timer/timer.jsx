@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import {
+  selectCompletedPomos,
   selectDefaultTimes,
   selectFocusMode,
   selectPomoState,
@@ -37,6 +38,7 @@ import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
 } from "../../utils/constants";
+import { getTimeText } from "../../utils/date-utils";
 import { isExtensionPresent } from "../../utils/extension-utils";
 import {
   CLEAR_INTERVAL,
@@ -73,6 +75,7 @@ export default function Timer(props) {
   let timerSec = useSelector(selectTimer);
   let timerString = getTimerString(timerSec);
   let defaults = useSelector(selectDefaultTimes);
+  let cPomos = useSelector(selectCompletedPomos);
 
   let focusModeState = useSelector(selectFocusMode);
 
@@ -447,6 +450,13 @@ export default function Timer(props) {
                 onFocusModeSwitch();
               }}
             />
+          </div>
+        )}
+
+        {isMobileDevice && (
+          <div className={styles["mobile-stats"]}>
+            Pomos: {cPomos} | Time:{" "}
+            {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}{" "}
           </div>
         )}
 

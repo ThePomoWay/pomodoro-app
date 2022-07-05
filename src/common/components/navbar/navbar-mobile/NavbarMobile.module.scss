@@ -8,6 +8,12 @@
   position: relative;
   box-sizing: border-box;
 
+  .app {
+    position: absolute;
+    left: 6px;
+    top: 4px;
+  }
+
   .title {
     margin-left: 6px;
     font-weight: 900;

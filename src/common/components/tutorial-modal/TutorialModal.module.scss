@@ -4,19 +4,13 @@
   display: flex;
   gap: 70px;
   .left {
-    width: 50%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     min-height: 55vh;
 
-    justify-content: space-between;
+    justify-content: center;
 
-    .title {
-      margin-bottom: 24px;
-      font-weight: 700;
-      font-size: 42px;
-      color: #121212;
-    }
     .description {
       margin-bottom: 54px;
       font-weight: 450;
@@ -41,10 +35,17 @@
   .right {
     width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .title {
+      font-weight: 700;
+      font-size: 42px;
+      color: #121212;
+    }
 
     .img {
-      width: 100%;
+      width: 80%;
     }
   }
 }

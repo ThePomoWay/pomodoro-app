@@ -267,6 +267,23 @@ $waterBColor: #5394d8;
 
     grid-column: 10 / 13;
   }
+  .mobile-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    justify-content: center;
+
+    font-weight: 500;
+    font-size: 18px;
+
+    position: relative;
+    left: 5vw;
+
+    .time {
+      position: relative;
+      left: 16px;
+    }
+  }
 }
 
 @keyframes wave-front {
