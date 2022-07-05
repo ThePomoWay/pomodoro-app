@@ -1,3 +1,4 @@
+import AuthService from "../../../common/API/network/AuthService";
 import Navbar from "../../../common/components/navbar/Navbar";
 import Timer from "../../../common/components/timer/timer";
 import { LandingPageMobile } from "../../landing-page/mobile/LandingPageMobile";
@@ -16,9 +17,13 @@ export function HomepageMobile() {
         </div>
         {/* <TodaysTaskContainer /> */}
       </div>
-      <LandingPageMobile />
+      {!AuthService.isLoggedIn() && (
+        <>
+          <LandingPageMobile />
 
-      <OnBoarding />
+          <OnBoarding />
+        </>
+      )}
     </div>
   );
 }

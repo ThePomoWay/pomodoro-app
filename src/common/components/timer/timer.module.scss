@@ -175,6 +175,10 @@ $waterBColor: #5394d8;
       font-size: 42px;
       line-height: 33px;
       z-index: 3;
+
+      @media only screen and (max-width: 899px) {
+        font-size: 48px;
+      }
     }
   }
   &-tabs {
@@ -242,6 +246,13 @@ $waterBColor: #5394d8;
       width: 28px;
       height: 28px;
     }
+
+    @media only screen and (max-width: 899px) {
+      svg {
+        width: 36px;
+        height: 36px;
+      }
+    }
   }
 
   .cta-2 {
@@ -269,16 +280,24 @@ $waterBColor: #5394d8;
   }
   .mobile-stats {
     display: flex;
-    gap: 16px;
+
     margin-top: 40px;
     justify-content: center;
 
     font-weight: 500;
     font-size: 18px;
 
-    position: relative;
-    left: 5vw;
-
+    .first {
+      padding: 0px 16px;
+      border-right: 1px solid black;
+      flex: 1;
+      justify-self: flex-end;
+      text-align: end;
+    }
+    .second {
+      padding: 0px 16px;
+      flex: 1;
+    }
     .time {
       position: relative;
       left: 16px;

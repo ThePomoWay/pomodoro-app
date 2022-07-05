@@ -2,6 +2,7 @@ import { SkipNext } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import AuthService from "../../API/network/AuthService";
 import {
   selectCompletedPomos,
   selectDefaultTimes,
@@ -318,6 +319,10 @@ export default function Timer(props) {
     setShowAlertModal("");
   };
 
+  let scrollPage = () => {
+    window.scroll(0, window.innerHeight);
+  };
+
   let radiusTime = getTotalTime(defaults, tab) / 2;
 
   let timerWidth = (timerElRef.current && timerElRef.current.offsetWidth) || 0;
@@ -455,8 +460,16 @@ export default function Timer(props) {
 
         {isMobileDevice && (
           <div className={styles["mobile-stats"]}>
-            Pomos: {cPomos} | Time:{" "}
-            {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}{" "}
+            <span className={styles["first"]}>Pomos: {cPomos}</span>
+            <span className={styles["second"]}>
+              Time: {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}
+            </span>
+          </div>
+        )}
+
+        {isMobileDevice && !AuthService.isLoggedIn() && (
+          <div className={styles["mobile-stats"]} onClick={scrollPage}>
+            Know More
           </div>
         )}
 
