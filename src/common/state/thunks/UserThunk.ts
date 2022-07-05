@@ -8,7 +8,7 @@ import { updateUserPrefLocal } from "./GlobalThunk";
 
 export let getUserAsync = createAsyncThunk(
   "user/get",
-  async (_, { dispatch, getState }) => {
+  async (_, { dispatch }) => {
     let response = await getUserApi(AuthService.getUserId());
     if (
       response &&
@@ -38,7 +38,7 @@ export let getUserAsync = createAsyncThunk(
       response.data.settings.clock &&
       response.data.settings.clock.defaultWorkTime !== 0
     ) {
-      dispatch(updateUserPrefLocal(response.data.settings.clock));
+      // dispatch(updateUserPrefLocal(response.data.settings.clock));
     }
     dispatch(setUser(response.data));
   }

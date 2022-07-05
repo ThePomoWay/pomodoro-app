@@ -150,3 +150,7 @@ export const selectFocusModeObj = (state) => state.blocker.focusTrackingObj;
 export const selectAllCompletedTasks = (state) => {
   return state.tasks.allCompletedTasks.tasks;
 };
+
+export const selectClockSettingsModal = (state) => state.global.clockModalState;
+
+export const selectAwardsModalState = (state) => state.awards.awardsModal;

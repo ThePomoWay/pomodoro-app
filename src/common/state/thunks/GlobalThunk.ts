@@ -86,7 +86,7 @@ export let hideFirstUserScreen = createAsyncThunk(
 
 export let updateFocusModeState = createAsyncThunk(
   "global/focusmode/enable",
-  (val, { dispatch }) => {
+  (val, {}) => {
     if (window && window.postMessage) {
       //@ts-ignore
       window.postMessage(
@@ -102,7 +102,7 @@ export let updateFocusModeState = createAsyncThunk(
 
 export const signin = createAsyncThunk(
   "global/signin",
-  async (obj: any, { dispatch }) => {
+  async (obj: any, {}) => {
     let response;
     let countryCode = await getIp();
     if (obj.mode === "google") {
@@ -119,23 +119,20 @@ export const signin = createAsyncThunk(
 
 export const clearAllData = createAsyncThunk(
   "global/deleteall",
-  async (_, { dispatch }) => {
+  async (_, {}) => {
     await clearIDB();
     window.location.reload();
   }
 );
 
-export const logout = createAsyncThunk(
-  "global/logout",
-  async (_, { dispatch }) => {
-    await clearIDB();
-    NetworkService.logout();
-  }
-);
+export const logout = createAsyncThunk("global/logout", async (_, {}) => {
+  await clearIDB();
+  NetworkService.logout();
+});
 
 export const extensionSyncAll = createAsyncThunk(
   "global/extension/sync",
-  async (_, { dispatch, getState }) => {
+  async (_, { getState }) => {
     let timerState = getState()["timer"];
     let userPreferences = getState()["global"].userPreferences;
 
@@ -152,7 +149,7 @@ export const extensionSyncAll = createAsyncThunk(
 
 export const focusModeToggle = createAsyncThunk(
   "global/focus/toggle",
-  async (value: any, { dispatch, getState }) => {
+  async (value: any, { dispatch }) => {
     localStorage.setItem(focusModeLSKey, value);
     dispatch(setFocusMode(value));
 

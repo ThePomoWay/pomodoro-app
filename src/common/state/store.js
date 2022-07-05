@@ -1,13 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { globalSlice } from './slice/GlobalSlice'; 
-import { projectSlice } from './slice/ProjectSlice'; 
-import { statsSlice } from './slice/StatsSlice'; 
-import { tagsSlice } from './slice/TagsSlice'; 
-import { tasksSlice } from './slice/TasksSlice'; 
-import { timerSlice } from './slice/TimerSlice'; 
-import { userSlice } from './slice/UserSlice'; 
-import { onboardingSlice } from './slice/OnboardingSlice'; 
-import { blockerSlice } from './slice/BlockerSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { globalSlice } from "./slice/GlobalSlice";
+import { projectSlice } from "./slice/ProjectSlice";
+import { statsSlice } from "./slice/StatsSlice";
+import { tagsSlice } from "./slice/TagsSlice";
+import { tasksSlice } from "./slice/TasksSlice";
+import { timerSlice } from "./slice/TimerSlice";
+import { userSlice } from "./slice/UserSlice";
+import { onboardingSlice } from "./slice/OnboardingSlice";
+import { blockerSlice } from "./slice/BlockerSlice";
+import { AwardSlice } from "./slice/AwardSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     stats: statsSlice.reducer,
     user: userSlice.reducer,
     onboarding: onboardingSlice.reducer,
-    blocker: blockerSlice.reducer
+    blocker: blockerSlice.reducer,
+    awards: AwardSlice.reducer,
   },
 });

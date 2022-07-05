@@ -50,6 +50,8 @@ export const initialGlobalState = {
     type: "success",
     data: {},
   },
+  clockModalState: false,
+  awardModalState: false,
 };
 
 export let globalReducer = {
