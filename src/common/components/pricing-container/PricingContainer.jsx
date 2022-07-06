@@ -10,8 +10,12 @@ import styles from "../pricing-modal/PricingModal.module.scss";
 export function PricingContainer(props) {
   return (
     <div className={styles["pricing-container"]}>
+      <div className={styles["heading"]}>
+        Bring more focus to your life with{" "}
+        <span className={styles["theme"]}>Premium</span>
+      </div>
       <PricingCTAs />
-      <PricingFeatures />
+      <PricingFeatures hideHeading={true} />
     </div>
   );
 }

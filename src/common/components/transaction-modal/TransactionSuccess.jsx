@@ -57,7 +57,9 @@ export function TransactionSuccess(props) {
           </div>
         </div>
       </div>
-      <button className="btn add-task-btn">GO TO INVOICE</button>
+      <button className="btn add-task-btn" onClick={props.handleClose}>
+        Close
+      </button>
     </div>
   );
 }

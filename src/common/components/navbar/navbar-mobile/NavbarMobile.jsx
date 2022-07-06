@@ -7,6 +7,7 @@ import { THEME_DARK } from "../../../utils/constants";
 import styles from "./NavbarMobile.module.scss";
 import { useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
+import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 
 export default function NavbarMobile(props) {
   let dispatch = useDispatch();
@@ -38,6 +39,12 @@ export default function NavbarMobile(props) {
           onClick={triggerOnboardingModal}
         >
           <PersonOutlineRounded />
+        </span>
+      )}
+
+      {AuthService.isLoggedIn() && (
+        <span className={styles["right-container"]}>
+          <ProfileDropdown />
         </span>
       )}
     </div>

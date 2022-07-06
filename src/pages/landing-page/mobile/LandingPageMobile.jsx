@@ -6,6 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { faqs } from "../faq";
 import { useState } from "react";
+import Footer from "../../../common/components/footer/footer";
 
 export function LandingPageMobile(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -25,6 +26,11 @@ export function LandingPageMobile(props) {
         </div>
         <div className={styles["problem-card"]}>
           Work-life balance seems to be a far away dream
+        </div>
+        <div className={styles["desc"]}>
+          Procrastination persists to be a challenge for most people, especially
+          in a remote work setup. Timedojo is here to redefine your productivity
+          game!
         </div>
       </div>
       <div className={styles["container"]}>
@@ -86,7 +92,7 @@ export function LandingPageMobile(props) {
       <div className={styles["container"]}>
         <div className={styles["desc"]}>Come Join our Tribe of Achievers!</div>
 
-        <Carousel>
+        <Carousel showStatus={false}>
           <div className={styles["testimonial"]}>
             <div className={styles["header"]}>
               <div className={styles["img"]}>
@@ -186,6 +192,8 @@ export function LandingPageMobile(props) {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

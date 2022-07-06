@@ -89,7 +89,10 @@ export function HomepageLaptop() {
                 <MaximizeIcon onClick={doFullScreen} />
               </div>
               <div className={styles["settings-icon"]}>
-                <SettingsIcon onClick={openSettingsModal} />
+                <SettingsIcon
+                  fill="rgb(134, 148, 201)"
+                  onClick={openSettingsModal}
+                />
               </div>
             </>
           )}

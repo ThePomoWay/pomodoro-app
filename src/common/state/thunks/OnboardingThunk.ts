@@ -25,12 +25,15 @@ export const register = createAsyncThunk(
   "global/register",
   async (obj: any, { dispatch, getState }) => {
     let state = getState()["onboarding"];
-    let countryCode = await getIp()
-    let response = await registerApi({
-      email: state.registerEmail,
-      name: obj.name,
-      password: obj.password
-    }, countryCode);
+    let countryCode = await getIp();
+    let response = await registerApi(
+      {
+        email: state.registerEmail,
+        name: obj.name,
+        password: obj.password,
+      },
+      countryCode
+    );
 
     if (response.data && response.data.uid) {
       AuthService.login(response.data);
@@ -41,7 +44,7 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "global/login",
   async (obj: any, { dispatch }) => {
-    let countryCode = await getIp()
+    let countryCode = await getIp();
     let response = await loginApi(obj, countryCode);
     if (response.status !== 200) {
       dispatch(
@@ -57,16 +60,18 @@ export const login = createAsyncThunk(
 export const registerCheck = createAsyncThunk(
   "onboarding/registerCheck",
   async (email: any, { dispatch }) => {
-    // replace with api call
-    let response = await registerCheckApi(email);
+    if (email) {
+      // replace with api call
+      let response = await registerCheckApi(email.toLowerCase());
 
-    if (response.data && response.data.uid) {
-      dispatch(setRegisterEmail(email));
-      dispatch(setLoginName(response.data.name));
-      dispatch(setStep(LOGIN_STEP));
-    } else {
-      dispatch(setRegisterEmail(email));
-      dispatch(setStep(REGISTER_STEP));
+      if (response.data && response.data.uid) {
+        dispatch(setRegisterEmail(email));
+        dispatch(setLoginName(response.data.name));
+        dispatch(setStep(LOGIN_STEP));
+      } else {
+        dispatch(setRegisterEmail(email));
+        dispatch(setStep(REGISTER_STEP));
+      }
     }
   }
 );

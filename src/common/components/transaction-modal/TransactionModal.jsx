@@ -37,9 +37,9 @@ export function TransactionModal(props) {
           <span className="close" onClick={(e) => handleClose()}>
             <CloseIcon />
           </span>
-          {(modalState.type === "success" && <TransactionSuccess />) || (
-            <TransactionFailure />
-          )}
+          {(modalState.type === "success" && (
+            <TransactionSuccess handleClose={handleClose} />
+          )) || <TransactionFailure />}
         </div>
       </div>
     </Modal>

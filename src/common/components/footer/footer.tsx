@@ -1,6 +1,10 @@
+import { useMediaQuery } from "react-responsive";
 import styles from "./footer.module.scss";
 
 export default function Footer() {
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 899px)",
+  });
   return (
     <div className={styles["footer-container"]}>
       <div className={styles["first"]}>
@@ -23,21 +27,24 @@ export default function Footer() {
           Privacy Policy
         </a>
       </div>
-      <div className={styles["third"]}>
-        <p className={styles["title"]}>Our Apps</p>
-        <div className={styles["extension"]}>
-          <img className="ext-img" src="/logo/logo-round.svg" />
-          <div>
-            <p className={styles["white"]}>Chome Extension</p>
-            <a
-              className={styles["link"]}
-              href="https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
-            >
-              Download Now
-            </a>
+
+      {!isMobileDevice && (
+        <div className={styles["third"]}>
+          <p className={styles["title"]}>Our Apps</p>
+          <div className={styles["extension"]}>
+            <img className="ext-img" src="/logo/logo-round.svg" />
+            <div>
+              <p className={styles["white"]}>Chome Extension</p>
+              <a
+                className={styles["link"]}
+                href="https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
+              >
+                Download Now
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

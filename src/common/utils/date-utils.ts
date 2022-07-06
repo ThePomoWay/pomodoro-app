@@ -142,7 +142,10 @@ export function getAnteMeridiemText(time = new Date()) {
   return `${hours}:${mins} ${st}`;
 }
 
-export function getReadableDate(time = new Date()) {
+export function getReadableDate(time) {
+  if (!time) {
+    time = new Date();
+  }
   const month = [
     "January",
     "February",

@@ -2,6 +2,10 @@
   width: 420px;
   position: relative;
 
+  @media only screen and (max-width: 899px) {
+    width: auto;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;

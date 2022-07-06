@@ -11,6 +11,10 @@ export function MobileNavbar() {
   let history = useHistory();
   let dispatch = useDispatch();
   let navigateTo = (link) => {
+    if (location.pathname === "/" && link === "/") {
+      window.scroll(0, 0);
+    }
+
     if (link === "/analysis" && !AuthService.isLoggedIn()) {
       dispatch(openOnboardingModal());
     } else {
