@@ -24,7 +24,7 @@ export function DailyStats(props) {
     <div className={styles["completed-pomos"]}>
       {(ePomos === 0 && cPomos === 0 && (
         <span style={{ marginLeft: "6px" }}>
-          Add estimates to plan time better.
+          List down tasks you want to work on day.
         </span>
       )) || (
         <div className="flex" style={{ width: "100%" }}>

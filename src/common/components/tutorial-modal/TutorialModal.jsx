@@ -70,7 +70,11 @@ export function TutorialModal(props) {
           </span>
           <div className={styles["container"]}>
             <div className={styles["left"]}>
-              <div className={styles["first"]}></div>
+              <div className={styles["first"]}>
+                <div className={styles["title"]}>
+                  {STEP_DETAILS[step].title}
+                </div>
+              </div>
 
               <div className={styles["second"]}>
                 <div className={styles["btn"]} onClick={(e) => nextStep()}>
@@ -87,7 +91,6 @@ export function TutorialModal(props) {
             </div>
 
             <div className={styles["right"]}>
-              <div className={styles["title"]}>{STEP_DETAILS[step].title}</div>
               <video
                 src={STEP_DETAILS[step].video}
                 className={styles["img"]}

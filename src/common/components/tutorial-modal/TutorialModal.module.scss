@@ -4,12 +4,17 @@
   display: flex;
   gap: 70px;
   .left {
-    width: 20%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     min-height: 55vh;
 
-    justify-content: center;
+    justify-content: space-between;
+    .title {
+      font-weight: 700;
+      font-size: 42px;
+      color: #121212;
+    }
 
     .description {
       margin-bottom: 54px;
@@ -37,12 +42,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-
-    .title {
-      font-weight: 700;
-      font-size: 42px;
-      color: #121212;
-    }
+    justify-content: center;
 
     .img {
       width: 80%;

@@ -63,7 +63,7 @@ export function TransactionFailure(props) {
         Something went wrong, Please try again.
       </div>
 
-      <button className="btn add-task-btn">Retry</button>
+      {/* <button className="btn add-task-btn">Retry</button> */}
     </div>
   );
 }

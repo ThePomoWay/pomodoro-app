@@ -81,7 +81,7 @@ export default function WebsiteBlocker() {
         } else if (url.hostname.includes("timedojo.io")) {
           dispatch(showErrorToast("Timedojo cannot be blocked"));
         } else {
-          if (!isSubscriptionActive && blockedWebsites.length > 4) {
+          if (!isSubscriptionActive && blockedWebsites.length > 3) {
             dispatch(setPricingModalState(true));
           } else {
             dispatch(
