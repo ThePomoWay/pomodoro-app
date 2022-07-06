@@ -34,20 +34,19 @@ export function MobileNavbar() {
 
       <div
         className={`${styles["item"]} ${
-          location.pathname === "/analysis" && styles["selected"]
-        }`}
-        onClick={() => navigateTo("/analysis")}
-      >
-        <BarChartOutlined />
-      </div>
-
-      <div
-        className={`${styles["item"]} ${
           location.pathname === "/settings" && styles["selected"]
         }`}
         onClick={() => navigateTo("/settings")}
       >
         <SettingsIcon />
+      </div>
+      <div
+        className={`${styles["item"]} ${
+          location.pathname === "/analysis" && styles["selected"]
+        }`}
+        onClick={() => navigateTo("/analysis")}
+      >
+        <BarChartOutlined />
       </div>
     </div>
   );
