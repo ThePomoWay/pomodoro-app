@@ -468,7 +468,7 @@ export default function Timer(props) {
         )}
 
         {isMobileDevice && !AuthService.isLoggedIn() && (
-          <div className={styles["mobile-stats"]} onClick={scrollPage}>
+          <div className={styles["know-more"]} onClick={scrollPage}>
             Know More
           </div>
         )}

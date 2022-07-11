@@ -178,4 +178,5 @@ export const light = {
   "--bg-focus-mode-tracking": "#f4f5fc",
   "--shrink-icon": "#ededff",
   "--block-btn-color": "#dc5d5d",
+  "--task-more-fill": "#9CA3CE",
 };

@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { deleteIDBTask } from "../../API/indexed-db-ops/crud";
 import {
   createIDBProject,
   deleteIDBproject,
@@ -15,29 +16,23 @@ import {
   updateProjectApi,
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
-import { getObjFromArr } from "../../utils/common";
 import { validateAPIResponse } from "../../utils/validators";
-import {
-  initialProjectsState,
-  projectReducer,
-} from "../reducers/ProjectReducer";
-import {
-  createProject,
-  deleteProject,
-  setAllProjects,
-  updateProject,
-  setFreeProjects,
-  addToFreeProjects,
-} from "../slice/ProjectSlice";
 import {
   setProjectModalState,
   setToast,
   showErrorToast,
   showSuccessToast,
 } from "../slice/GlobalSlice";
-import { createLocalTaskThunk, removeFromTodaysTaskLocal } from "./TasksThunk";
+import {
+  addToFreeProjects,
+  createProject,
+  deleteProject,
+  setAllProjects,
+  setFreeProjects,
+  updateProject,
+} from "../slice/ProjectSlice";
 import { deleteTask, removeFromCompletedTasks } from "../slice/TasksSlice";
-import { deleteIDBTask } from "../../API/indexed-db-ops/crud";
+import { removeFromTodaysTaskLocal } from "./TasksThunk";
 
 export const createLocalProjectAsync = createAsyncThunk(
   "create/project/local",
@@ -317,6 +312,8 @@ export const getAllProjects = createAsyncThunk(
   "get/project",
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
+
+    response = response.filter((item) => !item.isArchived);
     dispatch(setAllProjects(response));
     dispatch(setFreeProjects(response));
   }

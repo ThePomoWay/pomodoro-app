@@ -210,6 +210,7 @@ export default function CompletedTasks(props) {
       {
         Header: "Title",
         accessor: "title", // accessor is the "key" in the data
+        colSpan: 2,
       },
       {
         Header: "Created On",

@@ -278,6 +278,15 @@ $waterBColor: #5394d8;
 
     grid-column: 10 / 13;
   }
+
+  .know-more {
+    display: flex;
+    justify-content: center;
+    color: #7979e3;
+    margin-top: 40px;
+    font-size: 14px;
+    font-weight: 500;
+  }
   .mobile-stats {
     display: flex;
 

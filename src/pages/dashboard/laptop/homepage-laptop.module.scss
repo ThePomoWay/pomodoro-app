@@ -37,6 +37,14 @@
   transition: all 1s ease-in;
 
   position: relative;
+
+  .settings-icon-max {
+    position: absolute;
+    right: 190px;
+    top: 32px;
+    z-index: 1;
+    cursor: pointer;
+  }
   .shrink-icon {
     position: absolute;
     right: 90px;

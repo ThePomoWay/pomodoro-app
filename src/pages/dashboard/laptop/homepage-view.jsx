@@ -75,12 +75,20 @@ export function HomepageLaptop() {
         }`}
       >
         {isTimerFullScreen && (
-          <div
-            className={styles["shrink-icon"] + " delay"}
-            onClick={(e) => toggleFullScreen()}
-          >
-            <ShrinkIcon /> Minimize
-          </div>
+          <>
+            <div className={styles["settings-icon-max"] + " delay"}>
+              <SettingsIcon
+                fill="rgb(134, 148, 201)"
+                onClick={openSettingsModal}
+              />
+            </div>
+            <div
+              className={styles["shrink-icon"] + " delay"}
+              onClick={(e) => toggleFullScreen()}
+            >
+              <ShrinkIcon /> Minimize
+            </div>
+          </>
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
           {!isTimerFullScreen && (

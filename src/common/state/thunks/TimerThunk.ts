@@ -341,7 +341,13 @@ export let tickAsync = createAsyncThunk(
       dispatch(incrementCurTaskCsec());
 
       if (timerState.pomoState.includes("running")) {
-        document.title = getTimerString(timerSec) + " Left";
+        let postTitle = " - Work Mode";
+        if (timerState.pomoState === POMO_BREAK_RUNNING_STATE) {
+          postTitle = " - Short Break";
+        } else if (timerState.pomoState === POMO_LONG_BREAK_RUNNING_STATE) {
+          postTitle = " - Long Break";
+        }
+        document.title = getTimerString(timerSec) + postTitle;
       }
     }
   }

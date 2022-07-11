@@ -11,12 +11,12 @@ export default function Footer() {
         <img className={styles["img"]} src="/logo/logo-title.svg" />
         <p>Zenpanda Technologies Private Limited</p>
 
-        <p>Plot no. 12, Road no. 14, Sector 12, Navi Mumbai, Maharashtra, 🇮🇳</p>
+        <p>
+          Tower 1, Seawoods Railway Station 10th Floor, Sector 40, Navi Mumbai,
+          Maharashtra 400706, 🇮🇳
+        </p>
       </div>
       <div className={styles["second"]}>
-        <a className={styles["link"]} href="/about-us">
-          About Us
-        </a>
         <a className={styles["link"]} href="/sitemap.xml">
           Sitemap
         </a>

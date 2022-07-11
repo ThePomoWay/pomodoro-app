@@ -28,11 +28,20 @@ function PieChart(props) {
       <Pie
         options={{
           responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  return context.label + " " + context.raw + "%";
+                },
+              },
+            },
+          },
         }}
         data={{
           datasets: [
             {
-              data: chartData.map((item) => item.timeSpent / (1000 * 60)),
+              data: chartData.map((item) => item.percent),
               backgroundColor: [
                 "#003f5c",
                 "#374c80",

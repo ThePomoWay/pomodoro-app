@@ -362,8 +362,29 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
 
       dispatch(markTaskAsCompleteLocal(obj));
 
-      let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
+      let taskState = getState()["tasks"];
+      let timerState = getState()["timer"];
+      let summary = window.structuredClone(timerState.pomoSummary);
+
+      let todaysTasksObj = getObjFromArr(taskState.todaysTasks);
+
       if (obj.task._id) {
+        if (
+          timerState.pomoState === POMO_RUNNING_STATE &&
+          taskState.currentTaskRef === obj.task.fid &&
+          summary[taskState.currentTaskRef]
+        ) {
+          summary[taskState.currentTaskRef].csec += Math.round(
+            (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
+          );
+
+          summary[taskState.currentTaskRef].endTime = Date.now();
+
+          dispatch(setPomoSummary(summary));
+
+          dispatch(incrementTaskCpomos(summary));
+        }
+
         let completedTaskResponse = await markTaskAsCompleteApi(
           {
             project: obj.task.project,
