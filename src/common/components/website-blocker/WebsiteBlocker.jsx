@@ -25,13 +25,13 @@ import {
 } from "../../state/thunks/BlockerThunk";
 import { getObjFromArr } from "../../utils/common";
 
-import { getFormattedTime, getTimeText } from "../../utils/date-utils";
+import AuthService from "../../API/network/AuthService";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
+import { getFormattedTime } from "../../utils/date-utils";
 import { CustomSlider } from "../custom-slider/CustomSlider";
 import Navbar from "../navbar/Navbar";
 import PieChart from "../pie-chart/PieChart";
 import styles from "./WebsiteBlocker.module.scss";
-import { usePaymentStatus } from "../../hooks/PaymentHook";
-import AuthService from "../../API/network/AuthService";
 
 export default function WebsiteBlocker() {
   let dispatch = useDispatch();
@@ -147,7 +147,7 @@ export default function WebsiteBlocker() {
               {timeTrackingObj.map((item, index) => (
                 <div
                   key={"stats-block" + index}
-                  className={`${styles["legend-item"]}`}
+                  className={`${styles["legend-item"]} ${styles["red"]}`}
                 >
                   <div className={styles["left"]}>
                     <img

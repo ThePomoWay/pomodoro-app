@@ -161,6 +161,47 @@
       padding: 9px;
       align-items: center;
 
+      position: relative;
+
+      &:nth-child(1)::before {
+        background-color: #003f5c;
+      }
+
+      &:nth-child(2)::before {
+        background-color: #374c80;
+      }
+
+      &:nth-child(3)::before {
+        background-color: #7a5195;
+      }
+
+      &:nth-child(4)::before {
+        background-color: #bc5090;
+      }
+
+      &:nth-child(5)::before {
+        background-color: #ef5675;
+      }
+
+      &:nth-child(6)::before {
+        background-color: #ff764a;
+      }
+
+      &:nth-child(n + 6)::before {
+        background-color: #ffa600;
+      }
+
+      &:before {
+        content: "";
+        width: 6px;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border-bottom-left-radius: 3px;
+        border-top-left-radius: 3px;
+      }
+
       .url {
         color: var(--text-theme-3);
         font-weight: 400;

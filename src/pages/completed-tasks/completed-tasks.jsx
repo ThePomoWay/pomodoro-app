@@ -360,6 +360,7 @@ export default function CompletedTasks(props) {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className={styles["table-header-item"]}
+                  colSpan={column.colSpan || 1}
                 >
                   {column.render("Header")}
                   <span>
@@ -384,6 +385,7 @@ export default function CompletedTasks(props) {
                     <td
                       className={styles["task-item"]}
                       {...cell.getCellProps()}
+                      colSpan={cell.column.colSpan || 1}
                     >
                       {cell.render("Cell")}
                     </td>
