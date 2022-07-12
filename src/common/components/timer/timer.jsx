@@ -10,11 +10,15 @@ import {
   selectPomoState,
   selectTimer,
 } from "../../state/selectors";
-import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
+import {
+  setIsExtensionModalOpen,
+  showClockSettingsModal,
+} from "../../state/slice/GlobalSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
 } from "../../state/thunks/GlobalThunk";
+import { markTaskAsCurrent } from "../../state/thunks/TasksThunk";
 import {
   pauseTimerAsync,
   resetTimerAsync,
@@ -99,6 +103,7 @@ export default function Timer(props) {
   // }, []);
 
   const doStartTimer = () => {
+    dispatch(markTaskAsCurrent({}));
     dispatch(startTimerAsync());
 
     startInterval();
@@ -118,6 +123,7 @@ export default function Timer(props) {
   };
 
   const doResumeTimer = () => {
+    dispatch(markTaskAsCurrent({}));
     dispatch(resumeTimerAsync());
     // setTimeout(startInterval, 0);
     startInterval();
@@ -343,6 +349,10 @@ export default function Timer(props) {
 
   let transform = "translateY(-" + height / 2 + "px) translateX(-50%)";
 
+  let openSettingsModal = () => {
+    dispatch(showClockSettingsModal());
+  };
+
   return (
     <>
       <Alert
@@ -455,6 +465,10 @@ export default function Timer(props) {
                 onFocusModeSwitch();
               }}
             />
+            <span className={styles["settings"]} onClick={openSettingsModal}>
+              {" "}
+              Settings
+            </span>
           </div>
         )}
 

@@ -416,6 +416,7 @@ export const pauseTimerAsync = createAsyncThunk(
         pomoSummary[taskId].csec += Math.round(
           (Date.now() - pomoSummary[taskId].startTime) / 1000
         );
+        pomoSummary[taskId].endTime = Date.now();
       }
       summary.push({
         tid: taskState.tasks[taskId]._id,

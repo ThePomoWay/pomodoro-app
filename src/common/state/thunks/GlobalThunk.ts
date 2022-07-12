@@ -29,6 +29,7 @@ import {
   PROJECT_COMPLETED_TASK_HIDE,
   TODAYS_COMPLETED_TASK_HIDE,
   THEME_LIGHT,
+  VOLUME_KEY,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -105,7 +106,7 @@ export const signin = createAsyncThunk(
   "global/signin",
   async (obj: any, { dispatch }) => {
     let response;
-    let countryCode = await getIp()
+    let countryCode = await getIp();
     if (obj.mode === "google") {
       response = await googleLoginApi(obj.data, countryCode);
     } else if (obj.mode === "facebook") {
@@ -201,7 +202,17 @@ export const updateUserPref = createAsyncThunk(
 
     let updateObj = { ...userPreferences, ...obj };
 
-    let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });
+    if (obj.volume !== undefined) {
+      localStorage.setItem(VOLUME_KEY, obj.volume);
+    }
+
+    let resp = await updateUserApi({
+      ...user,
+      settings: {
+        clock: updateObj,
+        sound: { start: { volume: obj.volume || 100 } },
+      },
+    });
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));
@@ -255,7 +266,7 @@ export const getBillingConfiguration = createAsyncThunk(
       window.open(resp.data.url);
     }
   }
-)
+);
 
 export const buyProductThunk = createAsyncThunk(
   "global/buy/product",

@@ -21,7 +21,7 @@ export const FREE_PROJECT_COUNT = 2;
 export const FREE_LABEL_COUNT = 4;
 export const FREE_BLOCK_SITE_COUNT = 4;
 
-export let DEFAULT_WORK_TIME = 60 * 25;
+export let DEFAULT_WORK_TIME = 60 * 1;
 export let DEFAULT_BREAK_TIME = 60 * 5;
 export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
 
@@ -113,3 +113,5 @@ export const CURRENCY_MAP = {
 };
 
 export const DESKTOP_PROMOTION_KEY = "DektopPromotion";
+
+export const VOLUME_KEY = "SOUND_VOLUME";

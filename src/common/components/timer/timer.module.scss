@@ -277,6 +277,11 @@ $waterBColor: #5394d8;
     text-align: left;
 
     grid-column: 10 / 13;
+
+    .settings {
+      color: rgb(134, 148, 201);
+      cursor: pointer;
+    }
   }
 
   .know-more {

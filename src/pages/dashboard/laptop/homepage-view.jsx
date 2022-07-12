@@ -96,12 +96,12 @@ export function HomepageLaptop() {
               <div className={styles["maximize-icon"]}>
                 <MaximizeIcon onClick={doFullScreen} />
               </div>
-              <div className={styles["settings-icon"]}>
+              {/* <div className={styles["settings-icon"]}>
                 <SettingsIcon
                   fill="rgb(134, 148, 201)"
                   onClick={openSettingsModal}
                 />
-              </div>
+              </div> */}
             </>
           )}
           <div className={`${styles["timer"]}`}>

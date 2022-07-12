@@ -1,3 +1,5 @@
+import { VOLUME_KEY } from "./constants";
+
 let soundPlayerTimeout: any = 0;
 let currentAudioObj: any;
 
@@ -47,5 +49,13 @@ export function playCompleteTaskSound() {
 }
 
 export function playTickSound() {
-  playSound(new Audio(tickAudioUrl), 800, tickAudioUrl);
+  let volume: any = localStorage.getItem(VOLUME_KEY);
+  if (volume === undefined) {
+    volume = 100;
+  }
+
+  volume = Number(volume) / 100;
+  let aud = new Audio(tickAudioUrl);
+  aud.volume = volume;
+  playSound(aud, 800, tickAudioUrl);
 }

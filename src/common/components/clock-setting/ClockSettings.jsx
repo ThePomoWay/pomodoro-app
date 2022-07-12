@@ -8,6 +8,7 @@ import {
   pomoBreakMarks,
   pomoLongBreakMarks,
   pomoMarks,
+  volumeMarks,
 } from "./ClockSettingsConstants";
 import styles from "./ClockSettingsModal.module.scss";
 
@@ -33,6 +34,10 @@ export function ClockSettings(props) {
   let [longBreakTime, setLongBreakTime] = useState(
     defaultSettings.defaultLongBreakTime / 60
   );
+
+  let [volume, setVolume] = useState(
+    defaultSettings.volume === undefined ? 100 : defaultSettings.volume
+  );
   let [autoBreak, setAutoBreak] = useState(defaultSettings.autoplayBreak);
   let [autoPlay, setAutoPlay] = useState(defaultSettings.autoplayPomo);
 
@@ -42,6 +47,9 @@ export function ClockSettings(props) {
     setLongBreakTime(defaultSettings.defaultLongBreakTime / 60);
     setAutoPlay(defaultSettings.autoplayPomo);
     setAutoBreak(defaultSettings.autoplayBreak);
+    setVolume(
+      defaultSettings.volume === undefined ? 100 : defaultSettings.volume
+    );
   }, [defaultSettings]);
 
   let dispatch = useDispatch();
@@ -54,9 +62,22 @@ export function ClockSettings(props) {
         defaultLongBreakTime: longBreakTime * 60,
         autoplayPomo: autoPlay,
         autoplayBreak: autoBreak,
+        volume,
       })
     );
     props.handleClose && props.handleClose();
+  };
+
+  let onChangeVolume = (val) => {
+    let audio = new Audio("/sounds/tick.mp3");
+    audio.volume = val / 100;
+    audio.loop = false;
+    audio.play();
+    setTimeout(() => {
+      audio.pause();
+    }, 1000);
+
+    setVolume(val);
   };
 
   return (
@@ -135,6 +156,24 @@ export function ClockSettings(props) {
               min={15}
               max={30}
               onChange={(_, val) => setLongBreakTime(val)}
+              sx={sliderSx}
+            />
+          </div>
+        </div>
+
+        <div className={styles["slider-item"]}>
+          <span className={`font-info ${styles["slider-text"]}`}>
+            Sound Volume
+          </span>
+          <div className={styles["slider"]}>
+            <Slider
+              aria-label="Long Break Time"
+              value={volume}
+              valueLabelDisplay="off"
+              step={10}
+              min={0}
+              max={100}
+              onChange={(_, val) => onChangeVolume(val)}
               sx={sliderSx}
             />
           </div>

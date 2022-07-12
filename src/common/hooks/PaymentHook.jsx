@@ -9,7 +9,9 @@ import { getReadableDate } from "../utils/date-utils";
 
 export function usePaymentStatus() {
   let user = useSelector(selectUserInfo);
-  let [subStatus, setSubStatus] = useState(user.subscription.status);
+  let [subStatus, setSubStatus] = useState(
+    user && user.subscription && user.subscription.status
+  );
   let [planExpiry, setPlanExpiry] = useState(user.expiry);
   let [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 

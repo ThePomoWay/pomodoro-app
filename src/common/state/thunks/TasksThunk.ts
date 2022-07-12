@@ -189,7 +189,10 @@ export const markTaskAsCurrent = createAsyncThunk(
 
     if (fid) {
       if (timerState.pomoState === POMO_RUNNING_STATE) {
-        if (summary[taskState.currentTaskRef]) {
+        if (
+          summary[taskState.currentTaskRef] &&
+          !summary[taskState.currentTaskRef].endTime
+        ) {
           summary[taskState.currentTaskRef].csec += Math.round(
             (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
           );
