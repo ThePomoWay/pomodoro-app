@@ -5,7 +5,7 @@ export function CustomSlider(props) {
     <label className={`${styles["switch"]}`}>
       <input
         type="checkbox"
-        checked={props.value}
+        checked={props.value || false}
         onChange={(e) => {
           props.onChange && props.onChange(e);
         }}

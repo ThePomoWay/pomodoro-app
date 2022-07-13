@@ -130,8 +130,8 @@ export default function WebsiteBlocker() {
             </div>
           </div>
           <p className="font-normal">
-            Analyze time spent on sites and block distracting ones. We don't
-            save this data.
+            Analyze time spent today on sites and block distracting ones. We
+            don't save this data.
           </p>
         </div>
 

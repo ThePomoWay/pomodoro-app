@@ -12,6 +12,8 @@ import {
 } from "../../state/selectors";
 import {
   setIsExtensionModalOpen,
+  setSettingsModal,
+  setSettingsTab,
   showClockSettingsModal,
 } from "../../state/slice/GlobalSlice";
 import {
@@ -350,7 +352,8 @@ export default function Timer(props) {
   let transform = "translateY(-" + height / 2 + "px) translateX(-50%)";
 
   let openSettingsModal = () => {
-    dispatch(showClockSettingsModal());
+    dispatch(setSettingsModal(true));
+    dispatch(setSettingsTab(1));
   };
 
   return (

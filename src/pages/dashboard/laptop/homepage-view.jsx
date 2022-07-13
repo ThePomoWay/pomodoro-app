@@ -76,12 +76,12 @@ export function HomepageLaptop() {
       >
         {isTimerFullScreen && (
           <>
-            <div className={styles["settings-icon-max"] + " delay"}>
+            {/* <div className={styles["settings-icon-max"] + " delay"}>
               <SettingsIcon
                 fill="rgb(134, 148, 201)"
                 onClick={openSettingsModal}
               />
-            </div>
+            </div> */}
             <div
               className={styles["shrink-icon"] + " delay"}
               onClick={(e) => toggleFullScreen()}

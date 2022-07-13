@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUserPreferences } from "../../state/selectors";
 import { updateUserPref } from "../../state/thunks/GlobalThunk";
 import { CustomSlider } from "../custom-slider/CustomSlider";
+import { debounce } from "../timer/timer-utils";
 import {
   pomoBreakMarks,
   pomoLongBreakMarks,
@@ -24,6 +25,8 @@ const sliderSx = {
   },
 };
 
+let playing = false;
+
 export function ClockSettings(props) {
   let defaultSettings = useSelector(selectUserPreferences);
 
@@ -41,41 +44,46 @@ export function ClockSettings(props) {
   let [autoBreak, setAutoBreak] = useState(defaultSettings.autoplayBreak);
   let [autoPlay, setAutoPlay] = useState(defaultSettings.autoplayPomo);
 
-  useEffect(() => {
-    setWorkTime(defaultSettings.defaultWorkTime / 60);
-    setBreakTime(defaultSettings.defaultBreakTime / 60);
-    setLongBreakTime(defaultSettings.defaultLongBreakTime / 60);
-    setAutoPlay(defaultSettings.autoplayPomo);
-    setAutoBreak(defaultSettings.autoplayBreak);
-    setVolume(
-      defaultSettings.volume === undefined ? 100 : defaultSettings.volume
-    );
-  }, [defaultSettings]);
+  // useEffect(() => {
+  //   setWorkTime(defaultSettings.defaultWorkTime / 60);
+  //   setBreakTime(defaultSettings.defaultBreakTime / 60);
+  //   setLongBreakTime(defaultSettings.defaultLongBreakTime / 60);
+  //   setAutoPlay(defaultSettings.autoplayPomo);
+  //   setAutoBreak(defaultSettings.autoplayBreak);
+  //   setVolume(
+  //     defaultSettings.volume === undefined ? 100 : defaultSettings.volume
+  //   );
+  // }, [defaultSettings]);
 
   let dispatch = useDispatch();
 
-  let onSave = () => {
+  let onSave = (obj) => {
     dispatch(
       updateUserPref({
-        defaultWorkTime: workTime * 60,
-        defaultBreakTime: breakTime * 60,
-        defaultLongBreakTime: longBreakTime * 60,
-        autoplayPomo: autoPlay,
-        autoplayBreak: autoBreak,
-        volume,
+        ...defaultSettings,
+        ...obj,
       })
     );
-    props.handleClose && props.handleClose();
+
+    // props.handleClose && props.handleClose();
   };
 
   let onChangeVolume = (val) => {
     let audio = new Audio("/sounds/tick.mp3");
     audio.volume = val / 100;
     audio.loop = false;
-    audio.play();
-    setTimeout(() => {
-      audio.pause();
-    }, 1000);
+
+    if (!playing) {
+      playing = true;
+
+      audio.play();
+      setTimeout(() => {
+        audio.pause();
+        playing = false;
+      }, 1000);
+    }
+
+    onSave();
 
     setVolume(val);
   };
@@ -119,7 +127,12 @@ export function ClockSettings(props) {
               marks={pomoMarks}
               min={25}
               max={45}
-              onChange={(_, val) => setWorkTime(val)}
+              onChange={(_, val) => {
+                setWorkTime(val);
+                onSave({
+                  defaultWorkTime: val * 60,
+                });
+              }}
               sx={sliderSx}
             />
           </div>
@@ -137,7 +150,12 @@ export function ClockSettings(props) {
               marks={pomoBreakMarks}
               min={5}
               max={20}
-              onChange={(_, val) => setBreakTime(val)}
+              onChange={(_, val) => {
+                setBreakTime(val);
+                onSave({
+                  defaultBreakTime: val * 60,
+                });
+              }}
               sx={sliderSx}
             />
           </div>
@@ -155,7 +173,12 @@ export function ClockSettings(props) {
               marks={pomoLongBreakMarks}
               min={15}
               max={30}
-              onChange={(_, val) => setLongBreakTime(val)}
+              onChange={(_, val) => {
+                setLongBreakTime(val);
+                onSave({
+                  defaultLongBreakTime: val * 60,
+                });
+              }}
               sx={sliderSx}
             />
           </div>
@@ -173,7 +196,12 @@ export function ClockSettings(props) {
               step={10}
               min={0}
               max={100}
-              onChange={(_, val) => onChangeVolume(val)}
+              onChange={(_, val) => {
+                onChangeVolume(val);
+                onSave({
+                  volume: val,
+                });
+              }}
               sx={sliderSx}
             />
           </div>
@@ -183,7 +211,12 @@ export function ClockSettings(props) {
           <span className="font-info">Enable auto start pomodoro: </span>
           <CustomSlider
             value={autoPlay}
-            onChange={() => setAutoPlay(!autoPlay)}
+            onChange={() => {
+              setAutoPlay(!autoPlay);
+              onSave({
+                autoplayPomo: !autoPlay,
+              });
+            }}
           />
         </div>
         <div className={styles["checkbox"]}>
@@ -192,13 +225,16 @@ export function ClockSettings(props) {
             value={autoBreak}
             onChange={() => {
               setAutoBreak(!autoBreak);
+              onSave({
+                autoplayBreak: !autoBreak,
+              });
             }}
           />
         </div>
 
-        <button className="btn btn-save" onClick={onSave}>
+        {/* <button className="btn btn-save" onClick={onSave}>
           Save Settings
-        </button>
+        </button> */}
       </div>
     </>
 

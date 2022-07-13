@@ -20,7 +20,7 @@ export default function Footer() {
         <a className={styles["link"]} href="/sitemap.xml">
           Sitemap
         </a>
-        <a className={styles["link"]} href="mailto:feedback@timedojo.io">
+        <a className={styles["link"]} href="mailto:support@timedojo.io">
           Feedback
         </a>
         <a className={styles["link"]} href="/privacy-policy">

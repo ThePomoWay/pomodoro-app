@@ -10,7 +10,7 @@ import {
 import { setToast, showErrorToast } from "../../state/slice/GlobalSlice";
 import { selfIpEndpoint } from "./Endpoints";
 import { clearIDB } from "../indexed-db-ops/crud";
-import { themeLSKey } from "../../utils/constants";
+import { LANDING_PAGE_CLOSE, themeLSKey } from "../../utils/constants";
 
 function getQueryParamString(e, q) {
   let qString = Object.keys(q)
@@ -182,6 +182,7 @@ export class NetworkService {
         localStorage.removeItem(justLoggedInKey);
         localStorage.removeItem(offlineData);
         localStorage.removeItem(themeLSKey);
+        localStorage.removeItem(LANDING_PAGE_CLOSE);
         window.location.href = "/";
       })
       .catch(() => {

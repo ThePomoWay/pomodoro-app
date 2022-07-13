@@ -50,6 +50,7 @@ import {
 import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
 import { getIp } from "../../API/network/SelfIpApi";
+import { debounce } from "../../components/timer/timer-utils";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -206,13 +207,19 @@ export const updateUserPref = createAsyncThunk(
       localStorage.setItem(VOLUME_KEY, obj.volume);
     }
 
-    let resp = await updateUserApi({
-      ...user,
-      settings: {
-        clock: updateObj,
-        sound: { start: { volume: obj.volume || 100 } },
+    debounce(
+      "save_settings",
+      () => {
+        updateUserApi({
+          ...user,
+          settings: {
+            clock: updateObj,
+            sound: { start: { volume: obj.volume || 100 } },
+          },
+        });
       },
-    });
+      1000
+    );
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));

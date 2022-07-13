@@ -18,8 +18,6 @@ export function PricingCTAs(props) {
     dispatch(buyProductThunk(item));
   };
 
-  console.log(products);
-
   return (
     <div className={styles["pricing-ctas"]}>
       <p className={styles["text"]}>Choose your plan</p>
@@ -27,7 +25,8 @@ export function PricingCTAs(props) {
         {products.map((item) => (
           <div className={styles["product"]}>
             <div className={styles["name"]}>
-              {item.name || "monthly package"}
+              {(item.interval && item.interval + "ly package") ||
+                "Monthly Package"}
             </div>
             <div className={styles["price"]}>
               <span className={styles["currency"]}>

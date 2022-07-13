@@ -51,3 +51,15 @@ export function getTimerInSec(defaultTotalTime, pomoStartTime, psec, extraSec) {
 
   return Math.ceil(defaultTotalTime - diff + psec + extraSec);
 }
+let debounceObj = {};
+export function debounce(key, fn, time) {
+  if (debounceObj[key]) {
+    debounceObj[key] = fn;
+  } else {
+    debounceObj[key] = fn;
+    setTimeout(() => {
+      debounceObj[key]();
+      delete debounceObj[key];
+    }, time);
+  }
+}
