@@ -24,7 +24,7 @@ export function DailyStats(props) {
     <div className={styles["completed-pomos"]}>
       {(ePomos === 0 && cPomos === 0 && (
         <span style={{ marginLeft: "6px" }}>
-          You haven't added estimates yet.
+          List down tasks you want to work on day.
         </span>
       )) || (
         <div className="flex" style={{ width: "100%" }}>
@@ -49,9 +49,9 @@ export function DailyStats(props) {
               ))}
           </div>
 
-          {ePomos > 0 && (
+          {cPomos > 0 && (
             <div className={styles["apprx-time"]}>
-              ~{getTimeText((ePomos * defaults.defaultWorkTime) / 60)}
+              {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}
             </div>
           )}
         </div>

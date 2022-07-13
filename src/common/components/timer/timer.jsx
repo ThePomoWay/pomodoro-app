@@ -1,17 +1,24 @@
 import { SkipNext } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+import AuthService from "../../API/network/AuthService";
 import {
+  selectCompletedPomos,
   selectDefaultTimes,
   selectFocusMode,
   selectPomoState,
   selectTimer,
 } from "../../state/selectors";
-import { setIsExtensionModalOpen } from "../../state/slice/GlobalSlice";
+import {
+  setIsExtensionModalOpen,
+  showClockSettingsModal,
+} from "../../state/slice/GlobalSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
 } from "../../state/thunks/GlobalThunk";
+import { markTaskAsCurrent } from "../../state/thunks/TasksThunk";
 import {
   pauseTimerAsync,
   resetTimerAsync,
@@ -36,6 +43,7 @@ import {
   POMO_PAUSED_STATE,
   POMO_RUNNING_STATE,
 } from "../../utils/constants";
+import { getTimeText } from "../../utils/date-utils";
 import { isExtensionPresent } from "../../utils/extension-utils";
 import {
   CLEAR_INTERVAL,
@@ -72,6 +80,7 @@ export default function Timer(props) {
   let timerSec = useSelector(selectTimer);
   let timerString = getTimerString(timerSec);
   let defaults = useSelector(selectDefaultTimes);
+  let cPomos = useSelector(selectCompletedPomos);
 
   let focusModeState = useSelector(selectFocusMode);
 
@@ -94,6 +103,7 @@ export default function Timer(props) {
   // }, []);
 
   const doStartTimer = () => {
+    dispatch(markTaskAsCurrent({}));
     dispatch(startTimerAsync());
 
     startInterval();
@@ -113,6 +123,7 @@ export default function Timer(props) {
   };
 
   const doResumeTimer = () => {
+    dispatch(markTaskAsCurrent({}));
     dispatch(resumeTimerAsync());
     // setTimeout(startInterval, 0);
     startInterval();
@@ -286,16 +297,9 @@ export default function Timer(props) {
 
   let percentComplete = (timerSec / getTotalTime(defaults, tab)) * 100;
 
-  let timerStyle = {
-    background:
-      "linear-gradient(0deg, " +
-      TIMER_BG_COLOR[tab] +
-      " 0%, #5468ce " +
-      percentComplete +
-      "%, white " +
-      (percentComplete + 1) +
-      "%, #C3C3C3 100%)",
-  };
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 899px)",
+  });
 
   const onFocusModeSwitch = (e) => {
     if (isExtensionPresent) {
@@ -321,6 +325,10 @@ export default function Timer(props) {
     setShowAlertModal("");
   };
 
+  let scrollPage = () => {
+    window.scroll(0, window.innerHeight);
+  };
+
   let radiusTime = getTotalTime(defaults, tab) / 2;
 
   let timerWidth = (timerElRef.current && timerElRef.current.offsetWidth) || 0;
@@ -340,6 +348,10 @@ export default function Timer(props) {
     percentComplete >= 50 ? ((100 - percentComplete) / 50) * 15 + 20 : 30;
 
   let transform = "translateY(-" + height / 2 + "px) translateX(-50%)";
+
+  let openSettingsModal = () => {
+    dispatch(showClockSettingsModal());
+  };
 
   return (
     <>
@@ -443,7 +455,7 @@ export default function Timer(props) {
           </div>
         )} */}
 
-        {tab === "pomodoro" && (
+        {tab === "pomodoro" && !isMobileDevice && (
           <div className={styles["focus-mode"]}>
             <span>Focus Mode</span>
             <CustomSlider
@@ -453,6 +465,25 @@ export default function Timer(props) {
                 onFocusModeSwitch();
               }}
             />
+            <span className={styles["settings"]} onClick={openSettingsModal}>
+              {" "}
+              Settings
+            </span>
+          </div>
+        )}
+
+        {isMobileDevice && (
+          <div className={styles["mobile-stats"]}>
+            <span className={styles["first"]}>Pomos: {cPomos}</span>
+            <span className={styles["second"]}>
+              Time: {getTimeText((cPomos * defaults.defaultWorkTime) / 60)}
+            </span>
+          </div>
+        )}
+
+        {isMobileDevice && !AuthService.isLoggedIn() && (
+          <div className={styles["know-more"]} onClick={scrollPage}>
+            Know More
           </div>
         )}
 

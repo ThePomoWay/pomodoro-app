@@ -1,23 +1,24 @@
-import styles from "./navbarDesktop.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import styles from "./navbarDesktop.module.scss";
+
+import { selectTheme } from "../../../state/selectors";
+import { SunIcon } from "../../../svgs/SunIcon";
+import { THEME_DARK } from "../../../utils/constants";
+import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
+
 import {
   openOnboardingModal,
   setIsExtensionModalOpen,
 } from "../../../state/slice/GlobalSlice";
-import { selectUserInfo } from "../../../state/selectors";
-import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
-import { SunIcon } from "../../../svgs/SunIcon";
-import { ThemeDropdown } from "../../theme-dropdown/ThemeDropdown";
 import { isExtensionPresent } from "../../../utils/extension-utils";
 
 let navItems = [
   {
     icon: <SunIcon />,
     title: "Today's Tasks",
-    to: "/",
+    to: "/app",
   },
   {
     icon: (
@@ -109,7 +110,7 @@ export default function NavbarDesktop(props) {
   let isLoggedIn = AuthService.isLoggedIn();
   let dispatch = useDispatch();
 
-  let userInfo = useSelector(selectUserInfo);
+  let theme = useSelector(selectTheme);
   let history = useHistory();
 
   let onOpenOnboardingModal = () => {
@@ -137,8 +138,15 @@ export default function NavbarDesktop(props) {
   return (
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
-        <span className={styles["app"]} onClick={(e) => navigateToHome()}>
-          <img src="/logo/logo-title.svg" />
+        <span className={styles["app"]} onClick={navigateToHome}>
+          <img
+            src={
+              theme === THEME_DARK
+                ? "/logo/logo-dark.svg"
+                : "/logo/logo-title.svg"
+            }
+            alt="Logo"
+          />
         </span>
 
         <div className={styles["links"]}>

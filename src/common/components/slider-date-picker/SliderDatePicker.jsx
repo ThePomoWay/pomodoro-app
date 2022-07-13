@@ -19,7 +19,7 @@ export function SliderDatePicker(props) {
   return (
     <div className={styles["container"]}>
       <span
-        className={styles["icon"]}
+        className={styles["icon"] + " " + styles["left"]}
         onClick={(e) => sliderClick("decrement")}
       >
         <ArrowLeftOutlined />

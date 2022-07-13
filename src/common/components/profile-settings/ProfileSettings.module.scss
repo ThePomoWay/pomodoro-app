@@ -4,6 +4,8 @@
 .settings {
   transition: transform 0.5s ease-in-out, opacity 1s ease-in-out;
   width: 100%;
+
+  
   .account {
     margin-bottom: 12px;
   }
@@ -16,6 +18,7 @@
     margin-bottom: 12px;
     font-weight: 600;
     font-size: 14px;
+    color: var(--text-theme);
   }
   .profile {
     margin-bottom: 20px;
@@ -68,6 +71,10 @@
     .input {
       display: flex;
       gap: 6px;
+      input{
+      background-color: var(--edit-section-bg);
+      color: var(--text-theme);
+      }
     }
   }
 
@@ -75,6 +82,7 @@
     display: flex;
     flex-direction: column;
     width: 40%;
+    color: var(--text-theme);
     input {
       cursor: not-allowed;
     }

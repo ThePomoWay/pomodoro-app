@@ -384,11 +384,7 @@ export default function EditTaskContainer(props) {
                 }}
                 position="bottom-left"
               >
-                <ProjectSelector
-                  onChange={setProjectId}
-                  projectId={project.projectID}
-                  sectionId={project.secID}
-                />
+                <ProjectSelector onChange={setProjectId} project={project} />
               </Popper>
 
               <span

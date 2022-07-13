@@ -1,36 +1,38 @@
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { ArrowDownward } from "@material-ui/icons";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { useCallback, useState } from "react";
-import Navbar from "../../../common/components/navbar/Navbar";
-import { TabsComponent } from "../../../common/components/tabs-component/TabsComponent";
-import styles from "./analysis-laptop.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import AuthService from "../../../common/API/network/AuthService";
+import Navbar from "../../../common/components/navbar/Navbar";
+import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
+import { TabsComponent } from "../../../common/components/tabs-component/TabsComponent";
 import {
   selectOldStats,
   selectStats,
   selectUser,
 } from "../../../common/state/selectors/statsSelector";
+import { getStatsAsync } from "../../../common/state/thunks/StatsThunk";
+import { CompletedPomoSvg } from "../../../common/svgs/CompletedPomoSvg";
+import { CompletedPomoSvgDark } from "../../../common/svgs/CompletedPomoSvgDark";
+import { PauseStats } from "../../../common/svgs/PauseStats";
+import { Statistics } from "../../../common/svgs/Stats";
+import { Streak } from "../../../common/svgs/streak";
+import { TaskSvg } from "../../../common/svgs/TaskSvg";
+import { UndisturbedPomoSvg } from "../../../common/svgs/UndisturbedPomoSvg";
+import { months, THEME_LIGHT } from "../../../common/utils/constants";
 import {
   getNextSunday,
   getPreviousMonday,
   getTodaysDateFormatted,
   getWeekFormattedDate,
 } from "../../../common/utils/date-utils";
-import { getStatsAsync } from "../../../common/state/thunks/StatsThunk";
-import { Streak } from "../../../common/svgs/streak";
-import { Statistics } from "../../../common/svgs/Stats";
-import { CompletedPomoSvg } from "../../../common/svgs/CompletedPomoSvg";
-import { UndisturbedPomoSvg } from "../../../common/svgs/UndisturbedPomoSvg";
-import { TaskSvg } from "../../../common/svgs/TaskSvg";
-import { PauseStats } from "../../../common/svgs/PauseStats";
-import { Block } from "../../../common/svgs/Block";
-import OnBoarding from "../../onboarding/Onboarding";
-import { SliderDatePicker } from "../../../common/components/slider-date-picker/SliderDatePicker";
-import { months } from "../../../common/utils/constants";
-import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
-import AuthService from "../../../common/API/network/AuthService";
+import { AnalysisCharts, AnalysisBarCharts } from "../analysis-charts/AnalysisCharts";
+import styles from "./analysis-laptop.module.scss";
 
+import { usePaymentStatus } from "../../../common/hooks/PaymentHook";
+import { selectTheme } from "../../../common/state/selectors";
+import { UndisturbedPomoSvgDark } from "../../../common/svgs/UndisturbedPomoSvgDark";
 import Settings from "../../settings/Settings";
 
 const tabs = [
@@ -55,6 +57,10 @@ export function AnalysisLaptop(props) {
   let stats = useSelector(selectStats);
   let oldStats = useSelector(selectOldStats);
   let user = useSelector(selectUser);
+
+  let theme = useSelector(selectTheme);
+
+  let { isSubscriptionActive } = usePaymentStatus();
 
   let dispatch = useDispatch();
 
@@ -197,6 +203,7 @@ export function AnalysisLaptop(props) {
           <DatePicker
             label="Date"
             value={date}
+            variant="outlined"
             onChange={(newValue) => {
               setDate(newValue);
               callStatsApi(selectedTabIndex, newValue);
@@ -282,7 +289,10 @@ export function AnalysisLaptop(props) {
 
               <div className={styles["daily-pomodoro-stats"]}>
                 <div className={styles["completed-pomodoros"]}>
-                  <CompletedPomoSvg />
+                  {(theme === THEME_LIGHT && <CompletedPomoSvg />) || (
+                    <CompletedPomoSvgDark />
+                  )}
+
                   <div className={styles["completed-pomo-stats"]}>
                     <div className={`font-medium ${styles["num"]}`}>
                       {stats.p} {getDiffSvg(oldStats.p, stats.p)}{" "}
@@ -301,7 +311,10 @@ export function AnalysisLaptop(props) {
                   </div>
                 </div>
                 <div className={styles["undisturbed-pomos"]}>
-                  <UndisturbedPomoSvg />
+                  {(theme === THEME_LIGHT && <UndisturbedPomoSvg />) || (
+                    <UndisturbedPomoSvgDark />
+                  )}
+
                   <div className={styles["undisturbed-pomo-stats"]}>
                     <div className={`font-medium ${styles["num"]}`}>
                       {stats.p - stats.dp}
@@ -318,7 +331,7 @@ export function AnalysisLaptop(props) {
               <h2 className="font-sub-heading">Tasks</h2>
 
               <div className={styles["task-stats-container"]}>
-                <TaskSvg />
+                <TaskSvg className={styles["svg"]} />
                 <div className={styles["task-stats"]}>
                   <div className={styles["task-stats-count"]}>
                     <p className="font-medium">{stats.comp || 0}</p>
@@ -365,7 +378,7 @@ export function AnalysisLaptop(props) {
             <div className={styles["focused-time-container"]}>
               <h2 className="font-sub-heading">Most focused time of the day</h2>
               <div className="chart">
-                <AnalysisCharts chartsData={stats.dailyDistributionData} />
+                <AnalysisBarCharts chartsData={stats.dailyDistributionData} />
               </div>
             </div>
 

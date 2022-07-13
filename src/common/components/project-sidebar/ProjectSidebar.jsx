@@ -1,21 +1,17 @@
-import {
-  Add,
-  AddCircleOutlineOutlined,
-  HomeWorkOutlined,
-  WorkOutlined,
-  WorkOutlineOutlined,
-} from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch, Link, useParams } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import AuthService from "../../API/network/AuthService";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
 import {
   openOnboardingModal,
+  setPricingModalState,
   setProjectModalState,
 } from "../../state/slice/GlobalSlice";
-import { AccordionIcon } from "../../svgs/AccordionIcon";
 import { ProjectSidenavIcon } from "../../svgs/ProjectSidenavIcon";
+import { ReactComponent as Lock } from "../../svgs/lock.svg";
 
 import styles from "./projectSidebar.module.scss";
 
@@ -24,6 +20,8 @@ export default () => {
 
   let projectsObj = useSelector(selectProjectsObj);
   let projectsOrder = useSelector(selectProjectOrder);
+
+  let { isSubscriptionActive } = usePaymentStatus();
 
   let [projectExpanded, setProjectExpanded] = useState(true);
 
@@ -67,7 +65,11 @@ export default () => {
 
   const openNewProjectModal = useCallback(() => {
     if (AuthService.isLoggedIn()) {
-      dispatch(setProjectModalState(true));
+      if (projectsOrder.length > 5 && !isSubscriptionActive) {
+        dispatch(setPricingModalState(true));
+      } else {
+        dispatch(setProjectModalState(true));
+      }
     } else {
       dispatch(openOnboardingModal());
     }

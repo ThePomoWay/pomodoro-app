@@ -1,0 +1,200 @@
+.container {
+  width: 420px;
+  position: relative;
+
+  @media only screen and (max-width: 899px) {
+    width: auto;
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-right: auto;
+  margin-left: auto;
+
+  .ribbon-1 {
+    position: absolute;
+    right: 40px;
+    top: 10px;
+  }
+  .ribbon-2 {
+    position: absolute;
+    left: 40px;
+    top: 10px;
+  }
+  .ribbon-3 {
+    position: absolute;
+    left: 40px;
+    top: 200px;
+  }
+  .ribbon-4 {
+    position: absolute;
+    right: 90px;
+    top: 210px;
+  }
+
+  .title {
+    font-weight: 450;
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .title-theme {
+    font-size: 32px;
+    font-weight: 900;
+    color: #3e7fff;
+    margin-bottom: 20px;
+  }
+
+  .title-failure {
+    font-size: 32px;
+    font-weight: 900;
+    color: #ff5959;
+    margin-bottom: 20px;
+  }
+
+  .sub-text {
+    font-size: 12px;
+    color: #0d1930;
+    margin-bottom: 10px;
+  }
+
+  .sub-text-failure {
+    @extend .sub-text;
+    margin-bottom: 104px;
+  }
+
+  .circle-1 {
+    width: 136px;
+    height: 136px;
+    border-radius: 50%;
+    background: rgba(85, 207, 68, 0.2);
+
+    margin-top: 37px;
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    position: relative;
+
+    .circle-2 {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+
+      background: rgba(85, 207, 68, 0.6);
+      z-index: 1;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .circle-3 {
+        width: 81.6px;
+        height: 81.6px;
+        border-radius: 50%;
+        background: rgba(85, 207, 68, 1);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .rectangle {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 1.8px;
+
+    position: absolute;
+  }
+
+  .rectangle-1 {
+    @extend .rectangle;
+    background: #3e7fff;
+    transform: rotate(163deg);
+
+    right: 110px;
+    top: 42px;
+  }
+
+  .rectangle-2 {
+    @extend .rectangle;
+
+    background: #55af9a;
+    transform: rotate(133deg);
+    top: 200px;
+    right: 0px;
+  }
+
+  .dot-container {
+    position: absolute;
+
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+
+    .dot-row {
+      display: flex;
+      gap: 26px;
+    }
+
+    .dot {
+      width: 4.5px;
+      height: 4.5px;
+      background: #1466cf;
+      border-radius: 50%;
+    }
+  }
+
+  .dot-failure {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #d42032;
+  }
+
+  .dot-cross-container {
+    position: absolute;
+    left: 0px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    :nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 25px;
+    }
+  }
+
+  .dot-cross-container-2 {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    :nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 25px;
+    }
+  }
+}

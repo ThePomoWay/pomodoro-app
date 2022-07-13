@@ -1,9 +1,9 @@
 import { Person } from "@material-ui/icons";
 import styles from "./SettingsSideNav.module.scss";
-import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettingsTab } from "../../state/slice/GlobalSlice";
 import { selectSettingsTab } from "../../state/selectors";
+import { ReactComponent as PaymentIcon } from "../../svgs/SettingsPricing.svg";
 
 const tabs = [
   {
@@ -37,6 +37,11 @@ const tabs = [
     title: "Clock",
     link: "/settings/sound",
   },
+  {
+    icon: <PaymentIcon />,
+    title: "Payments",
+    link: "/settings/payments",
+  },
 
   // {
   //   icon: <MusicNote />,
@@ -46,7 +51,6 @@ const tabs = [
 ];
 
 export function SettingsSideNav(props) {
-  let path = window.location.pathname;
   let dispatch = useDispatch();
   let tab = useSelector(selectSettingsTab);
   let changeTab = (index) => {

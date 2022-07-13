@@ -68,6 +68,7 @@ import {
 } from "../../common/state/thunks/ProjectThunk";
 import Settings from "../settings/Settings";
 import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
+import CompletedTasks from "../completed-tasks/completed-tasks";
 
 export default () => {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -381,99 +382,105 @@ export default () => {
                 <Route path={`${path}/priority/:priority`}>
                   <PriorityContainer />
                 </Route>
+
+                <Route path={`${path}/completed-tasks`}>
+                  <CompletedTasks />
+                </Route>
               </Switch>
             </div>
-            <div className={styles["right-container"]}>
-              <div
-                className={`${styles["todays-task-container"]} ${
-                  todaysTaskOpen ? styles["open"] : styles["closed"]
-                }`}
-                style={{
-                  visibility: todaysTaskOpen ? "visible" : "hidden",
-                  width: todaysTaskOpen ? "25vw" : "100px",
-                }}
-              >
-                <div className={`${styles["todays-task-list"]}`}>
-                  <h2
-                    className={styles["title"]}
-                    onClick={(e) => setTodaysTaskOpen(false)}
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+            {window.location.pathname !== "/all/completed-tasks" && (
+              <div className={styles["right-container"]}>
+                <div
+                  className={`${styles["todays-task-container"]} ${
+                    todaysTaskOpen ? styles["open"] : styles["closed"]
+                  }`}
+                  style={{
+                    visibility: todaysTaskOpen ? "visible" : "hidden",
+                    width: todaysTaskOpen ? "25vw" : "100px",
+                  }}
+                >
+                  <div className={`${styles["todays-task-list"]}`}>
+                    <h2
+                      className={styles["title"]}
+                      onClick={(e) => setTodaysTaskOpen(false)}
                     >
-                      <path
-                        d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
-                        stroke="#3C50BE"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    Todays Tasks&nbsp;
-                    {ePomos > 0 && (
-                      <span className={styles["estimate-text"]}>
-                        ({ePomos} Pomos)
-                      </span>
-                    )}
-                    {ePomos > 0 && (
-                      <span className={styles["right"]}>
-                        {estimatedTimeLeft && (
-                          <span className={styles["estimate-text"]}>
-                            {estimatedTimeLeft}
-                          </span>
-                        )}
-                      </span>
-                    )}
-                  </h2>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.33333 13.334L10.6667 8.00065L5.33334 2.66732"
+                          stroke="#3C50BE"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      Todays Tasks&nbsp;
+                      {ePomos > 0 && (
+                        <span className={styles["estimate-text"]}>
+                          ({ePomos} Pomos)
+                        </span>
+                      )}
+                      {ePomos > 0 && (
+                        <span className={styles["right"]}>
+                          {estimatedTimeLeft && (
+                            <span className={styles["estimate-text"]}>
+                              {estimatedTimeLeft}
+                            </span>
+                          )}
+                        </span>
+                      )}
+                    </h2>
 
-                  {(todaystasks.length > 0 && (
-                    <DraggableTaskList
-                      hidePlay={true}
-                      tasks={todaystasks}
-                      showRemoveBtn={true}
-                      doRemoveTask={doRemoveTask}
-                      isEditable={false}
-                      dropId="id-1e"
-                      hideWorkingOn={true}
-                      variant={TASK_VARIANT_TODAYS}
-                    />
-                  )) || (
-                    <div className={styles["illustration"]}>
-                      <img src="/illustrations/empty-today-mini.svg" />
-                      <p className={styles["text-light"]}>
-                        Tap on the plus button in the tasks to add to today’s
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              {!todaysTaskOpen && (
-                <div className={styles["todays-task-btn"]}>
-                  <button
-                    className="btn btn-theme"
-                    onClick={(e) => setTodaysTaskOpen(true)}
-                  >
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8 2L4 6L8 10"
-                        stroke="#7586E3"
-                        strokeWidth="0.8"
-                        strokeLinecap="round"
+                    {(todaystasks.length > 0 && (
+                      <DraggableTaskList
+                        hidePlay={true}
+                        tasks={todaystasks}
+                        showRemoveBtn={true}
+                        doRemoveTask={doRemoveTask}
+                        isEditable={false}
+                        dropId="id-1e"
+                        hideWorkingOn={true}
+                        variant={TASK_VARIANT_TODAYS}
                       />
-                    </svg>
-                  </button>
+                    )) || (
+                      <div className={styles["illustration"]}>
+                        <img src="/illustrations/empty-today-mini.svg" />
+                        <p className={styles["text-light"]}>
+                          Tap on the plus button in the tasks to add to today’s
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
+                {!todaysTaskOpen && (
+                  <div className={styles["todays-task-btn"]}>
+                    <button
+                      className="btn btn-theme"
+                      onClick={(e) => setTodaysTaskOpen(true)}
+                    >
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8 2L4 6L8 10"
+                          stroke="#7586E3"
+                          strokeWidth="0.8"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </DragDropContext>
       </div>

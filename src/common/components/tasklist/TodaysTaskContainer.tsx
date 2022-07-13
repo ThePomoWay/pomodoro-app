@@ -31,21 +31,16 @@ import {
   toggleHideTodaysCompletedTasks,
 } from "../../state/thunks/GlobalThunk";
 import { useMediaQuery } from "react-responsive";
+import AuthService from "../../API/network/AuthService";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
 
+  let isLoggedIn = AuthService.isLoggedIn();
+
   let hideCompletedTasks = useSelector(selectHideTodaysCompletedTasks);
-
-  const isMobileDevice = useMediaQuery({
-    query: "(max-device-width: 1224px)",
-  });
-
-  let hideOnboardingScreen = useSelector(selectHideFirstUserScreen);
-
-  let editTaskRef = useSelector(selectEditTaskRef);
 
   let [moreAnchorEl, setMoreAnchorEl] = useState(null);
   let [showAlert, setShowAlert] = useState(false);
@@ -101,38 +96,6 @@ export function TodaysTaskContainer(props) {
     dispatch(toggleHideTodaysCompletedTasks());
   };
 
-  if (!hideOnboardingScreen && !isMobileDevice) {
-    return (
-      <div className={styles["empty-state"]}>
-        <h1 className={styles["welcome-title"]}>
-          <span>👋</span>
-          <span> Welcome to TimeDojo, an online Pomodoro Timer!</span>
-        </h1>
-        <div className={styles["create-task"]}>
-          <div className={styles["text-container"]}>
-            <span className={styles["text"]}>Create Tasks </span>
-            to do today and start the timer
-          </div>
-          <div>
-            <AddNewTask
-              isTodaysTask={true}
-              onToggle={hideFirstScreen}
-              onSave={props.onSave}
-            />
-          </div>
-        </div>
-        <div className={styles["timer"]}>
-          <div className={styles["or"]}>OR</div>
-          <div className={styles["timer-text"]}>Simply Start the timer</div>
-        </div>
-        <div className={styles["panda-illus"]}>
-          <img src="/panda-welcome.png" />
-        </div>
-
-        {/* <img src="/empty-tasks.png" alt="Empty tasks"/> */}
-      </div>
-    );
-  }
   return (
     <div className={styles["task-list"]}>
       <Alert
@@ -164,32 +127,36 @@ export function TodaysTaskContainer(props) {
                     <EditIconSvg /> Remove all tasks
                   </div>
                 )}
-                <div
-                  className="popper-item"
-                  onClick={(e) => toggleHideCompletedTasks()}
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+
+                {isLoggedIn && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => toggleHideCompletedTasks()}
                   >
-                    <circle
-                      cx="6"
-                      cy="6"
-                      r="4"
-                      stroke="#6A6F9A"
-                      strokeWidth="0.7"
-                    />
-                    <path
-                      d="M4.5 6L6 7.5L11 2.5"
-                      stroke="#6A6F9A"
-                      strokeWidth="0.7"
-                    />
-                  </svg>{" "}
-                  {hideCompletedTasks ? "Show" : "Hide"} completed tasks
-                </div>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="6"
+                        cy="6"
+                        r="4"
+                        stroke="#6A6F9A"
+                        strokeWidth="0.7"
+                      />
+                      <path
+                        d="M4.5 6L6 7.5L11 2.5"
+                        stroke="#6A6F9A"
+                        strokeWidth="0.7"
+                      />
+                    </svg>{" "}
+                    {hideCompletedTasks ? "Show" : "Hide"} completed tasks
+                  </div>
+                )}
+
                 {/* <div
                   className="popper-item"
                   onClick={(e) => {
@@ -230,10 +197,10 @@ export function TodaysTaskContainer(props) {
         {completedTasks.length === 0 && tasks.length === 0 && (
           <div className={styles["completed-illustration"]}>
             {/* <img src="/illustrations/empty-todays.svg" /> */}
-            <p className={styles["text"]}>
+            {/* <p className={styles["text"]}>
               Start your day by picking something from all tasks, or jot down
               tasks to be done today
-            </p>
+            </p> */}
           </div>
         )}
 

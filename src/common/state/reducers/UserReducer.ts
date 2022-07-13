@@ -1,13 +1,17 @@
-
 export const initialUserState = {
-    user: {},
-    loaded: false,
-    isLoggedIn: false
-}
+  user: {
+    subscription: {
+      status: "inactive",
+    },
+    expiry: "",
+  },
+  loaded: false,
+  isLoggedIn: false,
+};
 
 export const userReducer = {
-    setUser: (state, action) => {
-        state.user = action.payload;
-        state.loaded = true;
-    }
-}
+  setUser: (state, action) => {
+    state.user = action.payload;
+    state.loaded = true;
+  },
+};

@@ -7,6 +7,7 @@
     height: 32px;
 
     display: flex;
+    gap: 4px;
     padding: 4px 0px;
     justify-content: center;
     align-items: center;
@@ -16,10 +17,16 @@
     font-size: 14px;
     line-height: 24px;
 
-    color: #2e3c87;
+    color: var(--tab-color);
+    svg {
+      fill: var(--tab-color);
+    }
 
     &.selected {
-      background-color: #dfe5ff;
+      background-color: var(--tab-selected-bg);
+      color: var(--tab-selected-color);
+
+      border: var(--tab-border);
       border-radius: 8px;
       cursor: initial;
     }

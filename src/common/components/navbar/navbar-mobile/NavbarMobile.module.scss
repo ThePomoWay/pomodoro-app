@@ -1,11 +1,18 @@
 .navbar {
-  height: 20px;
+  height: 40px;
   padding: 10px;
   border-bottom: 0.5px solid #cacaca;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  box-sizing: border-box;
+
+  .app {
+    position: absolute;
+    left: 6px;
+    top: 4px;
+  }
 
   .title {
     margin-left: 6px;

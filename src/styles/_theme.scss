@@ -170,12 +170,12 @@
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  border: 1px solid gray;
+  border: var(--circle-border);
 
-  background: #ffffff;
-  border: 1px solid #cbceeb;
+  background: var(--bg-theme);
+  // border: var(--theme-circle-border);
   box-sizing: border-box;
-  box-shadow: inset 0px 2px 4px #e2e7ff;
+  box-shadow: var(--theme-circle-box-shadow);
   &-filled {
     background: radial-gradient(
       103.13% 103.13% at 71.87% 12.5%,
@@ -232,4 +232,11 @@
   height: 4px;
   background-color: white;
   border-radius: 2px;
+}
+
+.MuiFormLabel-root {
+  color: var(--text-theme) !important;
+}
+.MuiInputBase-input {
+  color: var(--text-theme) !important;
 }

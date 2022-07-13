@@ -8,6 +8,7 @@ import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { EditRounded } from "../../svgs/EditRounded";
 import { updateUserThunk } from "../../state/thunks/UserThunk";
 import { ThemeDropdown } from "../theme-dropdown/ThemeDropdown";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 const dpTransitionStyles = {
   entering: {
@@ -29,8 +30,6 @@ const profileTransitionStyles = {
   exited: { transform: "translateX(-500px)", opacity: 0, position: "absolute" },
 };
 export function ProfileSettings(props) {
-  let [isModalOpen, setIsModalOpen] = useState(false);
-
   let user = useSelector(selectUserInfo);
   let [name, setName] = useState(user.name);
   let [email, setEmail] = useState(user.email);
@@ -43,13 +42,6 @@ export function ProfileSettings(props) {
 
     setEmail(user.email);
   }, [user]);
-
-  let openModal = () => {
-    setIsModalOpen(true);
-  };
-  let closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   let clearAll = () => {
     dispatch(clearAllData());
@@ -129,10 +121,10 @@ export function ProfileSettings(props) {
                   {email}
                 </div>
               </div>
-              {/* <div className={styles["theme"]}>
+              <div className={styles["theme"]}>
                 <div className={styles["subtitle"]}>Choose a Theme</div>
                 <ThemeDropdown />
-              </div> */}
+              </div>
             </div>
             {/* <div className={styles["clock-settings"]}>
               <div className="font-sub-heading">Clear all data</div>

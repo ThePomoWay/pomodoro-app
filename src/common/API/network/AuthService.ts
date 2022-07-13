@@ -1,8 +1,3 @@
-import { getCookie } from "../../utils/common";
-import { clearTasksInIDB } from "../indexed-db-ops/crud";
-import { isSyncRequired } from "../../offlineSync/offlineSync";
-
-
 export const userAuthInfoLsKey = "userAuthInfo";
 const uidKey = "uid";
 export const justLoggedInKey = "newSignin";
@@ -13,6 +8,12 @@ export default class AuthService {
     // return true;
     let userInfo = AuthService.getUserAuthInfo();
     return !!userInfo.uid;
+  }
+
+  static getCountryCode() {
+    let cc = localStorage.getItem("cc");
+
+    return cc || "US";
   }
 
   static getUserId() {

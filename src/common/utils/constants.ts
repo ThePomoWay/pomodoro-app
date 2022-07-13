@@ -11,6 +11,16 @@ export const POMO_LONG_BREAK_PAUSED_STATE = "pomo_long_break_paused";
 export const allTasksDropId = "id-2e";
 export const todaysTasksDropId = "id-1e";
 
+export const SUBSCRIPTION_STATUS_INACTIVE = "";
+export const SUBSCRIPTION_STATUS_ACTIVE = "active";
+export const SUBSCRIPTION_STATUS_UNPAID = "unpaid";
+export const SUBSCRIPTION_STATUS_PAST_DUE = "past_due";
+export const SUBSCRIPTION_STATUS_CANCELED = "canceled";
+
+export const FREE_PROJECT_COUNT = 2;
+export const FREE_LABEL_COUNT = 4;
+export const FREE_BLOCK_SITE_COUNT = 4;
+
 export let DEFAULT_WORK_TIME = 60 * 25;
 export let DEFAULT_BREAK_TIME = 60 * 5;
 export let DEFAULT_LONG_BREAK_TIME = 60 * 15;
@@ -68,6 +78,8 @@ export const EXTENSION_ID = "agbkeeoecdaegljhmkndleobgbimfoog";
 
 export const focusModeLSKey = "focusMode";
 
+export const themeLSKey = "theme";
+
 //Extension actions
 export const ENABLE_FOCUS_MODE = "enableFocusMode";
 export const DISABLE_FOCUS_MODE = "disableFocusMode";
@@ -93,3 +105,13 @@ export const THEME_DARK = "dark";
 export const PAGE_TITLE = "TimeDojo - Improve your productivity!";
 
 export const TASK_VARIANT_TODAYS = "todays";
+export const LANDING_PAGE_CLOSE = "landing";
+
+export const CURRENCY_MAP = {
+  usd: "$",
+  inr: "₹",
+};
+
+export const DESKTOP_PROMOTION_KEY = "DektopPromotion";
+
+export const VOLUME_KEY = "SOUND_VOLUME";

@@ -43,7 +43,11 @@ import {
   sendMessageToExtension,
   UPDATE_TIMER_ACTION,
 } from "../../utils/extension-utils";
-import { playAlarmSound, playTimerStartSound } from "../../utils/sound-utils";
+import {
+  playAlarmSound,
+  playTickSound,
+  playTimerStartSound,
+} from "../../utils/sound-utils";
 import {
   ACTIONS_ADD_TIME,
   askPermission,
@@ -55,7 +59,11 @@ import {
   setTimerSec,
   setTimerState,
 } from "../slice/TimerSlice";
-import { incrementCurTaskCsec, incrementTaskCpomos } from "./TasksThunk";
+import {
+  incrementCurTaskCsec,
+  incrementTaskCpomos,
+  markTaskAsCurrent,
+} from "./TasksThunk";
 
 export let getTimerState = createAsyncThunk(
   "timer/getState",
@@ -276,6 +284,8 @@ export let tickAsync = createAsyncThunk(
 
     let pomoSummary = Object.assign({}, timerState.pomoSummary);
 
+    playTickSound();
+
     // if (timerState.pomoState === POMO_RUNNING_STATE) {
     //   let curTaskId = taskState.currentTaskRef;
     //   if (curTaskId) {
@@ -331,7 +341,13 @@ export let tickAsync = createAsyncThunk(
       dispatch(incrementCurTaskCsec());
 
       if (timerState.pomoState.includes("running")) {
-        document.title = getTimerString(timerSec) + " Left";
+        let postTitle = " - Work Mode";
+        if (timerState.pomoState === POMO_BREAK_RUNNING_STATE) {
+          postTitle = " - Short Break";
+        } else if (timerState.pomoState === POMO_LONG_BREAK_RUNNING_STATE) {
+          postTitle = " - Long Break";
+        }
+        document.title = getTimerString(timerSec) + postTitle;
       }
     }
   }
@@ -379,6 +395,8 @@ export const startTimerAsync = createAsyncThunk(
         extraSec: 0,
       })
     );
+
+    dispatch(markTaskAsCurrent({}));
     playTimerStartSound();
   }
 );
@@ -398,6 +416,7 @@ export const pauseTimerAsync = createAsyncThunk(
         pomoSummary[taskId].csec += Math.round(
           (Date.now() - pomoSummary[taskId].startTime) / 1000
         );
+        pomoSummary[taskId].endTime = Date.now();
       }
       summary.push({
         tid: taskState.tasks[taskId]._id,
@@ -464,6 +483,8 @@ export const resumeTimerAsync = createAsyncThunk(
         lastResumeTime: new Date().toISOString(),
       })
     );
+
+    dispatch(markTaskAsCurrent({}));
   }
 );
 

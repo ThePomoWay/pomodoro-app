@@ -1,7 +1,7 @@
 .popover {
-  background: #ffffff;
-  border: 1px solid #cbcee1;
-  box-shadow: 1px 4px 4px rgba(146, 154, 202, 0.36);
+  background: var(--bg-theme);
+  border: var(--popover-border);
+  box-shadow: var(--popover-box-shadow);
   border-radius: 4px;
 
   max-width: 160px;
@@ -12,7 +12,7 @@
   &-title {
     font-size: 12px;
     line-height: 16px;
-    color: #414141;
+    color: var(--edit-project-color);
     font-weight: bold;
     padding: 8px 16px 4px 16px;
 
@@ -50,11 +50,11 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #f3f4ff;
+      background-color: var(--popper-hover);
     }
 
     &-selected {
-      background-color: #f3f4ff;
+      background-color:  var(--popper-hover);
     }
   }
 

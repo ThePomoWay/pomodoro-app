@@ -1,0 +1,44 @@
+.feature-card {
+  background: #ffffff;
+  border-radius: 14.8703px;
+  width: 17vw;
+  height: 30vh;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  .circle {
+    background: #6181fb;
+    opacity: 0.3;
+
+    width: 68px;
+    height: 68px;
+
+    border-radius: 50%;
+
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .text {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .sub-text {
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 26px;
+    opacity: 0.7;
+  }
+}

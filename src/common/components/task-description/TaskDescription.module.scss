@@ -27,8 +27,10 @@
   box-sizing: border-box;
   padding: 8px 0px 0px 0px;
 
-  background: #ffffff;
-  border-top: 1px solid #e0e3fc;
+  input {
+  background: var(--bg-theme);
+  }
+  border-top: var(--task-desc-border);
 
   &:focus {
     outline: none;
@@ -59,11 +61,11 @@
     line-height: 16px;
     line-height: 10px;
     padding: 0px 0px;
-    color: #171717;
+    color: var(--text-theme-3);
     position: relative;
     width: 100%;
   }
 
   border-radius: 8px;
-  border-bottom: 1px solid #e0e3fc;
+  border-bottom: var(--task-desc-border);
 }

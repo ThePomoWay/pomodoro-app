@@ -1,0 +1,16 @@
+.dots {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .dot-row {
+    display: flex;
+    gap: 20px;
+
+    .dot {
+      width: 3.28px;
+      height: 3.28px;
+      border-radius: 50%;
+      background: #1466cf;
+    }
+  }
+}

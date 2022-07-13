@@ -12,6 +12,11 @@ import AuthService from "../../API/network/AuthService";
 import { NetworkService } from "../../API/network/NetworkService";
 import { facebookLoginApi, googleLoginApi } from "../../API/network/SignonApis";
 import {
+  getAllProducts,
+  createCheckoutSession,
+  createBillingConfiguration,
+} from "../../API/network/PricingApis";
+import {
   DISABLE_FOCUS_MODE,
   ENABLE_FOCUS_MODE,
   FIRST_USER_KEY,
@@ -19,8 +24,12 @@ import {
   POMO_BREAK_IDLE_STATE,
   POMO_IDLE_STATE,
   POMO_LONG_BREAK_IDLE_STATE,
+  themeLSKey,
+  THEME_DARK,
   PROJECT_COMPLETED_TASK_HIDE,
   TODAYS_COMPLETED_TASK_HIDE,
+  THEME_LIGHT,
+  VOLUME_KEY,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -32,17 +41,22 @@ import {
   setFocusMode,
   setHideProjectsCompletedTasks,
   setHideTodaysCompletedTasks,
+  setProducts,
   setShowFirstUserState,
+  setTheme,
   setUserPreferences,
   showSuccessToast,
 } from "../slice/GlobalSlice";
 import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
+import { getIp } from "../../API/network/SelfIpApi";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
     setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
   );
+
+  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_LIGHT));
 
   dispatch(
     setHideTodaysCompletedTasks(
@@ -92,10 +106,11 @@ export const signin = createAsyncThunk(
   "global/signin",
   async (obj: any, { dispatch }) => {
     let response;
+    let countryCode = await getIp();
     if (obj.mode === "google") {
-      response = await googleLoginApi(obj.data);
+      response = await googleLoginApi(obj.data, countryCode);
     } else if (obj.mode === "facebook") {
-      response = await facebookLoginApi(obj.data);
+      response = await facebookLoginApi(obj.data, countryCode);
     }
 
     if (response.data && response.data.uid) {
@@ -187,7 +202,17 @@ export const updateUserPref = createAsyncThunk(
 
     let updateObj = { ...userPreferences, ...obj };
 
-    let resp = await updateUserApi({ ...user, settings: { clock: updateObj } });
+    if (obj.volume !== undefined) {
+      localStorage.setItem(VOLUME_KEY, obj.volume);
+    }
+
+    let resp = await updateUserApi({
+      ...user,
+      settings: {
+        clock: updateObj,
+        sound: { start: { volume: obj.volume || 100 } },
+      },
+    });
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));
@@ -220,5 +245,36 @@ export const toggleHideProjectsCompletedTasks = createAsyncThunk(
     );
 
     dispatch(setHideProjectsCompletedTasks(!hideProjectCompletedTasks));
+  }
+);
+
+export const getProducts = createAsyncThunk(
+  "global/products",
+  async (_, { dispatch, getState }) => {
+    let resp = await getAllProducts();
+
+    dispatch(setProducts(resp.data.products));
+  }
+);
+
+export const getBillingConfiguration = createAsyncThunk(
+  "global/bill-config",
+  async (_, {}) => {
+    let resp = await createBillingConfiguration();
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
+  }
+);
+
+export const buyProductThunk = createAsyncThunk(
+  "global/buy/product",
+  async (product, { dispatch }) => {
+    let resp = await createCheckoutSession(product.stripeID);
+
+    if (resp.data.url) {
+      window.open(resp.data.url);
+    }
   }
 );

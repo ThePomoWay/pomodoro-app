@@ -4,13 +4,12 @@
   padding: 10px;
   min-height: 36px;
   background-color: white;
-  border: 1px solid #555;
 
   cursor: pointer;
 
   &-google {
     padding: 12px 12px;
-    width: 172px;
+    width: 186px;
     height: 40px;
     text-align: left;
     display: flex;
@@ -22,12 +21,12 @@
     box-sizing: border-box;
     border-radius: 8px;
     color: #000000;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   &-facebook {
     @extend .btn-google;
-    width: 178px;
+    width: 186px;
     svg {
       position: relative;
       top: -2px;
@@ -67,7 +66,7 @@
     background: #839cfb;
     border: 1px solid #5976d8;
     box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(186, 190, 218, 0.62);
+    box-shadow: var(--login-btn-shadow);
     border-radius: 8px;
 
     color: white;
@@ -85,10 +84,10 @@
   }
 
   &-theme {
-    background: #ffffff;
-    border: 1px solid #e5e8ff;
+    background: var(--bg-theme);
+    border: var(--btn-theme-border);
     box-sizing: border-box;
-    box-shadow: 0px 4px 6px rgba(213, 215, 234, 0.65);
+    box-shadow: var(--btn-theme-box-shadow);
     border-radius: 8px;
 
     color: #7581e2;
@@ -96,7 +95,7 @@
 
   &-save {
     padding: 6px 20px;
-    color: #4d61d1;
+    color: var(--btn-save-color);
     font-weight: 500;
     font-size: 14px;
     min-width: 100px;
@@ -105,33 +104,33 @@
 
     line-height: 20px;
 
-    background: #f1f3ff;
-    border: 1px solid #a1aff4;
+    background: var(--btn-save-bg);
+    border: var(--btn-save-border);
     box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(149, 157, 225, 0.25);
+    box-shadow: var(--save-box-shadow);
     border-radius: 8px;
 
     &:hover {
-      background: #e3e7fd;
+      background: var(--btn-save-2-hover);
     }
   }
   &-save-2 {
     padding: 8px 12px 8px 8px;
-    color: #4d61d1;
+    color: var(--btn-save-2-color);
     font-weight: 500;
     font-size: 14px;
     min-width: 100px;
-    max-width: 117px;
+    max-width: 120px;
 
     height: 36px;
 
     line-height: 20px;
 
-    background: #f7f8ff;
-    border: 1px solid #bcc7ff;
+    background: var(--btn-save-2-bg);
+    border: var(--btn-save-2-border);
 
     box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(149, 157, 225, 0.25);
+    box-shadow: var(--btn-save-2-box-shadow);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -141,16 +140,16 @@
     font-size: 12px;
 
     svg {
-      fill: #485cc7;
+      fill: var(--btn-save-2-svg-fill);
     }
 
     &:hover {
-      background: #e3e7fd;
+      background: var(--btn-save-2-hover);
     }
   }
   &-cancel {
-    background: #ffffff;
-    border: 1px solid #cbcff7;
+    background: var(--bg-theme);
+    border: var(--btn-cancel-border);
     box-sizing: border-box;
     border-radius: 8px;
     width: 100px;
@@ -161,11 +160,10 @@
     line-height: 20px;
 
     padding: 8px 20px;
-    color: #7a8ae5;
-    background-color: #ffffff;
+    color: var(--btn-cancel-color);
 
     &:hover {
-      background: #f5f6ff;
+      background: var(--btn-cancel-hover);
     }
   }
 }
@@ -189,6 +187,48 @@
 
   padding: 10px 12px;
 
-  width: 122px;
+  width: 128px;
   height: 36px;
+}
+
+.btn-add-new {
+  background: linear-gradient(180deg, #839cfb 0%, #4b6def 100%);
+  border-radius: 8px;
+  width: 280px;
+  height: 55px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.round-btn {
+  background: #6885f6;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 8px;
+
+  width: 212px;
+  color: white;
+  height: 52px;
+  border: none;
+}
+
+.round-btn-empty {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 8px;
+
+  width: 212px;
+  height: 52px;
+
+  border: 1px solid #6885f6;
+  border-radius: 40px;
 }

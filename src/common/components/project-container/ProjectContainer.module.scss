@@ -1,6 +1,8 @@
 .project-container {
   padding: 38px 24px 0px 84px;
 
+  background-color: var(--bg-theme);
+
   .task-container {
     margin-bottom: 8px;
   }
@@ -14,7 +16,7 @@
     justify-content: space-between;
     align-items: center;
 
-    color: #000000;
+    color: var(--text-theme);
 
     margin-bottom: 20px;
   }

@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { deleteIDBTask } from "../../API/indexed-db-ops/crud";
 import {
   createIDBProject,
   deleteIDBproject,
@@ -15,27 +16,23 @@ import {
   updateProjectApi,
 } from "../../API/network/ProjectApis";
 import { findIndex } from "../../utils/array-utils";
-import { getObjFromArr } from "../../utils/common";
 import { validateAPIResponse } from "../../utils/validators";
-import {
-  initialProjectsState,
-  projectReducer,
-} from "../reducers/ProjectReducer";
-import {
-  createProject,
-  deleteProject,
-  setAllProjects,
-  updateProject,
-} from "../slice/ProjectSlice";
 import {
   setProjectModalState,
   setToast,
   showErrorToast,
   showSuccessToast,
 } from "../slice/GlobalSlice";
-import { createLocalTaskThunk, removeFromTodaysTaskLocal } from "./TasksThunk";
+import {
+  addToFreeProjects,
+  createProject,
+  deleteProject,
+  setAllProjects,
+  setFreeProjects,
+  updateProject,
+} from "../slice/ProjectSlice";
 import { deleteTask, removeFromCompletedTasks } from "../slice/TasksSlice";
-import { deleteIDBTask } from "../../API/indexed-db-ops/crud";
+import { removeFromTodaysTaskLocal } from "./TasksThunk";
 
 export const createLocalProjectAsync = createAsyncThunk(
   "create/project/local",
@@ -59,6 +56,7 @@ export const createProjectAsync = createAsyncThunk(
           createLocalProjectAsync({
             project: {
               ...obj.project,
+              createdOn: response.data.createdOn,
               _id: response.data.pid,
             },
           })
@@ -66,8 +64,20 @@ export const createProjectAsync = createAsyncThunk(
 
         dispatch(setProjectModalState(false));
 
+        if (obj.project.title !== "Inbox") {
+          dispatch(
+            addToFreeProjects({
+              _id: response.data.pid,
+              title: obj.project.title,
+              createdOn: new Date(),
+            })
+          );
+        }
+
         if (obj.redirect) {
-          window.location.href = "/all/project/" + response.data.pid;
+          setTimeout(() => {
+            window.location.href = "/all/project/" + response.data.pid;
+          }, 1000);
         }
       }
 
@@ -198,7 +208,19 @@ export const deleteProjectLocal = createAsyncThunk(
 
 export const deleteProjectAsync = createAsyncThunk(
   "delete/project",
-  async (project, { dispatch }) => {
+  async (projectContainer, { dispatch }) => {
+    let project = projectContainer.project;
+    let projectsObj = projectContainer.allProjects;
+    let projectsArr = [];
+    for (const [key, value] of Object.entries(projectsObj)) {
+      if (value._id !== project._id) {
+        projectsArr.push({
+          _id: value._id,
+          createdOn: value.createdOn,
+        });
+      }
+    }
+
     if (AuthService.isLoggedIn()) {
       let response = await deleteProjectApi(project);
       if (!response) {
@@ -207,6 +229,7 @@ export const deleteProjectAsync = createAsyncThunk(
         dispatch(showErrorToast(response.data.message));
       } else {
         dispatch(deleteProjectLocal(project));
+        dispatch(setFreeProjects(projectsArr));
       }
     }
   }
@@ -289,7 +312,10 @@ export const getAllProjects = createAsyncThunk(
   "get/project",
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
+
+    response = response.filter((item) => !item.isArchived);
     dispatch(setAllProjects(response));
+    dispatch(setFreeProjects(response));
   }
 );
 

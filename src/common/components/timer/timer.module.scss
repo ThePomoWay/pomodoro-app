@@ -1,23 +1,8 @@
 $bgColor: #020438;
 $boxColor: #020438;
-$pomoColor: radial-gradient(
-  99.46% 88.64% at 70.45% 3.41%,
-  #cad2fd 0.69%,
-  #637bf9 60.46%,
-  #334996 100%
-);
-$pomoBreakColor: radial-gradient(
-  99.46% 88.64% at 70.45% 3.41%,
-  #ffd3e0 0.69%,
-  #f4759a 60.46%,
-  #b44a7f 100%
-);
-$pomoLongBreakColor: radial-gradient(
-  99.46% 88.64% at 70.45% 3.41%,
-  #bbf3da 0.69%,
-  #74bdd0 60.46%,
-  #408db9 100%
-);
+$pomoColor: var(--pomodoro-clock-color);
+$pomoBreakColor: var(--break-clock-color);
+$pomoLongBreakColor: var(--lb-clock-color);
 $waterBColor: #5394d8;
 
 .timer {
@@ -37,75 +22,51 @@ $waterBColor: #5394d8;
 
   .pomodoro {
     .blur {
-      background: radial-gradient(
-        45.88% 45.88% at 49.7% 57.76%,
-        rgba(125, 141, 227, 0.6) 0%,
-        rgba(56, 79, 202, 0) 100%
-      );
+      background: var(--pomodoro-blur-gradient);
       filter: blur(29px);
     }
     .box {
-      background: radial-gradient(
-        121.5% 94.67% at 66% 5.33%,
-        rgba(242, 244, 251, 0.64) 0%,
-        #abb2cf 100%
-      );
+      background: var(--pomodoro-radial-box-gradient);
     }
     .water {
       background: $pomoColor;
     }
 
     .timer-circle {
-      background-color: #97a7fe;
-      box-shadow: inset 5px 6px 12px #8fa0fb;
+      background-color: var(--pomodoro-timer-circle-bg);
+      box-shadow: var(--pomodoro-timer-circle-shadow);
     }
 
     .timer-text {
-      text-shadow: 0px 6px 11px #5b6ecd;
+      text-shadow: var(--pomodoro-text-shadow);
     }
   }
   .break {
     .blur {
-      background: radial-gradient(
-        45.88% 45.88% at 49.7% 57.76%,
-        rgba(202, 56, 91, 0.35) 0%,
-        rgba(202, 56, 91, 0) 100%
-      );
+      background: var(--break-blur);
       filter: blur(29px);
     }
     .box {
-      background: radial-gradient(
-        121.5% 94.67% at 66% 5.33%,
-        #fff7fa 0%,
-        #e7b4c4 100%
-      );
+      background: var(--break-radial-box-gradient);
     }
     .water {
       background: $pomoBreakColor;
     }
     .timer-circle {
-      background-color: #ffa5c1;
-      box-shadow: inset 5px 6px 12px #e89fbe;
+      background-color: var(--break-timer-circle-bg);
+      box-shadow: var(--break-timer-circle-shadow);
     }
     .timer-text {
-      text-shadow: 0px 6px 11px #ce679f;
+      text-shadow: var(--break-text-shadow);
     }
   }
   .long_break {
     .blur {
-      background: radial-gradient(
-        45.88% 45.88% at 49.7% 57.76%,
-        rgba(69, 145, 187, 0.34) 0%,
-        rgba(69, 145, 187, 0) 100%
-      );
+      background: var(--lb-blur);
       filter: blur(29px);
     }
     .box {
-      background: radial-gradient(
-        121.5% 94.67% at 66% 5.33%,
-        #ecfcfe 0%,
-        #c7dbde 100%
-      );
+      background: var(--lb-radial-box-gradient);
       .water {
         background: $pomoLongBreakColor;
       }
@@ -115,7 +76,7 @@ $waterBColor: #5394d8;
       }
     }
     .timer-text {
-      text-shadow: 0px 6px 11px #52b7b7;
+      text-shadow: var(--lb-text-shadow);
     }
   }
   .round {
@@ -214,6 +175,10 @@ $waterBColor: #5394d8;
       font-size: 42px;
       line-height: 33px;
       z-index: 3;
+
+      @media only screen and (max-width: 899px) {
+        font-size: 48px;
+      }
     }
   }
   &-tabs {
@@ -227,7 +192,7 @@ $waterBColor: #5394d8;
 
     &-item {
       cursor: pointer;
-      color: #404040;
+      color: var(--timer-tab-color);
 
       &:hover:not(.selected) {
         transform: scale(1.05);
@@ -240,24 +205,24 @@ $waterBColor: #5394d8;
 
       justify-self: left;
 
-      width: 74px;
+      width: 78px;
 
       &.selected-purple {
         // border-bottom: 1px solid gray;
-        background-color: #dfe5ff;
-        color: #2e3c87;
+        background-color: var(--timer-tab-selected-work-bg);
+        color: var(--timer-tab-selected-work-color);
         font-weight: 500;
         border-radius: 4px;
       }
       &.selected-pink {
-        background-color: #ffeaf0;
-        color: #c84e7c;
+        background-color: var(--timer-tab-selected-break-bg);
+        color: var(--timer-tab-selected-break-color);
         font-weight: 500;
         border-radius: 4px;
       }
       &.selected-cyan {
-        background-color: #d0effe;
-        color: #58a2c2;
+        background-color: var(--timer-tab-selected-lb-bg);
+        color: var(--timer-tab-selected-lb-color);
         font-weight: 500;
         border-radius: 4px;
       }
@@ -281,6 +246,13 @@ $waterBColor: #5394d8;
       width: 28px;
       height: 28px;
     }
+
+    @media only screen and (max-width: 899px) {
+      svg {
+        width: 36px;
+        height: 36px;
+      }
+    }
   }
 
   .cta-2 {
@@ -296,7 +268,7 @@ $waterBColor: #5394d8;
     gap: 16px;
     margin-top: 40px;
 
-    color: #404040;
+    color: var(--focus-mode-text);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -305,6 +277,45 @@ $waterBColor: #5394d8;
     text-align: left;
 
     grid-column: 10 / 13;
+
+    .settings {
+      color: rgb(134, 148, 201);
+      cursor: pointer;
+    }
+  }
+
+  .know-more {
+    display: flex;
+    justify-content: center;
+    color: #7979e3;
+    margin-top: 40px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .mobile-stats {
+    display: flex;
+
+    margin-top: 40px;
+    justify-content: center;
+
+    font-weight: 500;
+    font-size: 18px;
+
+    .first {
+      padding: 0px 16px;
+      border-right: 1px solid black;
+      flex: 1;
+      justify-self: flex-end;
+      text-align: end;
+    }
+    .second {
+      padding: 0px 16px;
+      flex: 1;
+    }
+    .time {
+      position: relative;
+      left: 16px;
+    }
   }
 }
 

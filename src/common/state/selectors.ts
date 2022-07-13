@@ -1,4 +1,5 @@
 import { groupByDates } from "../utils/common";
+import { getReadableDate } from "../utils/date-utils";
 import { statsReducer } from "./reducers/StatsReducer";
 
 export const selectPomoState = (state) => state.timer.pomoState;
@@ -30,10 +31,12 @@ export const selectIsMultiTabAlertModalOpen = (state) =>
   state.global.multiTabAlertModalState;
 export const selectIsExtensionModalOpen = (state) =>
   state.global.isExtensionModalOpen;
+
 export const selectHideTodaysCompletedTasks = (state) =>
   state.global.hideTodaysCompletedTasks;
 export const selectHideProjectsCompletedTasks = (state) =>
   state.global.hideProjectCompletedTasks;
+export const selectPricingModalOpen = (state) => state.global.pricingModalOpen;
 
 //todays tasks
 export const selectTodaysTasks = (state) =>
@@ -87,6 +90,7 @@ export const selectTasksFromPriority = (priority) => {
 
 //projects
 export const selectProjectsObj = (state) => state.projects.projects;
+export const selectFreeProjects = (state) => state.projects.freeProjects;
 export const selectProjectOrder = (state) => state.projects.projectOrder;
 export const selectCompletedTaskInProject = (projectId, sectionId) => {
   return (state) => {
@@ -120,6 +124,10 @@ export const selectUserPreferences = (state) => state.global.userPreferences;
 //Select user info
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
 export const selectUserInfo = (state) => state.user.user;
+export const selectSubscriptionStatus = (state) =>
+  state.user.subscription & state.user.subscription.status
+    ? state.user.subscription.status
+    : "";
 
 //onboarding
 export const selectStep = (state) => state.onboarding.step;
@@ -132,7 +140,17 @@ export const selectRegisterEmail = (state) => state.onboarding.registerEmail;
 
 export const selectLastAllTaskUrl = (state) => state.global.lastAllTaskUrl;
 
+export const selectProducts = (state) => state.global.products;
 export const selectStats = (state) => state.blocker.history;
 export const selectBlockedWebsites = (state) => state.blocker.blockedWebsites;
+
+export const selectTutorialModal = (state) => state.global.showTutorialModal;
+export const selectTransactionModal = (state) => state.global.transactionModal;
 export const selectTimeTrackingObj = (state) => state.blocker.timeTrackingObj;
 export const selectFocusModeObj = (state) => state.blocker.focusTrackingObj;
+
+export const selectAllCompletedTasks = (state) => {
+  return state.tasks.allCompletedTasks.tasks;
+};
+
+export const selectClockSettingsModal = (state) => state.global.clockModalState;

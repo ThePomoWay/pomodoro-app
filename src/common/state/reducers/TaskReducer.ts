@@ -8,6 +8,11 @@ export const initialTaskState = {
   allTasks: [],
   currentTaskRef: "",
   editTaskRef: "",
+  allCompletedTasks: {
+    from: "",
+    to: "",
+    tasks: [],
+  },
 };
 
 export let taskReducer = {
@@ -145,5 +150,8 @@ export let taskReducer = {
     if (state.currentTaskRef) {
       state.tasks[state.currentTaskRef].summary.csec += 1;
     }
+  },
+  updateCompletedTasks: (state, action) => {
+    state.allCompletedTasks = action.payload;
   },
 };

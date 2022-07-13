@@ -1,0 +1,18 @@
+.progress {
+  display: flex;
+  gap: 8px;
+
+  .strip {
+    width: 37px;
+    height: 8px;
+
+    background: #d9dff2;
+    border-radius: 32px;
+
+    cursor: pointer;
+
+    &.selected {
+      background-color: #6181fb;
+    }
+  }
+}
