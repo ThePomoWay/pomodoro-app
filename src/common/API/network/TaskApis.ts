@@ -13,9 +13,11 @@ import {
 import { NetworkService } from "./NetworkService";
 
 function transformTask(taskObj) {
-  if (taskObj) {
-    taskObj.cpomo = 0;
+  let t = window.structuredClone(taskObj);
+  if (t) {
+    t.cpomo = 0;
   }
+  return t;
 }
 
 export function getTodaysTasksAPI() {
@@ -32,7 +34,7 @@ export function getAllTasksApi(queryObj = {}) {
 }
 
 export function updateTaskAPI(taskObj) {
-  transformTask(taskObj);
+  taskObj = transformTask(taskObj);
   let endpoint = updateTaskEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskObj._id);
@@ -59,7 +61,7 @@ export function createMultipleTaskAPI(tasksArr) {
 }
 
 export function deleteTaskAPI(taskObj, today) {
-  transformTask(taskObj);
+  taskObj = transformTask(taskObj);
   let endpoint = deleteTaskEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskObj._id);
@@ -74,7 +76,7 @@ export function addToTodaysTaskAPI(taskId) {
 }
 
 export function markTaskAsCompleteApi(taskObj, today, completedOn, taskId) {
-  transformTask(taskObj);
+  taskObj = transformTask(taskObj);
   let endpoint = markTaskAsCompleteEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskId);
@@ -82,7 +84,7 @@ export function markTaskAsCompleteApi(taskObj, today, completedOn, taskId) {
 }
 
 export function markTaskAsInCompleteApi(taskObj, today, taskId) {
-  transformTask(taskObj);
+  taskObj = transformTask(taskObj);
   let endpoint = markTaskAsIncompleteEndpoint
     .replace("{userId}", AuthService.getUserId())
     .replace("{taskId}", taskId);
