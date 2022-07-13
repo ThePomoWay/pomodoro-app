@@ -20,6 +20,7 @@ import Footer from "../../common/components/footer/footer";
 import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
 import { LANDING_PAGE_CLOSE } from "../../common/utils/constants";
 import { faqs } from "./faq";
+import OnBoarding from "../onboarding/Onboarding";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -33,6 +34,7 @@ export function LandingPage(props) {
   return (
     <div>
       <NavbarNew />
+      <OnBoarding />
       <div className={styles["first-container"]}>
         <div className={styles["left"] + " " + styles["align-center"]}>
           <p className={styles["title"]}>
