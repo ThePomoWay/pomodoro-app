@@ -27,7 +27,10 @@ import {
   getTodaysDateFormatted,
   getWeekFormattedDate,
 } from "../../../common/utils/date-utils";
-import { AnalysisCharts, AnalysisBarCharts } from "../analysis-charts/AnalysisCharts";
+import {
+  AnalysisCharts,
+  AnalysisBarCharts,
+} from "../analysis-charts/AnalysisCharts";
 import styles from "./analysis-laptop.module.scss";
 
 import { usePaymentStatus } from "../../../common/hooks/PaymentHook";
@@ -219,8 +222,6 @@ export function AnalysisLaptop(props) {
       </div>
     );
   };
-
-  console.log(stats);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

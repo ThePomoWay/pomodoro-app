@@ -61,7 +61,12 @@ import {
   updateLocalProjectAsync,
 } from "./ProjectThunk";
 import { projectChangeApi } from "../../API/network/ProjectApis";
-import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
+import {
+  DEFAULT_WORK_TIME,
+  POMO_IDLE_STATE,
+  POMO_PAUSED_STATE,
+  POMO_RUNNING_STATE,
+} from "../../utils/constants";
 import { updateTimerState } from "./TimerThunk";
 import { setPomoSummary } from "../slice/TimerSlice";
 import { getAllProjectsFromIDB } from "../../API/indexed-db-ops/projectCrud";
@@ -188,7 +193,10 @@ export const markTaskAsCurrent = createAsyncThunk(
     let fid = (task && task.fid) || taskState.currentTaskRef;
 
     if (fid) {
-      if (timerState.pomoState === POMO_RUNNING_STATE) {
+      if (
+        timerState.pomoState === POMO_RUNNING_STATE ||
+        timerState.pomoState === POMO_IDLE_STATE
+      ) {
         if (
           summary[taskState.currentTaskRef] &&
           !summary[taskState.currentTaskRef].endTime
@@ -208,13 +216,16 @@ export const markTaskAsCurrent = createAsyncThunk(
             startTime: Date.now(),
           };
         }
-      } else {
-        summary = {
-          [fid]: {
+      } else if (timerState.pomoState === POMO_PAUSED_STATE) {
+        if (summary[fid]) {
+          summary[fid].startTime = Date.now();
+          summary[fid].endTime = "";
+        } else {
+          summary[fid] = {
             csec: 0,
             startTime: Date.now(),
-          },
-        };
+          };
+        }
       }
 
       dispatch(setPomoSummary(summary));

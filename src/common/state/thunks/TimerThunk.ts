@@ -396,7 +396,6 @@ export const startTimerAsync = createAsyncThunk(
       })
     );
 
-    dispatch(markTaskAsCurrent({}));
     playTimerStartSound();
   }
 );
@@ -425,6 +424,8 @@ export const pauseTimerAsync = createAsyncThunk(
       });
     }
 
+    dispatch(setPomoSummary(pomoSummary));
+
     dispatch(incrementTaskCpomos(summary));
 
     if (AuthService.isLoggedIn()) {
@@ -446,7 +447,7 @@ export const pauseTimerAsync = createAsyncThunk(
       );
     }
 
-    dispatch(setPomoSummary({}));
+    // dispatch(setPomoSummary({}));
     let nextState = POMO_PAUSED_STATE;
     if (timerState.pomoState.includes("long_break")) {
       nextState = POMO_LONG_BREAK_PAUSED_STATE;
@@ -483,8 +484,6 @@ export const resumeTimerAsync = createAsyncThunk(
         lastResumeTime: new Date().toISOString(),
       })
     );
-
-    dispatch(markTaskAsCurrent({}));
   }
 );
 
@@ -495,6 +494,8 @@ export const resetTimerAsync = createAsyncThunk(
     let userPreference = getState()["global"].userPreferences;
 
     sendWorkerMsg(CLEAR_INTERVAL);
+
+    dispatch(setPomoSummary({}));
 
     document.title = PAGE_TITLE;
     dispatch(
@@ -516,22 +517,6 @@ export const completePomodoro = createAsyncThunk(
     let taskState = getState()["tasks"];
     let pomoSummary = window.structuredClone(timerState.pomoSummary);
 
-    let summary = [];
-    for (let taskId in pomoSummary) {
-      if (!pomoSummary[taskId].endTime) {
-        pomoSummary[taskId].csec += Math.round(
-          (Date.now() - pomoSummary[taskId].startTime) / 1000
-        );
-      }
-      summary.push({
-        tid: taskState.tasks[taskId]._id,
-        fid: taskState.tasks[taskId].fid,
-        csec: pomoSummary[taskId].csec,
-      });
-    }
-
-    dispatch(incrementTaskCpomos(summary));
-
     let userPreference = <any>(
       await getFromCollection(
         userPreferencesObjectStoreName,
@@ -549,8 +534,6 @@ export const completePomodoro = createAsyncThunk(
 
     dispatch(updateNextState({}));
 
-    dispatch(setPomoSummary({}));
-
     if (timerState.pomoState === POMO_RUNNING_STATE) {
       sendWebNotification(
         "Time to take a break!",
@@ -564,6 +547,24 @@ export const completePomodoro = createAsyncThunk(
           timerState.extraSec * 1000 +
           (userPreference.defaultWorkTime || DEFAULT_WORK_TIME) * 1000
       );
+
+      let summary = [];
+      for (let taskId in pomoSummary) {
+        if (!pomoSummary[taskId].endTime) {
+          pomoSummary[taskId].csec += Math.round(
+            (endDate.getTime() - pomoSummary[taskId].startTime) / 1000
+          );
+        }
+        summary.push({
+          tid: taskState.tasks[taskId]._id,
+          fid: taskState.tasks[taskId].fid,
+          csec: pomoSummary[taskId].csec,
+        });
+      }
+
+      dispatch(incrementTaskCpomos(summary));
+
+      dispatch(setPomoSummary({}));
       if (AuthService.isLoggedIn()) {
         //ToDo: add functionality for distracted.
         updateTimerStatsAPI(
