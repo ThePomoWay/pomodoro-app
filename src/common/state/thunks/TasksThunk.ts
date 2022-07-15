@@ -232,7 +232,7 @@ export const markTaskAsCurrent = createAsyncThunk(
       let currentTask = Object.keys(tasks)
         .map((i) => tasks[i])
         .filter((item) => item.isCurrentTask)[0];
-      if (!currentTask) {
+      if (!currentTask && task.fid) {
         //@ts-ignore
         dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
         return;
@@ -374,31 +374,38 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
     } else {
       let completedOn = new Date().toISOString();
 
-      dispatch(markTaskAsCompleteLocal(obj));
-
       let taskState = getState()["tasks"];
       let timerState = getState()["timer"];
       let summary = window.structuredClone(timerState.pomoSummary);
 
       let todaysTasksObj = getObjFromArr(taskState.todaysTasks);
 
+      dispatch(markTaskAsCompleteLocal(obj));
+
+      if (
+        timerState.pomoState === POMO_RUNNING_STATE &&
+        taskState.currentTaskRef === obj.task.fid &&
+        summary[taskState.currentTaskRef]
+      ) {
+        summary[taskState.currentTaskRef].csec += Math.round(
+          (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
+        );
+
+        summary[taskState.currentTaskRef].endTime = Date.now();
+
+        dispatch(setPomoSummary(summary));
+
+        // dispatch(
+        //   incrementTaskCpomos([
+        //     {
+        //       ...summary[taskState.currentTaskRef],
+        //       fid: taskState.currentTaskRef,
+        //     },
+        //   ])
+        // );
+      }
+
       if (obj.task._id) {
-        if (
-          timerState.pomoState === POMO_RUNNING_STATE &&
-          taskState.currentTaskRef === obj.task.fid &&
-          summary[taskState.currentTaskRef]
-        ) {
-          summary[taskState.currentTaskRef].csec += Math.round(
-            (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
-          );
-
-          summary[taskState.currentTaskRef].endTime = Date.now();
-
-          dispatch(setPomoSummary(summary));
-
-          dispatch(incrementTaskCpomos(summary));
-        }
-
         let completedTaskResponse = await markTaskAsCompleteApi(
           {
             project: obj.task.project,

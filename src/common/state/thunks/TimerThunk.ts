@@ -282,9 +282,11 @@ export let tickAsync = createAsyncThunk(
     let taskState = getState()["tasks"];
     let userPreference = getState()["global"].userPreferences;
 
-    let pomoSummary = Object.assign({}, timerState.pomoSummary);
+    // let pomoSummary = Object.assign({}, timerState.pomoSummary)
 
-    playTickSound();
+    if (timerState.pomoState === POMO_RUNNING_STATE) {
+      playTickSound();
+    }
 
     // if (timerState.pomoState === POMO_RUNNING_STATE) {
     //   let curTaskId = taskState.currentTaskRef;
@@ -337,8 +339,8 @@ export let tickAsync = createAsyncThunk(
 
       dispatch(setTimerSec(timerSec));
       // dispatch(incrementCurTaskCsec());
-      dispatch(setPomoSummary(pomoSummary));
-      dispatch(incrementCurTaskCsec());
+      // dispatch(setPomoSummary(pomoSummary));
+      // dispatch(incrementCurTaskCsec());
 
       if (timerState.pomoState.includes("running")) {
         let postTitle = " - Work Mode";
@@ -424,7 +426,7 @@ export const pauseTimerAsync = createAsyncThunk(
       });
     }
 
-    dispatch(setPomoSummary(pomoSummary));
+    dispatch(setPomoSummary({}));
 
     dispatch(incrementTaskCpomos(summary));
 
@@ -443,7 +445,8 @@ export const pauseTimerAsync = createAsyncThunk(
           new Date(timerState.pomoStartTime).toISOString(),
         new Date().toISOString(),
         STATS_TYPE_PAUSED,
-        false
+        false,
+        summary
       );
     }
 

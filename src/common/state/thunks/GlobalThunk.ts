@@ -115,6 +115,12 @@ export const signin = createAsyncThunk(
     }
 
     if (response.data && response.data.uid) {
+      window.gtag("event", "sign_in", {
+        page_title: "",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        mode: obj.mode,
+      });
       AuthService.login(response.data);
     }
   }
