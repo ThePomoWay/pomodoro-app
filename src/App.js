@@ -138,8 +138,6 @@ function App() {
 
       {isMobileDevice && <MobileNavbar />}
 
-      {isMobileDevice && <DesktopPromotion />}
-
       <PricingModal />
       <TransactionModal />
     </Router>

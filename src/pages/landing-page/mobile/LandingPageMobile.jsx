@@ -96,11 +96,11 @@ export function LandingPageMobile(props) {
           <div className={styles["testimonial"]}>
             <div className={styles["header"]}>
               <div className={styles["img"]}>
-                <img src="/dp-1.png" />
+                <img width={50} height={50} alt="Sophia" src="/dp-1.png" />
               </div>
               <div className={styles["designation"]}>
-                <div className={styles["name"]}>Ron Howard</div>
-                <div className={styles["role"]}>Freelance Writer</div>
+                <div className={styles["name"]}>Sophia</div>
+                <div className={styles["role"]}>Content Writer</div>
               </div>
             </div>
             <div className={styles["content"]}>
@@ -113,11 +113,11 @@ export function LandingPageMobile(props) {
           <div className={styles["testimonial"]}>
             <div className={styles["header"]}>
               <div className={styles["img"]}>
-                <img src="/dp-2.png" />
+                <img width={50} height={50} alt="Matt" src="/dp-2.png" />
               </div>
               <div className={styles["designation"]}>
-                <div className={styles["name"]}>Vaibhav Goyal</div>
-                <div className={styles["role"]}>Golang Developer</div>
+                <div className={styles["name"]}>Matt</div>
+                <div className={styles["role"]}>Freelance Developer</div>
               </div>
             </div>
             <div className={styles["content"]}>
@@ -129,11 +129,11 @@ export function LandingPageMobile(props) {
           <div className={styles["testimonial"]}>
             <div className={styles["header"]}>
               <div className={styles["img"]}>
-                <img src="/dp-3.png" />
+                <img width={50} height={50} alt="Oliver" src="/dp-3.png" />
               </div>
               <div className={styles["designation"]}>
-                <div className={styles["name"]}>Parv Tiwari</div>
-                <div className={styles["role"]}>Content Writer</div>
+                <div className={styles["name"]}>Oliver</div>
+                <div className={styles["role"]}>Graphics Designer</div>
               </div>
             </div>
             <div className={styles["content"]}>
@@ -145,10 +145,10 @@ export function LandingPageMobile(props) {
           <div className={styles["testimonial"]}>
             <div className={styles["header"]}>
               <div className={styles["img"]}>
-                <img src="/dp-4.png" />
+                <img width={50} height={50} alt="Annie" src="/dp-4.png" />
               </div>
               <div className={styles["designation"]}>
-                <div className={styles["name"]}>Jim</div>
+                <div className={styles["name"]}>Annie</div>
                 <div className={styles["role"]}>Brand Manager</div>
               </div>
             </div>

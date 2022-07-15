@@ -11,6 +11,8 @@ export function HomepageMobile() {
   return (
     <div className={styles["container"]}>
       <Navbar />
+
+      <DesktopPromotion />
       <div className={styles["main-content"] + " " + styles[timerBgColor]}>
         <div className={styles["timer"]}>
           <Timer hideBlur={true} />
