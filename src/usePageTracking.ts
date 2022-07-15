@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import AuthService from "./common/API/network/AuthService";
 
 const usePageTracking = () => {
   const location = useLocation();
@@ -30,6 +31,7 @@ const usePageTracking = () => {
         page_title: pageTitle,
         page_location: location.href,
         page_path: location.pathname,
+        isLoggedIn: AuthService.isLoggedIn(),
       });
     }
   }, [initialized, location]);
