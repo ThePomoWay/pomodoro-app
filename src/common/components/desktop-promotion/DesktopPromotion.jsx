@@ -8,9 +8,9 @@ export function DesktopPromotion() {
     localStorage.getItem(DESKTOP_PROMOTION_KEY)
   );
 
-  setTimeout(() => {
-    onClick();
-  }, 5000);
+  // setTimeout(() => {
+  //   onClick();
+  // }, 5000);
 
   let onClick = () => {
     localStorage.setItem(DESKTOP_PROMOTION_KEY, "false");
