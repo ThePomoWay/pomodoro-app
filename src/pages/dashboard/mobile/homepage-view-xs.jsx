@@ -1,4 +1,5 @@
 import AuthService from "../../../common/API/network/AuthService";
+import { DesktopPromotion } from "../../../common/components/desktop-promotion/DesktopPromotion";
 import Navbar from "../../../common/components/navbar/Navbar";
 import Timer from "../../../common/components/timer/timer";
 import { LandingPageMobile } from "../../landing-page/mobile/LandingPageMobile";
