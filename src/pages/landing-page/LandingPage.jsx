@@ -10,7 +10,7 @@ import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
 import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
 import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
 import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
 import { DotGrid } from "./DotGrid";
@@ -31,6 +31,11 @@ export function LandingPage(props) {
     localStorage.setItem(LANDING_PAGE_CLOSE, "true");
     history.push("/app");
   };
+
+  let isLandingPageVisited = localStorage.getItem(LANDING_PAGE_CLOSE);
+  if (isLandingPageVisited) {
+    history.push("/app");
+  }
   return (
     <div>
       <NavbarNew />

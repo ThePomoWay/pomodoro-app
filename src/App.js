@@ -127,6 +127,10 @@ function App() {
           </Route>
         )}
 
+        <Route exact path="/home">
+          <Homepage />
+        </Route>
+
         <Route path="">
           <NotFound />
         </Route>

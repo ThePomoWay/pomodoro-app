@@ -1,5 +1,5 @@
 import { SettingsApplicationsOutlined } from "@material-ui/icons";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
 import Navbar from "../../../common/components/navbar/Navbar";
@@ -26,6 +26,9 @@ import styles from "./homepage-laptop.module.scss";
 
 import { ReactComponent as SettingsIcon } from "../../../common/svgs/SettingsIcon.svg";
 import ClockSettingsModal from "../../../common/components/clock-settings-modal/ClockSettingsModal";
+import AuthService from "../../../common/API/network/AuthService";
+
+import { useHistory } from "react-router-dom";
 
 export function HomepageLaptop() {
   let {
@@ -62,6 +65,18 @@ export function HomepageLaptop() {
       scrollToEndOfContainer(containerRef.current, -100);
     }
   };
+
+  let history = useHistory();
+
+  useEffect(() => {
+    if (
+      AuthService.isLoggedIn() &&
+      window.location.pathname &&
+      window.location.pathname === "/"
+    ) {
+      history.push("/home" + window.location.search);
+    }
+  }, []);
 
   return (
     <div className={styles["container"]}>
