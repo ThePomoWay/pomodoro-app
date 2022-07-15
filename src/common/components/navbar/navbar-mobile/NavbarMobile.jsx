@@ -24,6 +24,8 @@ export default function NavbarMobile(props) {
     <div className={styles["navbar"]}>
       <span className={styles["app"]} onClick={navigateToHome}>
         <img
+          width={"100%"}
+          height={"100%"}
           src={
             theme === THEME_DARK
               ? "/logo/logo-dark.svg"
