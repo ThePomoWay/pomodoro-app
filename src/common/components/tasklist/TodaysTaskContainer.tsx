@@ -23,6 +23,8 @@ import { toggleHideTodaysCompletedTasks } from "../../state/thunks/GlobalThunk";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { Alert } from "../alert/Alert";
+import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
+import { DailyStats } from "../daily-stats/DailyStats";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);

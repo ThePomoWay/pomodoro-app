@@ -7,6 +7,8 @@ import { EditRounded } from "../../svgs/EditRounded";
 import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { ThemeDropdown } from "../theme-dropdown/ThemeDropdown";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
+import styles from "./ProfileSettings.module.scss";
+import { clearAllData } from "../../state/thunks/GlobalThunk";
 
 const dpTransitionStyles = {
   entering: {

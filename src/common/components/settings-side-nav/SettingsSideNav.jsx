@@ -3,6 +3,7 @@ import styles from "./SettingsSideNav.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSettingsTab } from "../../state/selectors";
 import { ReactComponent as PaymentIcon } from "../../svgs/SettingsPricing.svg";
+import { setSettingsTab } from "../../state/slice/GlobalSlice";
 
 const tabs = [
   {

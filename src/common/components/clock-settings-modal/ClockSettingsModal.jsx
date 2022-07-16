@@ -1,6 +1,10 @@
 import { Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./ClockSettingsModal.module.scss";
+import { selectClockSettingsModal } from "../../state/selectors";
+import { hideClockSettingsModal } from "../../state/slice/GlobalSlice";
+import { CloseIcon } from "../../svgs/CloseIcon";
+import { ClockSettings } from "../clock-setting/ClockSettings";
+import styles from "./ClockSettings.module.scss";
 
 export default function ClockSettingsModal() {
   let isModalOpen = useSelector(selectClockSettingsModal);

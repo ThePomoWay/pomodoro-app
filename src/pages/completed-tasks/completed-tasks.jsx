@@ -76,6 +76,7 @@ export default function CompletedTasks(props) {
         getReadableDate(payload.startDate).replace(/\s/g, "") +
         "_" +
         getReadableDate(payload.endDate).replace(/\s/g, "");
+
       let headerRow = [
         "project",
         "title",

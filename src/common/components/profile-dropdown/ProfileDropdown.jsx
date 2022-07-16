@@ -3,12 +3,13 @@ import { Popper } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useMediaQuery } from "react-responsive";
 import { selectTheme, selectUserInfo } from "../../state/selectors";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
-import { selectUserInfo, selectTheme } from "../../state/selectors";
+import { logout } from "../../state/thunks/GlobalThunk";
 import { ProfileHamburger } from "../../svgs/ProfileHamburger";
 import { THEME_LIGHT } from "../../utils/constants";
-import { useMediaQuery } from "react-responsive";
+import styles from "./ProfileDropdown.module.scss";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);

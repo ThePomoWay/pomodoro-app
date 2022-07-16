@@ -68,8 +68,6 @@ import {
 import usePageTracking from "../../usePageTracking";
 import CompletedTasks from "../completed-tasks/completed-tasks";
 import Settings from "../settings/Settings";
-import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
-import CompletedTasks from "../completed-tasks/completed-tasks";
 
 export default function AllTasks() {
   let todaystasks = useSelector(selectTodaysTasks);
