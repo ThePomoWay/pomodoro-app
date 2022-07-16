@@ -1,12 +1,10 @@
-import styles from "./LandingPageMobile.module.scss";
-import { ReactComponent as BlogginSvg } from "../../../common/svgs/blogging-bg.svg";
-import { ReactComponent as ProblemSvg } from "../../../common/svgs/pricing-problem-bg.svg";
-import { DotGrid } from "../DotGrid";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
-import { faqs } from "../faq";
 import { useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import Footer from "../../../common/components/footer/footer";
+import { ReactComponent as BlogginSvg } from "../../../common/svgs/blogging-bg.svg";
+import { faqs } from "../faq";
+import styles from "./LandingPageMobile.module.scss";
 
 export function LandingPageMobile(props) {
   let [faqSection, setFaqSection] = useState(0);

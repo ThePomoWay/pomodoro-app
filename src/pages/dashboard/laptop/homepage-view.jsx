@@ -8,10 +8,7 @@ import {
   getTab,
   TAB_POMODORO,
 } from "../../../common/components/timer/timer-utils";
-import {
-  setIsTimerFullScreen,
-  showClockSettingsModal,
-} from "../../../common/state/slice/GlobalSlice";
+import { setIsTimerFullScreen } from "../../../common/state/slice/GlobalSlice";
 import { markTaskAsCompleteThunk } from "../../../common/state/thunks/TasksThunk";
 import { pauseTimerAsync } from "../../../common/state/thunks/TimerThunk";
 import { MaximizeIcon } from "../../../common/svgs/MaximizeIcon";
@@ -43,9 +40,9 @@ export function HomepageLaptop() {
     dispatch(setIsTimerFullScreen(true));
   };
 
-  let openSettingsModal = () => {
-    dispatch(showClockSettingsModal());
-  };
+  // let openSettingsModal = () => {
+  //   dispatch(showClockSettingsModal());
+  // };
 
   let onPause = () => {
     dispatch(setIsTimerFullScreen(false));
@@ -73,7 +70,7 @@ export function HomepageLaptop() {
     ) {
       history.push("/home" + window.location.search);
     }
-  }, []);
+  }, [history]);
 
   return (
     <div className={styles["container"]}>

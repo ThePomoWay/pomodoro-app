@@ -16,13 +16,12 @@ import { getCSVDownloadLink } from "../../common/utils/download-CSV.ts";
 
 import { ReactComponent as ChevronDown } from "../../common/svgs/ChevronDown.svg";
 
-import { PrioritySelector } from "../../common/components/priority-selector/PrioritySelector";
 import ProjectSelector from "../../common/components/project-selector/ProjectSelector";
 import styles from "./CompletedTasks.module.scss";
 
-import "./rsuite.min.css";
 import { usePaymentStatus } from "../../common/hooks/PaymentHook";
 import { setPricingModalState } from "../../common/state/slice/GlobalSlice";
+import "./rsuite.min.css";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -119,7 +118,7 @@ export default function CompletedTasks(props) {
     payload.endDate = new Date(new Date().setDate(new Date().getDate()));
 
     dispatch(getAllCompletedTasks(payload));
-  }, []);
+  }, [dispatch]);
   let [project, setProject] = useState({
     projectID: "",
     secID: "",
@@ -136,16 +135,16 @@ export default function CompletedTasks(props) {
     );
   };
 
-  let [tagAnchorEl, setTagAnchorEl] = useState(null);
-  let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
+  // let [tagAnchorEl, setTagAnchorEl] = useState(null);
+  // let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
   let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
-  let [priority, setPriority] = useState(-1);
+  // let [priority, setPriority] = useState(-1);
 
-  let [selectedTags, setSelectedTags] = useState([]);
-  const onTagAnchorClose = () => {
-    setTagAnchorEl(null);
-  };
+  // let [selectedTags, setSelectedTags] = useState([]);
+  // const onTagAnchorClose = () => {
+  //   setTagAnchorEl(null);
+  // };
 
   const onProjectAnchorClose = () => {
     setProjectAnchorEl(null);
@@ -158,29 +157,29 @@ export default function CompletedTasks(props) {
     }
   };
 
-  const onTagAnchorClick = (e) => {
-    setTagAnchorEl(e.currentTarget);
-    e.stopPropagation();
-  };
+  // const onTagAnchorClick = (e) => {
+  //   setTagAnchorEl(e.currentTarget);
+  //   e.stopPropagation();
+  // };
 
-  const onPriorityAnchorClick = (e) => {
-    setPriorityAnchorEl(e.currentTarget);
-    e.stopPropagation();
-  };
+  // const onPriorityAnchorClick = (e) => {
+  //   setPriorityAnchorEl(e.currentTarget);
+  //   e.stopPropagation();
+  // };
 
-  const onLabelUpdate = (tags) => {
-    setSelectedTags(tags);
-  };
+  // const onLabelUpdate = (tags) => {
+  //   setSelectedTags(tags);
+  // };
 
   const closeAllPopover = () => {
     onProjectAnchorClose();
-    onPriorityAnchorClose();
-    onTagAnchorClose();
+    // onPriorityAnchorClose();
+    // onTagAnchorClose();
   };
 
-  const onPriorityAnchorClose = (e) => {
-    setPriorityAnchorEl(null);
-  };
+  // const onPriorityAnchorClose = (e) => {
+  //   setPriorityAnchorEl(null);
+  // };
 
   let getDates = function (value) {
     payload.startDate = value[0];
@@ -329,14 +328,14 @@ export default function CompletedTasks(props) {
             </div>
           </ClickAwayListener>
         </div>
-        <a
+        <button
           style={{ boxSizing: "border-box" }}
           className="btn add-task-btn"
           onClick={(e) => getCompleteTaskCSV(rows)}
           download={getDownloadFileName()}
         >
           Export as CSV
-        </a>
+        </button>
       </div>
       <table>
         <thead>
