@@ -4,22 +4,23 @@ import styles from "./LandingPage.module.scss";
 
 import { useHistory } from "react-router-dom";
 
-import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 import { ReactComponent as Block } from "../../common/svgs/block-landing.svg";
-import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
-import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
 import { ReactComponent as Bookmark } from "../../common/svgs/bookmark.svg";
+import { ReactComponent as Clock } from "../../common/svgs/clock-landing.svg";
+import { ReactComponent as Gamification } from "../../common/svgs/gamification-landing.svg";
+import { ReactComponent as Ribbon5 } from "../../common/svgs/ribbon-5.svg";
 
-import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
+import { useEffect, useState } from "react";
 import { ReactComponent as BlogginSvg } from "../../common/svgs/blogging-bg.svg";
+import { ReactComponent as ProblemSvg } from "../../common/svgs/pricing-problem-bg.svg";
 import { DotGrid } from "./DotGrid";
-import { useState } from "react";
 
-import { faqs } from "./faq";
 import { useDispatch } from "react-redux";
+import Footer from "../../common/components/footer/footer";
 import { openTutorialModal } from "../../common/state/slice/GlobalSlice";
-import { ReactComponent as PlaySvg } from "../../common/svgs/PlayLanding.svg";
 import { LANDING_PAGE_CLOSE } from "../../common/utils/constants";
+import { faqs } from "./faq";
+import OnBoarding from "../onboarding/Onboarding";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
@@ -30,9 +31,15 @@ export function LandingPage(props) {
     localStorage.setItem(LANDING_PAGE_CLOSE, "true");
     history.push("/app");
   };
+
+  let isLandingPageVisited = localStorage.getItem(LANDING_PAGE_CLOSE);
+  if (isLandingPageVisited) {
+    history.push("/app");
+  }
   return (
     <div>
       <NavbarNew />
+      <OnBoarding />
       <div className={styles["first-container"]}>
         <div className={styles["left"] + " " + styles["align-center"]}>
           <p className={styles["title"]}>
@@ -65,9 +72,9 @@ export function LandingPage(props) {
           <div className={styles["main-circle"]}>
             <div className={styles["circle-2"]}>
               <div className={styles["text"]}>25:00</div>
-              <div className={styles["play"]}>
+              {/* <div className={styles["play"]}>
                 <PlaySvg />
-              </div>
+              </div> */}
             </div>
             <div className={styles["purple-rect"]}></div>
             <span className={styles["tp-circle-1"]}>
@@ -86,7 +93,6 @@ export function LandingPage(props) {
       <div className={styles["container"]}>
         <div className={styles["left"]}>
           <div className={styles["first-text"]}>
-            <span className={styles["rect-4"]}></span>
             <h2 className={styles["title"]}>Why use Timedojo?</h2>
             <h3 className={styles["sub-title"]}>
               Are you watching tons of videos on how to overcome
@@ -116,9 +122,9 @@ export function LandingPage(props) {
               svg={<Clock />}
             />
             <FeatureCard
-              text={"Block Distractions"}
+              text={"Win Awards "}
               desc={
-                "Block distracting websites during your focused work sessions."
+                "Challenge yourself and win awards by taking part in our monthly and weekly challenges!"
               }
               svg={<Gamification />}
             />
@@ -141,11 +147,7 @@ export function LandingPage(props) {
             proven Pomodoro technique to improve work quality & time management.
           </div>
 
-          <img
-            src="/landing-img.png"
-            alt="Landing Page"
-            className={styles["img"]}
-          />
+          <img src="/ss.png" className={styles["img"]} />
         </div>
       </div>
 
@@ -346,11 +348,11 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-1.png" alt="Profile" />
+                  <img width={50} height={50} alt="Sophia" src="/dp-1.png" />
                 </div>
                 <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Ron Howard</div>
-                  <div className={styles["role"]}>Freelance Writer</div>
+                  <div className={styles["name"]}>Sophia</div>
+                  <div className={styles["role"]}>Content Writer</div>
                 </div>
               </div>
               <div className={styles["content"]}>
@@ -363,11 +365,11 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-2.png" alt="Profile" />
+                  <img width={50} height={50} alt="Matt" src="/dp-2.png" />
                 </div>
                 <div className={styles["designation"]}>
                   <div className={styles["name"]}>Matt</div>
-                  <div className={styles["role"]}>Freelance Writer</div>
+                  <div className={styles["role"]}>Freelance Developer</div>
                 </div>
               </div>
               <div className={styles["content"]}>
@@ -379,11 +381,11 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-3.png" alt="Profile" />
+                  <img width={50} height={50} alt="Oliver" src="/dp-3.png" />
                 </div>
                 <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Sue</div>
-                  <div className={styles["role"]}>CEO</div>
+                  <div className={styles["name"]}>Oliver</div>
+                  <div className={styles["role"]}>Graphics Designer</div>
                 </div>
               </div>
               <div className={styles["content"]}>
@@ -395,10 +397,10 @@ export function LandingPage(props) {
             <div className={styles["testimonial"]}>
               <div className={styles["header"]}>
                 <div className={styles["img"]}>
-                  <img src="/dp-4.png" alt="Profile" />
+                  <img width={50} height={50} alt="Annie" src="/dp-4.png" />
                 </div>
                 <div className={styles["designation"]}>
-                  <div className={styles["name"]}>Jim</div>
+                  <div className={styles["name"]}>Annie</div>
                   <div className={styles["role"]}>Brand Manager</div>
                 </div>
               </div>
@@ -445,6 +447,8 @@ export function LandingPage(props) {
           </div>
         </div>
       </div>
+
+      <Footer></Footer>
     </div>
   );
 }

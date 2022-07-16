@@ -46,14 +46,14 @@ export function getMinsDiff(a, b) {
 }
 
 export function getHourText(hour) {
-  let st = "AM";
+  let st = " AM";
   if (hour > 11) {
     if (hour > 12) {
       hour %= 12;
     }
-    st = "PM";
+    st = " PM";
   }
-  return hour + ":00" + st;
+  return hour + "-" + ((hour + 1) % 13 || "1") + st;
 }
 
 export function getPreviousMonday(date = new Date()) {
@@ -88,6 +88,9 @@ export function getFormattedTime(secs) {
     return "";
   }
   secs = Math.floor(secs);
+  if (secs === 0) {
+    return "";
+  }
   if (secs < 60) {
     return secs + " secs";
   }
@@ -139,7 +142,12 @@ export function getAnteMeridiemText(time = new Date()) {
   return `${hours}:${mins} ${st}`;
 }
 
-export function getReadableDate(time = new Date()) {
+export function getReadableDate(time) {
+  if (!time) {
+    time = new Date();
+  } else {
+    time = new Date(time);
+  }
   const month = [
     "January",
     "February",

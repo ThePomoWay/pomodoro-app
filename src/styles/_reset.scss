@@ -9,11 +9,14 @@
   font-family: "Circular";
   src: url("/styles/font/CircularStd-Medium.ttf");
   font-weight: 450;
+  font-display: swap;
 }
+
 @font-face {
   font-family: "Circular";
   src: url("/styles/font/CircularStd-Bold.ttf");
   font-weight: bold;
+  font-display: swap;
 }
 
 html,
@@ -155,4 +158,8 @@ input {
   &:focus-visible {
     outline: none;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }

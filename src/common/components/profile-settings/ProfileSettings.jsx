@@ -6,7 +6,7 @@ import { updateUserThunk } from "../../state/thunks/UserThunk";
 import { EditRounded } from "../../svgs/EditRounded";
 import { ProfilePicSelector } from "../profile-pic-selector/ProfilePicSelector";
 import { ThemeDropdown } from "../theme-dropdown/ThemeDropdown";
-import styles from "./ProfileSettings.module.scss";
+import { usePaymentStatus } from "../../hooks/PaymentHook";
 
 const dpTransitionStyles = {
   entering: {
@@ -27,7 +27,7 @@ const profileTransitionStyles = {
   exiting: { transform: "translateX(0px)", opacity: 0, position: "absolute" },
   exited: { transform: "translateX(-500px)", opacity: 0, position: "absolute" },
 };
-export function ProfileSettings() {
+export function ProfileSettings(props) {
   let user = useSelector(selectUserInfo);
   let [name, setName] = useState(user.name);
   let [email, setEmail] = useState(user.email);
@@ -40,6 +40,10 @@ export function ProfileSettings() {
 
     setEmail(user.email);
   }, [user]);
+
+  let clearAll = () => {
+    dispatch(clearAllData());
+  };
 
   let saveProfile = () => {
     dispatch(

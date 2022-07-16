@@ -13,7 +13,7 @@ export function PricingCTAs(props) {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, [dispatch]);
+  }, []);
   let buyProduct = (item) => {
     dispatch(buyProductThunk(item));
   };
@@ -25,7 +25,8 @@ export function PricingCTAs(props) {
         {products.map((item) => (
           <div className={styles["product"]}>
             <div className={styles["name"]}>
-              {item.name || "monthly package"}
+              {(item.interval && item.interval + "ly package") ||
+                "Monthly Package"}
             </div>
             <div className={styles["price"]}>
               <span className={styles["currency"]}>

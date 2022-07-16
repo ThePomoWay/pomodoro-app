@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon-32x32.png" />
-    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/ionkpaepibbmmhcijkhmamakpeclkdml">
+    <link
+      rel="chrome-webstore-item"
+      href="https://chrome.google.com/webstore/detail/ionkpaepibbmmhcijkhmamakpeclkdml"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta name="description" content="An app for improving productivity!" />
     <meta
-      name="description"
-      content="An app for improving productivity!"
+      property="og:title"
+      content="TimeDojo: A place to improve your productivity!"
     />
-    <meta property="og:title" content="TimeDojo: A place to improve your productivity!" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://timedojo.io/favicon-32x32.png" />
     <meta property="og:url" content="https://timedojo.io" />
@@ -18,8 +21,14 @@
     <meta name="msvalidate.01" content="9774C100F2A448516CF3BA45ED99CF9C" />
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon-32x32.png" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -34,26 +43,119 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>TimeDojo, A place to improve your productivity!</title>
+    <title>TimeDojo, Pomodoro app and Website Blocker.</title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-85PH8T6RQG"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-85PH8T6RQG"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      if("%NODE_ENV%" === "production") {
-        gtag('config', 'G-85PH8T6RQG', {
-              send_page_view: false
-            });
+      if ("%NODE_ENV%" === "production") {
+        gtag("config", "G-85PH8T6RQG", {
+          send_page_view: false,
+        });
       }
-      if("%NODE_ENV%" === 'alpha') {
-        gtag('config', 'G-PPXXMBNPVC', {
-              send_page_view: false
-            });
+      if ("%NODE_ENV%" === "alpha") {
+        gtag("config", "G-PPXXMBNPVC", {
+          send_page_view: false,
+        });
       }
-      
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the Pomodoro technique?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Pomodoro technique is a focus booster where all you have to do is divide your tasks for the day into Pomodoros, which are essentially 25 minute time intervals, and work on the assigned task till the timer rings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many breaks can I take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can take a short break of 5 minutes after every 25-minute Pomodoro and a more extended break after every 3 Pomodoro. At Timedojo, we give you the freedom to customise the pomodoro duration to make the most out of your focus time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many Pomodoros can you do in a day?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Each pomodoro timer lasts for 25 minutes by default. However, Timedojo offers you the benefit of customising the session duration. Go to Settings, click on Clock and successfully set a time as per your pace and comfort."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we change the Pomodoro timer limit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Timedojo allows you to change the timer from the default 25 minutes to optimise your focus time. Head over to the Settings option now!"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Pomodoro technique effective?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Pomodoro technique helps you channelise your focus to complete challenging and high-priority tasks. Timedojo helps you maximise effectiveness by blocking all distracting sites during a pomodoro session."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Timedojo fight procrastination?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Timedojo is a hyper focus tool that helps you in task and time management. You can now organise your tasks list as per priority, block distracting sites and begin your focus sessions to meet deadlines and make the most of your day successfully."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Timedojo free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Timedojo offers a comprehensive set of features to help you improve productivity at zero cost! This is the best way to prioritise and tackle your to-do list!"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does Timedojo do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Timedojo is the best digital task and time manager. It provides access to a host of features to manage your tasks for the day, like restricting distracting sites, data insights on your productivity and organising tasks by prioritising and labelling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I choose which sites to block?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, our setting of ‘Manage Focus View’ helps you customise the sites to be blocked and delivers a seamless and calm focus session."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Timedojo a Pomodoro app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Timedojo is a focus booster tool that helps you how to manage time better with productive and distraction free work sessions. It uses the Pomodoro technique timer, wherein you allot your tasks for the day into 25-minute sessions. "
+            }
+          }
+        ]
+      }
     </script>
   </head>
   <body>
@@ -69,8 +171,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
-    
-
   </body>
 </html>

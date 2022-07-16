@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
@@ -61,7 +62,7 @@ export function LoginStep(props) {
               disabled={renderProps.disabled}
             >
               <GoogleIcon />
-              <span>Sign Up with Google</span>
+              <span>Continue with Google</span>
             </button>
           )}
         />
@@ -78,7 +79,7 @@ export function LoginStep(props) {
                 disabled={renderProps.disabled}
               >
                 <FacebookIcon />
-                <span>Sign Up with Facebook</span>
+                <span>Continue with Facebook</span>
               </button>
             )}
           />

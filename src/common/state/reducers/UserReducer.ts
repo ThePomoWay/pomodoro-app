@@ -3,6 +3,7 @@ export const initialUserState = {
     subscription: {
       status: "inactive",
     },
+    expiry: "",
   },
   loaded: false,
   isLoggedIn: false,

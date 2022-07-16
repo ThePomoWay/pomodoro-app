@@ -1,9 +1,12 @@
+import { VOLUME_KEY } from "./constants";
+
 let soundPlayerTimeout: any = 0;
 let currentAudioObj: any;
 
 const completeTaskAudioUrl = "/sounds/complete-task-2-cropped.wav";
 const alarmAudioUrl = "/sounds/end-timer.mp3";
 const timerStartAudioUrl = "/sounds/start-timer.mp3";
+const tickAudioUrl = "/sounds/tick.mp3";
 
 function resetSoundPlayerTimeout() {
   soundPlayerTimeout = 0;
@@ -43,4 +46,16 @@ export function playTimerStartSound() {
 // let completeTaskAudio = new Audio(completeTaskAudioUrl);
 export function playCompleteTaskSound() {
   playSound(new Audio(completeTaskAudioUrl), 1000, completeTaskAudioUrl);
+}
+
+export function playTickSound() {
+  let volume: any = localStorage.getItem(VOLUME_KEY);
+  if (volume === undefined) {
+    volume = 100;
+  }
+
+  volume = Number(volume) / 100;
+  let aud = new Audio(tickAudioUrl);
+  aud.volume = volume;
+  playSound(aud, 800, tickAudioUrl);
 }

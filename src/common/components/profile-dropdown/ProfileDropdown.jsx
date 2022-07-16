@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectTheme, selectUserInfo } from "../../state/selectors";
 import { setSettingsModal } from "../../state/slice/GlobalSlice";
-import { logout } from "../../state/thunks/GlobalThunk";
+import { selectUserInfo, selectTheme } from "../../state/selectors";
 import { ProfileHamburger } from "../../svgs/ProfileHamburger";
 import { THEME_LIGHT } from "../../utils/constants";
-import styles from "./ProfileDropdown.module.scss";
+import { useMediaQuery } from "react-responsive";
 
 export function ProfileDropdown(props) {
   let [profileAnchorEl, setProfileAnchorEl] = useState(false);
   let userInfo = useSelector(selectUserInfo);
   let theme = useSelector(selectTheme);
+
+  const isMobileDevice = useMediaQuery({
+    query: "(max-device-width: 899px)",
+  });
 
   const onClose = () => {
     setProfileAnchorEl(null);
@@ -40,10 +44,7 @@ export function ProfileDropdown(props) {
             <ProfileHamburger
               stroke={theme === THEME_LIGHT ? "black" : "white"}
             />
-            <img
-              alt="User Info"
-              src={(userInfo && userInfo.image) || "/dp/1.png"}
-            />
+            <img src={(userInfo && userInfo.image) || "/dp/1.png"} />
             {/* <span className={`${styles["arrow"]}`}>
               <ArrowDropDown />
             </span> */}
@@ -55,23 +56,27 @@ export function ProfileDropdown(props) {
             anchorEl={profileAnchorEl}
             onClose={onClose}
             position="bottom-left"
+            className="popper"
           >
             <div
               className="popper-container"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="popper-item" onClick={openSettings}>
-                Settings
-              </div>
+              {!isMobileDevice && (
+                <div className="popper-item" onClick={openSettings}>
+                  Settings
+                </div>
+              )}
 
-              <a
-                className="popper-item"
-                href="mailto:feedback@timedojo.io"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Send Feedback ❤️
-              </a>
+              {!isMobileDevice && (
+                <a
+                  className="popper-item"
+                  href="mailto:feedback@timedojo.io"
+                  target="_blank"
+                >
+                  Send Feedback ❤️
+                </a>
+              )}
 
               <div className="popper-item" onClick={(e) => onLogout()}>
                 Logout

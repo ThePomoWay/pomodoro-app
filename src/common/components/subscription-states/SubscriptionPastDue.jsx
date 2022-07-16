@@ -1,8 +1,12 @@
-import { PricingCTAs } from "../pricing-ctas/pricing-ctas";
-import PricingFeatures from "../pricing-features/pricing-features";
+import { getBillingConfiguration } from "../../state/thunks/GlobalThunk";
+import { useDispatch } from "react-redux";
 import styles from "./Subscription.module.scss";
+import PricingFeatures from "../pricing-features/pricing-features";
+import { PricingCTAs } from "../pricing-ctas/pricing-ctas";
 
 export default function SubscriptionActive(props) {
+  let dispatch = useDispatch();
+
   return (
     <div>
       <div className={styles["title"]}>

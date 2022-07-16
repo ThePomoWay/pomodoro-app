@@ -21,6 +21,8 @@
     font-size: 14px;
     line-height: 20px;
 
+    cursor: pointer;
+
     &.selected {
       background: var(--all-task-sidebar-selected-bg);
       border-radius: 4px;

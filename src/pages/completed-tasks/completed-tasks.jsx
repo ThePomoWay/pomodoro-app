@@ -77,6 +77,7 @@ export default function CompletedTasks(props) {
         "_" +
         getReadableDate(payload.endDate).replace(/\s/g, "");
       let headerRow = [
+        "project",
         "title",
         "createdOn",
         "completedOn",
@@ -88,6 +89,7 @@ export default function CompletedTasks(props) {
       if (rows && rows.length >= 1) {
         rows.forEach(function (row) {
           let arr = [
+            row.values.readProject,
             row.values.title,
             '"' + row.values.readCreatedOn + '"',
             '"' + row.values.readCompletedOn + '"',
@@ -116,7 +118,7 @@ export default function CompletedTasks(props) {
     payload.endDate = new Date(new Date().setDate(new Date().getDate()));
 
     dispatch(getAllCompletedTasks(payload));
-  }, [dispatch]);
+  }, []);
   let [project, setProject] = useState({
     projectID: "",
     secID: "",
@@ -133,10 +135,16 @@ export default function CompletedTasks(props) {
     );
   };
 
+  let [tagAnchorEl, setTagAnchorEl] = useState(null);
   let [priorityAncholEl, setPriorityAnchorEl] = useState(null);
   let [projectAnchorEl, setProjectAnchorEl] = useState(null);
 
   let [priority, setPriority] = useState(-1);
+
+  let [selectedTags, setSelectedTags] = useState([]);
+  const onTagAnchorClose = () => {
+    setTagAnchorEl(null);
+  };
 
   const onProjectAnchorClose = () => {
     setProjectAnchorEl(null);
@@ -149,14 +157,24 @@ export default function CompletedTasks(props) {
     }
   };
 
+  const onTagAnchorClick = (e) => {
+    setTagAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
   const onPriorityAnchorClick = (e) => {
     setPriorityAnchorEl(e.currentTarget);
     e.stopPropagation();
   };
 
+  const onLabelUpdate = (tags) => {
+    setSelectedTags(tags);
+  };
+
   const closeAllPopover = () => {
     onProjectAnchorClose();
     onPriorityAnchorClose();
+    onTagAnchorClose();
   };
 
   const onPriorityAnchorClose = (e) => {
@@ -192,6 +210,7 @@ export default function CompletedTasks(props) {
       {
         Header: "Title",
         accessor: "title", // accessor is the "key" in the data
+        colSpan: 2,
       },
       {
         Header: "Created On",
@@ -277,7 +296,7 @@ export default function CompletedTasks(props) {
                 </Popper>
               </div>
 
-              <div
+              {/* <div
                 className={styles["filter-item"]}
                 onClick={(e) => {
                   closeAllPopover();
@@ -305,18 +324,18 @@ export default function CompletedTasks(props) {
                     }}
                   />
                 </Popper>
-              </div>
+              </div> */}
             </div>
           </ClickAwayListener>
         </div>
-        <button
+        <a
           style={{ boxSizing: "border-box" }}
           className="btn add-task-btn"
           onClick={(e) => getCompleteTaskCSV(rows)}
           download={getDownloadFileName()}
         >
           Export as CSV
-        </button>
+        </a>
       </div>
       <table>
         <thead>
@@ -341,6 +360,7 @@ export default function CompletedTasks(props) {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className={styles["table-header-item"]}
+                  colSpan={column.colSpan || 1}
                 >
                   {column.render("Header")}
                   <span>
@@ -365,6 +385,7 @@ export default function CompletedTasks(props) {
                     <td
                       className={styles["task-item"]}
                       {...cell.getCellProps()}
+                      colSpan={cell.column.colSpan || 1}
                     >
                       {cell.render("Cell")}
                     </td>

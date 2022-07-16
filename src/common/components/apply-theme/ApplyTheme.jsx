@@ -20,7 +20,7 @@ export function ApplyTheme({ children }) {
     //Loop through each array key and set the CSS Variables
     arrayOfVariableKeys.forEach((cssVariableKey, index) => {
       //Based on our snippet from MDN
-      document.documentElement.style.setProperty(
+      document.body.style.setProperty(
         cssVariableKey,
         arrayOfVariableValues[index]
       );

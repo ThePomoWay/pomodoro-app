@@ -9,7 +9,10 @@ import {
   selectTagsAsObj,
   selectTasksAsobj,
   selectTodaysTaskIds,
+  selectEditTaskRef,
+  selectHideProjectsCompletedTasks,
   selectUserInfo,
+  selectFreeProjects,
 } from "../../state/selectors";
 
 import { useEffect, useState } from "react";
@@ -53,8 +56,11 @@ import { Alert } from "../alert/Alert";
 import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
 import EditTaskContainer from "../new-task-modal/EditTaskContainer";
-import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
-import styles from "./ProjectContainer.module.scss";
+import { toggleHideProjectsCompletedTasks } from "../../state/thunks/GlobalThunk";
+import {
+  SUBSCRIPTION_STATUS_ACTIVE,
+  SUBSCRIPTION_STATUS_PAST_DUE,
+} from "../../utils/constants";
 
 export function ProjectContainer(props) {
   let { projectId } = useParams();
@@ -92,6 +98,21 @@ export function ProjectContainer(props) {
     user.subscription &&
     (user.subscription.status === SUBSCRIPTION_STATUS_ACTIVE ||
       user.subscription.status === SUBSCRIPTION_STATUS_PAST_DUE)
+  ) {
+    disableTaskCreation = false;
+  } else {
+    for (var i = 0; i < freeProjects.length; i++) {
+      if (freeProjects[i]._id === projectId) {
+        disableTaskCreation = false;
+        break;
+      }
+    }
+  }
+
+  if (
+    user.subscription &&
+    (user.subscription.status == SUBSCRIPTION_STATUS_ACTIVE ||
+      user.subscription.status == SUBSCRIPTION_STATUS_PAST_DUE)
   ) {
     disableTaskCreation = false;
   } else {
@@ -312,7 +333,7 @@ export function ProjectContainer(props) {
 
   let history = useHistory();
 
-  const onDeleteProject = (e) => {
+  const onDeleteProject = useCallback((e) => {
     dispatch(
       deleteProjectAsync({ project: projectVar, allProjects: projectsObj })
     );

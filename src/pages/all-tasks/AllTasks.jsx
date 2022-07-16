@@ -68,6 +68,8 @@ import {
 import usePageTracking from "../../usePageTracking";
 import CompletedTasks from "../completed-tasks/completed-tasks";
 import Settings from "../settings/Settings";
+import { toggleHideProjectsCompletedTasks } from "../../common/state/thunks/GlobalThunk";
+import CompletedTasks from "../completed-tasks/completed-tasks";
 
 export default function AllTasks() {
   let todaystasks = useSelector(selectTodaysTasks);
@@ -442,10 +444,7 @@ export default function AllTasks() {
                       />
                     )) || (
                       <div className={styles["illustration"]}>
-                        <img
-                          src="/illustrations/empty-today-mini.svg"
-                          alt="Empty state"
-                        />
+                        <img src="/illustrations/empty-today-mini.svg" />
                         <p className={styles["text-light"]}>
                           Tap on the plus button in the tasks to add to today’s
                         </p>

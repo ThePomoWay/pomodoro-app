@@ -176,4 +176,7 @@ export const light = {
   "--feature-text-color": "#3F4358",
   "--analysis-hover": "#ecf0ff",
   "--bg-focus-mode-tracking": "#f4f5fc",
+  "--shrink-icon": "#ededff",
+  "--block-btn-color": "#dc5d5d",
+  "--task-more-fill": "#9CA3CE",
 };

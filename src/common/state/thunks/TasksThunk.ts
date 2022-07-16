@@ -38,7 +38,12 @@ import { playCompleteTaskSound } from "../../utils/sound-utils";
 
 import { getAllProjectsFromIDB } from "../../API/indexed-db-ops/projectCrud";
 import { projectChangeApi } from "../../API/network/ProjectApis";
-import { DEFAULT_WORK_TIME, POMO_RUNNING_STATE } from "../../utils/constants";
+import {
+  DEFAULT_WORK_TIME,
+  POMO_IDLE_STATE,
+  POMO_PAUSED_STATE,
+  POMO_RUNNING_STATE,
+} from "../../utils/constants";
 import {
   openOnboardingModal,
   setToast,
@@ -183,50 +188,63 @@ export const markTaskAsCurrent = createAsyncThunk(
     let timerState = getState()["timer"];
     let summary = window.structuredClone(timerState.pomoSummary);
 
-    if (timerState.pomoState === POMO_RUNNING_STATE) {
-      if (summary[taskState.currentTaskRef]) {
-        summary[taskState.currentTaskRef].csec += Math.round(
-          (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
-        );
+    let fid = (task && task.fid) || taskState.currentTaskRef;
 
-        summary[taskState.currentTaskRef].endTime = Date.now();
-      }
-      if (summary[task.fid]) {
-        summary[task.fid].startTime = Date.now();
-        summary[task.fid].endTime = "";
-      } else {
-        summary[task.fid] = {
-          csec: 0,
-          startTime: Date.now(),
-        };
-      }
-    } else {
-      summary = {
-        [task.fid]: {
-          csec: 0,
-          startTime: Date.now(),
-        },
-      };
-    }
+    if (fid) {
+      if (
+        timerState.pomoState === POMO_RUNNING_STATE ||
+        timerState.pomoState === POMO_IDLE_STATE
+      ) {
+        if (
+          summary[taskState.currentTaskRef] &&
+          !summary[taskState.currentTaskRef].endTime
+        ) {
+          summary[taskState.currentTaskRef].csec += Math.round(
+            (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
+          );
 
-    dispatch(setPomoSummary(summary));
-    let currentTask = Object.keys(tasks)
-      .map((i) => tasks[i])
-      .filter((item) => item.isCurrentTask)[0];
-    if (!currentTask) {
+          summary[taskState.currentTaskRef].endTime = Date.now();
+        }
+        if (summary[fid]) {
+          summary[fid].startTime = Date.now();
+          summary[fid].endTime = "";
+        } else {
+          summary[fid] = {
+            csec: 0,
+            startTime: Date.now(),
+          };
+        }
+      } else if (timerState.pomoState === POMO_PAUSED_STATE) {
+        if (summary[fid]) {
+          summary[fid].startTime = Date.now();
+          summary[fid].endTime = "";
+        } else {
+          summary[fid] = {
+            csec: 0,
+            startTime: Date.now(),
+          };
+        }
+      }
+
+      dispatch(setPomoSummary(summary));
+      let currentTask = Object.keys(tasks)
+        .map((i) => tasks[i])
+        .filter((item) => item.isCurrentTask)[0];
+      if (!currentTask && task.fid) {
+        //@ts-ignore
+        dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
+        return;
+      }
+      if (currentTask.fid === fid) {
+        return;
+      }
+
+      //@ts-ignore
+      dispatch(updateLocalTaskThunk({ ...currentTask, isCurrentTask: false }));
+
       //@ts-ignore
       dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
-      return;
     }
-    if (currentTask.fid === task.fid) {
-      return;
-    }
-
-    //@ts-ignore
-    dispatch(updateLocalTaskThunk({ ...currentTask, isCurrentTask: false }));
-
-    //@ts-ignore
-    dispatch(updateLocalTaskThunk({ ...task, isCurrentTask: true }));
   }
 );
 
@@ -354,9 +372,37 @@ export const markTaskAsCompleteThunk = createAsyncThunk(
     } else {
       let completedOn = new Date().toISOString();
 
+      let taskState = getState()["tasks"];
+      let timerState = getState()["timer"];
+      let summary = window.structuredClone(timerState.pomoSummary);
+
+      let todaysTasksObj = getObjFromArr(taskState.todaysTasks);
+
       dispatch(markTaskAsCompleteLocal(obj));
 
-      let todaysTasksObj = getObjFromArr(getState()["tasks"].todaysTasks);
+      if (
+        timerState.pomoState === POMO_RUNNING_STATE &&
+        taskState.currentTaskRef === obj.task.fid &&
+        summary[taskState.currentTaskRef]
+      ) {
+        summary[taskState.currentTaskRef].csec += Math.round(
+          (Date.now() - summary[taskState.currentTaskRef].startTime) / 1000
+        );
+
+        summary[taskState.currentTaskRef].endTime = Date.now();
+
+        dispatch(setPomoSummary(summary));
+
+        // dispatch(
+        //   incrementTaskCpomos([
+        //     {
+        //       ...summary[taskState.currentTaskRef],
+        //       fid: taskState.currentTaskRef,
+        //     },
+        //   ])
+        // );
+      }
+
       if (obj.task._id) {
         let completedTaskResponse = await markTaskAsCompleteApi(
           {

@@ -39,4 +39,6 @@ export const {
   showTransactionSuccessModal,
   showTransactionErrorModal,
   closeTransactionModal,
+  showClockSettingsModal,
+  hideClockSettingsModal,
 } = globalSlice.actions;

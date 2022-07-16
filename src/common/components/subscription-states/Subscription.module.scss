@@ -22,13 +22,14 @@
   margin-bottom: 20px;
   font-weight: 450;
   font-size: 18px;
+  color: var(--text-theme);
 }
 
 .expiry-text {
   font-weight: 450;
   font-size: 16px;
 
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--text-theme);
 
   margin-bottom: 16px;
 }

@@ -27,9 +27,13 @@ import {
   getTodaysDateFormatted,
   getWeekFormattedDate,
 } from "../../../common/utils/date-utils";
-import { AnalysisCharts } from "../analysis-charts/AnalysisCharts";
+import {
+  AnalysisBarCharts,
+  AnalysisCharts,
+} from "../analysis-charts/AnalysisCharts";
 import styles from "./analysis-laptop.module.scss";
 
+import { usePaymentStatus } from "../../../common/hooks/PaymentHook";
 import { selectTheme } from "../../../common/state/selectors";
 import { UndisturbedPomoSvgDark } from "../../../common/svgs/UndisturbedPomoSvgDark";
 import Settings from "../../settings/Settings";
@@ -58,6 +62,8 @@ export function AnalysisLaptop(props) {
   let user = useSelector(selectUser);
 
   let theme = useSelector(selectTheme);
+
+  let { isSubscriptionActive } = usePaymentStatus();
 
   let dispatch = useDispatch();
 
@@ -373,7 +379,7 @@ export function AnalysisLaptop(props) {
             <div className={styles["focused-time-container"]}>
               <h2 className="font-sub-heading">Most focused time of the day</h2>
               <div className="chart">
-                <AnalysisCharts chartsData={stats.dailyDistributionData} />
+                <AnalysisBarCharts chartsData={stats.dailyDistributionData} />
               </div>
             </div>
 

@@ -19,6 +19,10 @@ export default function AnalysisPage(props) {
     }
   });
 
+  const isMobileDevice = useMediaQuery({
+    query: "(min-device-width: 480px)",
+  });
+
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1200px)",
   });

@@ -19,6 +19,7 @@ export function createCheckoutSession(priceId) {
     "{userId}",
     AuthService.getUserId()
   );
+  let userInfo = AuthService.getUserAuthInfo();
   return NetworkService.post(
     endpoint,
     { priceId },
@@ -35,5 +36,6 @@ export function createBillingConfiguration() {
     "{userId}",
     AuthService.getUserId()
   );
+  let userInfo = AuthService.getUserAuthInfo();
   return NetworkService.post(endpoint, {}, {});
 }

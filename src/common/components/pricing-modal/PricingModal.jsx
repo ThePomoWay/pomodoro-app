@@ -21,6 +21,10 @@ export default function PricingModal(props) {
     query: "(max-device-width: 1224px)",
   });
 
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1200px)",
+  });
+
   return (
     <Modal
       open={isModalOpen}

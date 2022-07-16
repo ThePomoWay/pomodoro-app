@@ -138,7 +138,7 @@ export default function NavbarDesktop(props) {
   return (
     <div className={styles["navbar"]}>
       <div className={styles["navbar-content"]}>
-        <span className={styles["app"]}>
+        <span className={styles["app"]} onClick={navigateToHome}>
           <img
             src={
               theme === THEME_DARK

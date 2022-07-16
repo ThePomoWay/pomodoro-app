@@ -74,9 +74,6 @@ export function TutorialModal(props) {
                 <div className={styles["title"]}>
                   {STEP_DETAILS[step].title}
                 </div>
-                <div className={styles["description"]}>
-                  {STEP_DETAILS[step].description}
-                </div>
               </div>
 
               <div className={styles["second"]}>
@@ -86,7 +83,7 @@ export function TutorialModal(props) {
                       style={{ color: "white", width: "50%", height: "50%" }}
                     />
                   )}
-                  {step === 2 && <TickWhite />}
+                  {step == 2 && <TickWhite />}
                 </div>
 
                 <ProgressStrip selected={step} onChange={(e) => setStep(e)} />

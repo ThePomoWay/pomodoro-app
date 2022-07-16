@@ -18,17 +18,18 @@ import {
 import styles from "./todaysTaskContainer.module.scss";
 
 import { ClickAwayListener, Popper } from "@mui/material";
+import AuthService from "../../API/network/AuthService";
 import { toggleHideTodaysCompletedTasks } from "../../state/thunks/GlobalThunk";
 import { EditIconSvg } from "../../svgs/EditIconSvg";
 import { MoreIconSvg } from "../../svgs/MoreIconSvg";
 import { Alert } from "../alert/Alert";
-import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
-import { DailyStats } from "../daily-stats/DailyStats";
 
 export function TodaysTaskContainer(props) {
   let tasks = useSelector(selectTodaysTasks);
   let completedTasks = useSelector(selectTodaysCompletedTasks);
   let tags = useSelector(selectTagsAsObj);
+
+  let isLoggedIn = AuthService.isLoggedIn();
 
   let hideCompletedTasks = useSelector(selectHideTodaysCompletedTasks);
 
@@ -119,32 +120,36 @@ export function TodaysTaskContainer(props) {
                     <EditIconSvg /> Remove all tasks
                   </div>
                 )}
-                <div
-                  className="popper-item"
-                  onClick={(e) => toggleHideCompletedTasks()}
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+
+                {isLoggedIn && (
+                  <div
+                    className="popper-item"
+                    onClick={(e) => toggleHideCompletedTasks()}
                   >
-                    <circle
-                      cx="6"
-                      cy="6"
-                      r="4"
-                      stroke="#6A6F9A"
-                      strokeWidth="0.7"
-                    />
-                    <path
-                      d="M4.5 6L6 7.5L11 2.5"
-                      stroke="#6A6F9A"
-                      strokeWidth="0.7"
-                    />
-                  </svg>{" "}
-                  {hideCompletedTasks ? "Show" : "Hide"} completed tasks
-                </div>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="6"
+                        cy="6"
+                        r="4"
+                        stroke="#6A6F9A"
+                        strokeWidth="0.7"
+                      />
+                      <path
+                        d="M4.5 6L6 7.5L11 2.5"
+                        stroke="#6A6F9A"
+                        strokeWidth="0.7"
+                      />
+                    </svg>{" "}
+                    {hideCompletedTasks ? "Show" : "Hide"} completed tasks
+                  </div>
+                )}
+
                 {/* <div
                   className="popper-item"
                   onClick={(e) => {

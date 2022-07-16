@@ -75,7 +75,9 @@ export const createProjectAsync = createAsyncThunk(
         }
 
         if (obj.redirect) {
-          window.location.href = "/all/project/" + response.data.pid;
+          setTimeout(() => {
+            window.location.href = "/all/project/" + response.data.pid;
+          }, 1000);
         }
       }
 
@@ -210,7 +212,7 @@ export const deleteProjectAsync = createAsyncThunk(
     let project = projectContainer.project;
     let projectsObj = projectContainer.allProjects;
     let projectsArr = [];
-    for (const [_, value] of Object.entries(projectsObj)) {
+    for (const [key, value] of Object.entries(projectsObj)) {
       if (value._id !== project._id) {
         projectsArr.push({
           _id: value._id,
@@ -310,6 +312,8 @@ export const getAllProjects = createAsyncThunk(
   "get/project",
   async (_, { dispatch }) => {
     let response = await getAllProjectsFromIDB();
+
+    response = response.filter((item) => !item.isArchived);
     dispatch(setAllProjects(response));
     dispatch(setFreeProjects(response));
   }

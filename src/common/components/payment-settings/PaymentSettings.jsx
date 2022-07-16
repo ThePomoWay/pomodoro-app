@@ -19,27 +19,27 @@ export function PaymentSettings(props) {
   // pricing modal to be replace by Subscription Inactive component
   return (
     <div style={{ position: "relative" }}>
-      {subStatus === SUBSCRIPTION_STATUS_INACTIVE ? (
+      {subStatus == SUBSCRIPTION_STATUS_INACTIVE ? (
         <SubscriptionInactive />
       ) : (
         ""
       )}
-      {subStatus === SUBSCRIPTION_STATUS_ACTIVE ? (
+      {subStatus == SUBSCRIPTION_STATUS_ACTIVE ? (
         <SubscriptionActive expiry={planExpiry} />
       ) : (
         ""
       )}
-      {subStatus === SUBSCRIPTION_STATUS_PAST_DUE ? (
+      {subStatus == SUBSCRIPTION_STATUS_PAST_DUE ? (
         <SubscriptionPastDue expiry={planExpiry} />
       ) : (
         ""
       )}
-      {subStatus === SUBSCRIPTION_STATUS_UNPAID ? (
+      {subStatus == SUBSCRIPTION_STATUS_UNPAID ? (
         <SubscriptionUnpaid expiry={planExpiry} />
       ) : (
         ""
       )}
-      {subStatus === SUBSCRIPTION_STATUS_CANCELED ? (
+      {subStatus == SUBSCRIPTION_STATUS_CANCELED ? (
         <SubscriptionCanceled expiry={planExpiry} />
       ) : (
         ""

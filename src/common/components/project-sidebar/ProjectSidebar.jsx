@@ -1,6 +1,7 @@
 import { Add } from "@material-ui/icons";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import AuthService from "../../API/network/AuthService";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
@@ -10,6 +11,7 @@ import {
   setProjectModalState,
 } from "../../state/slice/GlobalSlice";
 import { ProjectSidenavIcon } from "../../svgs/ProjectSidenavIcon";
+import { ReactComponent as Lock } from "../../svgs/lock.svg";
 
 import styles from "./projectSidebar.module.scss";
 
@@ -18,6 +20,8 @@ export default function ProjectSidebar() {
   let projectsOrder = useSelector(selectProjectOrder);
 
   let { isSubscriptionActive } = usePaymentStatus();
+
+  let [projectExpanded, setProjectExpanded] = useState(true);
 
   let dispatch = useDispatch();
 

@@ -112,6 +112,12 @@ export const signin = createAsyncThunk(
     }
 
     if (response.data && response.data.uid) {
+      window.gtag("event", "sign_in", {
+        page_title: "",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        mode: obj.mode,
+      });
       AuthService.login(response.data);
     }
   }
@@ -197,7 +203,23 @@ export const updateUserPref = createAsyncThunk(
 
     let updateObj = { ...userPreferences, ...obj };
 
-    await updateUserApi({ ...user, settings: { clock: updateObj } });
+    if (obj.volume !== undefined) {
+      localStorage.setItem(VOLUME_KEY, obj.volume);
+    }
+
+    debounce(
+      "save_settings",
+      () => {
+        updateUserApi({
+          ...user,
+          settings: {
+            clock: updateObj,
+            sound: { start: { volume: obj.volume || 100 } },
+          },
+        });
+      },
+      1000
+    );
 
     dispatch(showSuccessToast("Settings updated Successfully"));
     dispatch(updateUserPrefLocal(updateObj));
@@ -244,7 +266,7 @@ export const getProducts = createAsyncThunk(
 
 export const getBillingConfiguration = createAsyncThunk(
   "global/bill-config",
-  async (_) => {
+  async (_, {}) => {
     let resp = await createBillingConfiguration();
 
     if (resp.data.url) {

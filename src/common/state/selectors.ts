@@ -1,4 +1,6 @@
 import { groupByDates } from "../utils/common";
+import { getReadableDate } from "../utils/date-utils";
+import { statsReducer } from "./reducers/StatsReducer";
 
 export const selectPomoState = (state) => state.timer.pomoState;
 export const selectTimer = (state) => state.timer.timerInSec;
@@ -152,5 +154,3 @@ export const selectAllCompletedTasks = (state) => {
 };
 
 export const selectClockSettingsModal = (state) => state.global.clockModalState;
-
-export const selectAwardsModalState = (state) => state.awards.awardsModal;

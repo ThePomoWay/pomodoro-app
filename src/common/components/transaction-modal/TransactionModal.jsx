@@ -5,6 +5,7 @@ import { selectTransactionModal } from "../../state/selectors";
 import { closeTransactionModal } from "../../state/slice/GlobalSlice";
 import { CloseIcon } from "../../svgs/CloseIcon";
 
+import { ReactComponent as PricingRibbon } from "../../svgs/pricing-ribbon.svg";
 import { TransactionFailure } from "./TransactionFailure";
 import { TransactionSuccess } from "./TransactionSuccess";
 
@@ -36,9 +37,9 @@ export function TransactionModal(props) {
           <span className="close" onClick={(e) => handleClose()}>
             <CloseIcon />
           </span>
-          {(modalState.type === "success" && <TransactionSuccess />) || (
-            <TransactionFailure />
-          )}
+          {(modalState.type === "success" && (
+            <TransactionSuccess handleClose={handleClose} />
+          )) || <TransactionFailure />}
         </div>
       </div>
     </Modal>

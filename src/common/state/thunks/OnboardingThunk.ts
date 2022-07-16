@@ -60,16 +60,18 @@ export const login = createAsyncThunk(
 export const registerCheck = createAsyncThunk(
   "onboarding/registerCheck",
   async (email: any, { dispatch }) => {
-    // replace with api call
-    let response = await registerCheckApi(email);
+    if (email) {
+      // replace with api call
+      let response = await registerCheckApi(email.toLowerCase());
 
-    if (response.data && response.data.uid) {
-      dispatch(setRegisterEmail(email));
-      dispatch(setLoginName(response.data.name));
-      dispatch(setStep(LOGIN_STEP));
-    } else {
-      dispatch(setRegisterEmail(email));
-      dispatch(setStep(REGISTER_STEP));
+      if (response.data && response.data.uid) {
+        dispatch(setRegisterEmail(email));
+        dispatch(setLoginName(response.data.name));
+        dispatch(setStep(LOGIN_STEP));
+      } else {
+        dispatch(setRegisterEmail(email));
+        dispatch(setStep(REGISTER_STEP));
+      }
     }
   }
 );

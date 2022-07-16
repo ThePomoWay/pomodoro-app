@@ -1,0 +1,33 @@
+.nav {
+  @media only screen and (min-width: 899px) {
+    display: none;
+  }
+
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  width: 100vw;
+
+  background-color: #ffffff;
+
+  padding: 10px 20px;
+  box-sizing: border-box;
+
+  .item {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  .selected {
+    svg {
+      fill: purple;
+    }
+  }
+}

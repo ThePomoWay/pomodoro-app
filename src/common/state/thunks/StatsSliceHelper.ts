@@ -199,7 +199,7 @@ export function processStatsRange(
       }
 
       for (let i = 0; i < 24; i += 1) {
-        chartsArr.push(hoursObj[i] || 0);
+        chartsArr.push(Math.round(hoursObj[i]) || 0);
       }
       chartsObj.datasets = [
         {

@@ -6,7 +6,7 @@ export const initialProjectsState = {
   projects: {},
   projectOrder: [],
   editProjectId: "",
-  freeProjects: []
+  freeProjects: [],
 };
 
 export const projectReducer = {
@@ -26,25 +26,25 @@ export const projectReducer = {
   setFreeProjects: (state, action) => {
     let freeProjects = [];
     let projectArray = [];
-    action.payload.forEach(element => {
+    action.payload.forEach((element) => {
       if (element.title !== "Inbox") {
         projectArray.push({
           _id: element._id,
           title: element.title,
-          createdOn: element.createdOn || ""
-        })
+          createdOn: element.createdOn || "",
+        });
       }
     });
     // TODO :  sort projects array first
-    projectArray.sort(function(a,b){
-      return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime();
+    projectArray.sort(function (a, b) {
+      return new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime();
     });
-    freeProjects = projectArray.slice(0, FREE_PROJECT_COUNT)
+    freeProjects = projectArray.slice(0, FREE_PROJECT_COUNT);
     state.freeProjects = freeProjects;
   },
   addToFreeProjects: (state, action) => {
     if (state.freeProjects.length < FREE_PROJECT_COUNT) {
-      state.freeProjects.push(action.payload)
+      state.freeProjects.push(action.payload);
     }
   },
   setEditProjectId: (state, action) => {
