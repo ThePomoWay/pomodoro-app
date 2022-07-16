@@ -72,7 +72,7 @@ export function HomepageLaptop() {
     if (
       AuthService.isLoggedIn() &&
       window.location.pathname &&
-      window.location.pathname === "/"
+      (window.location.pathname === "/" || window.location.pathname === "/app")
     ) {
       history.push("/home" + window.location.search);
     }

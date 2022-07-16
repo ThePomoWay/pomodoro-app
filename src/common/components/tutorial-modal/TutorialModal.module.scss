@@ -1,10 +1,10 @@
 .container {
-  padding: 8vh 5vw 0px 5vw;
+  padding: 5vh 5vw 0px 5vw;
 
   display: flex;
-  gap: 70px;
+
   .left {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     min-height: 55vh;
@@ -48,7 +48,7 @@
     justify-content: center;
 
     .img {
-      width: 80%;
+      width: 90%;
     }
   }
 }
