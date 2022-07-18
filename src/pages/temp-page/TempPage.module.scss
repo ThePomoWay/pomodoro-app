@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  display: flex;
+  height: calc(70vh - 56px);
+
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  margin-top: 60px;
+}

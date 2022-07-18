@@ -36,6 +36,7 @@ import { useMediaQuery } from "react-responsive";
 import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
 import { SettingsMobile } from "./pages/settings-mobile/SettingsMobile";
 import { DesktopPromotion } from "./common/components/desktop-promotion/DesktopPromotion";
+import { TempPage } from "./pages/temp-page/TempPage";
 
 function App() {
   let dispatch = useDispatch();
@@ -131,6 +132,9 @@ function App() {
           <Homepage />
         </Route>
 
+        <Route exact path="/video">
+          <TempPage />
+        </Route>
         <Route path="">
           <NotFound />
         </Route>
