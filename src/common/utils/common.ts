@@ -106,6 +106,14 @@ export function roundToOneDecimal(num) {
   return Math.round(num * 10) / 10;
 }
 
+export function loadAsyncScript(url, onLoad?) {
+  var script = document.createElement("script");
+  script.onload = onLoad || (() => {});
+  script.src = url;
+
+  document.head.appendChild(script);
+}
+
 export function allowOnlyOneTab(redirectUrl, ogUrl) {
   let openTabs = Number(localStorage.openTabs);
   if (!openTabs) {

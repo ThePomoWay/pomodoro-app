@@ -29,6 +29,7 @@ import ClockSettingsModal from "../../../common/components/clock-settings-modal/
 import AuthService from "../../../common/API/network/AuthService";
 
 import { useHistory } from "react-router-dom";
+import { MusicPlayer } from "../../../common/components/music-player/MusicPlayer";
 
 export function HomepageLaptop() {
   let {
@@ -143,6 +144,7 @@ export function HomepageLaptop() {
             onSave={scrollContainer}
           ></TodaysTaskContainer>
         </div>
+        <MusicPlayer />
         {/* <div className="sidebar-container">
                     <button onClick={this.toggleSidebar.bind(this)} className={`btn btn-simple btn-round ${this.state.showSidebarBtn ? '' : 'hide'}`}>All Tasks</button>
                     <AllTaskSidebar show={this.state.showSidebar} onClose={this.toggleSidebar.bind(this)}></AllTaskSidebar>
