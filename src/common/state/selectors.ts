@@ -155,3 +155,4 @@ export const selectAllCompletedTasks = (state) => {
 
 export const selectClockSettingsModal = (state) => state.global.clockModalState;
 export const selectIsMusicPlaying = (state) => state.music.isMusicPlaying;
+export const selectHideElements = (state) => state.music.hideElements;

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsMusicPlaying } from "../../state/selectors";
 import { setIsMusicPlaying } from "../../state/slice/MusicSlice";
 import { loadAsyncScript } from "../../utils/common";
+import { HideOnFullScreen } from "../hide-on-full-screen/HideOnFullScreen";
 import styles from "./MusicPlayer.module.scss";
 
 let widget = null;
@@ -51,19 +52,20 @@ export function MusicPlayer(props) {
     });
   }, []);
   return (
-    <div className={styles["player"]}>
-      <div className={styles["embed"]} style={{ opacity: showEmbed ? 1 : 0 }}>
-        <iframe
-          width="100%"
-          height="300"
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          id={iframeId}
-          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/300494469&color=%23b18964&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
-        ></iframe>
+    <HideOnFullScreen>
+      <div className={styles["player"]}>
+        <div className={styles["embed"]} style={{ opacity: showEmbed ? 1 : 0 }}>
+          <iframe
+            width="100%"
+            height="300"
+            scrolling="no"
+            frameBorder="no"
+            allow="autoplay"
+            id={iframeId}
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/300494469&color=%23b18964&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
+          ></iframe>
 
-        {/* <div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+          {/* <div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
           <a
             href="https://soundcloud.com/chillhopdotcom"
             title="Chillhop Music"
@@ -82,23 +84,24 @@ export function MusicPlayer(props) {
             lofi hip hop playlist
           </a>
         </div> */}
-      </div>
-
-      <div className={styles["mini-player"]}>
-        <div className={styles["cta"]}>
-          {!isPlaying && <PlayCircleFilledRounded onClick={play} />}
-          {isPlaying && <PauseCircleFilledRounded onClick={pause} />}
-
-          <p className={styles["title"]}>{title || "Music Track"}</p>
         </div>
-        <div
-          className={
-            styles["right"] + " " + (showEmbed ? styles["rotate"] : "")
-          }
-        >
-          <ArrowUpwardRounded onClick={() => setShowEmbed(!showEmbed)} />
+
+        <div className={styles["mini-player"]}>
+          <div className={styles["cta"]}>
+            {!isPlaying && <PlayCircleFilledRounded onClick={play} />}
+            {isPlaying && <PauseCircleFilledRounded onClick={pause} />}
+
+            <p className={styles["title"]}>{title || "Music Track"}</p>
+          </div>
+          <div
+            className={
+              styles["right"] + " " + (showEmbed ? styles["rotate"] : "")
+            }
+          >
+            <ArrowUpwardRounded onClick={() => setShowEmbed(!showEmbed)} />
+          </div>
         </div>
       </div>
-    </div>
+    </HideOnFullScreen>
   );
 }

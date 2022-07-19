@@ -13,6 +13,7 @@ import {
   setIsExtensionModalOpen,
 } from "../../../state/slice/GlobalSlice";
 import { isExtensionPresent } from "../../../utils/extension-utils";
+import { HideOnFullScreen } from "../../hide-on-full-screen/HideOnFullScreen";
 
 let navItems = [
   {
@@ -136,27 +137,45 @@ export default function NavbarDesktop(props) {
   };
 
   return (
-    <div className={styles["navbar"]}>
-      <div className={styles["navbar-content"]}>
-        <span className={styles["app"]} onClick={navigateToHome}>
-          <img
-            src={
-              theme === THEME_DARK
-                ? "/logo/logo-dark.svg"
-                : "/logo/logo-title.svg"
-            }
-            alt="Logo"
-          />
-        </span>
+    <HideOnFullScreen>
+      <div className={styles["navbar"]} {...props.args}>
+        <div className={styles["navbar-content"]}>
+          <span className={styles["app"]} onClick={navigateToHome}>
+            <img
+              src={
+                theme === THEME_DARK
+                  ? "/logo/logo-dark.svg"
+                  : "/logo/logo-title.svg"
+              }
+              alt="Logo"
+            />
+          </span>
 
-        <div className={styles["links"]}>
-          <div className={styles["link-items"]}>
-            {navItems.map((item, index) => {
-              if (!item.loggedOutOnly) {
+          <div className={styles["links"]}>
+            <div className={styles["link-items"]}>
+              {navItems.map((item, index) => {
+                if (!item.loggedOutOnly) {
+                  return (
+                    <Link
+                      key={"Navbar" + index}
+                      to={item.to}
+                      className={`${styles["link-item"]} ${
+                        styles["link-item-" + (index + 1)]
+                      } ${
+                        String(index) === props.selected
+                          ? styles["selected"]
+                          : ""
+                      }`}
+                    >
+                      {item.icon}
+                      {item.title}
+                    </Link>
+                  );
+                }
                 return (
-                  <Link
-                    key={"Navbar" + index}
-                    to={item.to}
+                  <div
+                    key={"Navbar-" + index}
+                    onClick={() => navigateTo(item)}
                     className={`${styles["link-item"]} ${
                       styles["link-item-" + (index + 1)]
                     } ${
@@ -165,55 +184,41 @@ export default function NavbarDesktop(props) {
                   >
                     {item.icon}
                     {item.title}
-                  </Link>
+                  </div>
                 );
-              }
-              return (
-                <div
-                  key={"Navbar-" + index}
-                  onClick={() => navigateTo(item)}
-                  className={`${styles["link-item"]} ${
-                    styles["link-item-" + (index + 1)]
-                  } ${
-                    String(index) === props.selected ? styles["selected"] : ""
-                  }`}
-                >
-                  {item.icon}
-                  {item.title}
-                </div>
-              );
-            })}
-            {/* <span className={styles["link-item"]}><Menu /></span> */}
+              })}
+              {/* <span className={styles["link-item"]}><Menu /></span> */}
+            </div>
           </div>
-        </div>
 
-        <div className={styles["right-nav"]}>
-          {/* <div>
+          <div className={styles["right-nav"]}>
+            {/* <div>
             <span className={styles["manage-focus"]}>Manage Focus</span>
           </div> */}
-          {/* <ThemeDropdown />
+            {/* <ThemeDropdown />
           <div>
             <button className="btn btn-premium">Premium</button>
           </div> */}
-          <div
-            onClick={() => navigateTo(manageFocus)}
-            className={`${styles["link-item"]} ${
-              "3" === props.selected ? styles["selected"] : ""
-            }`}
-          >
-            Manage Focus
-          </div>
-
-          {(isLoggedIn && <ProfileDropdown />) || (
-            <button
-              className={`${styles["login"]} btn btn-premium`}
-              onClick={(e) => onOpenOnboardingModal()}
+            <div
+              onClick={() => navigateTo(manageFocus)}
+              className={`${styles["link-item"]} ${
+                "3" === props.selected ? styles["selected"] : ""
+              }`}
             >
-              Log In
-            </button>
-          )}
+              Manage Focus
+            </div>
+
+            {(isLoggedIn && <ProfileDropdown />) || (
+              <button
+                className={`${styles["login"]} btn btn-premium`}
+                onClick={(e) => onOpenOnboardingModal()}
+              >
+                Log In
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </HideOnFullScreen>
   );
 }

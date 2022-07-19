@@ -1,6 +1,8 @@
 export const initialMusicState = {
   isMusicPlaying: false,
   hasInteracted: false,
+
+  hideElements: false,
 };
 
 export let musicReducer = {
@@ -13,5 +15,9 @@ export let musicReducer = {
     if (!state.hasInteracted) {
       state.isMusicPlaying = action.payload;
     }
+  },
+
+  setHideElements: (state, action) => {
+    state.hideElements = action.payload;
   },
 };
