@@ -54,6 +54,7 @@ import {
   sendWebNotification,
 } from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
+import { setIsClockMusicPlaying } from "../slice/MusicSlice";
 import {
   setPomoSummary,
   setTimerSec,
@@ -383,9 +384,10 @@ export const startTimerAsync = createAsyncThunk(
     let timerInSec = userPreference.defaultWorkTime;
     if (tab === TAB_BREAK) {
       timerInSec = userPreference.defaultBreakTime;
-    }
-    if (tab === TAB_LONG_BREAK) {
+    } else if (tab === TAB_LONG_BREAK) {
       timerInSec = userPreference.defaultLongBreakTime;
+    } else {
+      dispatch(setIsClockMusicPlaying(true));
     }
     dispatch(
       updateTimerState({
@@ -410,6 +412,8 @@ export const pauseTimerAsync = createAsyncThunk(
     let pomoSummary = window.structuredClone(timerState.pomoSummary);
 
     sendWorkerMsg(CLEAR_INTERVAL);
+
+    dispatch(setIsClockMusicPlaying(false));
 
     let summary = [];
     for (let taskId in pomoSummary) {
@@ -499,6 +503,8 @@ export const resetTimerAsync = createAsyncThunk(
     sendWorkerMsg(CLEAR_INTERVAL);
 
     dispatch(setPomoSummary({}));
+
+    dispatch(setIsClockMusicPlaying(false));
 
     document.title = PAGE_TITLE;
     dispatch(
