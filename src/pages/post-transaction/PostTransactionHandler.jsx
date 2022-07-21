@@ -20,7 +20,7 @@ export function PostTransactionHandler(props) {
   useEffect(() => {
     setTimeout(() => {
       history.push("/");
-    });
+    }, 2000);
   });
 
   return <></>;
