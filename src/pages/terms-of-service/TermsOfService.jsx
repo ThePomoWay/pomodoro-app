@@ -144,7 +144,14 @@ export function TermsOfService(props) {
           action in the future).If it turns out that a particular term is not
           enforceable, this will not affect any other terms.
         </p>
-        <p className="font-info">Last Revision Date : 24th March 2022</p>
+
+        <h3 className="font-sub-heading">Terms of cancellation</h3>
+        <p className="font-info">
+          In case you are unsatisfied with the services provided by TimeDojo, you
+          may opt out of the premium services at any time upon which we'll give you 
+          a full refund of the current ongoing plan.
+        </p>
+        <p className="font-info">Last Revision Date : 11th August 2022</p>
       </div>
     </div>
   );

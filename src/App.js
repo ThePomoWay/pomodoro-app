@@ -36,6 +36,7 @@ import { useMediaQuery } from "react-responsive";
 import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
 import { SettingsMobile } from "./pages/settings-mobile/SettingsMobile";
 import { DesktopPromotion } from "./common/components/desktop-promotion/DesktopPromotion";
+import Support from "./pages/support/Support";
 
 function App() {
   let dispatch = useDispatch();
@@ -129,6 +130,9 @@ function App() {
 
         <Route exact path="/home">
           <Homepage />
+        </Route>
+        <Route exact path="/support">
+          <Support />
         </Route>
 
         <Route path="">
