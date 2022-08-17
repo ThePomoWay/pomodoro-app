@@ -19,6 +19,7 @@ import {
   getTimerInSec,
   TAB_BREAK,
   TAB_LONG_BREAK,
+  TAB_POMODORO,
 } from "../../components/timer/timer-utils";
 import { getTimerString } from "../../utils/common";
 import {
@@ -54,7 +55,8 @@ import {
   sendWebNotification,
 } from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
-import { setIsClockMusicPlaying } from "../slice/MusicSlice";
+import { MUSIC } from "../reducers/MusicReducer";
+import { setIsClockMusicPlaying, setIsMusicPlaying } from "../slice/MusicSlice";
 import {
   setPomoSummary,
   setTimerSec,
@@ -283,9 +285,14 @@ export let tickAsync = createAsyncThunk(
     let taskState = getState()["tasks"];
     let userPreference = getState()["global"].userPreferences;
 
+    let soundPref = getState()["music"].defaultMusic;
+
     // let pomoSummary = Object.assign({}, timerState.pomoSummary)
 
-    if (timerState.pomoState === POMO_RUNNING_STATE) {
+    if (
+      timerState.pomoState === POMO_RUNNING_STATE &&
+      soundPref === MUSIC.TICK
+    ) {
       playTickSound();
     }
 
@@ -413,7 +420,7 @@ export const pauseTimerAsync = createAsyncThunk(
 
     sendWorkerMsg(CLEAR_INTERVAL);
 
-    dispatch(setIsClockMusicPlaying(false));
+    dispatch(setIsMusicPlaying(false));
 
     let summary = [];
     for (let taskId in pomoSummary) {
@@ -479,6 +486,11 @@ export const resumeTimerAsync = createAsyncThunk(
 
     playTimerStartSound();
 
+    let tab = getTab(timerState.pomoState);
+    if (tab === TAB_POMODORO) {
+      dispatch(setIsClockMusicPlaying(true));
+    }
+
     //assumes ptime is present.
     let pausedSec =
       timerState.psec +
@@ -504,7 +516,7 @@ export const resetTimerAsync = createAsyncThunk(
 
     dispatch(setPomoSummary({}));
 
-    dispatch(setIsClockMusicPlaying(false));
+    dispatch(setIsMusicPlaying(false));
 
     document.title = PAGE_TITLE;
     dispatch(

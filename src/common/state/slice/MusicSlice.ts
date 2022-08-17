@@ -7,5 +7,11 @@ export const musicSlice = createSlice({
   reducers: musicReducer,
 });
 
-export const { setIsClockMusicPlaying, setIsMusicPlaying, setHideElements } =
-  musicSlice.actions;
+export const {
+  setIsClockMusicPlaying,
+  setIsMusicPlaying,
+  setHideElements,
+  setDefaultMusic,
+  setHasInteracted,
+  setVolume,
+} = musicSlice.actions;

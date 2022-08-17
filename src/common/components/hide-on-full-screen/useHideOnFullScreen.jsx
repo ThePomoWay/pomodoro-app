@@ -20,7 +20,11 @@ export function useHideOnFullScreen() {
       if (timeout) {
         clearTimeout(timeout);
       }
-      timeout = setTimeout(() => dispatch(setHideElements(true)), 3500);
+      timeout = setTimeout(() => {
+        if (fullScreenRef.current) {
+          dispatch(setHideElements(true));
+        }
+      }, 3500);
     }
   };
 

@@ -9,11 +9,12 @@
   }
 
   .mini-player {
-    background-color: #ffffed;
+    background-color: #cad2fd;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
 
+    color: black;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -32,9 +33,14 @@
     }
     .right {
       justify-self: flex-end;
-      transition: all 0.3s ease-in-out;
 
-      &.rotate {
+      display: flex;
+      align-items: center;
+
+      .arrow {
+        transition: all 0.3s ease-in-out;
+      }
+      .rotate {
         transform: rotate(180deg);
       }
     }

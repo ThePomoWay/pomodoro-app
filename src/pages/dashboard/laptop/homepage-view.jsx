@@ -82,7 +82,11 @@ export function HomepageLaptop() {
   }, []);
 
   return (
-    <div className={styles["container"] + " " + styles[timerBgColor]}>
+    <div
+      className={
+        styles["container"] + " " + (isTimerFullScreen && styles[timerBgColor])
+      }
+    >
       <OnBoarding />
       <Settings />
       <ClockSettingsModal />
@@ -109,7 +113,7 @@ export function HomepageLaptop() {
             </div>
           </HideOnFullScreen>
         )}
-        <div className={styles["timer-container"]}>
+        <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
           {!isTimerFullScreen && (
             <div className={styles["maximize-icon"]}>
               <MaximizeIcon onClick={doFullScreen} />
@@ -139,7 +143,6 @@ export function HomepageLaptop() {
             onSave={scrollContainer}
           ></TodaysTaskContainer>
         </div>
-        <MusicPlayer />
         {/* <div className="sidebar-container">
                     <button onClick={this.toggleSidebar.bind(this)} className={`btn btn-simple btn-round ${this.state.showSidebarBtn ? '' : 'hide'}`}>All Tasks</button>
                     <AllTaskSidebar show={this.state.showSidebar} onClose={this.toggleSidebar.bind(this)}></AllTaskSidebar>

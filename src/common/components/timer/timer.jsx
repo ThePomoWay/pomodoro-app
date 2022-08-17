@@ -16,6 +16,7 @@ import {
   setSettingsTab,
   showClockSettingsModal,
 } from "../../state/slice/GlobalSlice";
+import { setIsMusicPlaying } from "../../state/slice/MusicSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
@@ -326,6 +327,7 @@ export default function Timer(props) {
     } else {
       changePomoState(nextState);
     }
+    dispatch(setIsMusicPlaying(false));
     setShowAlertModal("");
   };
 
