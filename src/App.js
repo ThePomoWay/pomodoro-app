@@ -37,6 +37,8 @@ import { TransactionModal } from "./common/components/transaction-modal/Transact
 import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
 import { SettingsMobile } from "./pages/settings-mobile/SettingsMobile";
 
+import Support from "./pages/support/Support";
+
 function App() {
   let dispatch = useDispatch();
 
@@ -129,6 +131,9 @@ function App() {
 
         <Route exact path="/home">
           <Homepage />
+        </Route>
+        <Route exact path="/support">
+          <Support />
         </Route>
 
         <Route path="">
