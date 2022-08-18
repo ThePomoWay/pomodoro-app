@@ -19,6 +19,7 @@ import {
   getTimerInSec,
   TAB_BREAK,
   TAB_LONG_BREAK,
+  TAB_POMODORO,
 } from "../../components/timer/timer-utils";
 import { getTimerString } from "../../utils/common";
 import {
@@ -54,6 +55,8 @@ import {
   sendWebNotification,
 } from "../../utils/web-push-utils";
 import { CLEAR_INTERVAL, sendWorkerMsg } from "../../utils/worker-util";
+import { MUSIC } from "../reducers/MusicReducer";
+import { setIsClockMusicPlaying, setIsMusicPlaying } from "../slice/MusicSlice";
 import {
   setPomoSummary,
   setTimerSec,
@@ -282,9 +285,14 @@ export let tickAsync = createAsyncThunk(
     let taskState = getState()["tasks"];
     let userPreference = getState()["global"].userPreferences;
 
+    let soundPref = getState()["music"].defaultMusic;
+
     // let pomoSummary = Object.assign({}, timerState.pomoSummary)
 
-    if (timerState.pomoState === POMO_RUNNING_STATE) {
+    if (
+      timerState.pomoState === POMO_RUNNING_STATE &&
+      soundPref === MUSIC.TICK
+    ) {
       playTickSound();
     }
 
@@ -383,9 +391,10 @@ export const startTimerAsync = createAsyncThunk(
     let timerInSec = userPreference.defaultWorkTime;
     if (tab === TAB_BREAK) {
       timerInSec = userPreference.defaultBreakTime;
-    }
-    if (tab === TAB_LONG_BREAK) {
+    } else if (tab === TAB_LONG_BREAK) {
       timerInSec = userPreference.defaultLongBreakTime;
+    } else {
+      dispatch(setIsClockMusicPlaying(true));
     }
     dispatch(
       updateTimerState({
@@ -410,6 +419,8 @@ export const pauseTimerAsync = createAsyncThunk(
     let pomoSummary = window.structuredClone(timerState.pomoSummary);
 
     sendWorkerMsg(CLEAR_INTERVAL);
+
+    dispatch(setIsMusicPlaying(false));
 
     let summary = [];
     for (let taskId in pomoSummary) {
@@ -475,6 +486,11 @@ export const resumeTimerAsync = createAsyncThunk(
 
     playTimerStartSound();
 
+    let tab = getTab(timerState.pomoState);
+    if (tab === TAB_POMODORO) {
+      dispatch(setIsClockMusicPlaying(true));
+    }
+
     //assumes ptime is present.
     let pausedSec =
       timerState.psec +
@@ -499,6 +515,8 @@ export const resetTimerAsync = createAsyncThunk(
     sendWorkerMsg(CLEAR_INTERVAL);
 
     dispatch(setPomoSummary({}));
+
+    dispatch(setIsMusicPlaying(false));
 
     document.title = PAGE_TITLE;
     dispatch(

@@ -1,4 +1,4 @@
-import { Person } from "@material-ui/icons";
+import { MusicNote, Person } from "@material-ui/icons";
 import styles from "./SettingsSideNav.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettingsTab } from "../../state/slice/GlobalSlice";
@@ -43,11 +43,11 @@ const tabs = [
     link: "/settings/payments",
   },
 
-  // {
-  //   icon: <MusicNote />,
-  //   title: "Sound",
-  //   link: "/settings/sound",
-  // },
+  {
+    icon: <MusicNote />,
+    title: "Sound",
+    link: "/settings/sound",
+  },
 ];
 
 export function SettingsSideNav(props) {

@@ -83,8 +83,6 @@ export function ClockSettings(props) {
       }, 1000);
     }
 
-    onSave();
-
     setVolume(val);
   };
 

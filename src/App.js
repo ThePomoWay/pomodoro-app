@@ -30,12 +30,13 @@ import "../src/styles/styles/index.less";
 
 import PricingModal from "./common/components/pricing-modal/PricingModal";
 
-import { getIp } from "./common/API/network/SelfIpApi";
-import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
 import { useMediaQuery } from "react-responsive";
+import { getIp } from "./common/API/network/SelfIpApi";
+import { MusicPlayer } from "./common/components/music-player/MusicPlayer";
+import { TransactionModal } from "./common/components/transaction-modal/TransactionModal";
 import { MobileNavbar } from "./common/mobile-navbar/MobileNavbar";
 import { SettingsMobile } from "./pages/settings-mobile/SettingsMobile";
-import { DesktopPromotion } from "./common/components/desktop-promotion/DesktopPromotion";
+
 import Support from "./pages/support/Support";
 
 function App() {
@@ -148,6 +149,8 @@ function App() {
 
       <PricingModal />
       <TransactionModal />
+
+      {!isMobileDevice && <MusicPlayer />}
     </Router>
   );
 }

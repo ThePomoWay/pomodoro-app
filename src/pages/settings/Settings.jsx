@@ -13,6 +13,7 @@ import {
 } from "../../common/state/selectors";
 import { setSettingsModal } from "../../common/state/slice/GlobalSlice";
 import { CloseIcon } from "../../common/svgs/CloseIcon";
+import { SoundSettings } from "../../common/components/sound-settings/SoundSettings";
 
 export default function Settings(props) {
   let isModalOpen = useSelector(selectSettingsModal);
@@ -41,6 +42,7 @@ export default function Settings(props) {
               {tab === 0 && <ProfileSettings />}
               {tab === 1 && <ClockSettings />}
               {tab === 2 && <PaymentSettings />}
+              {tab === 3 && <SoundSettings />}
             </div>
           </div>
         </div>

@@ -115,3 +115,5 @@ export const CURRENCY_MAP = {
 export const DESKTOP_PROMOTION_KEY = "DektopPromotion";
 
 export const VOLUME_KEY = "SOUND_VOLUME";
+
+export const DEFAULT_SOUND = "sound_default";

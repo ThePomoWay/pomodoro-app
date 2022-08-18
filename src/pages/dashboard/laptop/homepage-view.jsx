@@ -29,6 +29,9 @@ import ClockSettingsModal from "../../../common/components/clock-settings-modal/
 import AuthService from "../../../common/API/network/AuthService";
 
 import { useHistory } from "react-router-dom";
+import { MusicPlayer } from "../../../common/components/music-player/MusicPlayer";
+import { HideOnFullScreen } from "../../../common/components/hide-on-full-screen/HideOnFullScreen";
+import { useHideOnFullScreen } from "../../../common/components/hide-on-full-screen/useHideOnFullScreen";
 
 export function HomepageLaptop() {
   let {
@@ -79,7 +82,11 @@ export function HomepageLaptop() {
   }, []);
 
   return (
-    <div className={styles["container"]}>
+    <div
+      className={
+        styles["container"] + " " + (isTimerFullScreen && styles[timerBgColor])
+      }
+    >
       <OnBoarding />
       <Settings />
       <ClockSettingsModal />
@@ -90,34 +97,27 @@ export function HomepageLaptop() {
         }`}
       >
         {isTimerFullScreen && (
-          <>
+          <HideOnFullScreen>
             {/* <div className={styles["settings-icon-max"] + " delay"}>
               <SettingsIcon
                 fill="rgb(134, 148, 201)"
                 onClick={openSettingsModal}
               />
             </div> */}
+
             <div
               className={styles["shrink-icon"] + " delay"}
               onClick={(e) => toggleFullScreen()}
             >
               <ShrinkIcon /> Minimize
             </div>
-          </>
+          </HideOnFullScreen>
         )}
         <div className={styles["timer-container"] + " " + styles[timerBgColor]}>
           {!isTimerFullScreen && (
-            <>
-              <div className={styles["maximize-icon"]}>
-                <MaximizeIcon onClick={doFullScreen} />
-              </div>
-              {/* <div className={styles["settings-icon"]}>
-                <SettingsIcon
-                  fill="rgb(134, 148, 201)"
-                  onClick={openSettingsModal}
-                />
-              </div> */}
-            </>
+            <div className={styles["maximize-icon"]}>
+              <MaximizeIcon onClick={doFullScreen} />
+            </div>
           )}
           <div className={`${styles["timer"]}`}>
             <Timer

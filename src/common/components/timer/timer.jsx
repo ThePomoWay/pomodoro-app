@@ -16,6 +16,7 @@ import {
   setSettingsTab,
   showClockSettingsModal,
 } from "../../state/slice/GlobalSlice";
+import { setIsMusicPlaying } from "../../state/slice/MusicSlice";
 import {
   focusModeToggle,
   hideFirstUserScreen,
@@ -54,6 +55,8 @@ import {
 } from "../../utils/worker-util";
 import { Alert } from "../alert/Alert";
 import { CustomSlider } from "../custom-slider/CustomSlider";
+import { HideOnFullScreen } from "../hide-on-full-screen/HideOnFullScreen";
+import { useHideOnFullScreen } from "../hide-on-full-screen/useHideOnFullScreen";
 import { getTab, TAB_BREAK, TAB_LONG_BREAK, TAB_POMODORO } from "./timer-utils";
 import styles from "./timer.module.scss";
 
@@ -324,6 +327,7 @@ export default function Timer(props) {
     } else {
       changePomoState(nextState);
     }
+    dispatch(setIsMusicPlaying(false));
     setShowAlertModal("");
   };
 
@@ -367,38 +371,40 @@ export default function Timer(props) {
         description={ALERT_DESCRIPTION}
       ></Alert>
       <div className={`${styles.timer}`}>
-        <div className={styles["timer-tabs"]}>
-          <div
-            className={`${styles["timer-tabs-item"]} ${
-              tab === "pomodoro" && styles["selected-purple"]
-            }`}
-            onClick={() => {
-              onTabChange(POMO_IDLE_STATE);
-            }}
-          >
-            Work Mode
+        <HideOnFullScreen>
+          <div className={styles["timer-tabs"]}>
+            <div
+              className={`${styles["timer-tabs-item"]} ${
+                tab === "pomodoro" && styles["selected-purple"]
+              }`}
+              onClick={() => {
+                onTabChange(POMO_IDLE_STATE);
+              }}
+            >
+              Work Mode
+            </div>
+            <div
+              className={`${styles["timer-tabs-item"]} ${
+                tab === "break" && styles["selected-pink"]
+              }`}
+              onClick={() => {
+                onTabChange(POMO_BREAK_IDLE_STATE);
+              }}
+            >
+              Short Break
+            </div>
+            <div
+              className={`${styles["timer-tabs-item"]} ${
+                tab === "long_break" && styles["selected-cyan"]
+              }`}
+              onClick={() => {
+                onTabChange(POMO_LONG_BREAK_IDLE_STATE);
+              }}
+            >
+              Long Break
+            </div>
           </div>
-          <div
-            className={`${styles["timer-tabs-item"]} ${
-              tab === "break" && styles["selected-pink"]
-            }`}
-            onClick={() => {
-              onTabChange(POMO_BREAK_IDLE_STATE);
-            }}
-          >
-            Short Break
-          </div>
-          <div
-            className={`${styles["timer-tabs-item"]} ${
-              tab === "long_break" && styles["selected-cyan"]
-            }`}
-            onClick={() => {
-              onTabChange(POMO_LONG_BREAK_IDLE_STATE);
-            }}
-          >
-            Long Break
-          </div>
-        </div>
+        </HideOnFullScreen>
         <div className={`${styles.round} ${styles[tab]} grid grid-center`}>
           <span className={styles["timer-text"]}> {timerString}</span>
           <div className={styles["box"]} ref={timerElRef}>
@@ -459,20 +465,22 @@ export default function Timer(props) {
         )} */}
 
         {tab === "pomodoro" && !isMobileDevice && (
-          <div className={styles["focus-mode"]}>
-            <span>Focus Mode</span>
-            <CustomSlider
-              value={focusModeState}
-              defaultChecked={focusModeState}
-              onChange={(e) => {
-                onFocusModeSwitch();
-              }}
-            />
-            <span className={styles["settings"]} onClick={openSettingsModal}>
-              {" "}
-              Settings
-            </span>
-          </div>
+          <HideOnFullScreen>
+            <div className={styles["focus-mode"]}>
+              <span>Focus Mode</span>
+              <CustomSlider
+                value={focusModeState}
+                defaultChecked={focusModeState}
+                onChange={(e) => {
+                  onFocusModeSwitch();
+                }}
+              />
+              <span className={styles["settings"]} onClick={openSettingsModal}>
+                {" "}
+                Settings
+              </span>
+            </div>
+          </HideOnFullScreen>
         )}
 
         {isMobileDevice && (

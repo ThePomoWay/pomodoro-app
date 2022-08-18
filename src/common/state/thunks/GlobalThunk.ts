@@ -30,6 +30,7 @@ import {
   TODAYS_COMPLETED_TASK_HIDE,
   THEME_LIGHT,
   VOLUME_KEY,
+  DEFAULT_SOUND,
 } from "../../utils/constants";
 import {
   isExtensionPresent,
@@ -51,6 +52,8 @@ import { setTimerSec } from "../slice/TimerSlice";
 import { updateUserApi } from "../../API/network/UserApis";
 import { getIp } from "../../API/network/SelfIpApi";
 import { debounce } from "../../components/timer/timer-utils";
+import { MUSIC } from "../reducers/MusicReducer";
+import { setDefaultMusic, setVolume } from "../slice/MusicSlice";
 
 export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
   dispatch(
@@ -70,6 +73,10 @@ export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
       localStorage.getItem(PROJECT_COMPLETED_TASK_HIDE) === "true"
     )
   );
+
+  let sound = localStorage.getItem(DEFAULT_SOUND) || MUSIC.LOFI;
+
+  dispatch(setDefaultMusic(sound));
 
   let defaults = await getFromCollection(
     userPreferencesObjectStoreName,
@@ -211,6 +218,7 @@ export const updateUserPref = createAsyncThunk(
 
     if (obj.volume !== undefined) {
       localStorage.setItem(VOLUME_KEY, obj.volume);
+      dispatch(setVolume(obj.volume));
     }
 
     debounce(

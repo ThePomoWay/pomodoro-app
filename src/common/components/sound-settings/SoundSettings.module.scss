@@ -1,0 +1,47 @@
+.heading {
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 24px;
+}
+.hr {
+  border-top: 0.5px solid #cacaca;
+  margin-bottom: 16px;
+}
+
+.sound-settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+
+  .item {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    .text {
+      font-size: 14px;
+      font-weight: 500;
+
+      cursor: pointer;
+      .input {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .slider-item {
+    display: flex;
+    align-items: center;
+
+    .slider-text {
+      width: 150px;
+      position: relative;
+      top: -4px;
+    }
+    .slider {
+      padding: 20px 20px 20px 0px;
+      width: 40%;
+    }
+  }
+}
