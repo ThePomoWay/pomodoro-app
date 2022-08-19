@@ -83,6 +83,7 @@ export function MusicPlayer(props) {
   }
 
   useEffect(() => {
+    if (navigator.userAgent !== "ReactSnap") {
     loadAsyncScript("https://w.soundcloud.com/player/api.js", () => {
       widget = window.SC.Widget(iframeId);
 
@@ -98,6 +99,7 @@ export function MusicPlayer(props) {
       }
       widget = null;
     };
+  }
   }, []);
 
   useEffect(() => {
@@ -127,6 +129,9 @@ export function MusicPlayer(props) {
       pomoState === POMO_RUNNING_STATE) &&
     defaultMusic === MUSIC.LOFI;
 
+    if(navigator.userAgent === 'ReactSnap') {
+      return (<div></div>)
+    }
   return (
     <HideOnFullScreen>
       <div
