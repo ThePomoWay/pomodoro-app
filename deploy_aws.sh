@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull origin master
+git pull origin release
 GENERATE_SOURCEMAP=false
 npm run build
 
