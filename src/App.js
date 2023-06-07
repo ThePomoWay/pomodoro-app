@@ -27,6 +27,7 @@ import { TermsOfService } from "./pages/terms-of-service/TermsOfService";
 import { PostTransactionHandler } from "./pages/post-transaction/PostTransactionHandler";
 
 import "../src/styles/styles/index.less";
+import WebsiteBlocker from './common/components/website-blocker/WebsiteBlocker';
 
 import PricingModal from "./common/components/pricing-modal/PricingModal";
 
