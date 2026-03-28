@@ -10,7 +10,7 @@
       width: 3.28px;
       height: 3.28px;
       border-radius: 50%;
-      background: #1466cf;
+      background: var(--landing-dot-color, #1466cf);
     }
   }
 }

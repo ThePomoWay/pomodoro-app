@@ -29,7 +29,7 @@ export function LandingPageMobile(props) {
         </div>
         <div className={styles["desc"]}>
           Procrastination persists to be a challenge for most people, especially
-          in a remote work setup. Timedojo is here to redefine your productivity
+          in a remote work setup. FocusLounge is here to redefine your productivity
           game!
         </div>
       </div>
@@ -137,7 +137,7 @@ export function LandingPageMobile(props) {
               </div>
             </div>
             <div className={styles["content"]}>
-              Timedojo helps me organise my admin tasks into labels and filters.
+              FocusLounge helps me organise my admin tasks into labels and filters.
               This is super helpful in giving me visibility for the rest of the
               day!
             </div>
@@ -179,7 +179,7 @@ export function LandingPageMobile(props) {
               }`}
               onClick={(e) => setFaqSection(1)}
             >
-              Timedojo
+              FocusLounge
             </button>
           </div>
           <div className={styles["faqs"]}>

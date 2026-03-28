@@ -19,10 +19,10 @@ export default function Support() {
         <h3 className="font-sub-heading">Email us on:</h3>
         <p className="font-info">
           <a
-            href="mailto:feedback@timedojo.io"
+            href="mailto:feedback@focuslounge.in"
             target="_blank"
           >
-            feedback@timedojo.io
+            feedback@focuslounge.in
           </a>
         </p>
       </div>

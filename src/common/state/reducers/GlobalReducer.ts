@@ -24,7 +24,7 @@ export const initialGlobalState = {
     duration: 5000,
     type: "success",
   },
-  theme: THEME_LIGHT,
+  theme: THEME_DARK,
   userPreferences: {
     defaultWorkTime: DEFAULT_WORK_TIME,
     defaultBreakTime: DEFAULT_BREAK_TIME,

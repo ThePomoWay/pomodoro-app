@@ -7,14 +7,14 @@ export function TermsOfService(props) {
       <Navbar />
       <div className={styles["main-content"]}>
         <h1 className="font-title">Terms of service</h1>
-        <h2 className="font-heading">TimeDojo Terms of Service</h2>
-        <h3 className="font-sub-heading">Welcome to TimeDojo!</h3>
+        <h2 className="font-heading">FocusLounge Terms of Service</h2>
+        <h3 className="font-sub-heading">Welcome to FocusLounge!</h3>
         <p className="font-info">
           Thanks for using our products and services ("Services"). The Services
           are provided by Zenpanda Technologies Private Limited. By using our
           Services, you are agreeing to these terms. Please read them
           carefully. IF YOU DO NOT AGREE TO THESE TERMS, PLEASE DO NOT USE THE
-          SERVICES. These terms govern your use of Timedojo, including its
+          SERVICES. These terms govern your use of FocusLounge, including its
           features, apps, services, technologies, and software we offer, except
           where we expressly state that separate terms (and not these) apply.
         </p>
@@ -41,19 +41,19 @@ export function TermsOfService(props) {
           that distracts you and prevents you from obeying traffic or safety
           laws.
         </p>
-        <h3 className="font-sub-heading">Your TimeDojo Account</h3>
+        <h3 className="font-sub-heading">Your FocusLounge Account</h3>
         <p className="font-info">
-          You may need a TimeDojo Account in order to use some of our Services.
-          To protect your TimeDojo Account, keep your password confidential. You
+          You may need a FocusLounge Account in order to use some of our Services.
+          To protect your FocusLounge Account, keep your password confidential. You
           are responsible for the activity that happens on or through your
-          TimeDojo Account. Try not to reuse your TimeDojo Account password on
+          FocusLounge Account. Try not to reuse your FocusLounge Account password on
           third-party applications.
         </p>
         <h3 className="font-sub-heading">Privacy and Copyright Protection</h3>
         <p className="font-info">
-          TimeDojo privacy policy explains how we treat your personal data and
+          FocusLounge privacy policy explains how we treat your personal data and
           protect your privacy when you use our Services. By using our Services,
-          you agree that TimeDojo can use such data in accordance with our
+          you agree that FocusLounge can use such data in accordance with our
           privacy policies.
         </p>
         <h3 className="font-sub-heading">Your Content in Our Services</h3>
@@ -61,7 +61,7 @@ export function TermsOfService(props) {
           # Some of our Services allow you to create, upload, submit, save, send
           or receive content. You retain ownership of any intellectual property
           rights that you hold in that content. In short, what belongs to you
-          stays yours. You can find more information about how TimeDojo uses and
+          stays yours. You can find more information about how FocusLounge uses and
           stores content in the privacy policy or additional terms for
           particular Services. If you submit feedback or suggestions about our
           Services, we may use your feedback or suggestions without obligation
@@ -72,11 +72,11 @@ export function TermsOfService(props) {
           When a Service requires or includes downloadable software, this
           software may update automatically on your device once a new version or
           feature is available. Some Services may let you adjust your automatic
-          update settings. TimeDojo gives you a personal, worldwide,
+          update settings. FocusLounge gives you a personal, worldwide,
           royalty-free, non-assignable and non-exclusive license to use the
-          software provided to you by TimeDojo as part of the Services. This
+          software provided to you by FocusLounge as part of the Services. This
           license is for the sole purpose of enabling you to use and enjoy the
-          benefit of the Services as provided by TimeDojo, in the manner
+          benefit of the Services as provided by FocusLounge, in the manner
           permitted by these terms. You may not copy, modify, distribute, sell,
           or lease any part of our Services or included software, nor may you
           reverse engineer or attempt to extract the source code of that
@@ -121,14 +121,14 @@ export function TermsOfService(props) {
           BE LIABLE TO YOU FOR ANY LOST PROFITS, REVENUES, INFORMATION, OR DATA,
           OR CONSEQUENTIAL, SPECIAL, INDIRECT, EXEMPLARY, PUNITIVE, OR
           INCIDENTAL DAMAGES ARISING OUT OF OR RELATED TO THESE TERMS OR THE
-          TimeDojo PRODUCTS, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF
+          FocusLounge PRODUCTS, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF
           SUCH DAMAGES. YOUR USE AND/OR PURCHASE OF SERVICE ARE ALL AT YOUR SOLE
           RISK.
         </p>
         <h3 className="font-sub-heading">Business Uses of Our Services</h3>
         <p className="font-info">
           If you are using our Services on behalf of a business, that business
-          accepts these terms. It will hold harmless and indemnify TimeDojo and
+          accepts these terms. It will hold harmless and indemnify FocusLounge and
           its affiliates, officers, agents, and employees from any claim, suit
           or action arising from or related to the use of the Services or
           violation of these terms, including any liability or expense arising
@@ -137,7 +137,7 @@ export function TermsOfService(props) {
         </p>
         <h3 className="font-sub-heading">About These Terms</h3>
         <p className="font-info">
-          These terms control the relationship between TimeDojo and you. They do
+          These terms control the relationship between FocusLounge and you. They do
           not create any third party beneficiary rights. If you do not comply
           with these terms, and we don't take action right away, this doesn't
           mean that we are giving up any rights that we may have (such as taking
@@ -147,7 +147,7 @@ export function TermsOfService(props) {
 
         <h3 className="font-sub-heading">Terms of cancellation</h3>
         <p className="font-info">
-          In case you are unsatisfied with the services provided by TimeDojo, you
+          In case you are unsatisfied with the services provided by FocusLounge, you
           may opt out of the premium services at any time upon which we'll give you 
           a full refund of the current ongoing plan.
         </p>

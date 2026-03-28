@@ -21,7 +21,7 @@ export function DesktopPromotion() {
     return (
       <div className={styles["container"]}>
         <p>
-          TimeDojo is better on Desktop. Use task management, website blocking
+          FocusLounge is better on Desktop. Use task management, website blocking
           and lot more!
         </p>
         <CloseIcon stroke="white" onClick={onClick} />

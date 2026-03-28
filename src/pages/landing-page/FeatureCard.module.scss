@@ -1,5 +1,5 @@
 .feature-card {
-  background: #ffffff;
+  background: var(--landing-card-bg);
   border-radius: 14.8703px;
   width: 17vw;
   height: 30vh;
@@ -9,8 +9,8 @@
   flex-direction: column;
 
   .circle {
-    background: #6181fb;
-    opacity: 0.3;
+    background: var(--landing-icon-circle-bg);
+    opacity: 1;
 
     width: 68px;
     height: 68px;

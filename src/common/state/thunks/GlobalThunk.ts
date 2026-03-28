@@ -60,7 +60,7 @@ export let init = createAsyncThunk("global/init", async (_, { dispatch }) => {
     setShowFirstUserState(localStorage.getItem(FIRST_USER_KEY) === "true")
   );
 
-  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_LIGHT));
+  dispatch(setTheme(localStorage.getItem(themeLSKey) || THEME_DARK));
 
   dispatch(
     setHideTodaysCompletedTasks(

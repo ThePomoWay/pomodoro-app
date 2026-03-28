@@ -93,10 +93,10 @@ export function LandingPage(props) {
       <div className={styles["container"]}>
         <div className={styles["left"]}>
           <div className={styles["first-text"]}>
-            <h2 className={styles["title"]}>Why use Timedojo?</h2>
+            <h2 className={styles["title"]}>Why use FocusLounge?</h2>
             <h3 className={styles["sub-title"]}>
               Are you watching tons of videos on how to overcome
-              procrastination? Timedojo gives you the right push to get started
+              procrastination? FocusLounge gives you the right push to get started
               on your daily tasks list. We use the proven Pomodoro technique to
               improve focus at work & time management.
             </h3>
@@ -142,7 +142,7 @@ export function LandingPage(props) {
             Create Tasks, Track Time & Improve
           </div>
           <div className={styles["sub-title"]}>
-            Are your deadlines overwhelming you? Timedojo gives you the right
+            Are your deadlines overwhelming you? FocusLounge gives you the right
             push to get started on your daily tasks list for the day. We use the
             proven Pomodoro technique to improve work quality & time management.
           </div>
@@ -213,7 +213,7 @@ export function LandingPage(props) {
           </div>
           <div className={styles["sub-title"]}>
             There are a thousand reasons to procrastinate, but just one is
-            enough to fight it! Introducing Timedojo: Now, no more broken
+            enough to fight it! Introducing FocusLounge: Now, no more broken
             promises of staying productive! Here is why we are the best at what
             we do:
           </div>
@@ -278,11 +278,11 @@ export function LandingPage(props) {
           <div className={styles["small-title"]}>
             How to Manage <br />
             time better with <br />
-            Timedojo?
+            FocusLounge?
           </div>
           <div className={styles["sub-title"]}>
             Procrastination persists to be a challenge for most people,
-            especially in a remote work setup. Timedojo is here to redefine your
+            especially in a remote work setup. FocusLounge is here to redefine your
             productivity game!
           </div>
           <div className={styles["five-steps"]}>
@@ -389,7 +389,7 @@ export function LandingPage(props) {
                 </div>
               </div>
               <div className={styles["content"]}>
-                Timedojo helps me organise my admin tasks into labels and
+                FocusLounge helps me organise my admin tasks into labels and
                 filters. This is super helpful in giving me visibility for the
                 rest of the day!
               </div>
@@ -433,7 +433,7 @@ export function LandingPage(props) {
                 }`}
                 onClick={(e) => setFaqSection(1)}
               >
-                Timedojo
+                FocusLounge
               </button>
             </div>
             <div className={styles["faqs"]}>

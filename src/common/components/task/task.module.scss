@@ -183,7 +183,7 @@
       width: 17.5px;
       height: 17.5px;
       border-radius: 10px;
-      border: 1.5px solid #818181;
+      border: 1.5px solid var(--task-checkbox-border);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -243,7 +243,7 @@
       font-size: 15px;
     }
     line-height: 18px;
-    color: #171717;
+    color: var(--text-theme);
     max-width: 100%;
   }
 
@@ -343,7 +343,7 @@
       svg {
         width: 20px;
         height: 20px;
-        color: #adadae;
+        color: var(--task-icon-color);
       }
 
       .task-action-btn {
@@ -354,13 +354,13 @@
         transform: scale(1.1);
       }
       &.edit {
-        color: rgba(100, 90, 100, 0.5);
+        color: var(--task-icon-color);
         
         
       }
 
       &.more {
-        color: #7b7b7b;
+        color: var(--task-icon-color);
         .more-svg {
           fill: var(--task-more-fill);
         }
@@ -377,7 +377,7 @@
 }
 .more-options {
   display: flex;
-  background-color: white;
+  background-color: var(--bg-theme);
   flex-direction: column;
   min-width: 100px;
   min-height: 100px;
@@ -386,7 +386,7 @@
   &-item {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--border-navbar-theme);
     padding: 10px;
     cursor: pointer;
 

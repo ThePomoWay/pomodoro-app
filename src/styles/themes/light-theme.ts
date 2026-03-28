@@ -2,6 +2,16 @@ export const light = {
   "--navbar-selected-color": "#4b60ce",
   "--bg-theme": "#FFFFFF",
   "--bg-theme-2": "#f5f7fe",
+  "--landing-card-bg": "#ffffff",
+  "--landing-card-shadow": "0px 4px 36px rgba(0, 0, 0, 0.06)",
+  "--landing-text-dark": "#121212",
+  "--landing-num-shadow-color": "#121212",
+  "--landing-icon-circle-bg": "rgba(97, 129, 251, 0.3)",
+  "--landing-dot-color": "#1466cf",
+
+  // Task component
+  "--task-checkbox-border": "#818181",
+  "--task-icon-color": "#7b7b7b",
   "--text-theme": "black",
   "--text-theme-2": "#242424",
   "--text-theme-3": "#171717",

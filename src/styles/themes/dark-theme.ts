@@ -185,4 +185,17 @@ export const dark = {
   "--shrink-icon": "#1E1E27",
 
   "--block-btn-color": "#dc5d5d",
+
+  // Landing page dark theme
+  "--bg-theme-2": "#0f0f1a",
+  "--landing-card-bg": "#1a1a2e",
+  "--landing-card-shadow": "0px 4px 36px rgba(0, 0, 0, 0.4)",
+  "--landing-text-dark": "rgba(255, 255, 255, 0.9)",
+  "--landing-num-shadow-color": "#1c1c30",
+  "--landing-icon-circle-bg": "rgba(97, 129, 251, 0.55)",
+  "--landing-dot-color": "#4a7fd4",
+
+  // Task component
+  "--task-checkbox-border": "#555570",
+  "--task-icon-color": "#9a9aaa",
 };

@@ -76,7 +76,7 @@ export function ProfileDropdown(props) {
               {!isMobileDevice && (
                 <a
                   className="popper-item"
-                  href="mailto:feedback@timedojo.io"
+                  href="mailto:feedback@focuslounge.in"
                   target="_blank"
                 >
                   Send Feedback ❤️

@@ -20,7 +20,7 @@ export default function Footer() {
         <a className={styles["link"]} href="/sitemap.xml">
           Sitemap
         </a>
-        <a className={styles["link"]} href="mailto:support@timedojo.io">
+        <a className={styles["link"]} href="mailto:support@focuslounge.in">
           Feedback
         </a>
         <a className={styles["link"]} href="/privacy-policy">
@@ -37,7 +37,7 @@ export default function Footer() {
               <p className={styles["white"]}>Chome Extension</p>
               <a
                 className={styles["link"]}
-                href="https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
+                href="https://chrome.google.com/webstore/detail/focuslounge-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
               >
                 Download Now
               </a>

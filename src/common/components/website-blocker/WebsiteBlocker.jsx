@@ -78,8 +78,8 @@ export default function WebsiteBlocker() {
         let url = new URL(siteInput);
         if (url.hostname in blockedHostsObj) {
           dispatch(showErrorToast("Website already blocked"));
-        } else if (url.hostname.includes("timedojo.io")) {
-          dispatch(showErrorToast("Timedojo cannot be blocked"));
+        } else if (url.hostname.includes("focuslounge.in")) {
+          dispatch(showErrorToast("FocusLounge cannot be blocked"));
         } else {
           if (!isSubscriptionActive && blockedWebsites.length > 3) {
             dispatch(setPricingModalState(true));

@@ -18,7 +18,7 @@ export function ExtensionModal(props) {
 
   let openChromeStore = () => {
     window.open(
-      "https://chrome.google.com/webstore/detail/timedojo-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
+      "https://chrome.google.com/webstore/detail/focuslounge-pomodoro-app-to/cennnfekpcbgoajenlkfhhgcpmjddhfh?hl=en-GB&authuser=3"
     );
   };
 
