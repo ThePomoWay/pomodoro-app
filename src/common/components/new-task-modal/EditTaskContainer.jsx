@@ -17,8 +17,6 @@ import AddTagContainer from "../add-tag-container/AddTagContainer";
 import EstimatedPomos from "../estimate-pomos/EstimatedPomos";
 import { PrioritySelector } from "../priority-selector/PrioritySelector";
 import ProjectSelector from "../project-selector/ProjectSelector";
-import TaskDescription from "../task-description/TaskDescription";
-
 import styles from "./EditTaskContainer.module.scss";
 
 let setEndOfContentEditable = (elem) => {
@@ -48,9 +46,6 @@ export default function EditTaskContainer(props) {
 
   let [title, setTitle] = useState(taskToBeEdited.title || "");
   let [priority, setPriority] = useState(taskToBeEdited.priority || -1);
-  let [description, setDescription] = useState(
-    taskToBeEdited.description || ""
-  );
   let [schedule, setSchedule] = useState(taskToBeEdited.schedule || new Date());
   let [estimatedPomos, setEstimatedPomos] = useState(taskToBeEdited.epomo || 0);
   let [isBulleted, setIsBulleted] = useState(
@@ -122,7 +117,6 @@ export default function EditTaskContainer(props) {
   let resetContainer = useCallback((taskToBeEdited) => {
     setTitle(taskToBeEdited.title || "");
     setPriority(taskToBeEdited.priority || -1);
-    setDescription(taskToBeEdited.description || "");
     setSelectedTags(taskToBeEdited.labels || []);
     setIsBulleted(taskToBeEdited.isBulleted || false);
     setEstimatedPomos(taskToBeEdited.epomo || 0);
@@ -147,7 +141,6 @@ export default function EditTaskContainer(props) {
         fid: taskToBeEdited.fid || generateUniqueId(),
         title,
         priority,
-        description,
         schedule: schedule.toString(),
         epomo: estimatedPomos,
         isBulleted,
@@ -166,7 +159,6 @@ export default function EditTaskContainer(props) {
           ...taskToBeEdited,
           title,
           priority,
-          description,
           schedule: schedule.toString(),
           epomo: estimatedPomos,
           labels: selectedTags,
@@ -274,14 +266,6 @@ export default function EditTaskContainer(props) {
           placeholder="Type your task here"
         ></textarea>
         {getTaskTags()}
-
-        <div className={styles["description"]}>
-          <TaskDescription
-            onChange={(e) => setDescription(e)}
-            isBulleted={isBulleted}
-            value={description}
-          />
-        </div>
 
         <div className={styles["cta-row"]}>
           <div className={styles["estimated-pomos"]}>

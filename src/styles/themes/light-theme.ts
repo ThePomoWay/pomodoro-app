@@ -40,24 +40,28 @@ export const light = {
   "--pomodoro-radial-gradient":
     "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%)",
   "--pomodoro-blur-gradient":
-    "radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(125, 141, 227, 0.6) 0%,rgba(56, 79, 202, 0) 100%)",
+    "radial-gradient(45.88% 45.88% at 49.7% 57.76%,rgba(90, 120, 255, 0.5) 0%,rgba(56, 79, 202, 0) 100%)",
   "--pomodoro-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,rgba(242, 244, 251, 0.64) 0%,#abb2cf 100%)",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(255,255,255,0) 62%, rgba(140,160,255,0.28) 88%, rgba(100,130,255,0.48) 100%)",
   "--break-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,#fff7fa 0%,#e7b4c4 100%)",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(255,255,255,0) 62%, rgba(255,140,170,0.28) 88%, rgba(220,100,140,0.45) 100%)",
   "--lb-radial-box-gradient":
-    "radial-gradient(121.5% 94.67% at 66% 5.33%,#ecfcfe 0%,#c7dbde 100%)",
-  "--pomodoro-timer-circle-bg": "#97a7fe",
-  "--pomodoro-timer-circle-shadow": "inset 5px 6px 12px #8fa0fb",
-  "--break-timer-circle-bg": "#ffa5c1",
-  "--break-timer-circle-shadow": "inset 5px 6px 12px #e89fbe",
-  "--lb-timer-circle-bg": "#99dad6",
+    "radial-gradient(54.8% 43.29% at 50% 50%, rgba(255,255,255,0) 62%, rgba(100,210,220,0.28) 88%, rgba(60,160,185,0.45) 100%)",
+  "--pomodoro-timer-circle-bg":
+    "radial-gradient(circle at 35% 20%, #e0e8ff 0%, #8898f8 45%, #2838b0 100%)",
+  "--pomodoro-timer-circle-shadow": "none",
+  "--break-timer-circle-bg":
+    "radial-gradient(circle at 35% 20%, #ffe8f2 0%, #f898b8 45%, #a82858 100%)",
+  "--break-timer-circle-shadow": "none",
+  "--lb-timer-circle-bg":
+    "radial-gradient(circle at 35% 20%, #e0fff8 0%, #60c8d8 45%, #1870a0 100%)",
+  "--lb-timer-circle-shadow": "none",
   "--pomodoro-clock-color":
-    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#cad2fd 0.69%,#637bf9 60.46%,#334996 100%)",
+    "radial-gradient(circle at 35% 20%, #ffffff 0%, #e4eaff 8%, #b4c8ff 20%, #7a96ff 35%, #5472f8 52%, #3348d8 70%, #1e2ca8 85%, #121e88 100%)",
   "--break-clock-color":
-    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#ffd3e0 0.69%,#f4759a 60.46%,#b44a7f 100%)",
+    "radial-gradient(circle at 35% 20%, #fff8fc 0%, #ffdde8 10%, #ffb0cc 24%, #f47898 40%, #d04878 60%, #a01850 80%, #700038 100%)",
   "--lb-clock-color":
-    "radial-gradient(99.46% 88.64% at 70.45% 3.41%,#bbf3da 0.69%,#74bdd0 60.46%,#408db9 100%)",
+    "radial-gradient(circle at 35% 20%, #f0fffd 0%, #c0f0ec 10%, #70dcd8 24%, #38b8c8 42%, #1090b0 64%, #086890 84%, #044870 100%)",
   "--pomodoro-text-shadow": "0px 6px 11px #5b6ecd",
   "--welcome-border": "1px solid white",
   "--welcome-or-color": "#FFCF4C",

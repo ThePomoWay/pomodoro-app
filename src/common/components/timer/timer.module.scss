@@ -33,7 +33,7 @@ $waterBColor: #5394d8;
     }
 
     .timer-circle {
-      background-color: var(--pomodoro-timer-circle-bg);
+      background: var(--pomodoro-timer-circle-bg);
       box-shadow: var(--pomodoro-timer-circle-shadow);
     }
 
@@ -53,7 +53,7 @@ $waterBColor: #5394d8;
       background: $pomoBreakColor;
     }
     .timer-circle {
-      background-color: var(--break-timer-circle-bg);
+      background: var(--break-timer-circle-bg);
       box-shadow: var(--break-timer-circle-shadow);
     }
     .timer-text {
@@ -71,8 +71,8 @@ $waterBColor: #5394d8;
         background: $pomoLongBreakColor;
       }
       .timer-circle {
-        background-color: #99dad6;
-        box-shadow: inset 5px 6px 12px #6fcfc9;
+        background: var(--lb-timer-circle-bg);
+        box-shadow: var(--lb-timer-circle-shadow, inset 5px 6px 12px #6fcfc9);
       }
     }
     .timer-text {
