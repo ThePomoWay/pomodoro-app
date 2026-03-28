@@ -2,7 +2,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProjectsObj, selectTagsAsObj } from "../../state/selectors";

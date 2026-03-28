@@ -1,11 +1,11 @@
-import { ClickAwayListener } from "@material-ui/core";
+import { ClickAwayListener } from "@mui/material";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import {
   ExpandMoreOutlined,
   Menu,
   MenuBookOutlined,
   MoreHorizRounded,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {

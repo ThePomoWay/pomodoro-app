@@ -40,7 +40,7 @@ import {
 } from "../../common/utils/common";
 import AllTaskContainer from "../../common/components/all-task-container/AllTaskContainer";
 
-import { Switch, useRouteMatch, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import AllTaskSidebar from "../../common/components/all-task-sidebar/AllTaskSidebar";
 import NewProjectContainer from "../../common/components/new-project-container/NewProjectContainer";
 
@@ -54,11 +54,10 @@ import OnBoarding from "../onboarding/Onboarding";
 import AuthService from "../../common/API/network/AuthService";
 import { getTimeText } from "../../common/utils/date-utils";
 import { getTimerState } from "../../common/state/thunks/TimerThunk";
-import { ClickAwayListener, Popper } from "@material-ui/core";
-import { MoreHorizRounded } from "@material-ui/icons";
+import { ClickAwayListener, Popper } from "@mui/material";
+import { MoreHorizRounded } from "@mui/icons-material";
 import CompletedTasksList from "../../common/components/completed-tasks-collapsible/CompletedTasksList";
 
-import { useHistory } from "react-router-dom";
 import { setLastAllTaskUrl } from "../../common/state/slice/GlobalSlice";
 import usePageTracking from "../../usePageTracking";
 import {
@@ -97,18 +96,11 @@ export default () => {
   );
 
   let lastUrl = useSelector(selectLastAllTaskUrl);
-  let history = useHistory();
-  useEffect(() => {
-    return history.listen((location, action) => {
-      if (location.pathname.startsWith("/all")) {
-        dispatch(setLastAllTaskUrl(location.pathname));
-      }
-    });
-  }, []);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (window.location.pathname !== lastUrl) {
-      history.push(lastUrl);
+      navigate(lastUrl);
     }
   }, []);
 
@@ -231,8 +223,6 @@ export default () => {
     );
   });
 
-  let { path } = useRouteMatch();
-
   let ePomos = 0;
   for (let task of todaystasks) {
     ePomos += task.epomo;
@@ -272,9 +262,8 @@ export default () => {
         <DragDropContext onDragEnd={onDragEnd}>
           <div className={styles["middle-container"]} ref={containerRef}>
             <div className={styles["route"]}>
-              <Switch>
-                <Route exact path={path}>
-                  <div className={styles["all-tasks-container"]}>
+              <Routes>
+                <Route path="/" element={<div className={styles["all-tasks-container"]}>
                     <div className={styles["title"]}>
                       <span>Inbox</span>
                       <span>
@@ -361,32 +350,19 @@ export default () => {
                         />
                       </div>
                     )}
-                  </div>
-                </Route>
+                  </div>} />
 
-                <Route exact path={`${path}/project`}>
-                  <NewProjectContainer />
-                </Route>
+                <Route path="project" element={<NewProjectContainer />} />
 
-                <Route path={`${path}/project/:projectId`}>
-                  <ProjectContainer scroll={scrollToView} />
-                </Route>
+                <Route path="project/:projectId" element={<ProjectContainer scroll={scrollToView} />} />
 
-                <Route exact path={`${path}/labels`}>
-                  <NewLabelContainer />
-                </Route>
-                <Route path={`${path}/labels/:labelId`}>
-                  <LabelContainer />
-                </Route>
+                <Route path="labels" element={<NewLabelContainer />} />
+                <Route path="labels/:labelId" element={<LabelContainer />} />
 
-                <Route path={`${path}/priority/:priority`}>
-                  <PriorityContainer />
-                </Route>
+                <Route path="priority/:priority" element={<PriorityContainer />} />
 
-                <Route path={`${path}/completed-tasks`}>
-                  <CompletedTasks />
-                </Route>
-              </Switch>
+                <Route path="completed-tasks" element={<CompletedTasks />} />
+              </Routes>
             </div>
             {window.location.pathname !== "/all/completed-tasks" && (
               <div className={styles["right-container"]}>

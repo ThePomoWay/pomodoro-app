@@ -11,7 +11,7 @@
   .dropdown-menu {
     display: none;
 
-    background-color: #fff;
+    background-color: var(--bg-task-theme);
     list-style: none;
     position: absolute;
     width: 100%;

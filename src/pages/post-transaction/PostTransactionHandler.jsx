@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   showTransactionErrorModal,
   showTransactionSuccessModal,
@@ -8,7 +8,7 @@ import {
 
 export function PostTransactionHandler(props) {
   let location = window.location.pathname;
-  let history = useHistory();
+  let navigate = useNavigate();
   let dispatch = useDispatch();
 
   if (location === "/success") {
@@ -19,7 +19,7 @@ export function PostTransactionHandler(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      history.push("/");
+      navigate("/");
     }, 2000);
   });
 

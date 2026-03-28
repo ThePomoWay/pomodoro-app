@@ -2,7 +2,7 @@ import NavbarNew from "../../common/components/navbar-new/NavbarNew";
 import { FeatureCard } from "./FeatureCard";
 import styles from "./LandingPage.module.scss";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as Block } from "../../common/svgs/block-landing.svg";
 import { ReactComponent as Bookmark } from "../../common/svgs/bookmark.svg";
@@ -24,17 +24,17 @@ import OnBoarding from "../onboarding/Onboarding";
 
 export function LandingPage(props) {
   let [faqSection, setFaqSection] = useState(0);
-  let history = useHistory();
+  let navigate = useNavigate();
   let dispatch = useDispatch();
   let getStarted = () => {
     dispatch(openTutorialModal());
     localStorage.setItem(LANDING_PAGE_CLOSE, "true");
-    history.push("/app");
+    navigate("/app");
   };
 
   let isLandingPageVisited = localStorage.getItem(LANDING_PAGE_CLOSE);
   if (isLandingPageVisited) {
-    history.push("/app");
+    navigate("/app");
   }
   return (
     <div>

@@ -1,4 +1,4 @@
-import { SkipNext } from "@material-ui/icons";
+import { SkipNext } from "@mui/icons-material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";

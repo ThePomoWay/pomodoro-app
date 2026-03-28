@@ -1,24 +1,24 @@
-import { PersonOutlineRounded } from "@material-ui/icons";
+import { PersonOutlineRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTheme } from "../../../state/selectors";
 import { openOnboardingModal } from "../../../state/slice/GlobalSlice";
 
 import { THEME_DARK } from "../../../utils/constants";
 import styles from "./NavbarMobile.module.scss";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { ProfileDropdown } from "../../profile-dropdown/ProfileDropdown";
 
 export default function NavbarMobile(props) {
   let dispatch = useDispatch();
-  let history = useHistory();
+  let navigate = useNavigate();
   let theme = useSelector(selectTheme);
   let triggerOnboardingModal = () => {
     dispatch(openOnboardingModal());
   };
 
   let navigateToHome = () => {
-    history.push("/");
+    navigate("/");
   };
   return (
     <div className={styles["navbar"]}>

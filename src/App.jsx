@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AuthService from "./common/API/network/AuthService";
 import { NotFound } from "./common/components/404/404";
@@ -65,81 +65,23 @@ function App() {
 
   return (
     <Router>
-      <Switch>
-        <Route path="/closetabs">
-          <CloseTabs></CloseTabs>
-        </Route>
-        <Route path="/about-us">
-          <Sidebar />
-          <AboutUs />
-        </Route>
-        <Route path="/all">
-          <AllTasks />
-        </Route>
-        <Route exact path="/analysis">
-          <AnalysisPage />
-        </Route>
-        {!isMobileDevice && (
-          <Route path="/settings">
-            <Settings />
-          </Route>
-        )}
-        {isMobileDevice && (
-          <Route path="/settings">
-            <SettingsMobile />
-          </Route>
-        )}
-
-        <Route path="/privacy-policy">
-          <PrivacyPolicy />
-        </Route>
-        <Route path="/terms-of-service">
-          <TermsOfService />
-        </Route>
-        <Route path="/manage">
-          <WebsiteBlocker />
-        </Route>
-        {!isMobileDevice && (
-          <Route path="/app">
-            <Homepage />
-          </Route>
-        )}
-
-        <Route path="/success">
-          <PostTransactionHandler />
-        </Route>
-        <Route path="/failure">
-          <PostTransactionHandler />
-        </Route>
-
-        {!isMobileDevice && (
-          <Route exact path="/">
-            {!isLoggedIn && !isLandingPageVisited ? (
-              <LandingPage />
-            ) : (
-              <Homepage />
-            )}
-            {/* <LandingPage /> */}
-          </Route>
-        )}
-
-        {isMobileDevice && (
-          <Route exact path="/">
-            <Homepage />
-          </Route>
-        )}
-
-        <Route exact path="/home">
-          <Homepage />
-        </Route>
-        <Route exact path="/support">
-          <Support />
-        </Route>
-
-        <Route path="">
-          <NotFound />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/closetabs" element={<CloseTabs />} />
+        <Route path="/about-us" element={<><Sidebar /><AboutUs /></>} />
+        <Route path="/all/*" element={<AllTasks />} />
+        <Route path="/analysis" element={<AnalysisPage />} />
+        <Route path="/settings" element={isMobileDevice ? <SettingsMobile /> : <Settings />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/manage" element={<WebsiteBlocker />} />
+        <Route path="/app" element={<Homepage />} />
+        <Route path="/success" element={<PostTransactionHandler />} />
+        <Route path="/failure" element={<PostTransactionHandler />} />
+        <Route path="/" element={!isMobileDevice ? (!isLoggedIn && !isLandingPageVisited ? <LandingPage /> : <Homepage />) : <Homepage />} />
+        <Route path="/home" element={<Homepage />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <Toast />
       <MultiTabAlertModal />
       {!isMobileDevice && <TutorialModal />}

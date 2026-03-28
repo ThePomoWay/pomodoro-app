@@ -1,4 +1,4 @@
-import { ChevronRight } from "@material-ui/icons";
+import { ChevronRight } from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

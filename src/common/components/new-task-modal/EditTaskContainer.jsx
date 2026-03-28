@@ -1,4 +1,4 @@
-import { ClickAwayListener, Popper } from "@material-ui/core";
+import { ClickAwayListener, Popper } from "@mui/material";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

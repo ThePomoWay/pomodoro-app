@@ -8,7 +8,6 @@ import {
 import { setEditProjectId } from "../../state/slice/ProjectSlice";
 import { generateUniqueId } from "../../utils/common";
 
-import { useRouteMatch, useHistory } from "react-router-dom";
 
 import styles from "./NewProjectContainer.module.scss";
 import { Modal } from "@mui/material";
@@ -21,12 +20,11 @@ import {
   setProjectModalState,
   showErrorToast,
 } from "../../state/slice/GlobalSlice";
-import { Close } from "@material-ui/icons";
+import { Close } from "@mui/icons-material";
 import { CloseIcon } from "../../svgs/CloseIcon";
 
 export default () => {
   let [projectTitle, setProjectTitle] = useState("");
-  let { path } = useRouteMatch();
 
   let isModalOpen = useSelector(selectNewProjectModal);
 
@@ -40,7 +38,6 @@ export default () => {
   }, [editProjectId]);
 
   let dispatch = useDispatch();
-  let history = useHistory();
 
   let handleClose = useCallback(() => {
     dispatch(setProjectModalState(false));
@@ -77,14 +74,10 @@ export default () => {
             to: [],
             isArchived: false,
           },
-          path,
+          path: window.location.pathname,
           redirect: true,
         })
       );
-
-      // setTimeout(() => {
-      //   history.push(`/all/project/${fid}`);
-      // }, 500);
     }
   });
 

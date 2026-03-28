@@ -1,4 +1,4 @@
-import { Close, Search } from "@material-ui/icons";
+import { Close, Search } from "@mui/icons-material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectTasksByDate } from "../../state/selectors";

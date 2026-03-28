@@ -1,5 +1,5 @@
-import { Add } from "@material-ui/icons";
-import { Popover } from "@material-ui/core";
+import { Add } from "@mui/icons-material";
+import { Popover } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "./estimatedPomos.module.scss";

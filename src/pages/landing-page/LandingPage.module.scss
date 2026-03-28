@@ -532,11 +532,13 @@
           font-weight: 700;
           font-size: 20px;
           line-height: 25px;
+          color: var(--text-theme);
         }
         .answer {
           font-weight: 450;
           font-size: 16px;
           line-height: 24px;
+          color: var(--text-theme-2);
         }
       }
     }
@@ -634,8 +636,8 @@
   .box {
     width: 25%;
     height: 132px;
-    background: #ffffff;
-    box-shadow: 0px 4px 36px rgba(0, 0, 0, 0.05);
+    background: var(--landing-card-bg);
+    box-shadow: var(--landing-card-shadow);
     border-radius: 15px;
     padding: 24px;
 

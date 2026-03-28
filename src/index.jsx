@@ -1,4 +1,4 @@
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { store } from "./common/state/store";
@@ -15,6 +15,8 @@ const rootElement = document.getElementById("root");
 
 registerWorkerEvent();
 
+const root = createRoot(rootElement);
+
 // if (rootElement.hasChildNodes()) {
 //   hydrate((<React.StrictMode>
 //     <Provider store={store}>
@@ -22,13 +24,12 @@ registerWorkerEvent();
 //     </Provider>
 //   </React.StrictMode>), rootElement);
 // } else {
-render(
+root.render(
   <Provider store={store}>
     <ApplyTheme>
       <App />
     </ApplyTheme>
-  </Provider>,
-  rootElement
+  </Provider>
 );
 // }
 

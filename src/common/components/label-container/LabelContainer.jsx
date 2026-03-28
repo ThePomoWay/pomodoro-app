@@ -1,4 +1,4 @@
-import { Delete, Edit, Label, MoreHorizRounded } from "@material-ui/icons";
+import { Delete, Edit, Label, MoreHorizRounded } from "@mui/icons-material";
 import styles from "./LabelContainer.module.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

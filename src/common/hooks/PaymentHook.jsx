@@ -12,10 +12,11 @@ export function usePaymentStatus() {
   let [subStatus, setSubStatus] = useState(
     user && user.subscription && user.subscription.status
   );
-  let [planExpiry, setPlanExpiry] = useState(user.expiry);
+  let [planExpiry, setPlanExpiry] = useState(user && user.expiry);
   let [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
     setSubStatus(
       (user.subscription && user.subscription.status) ||
         SUBSCRIPTION_STATUS_INACTIVE

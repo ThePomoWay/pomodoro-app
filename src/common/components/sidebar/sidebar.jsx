@@ -1,6 +1,6 @@
 import React from "react";
-import { Drawer, List, ListItem, ListItemIcon } from "@material-ui/core";
-import { Inbox, Report } from "@material-ui/icons";
+import { Drawer, List, ListItem, ListItemIcon } from "@mui/material";
+import { Inbox, Report } from "@mui/icons-material";
 
 export function Sidebar () {
     return (

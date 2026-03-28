@@ -4,7 +4,7 @@ import {
   FlagOutlined,
   Label,
   LabelOutlined,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectTagsAsArr } from "../../state/selectors";

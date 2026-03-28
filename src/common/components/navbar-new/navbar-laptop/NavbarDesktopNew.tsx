@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../../../API/network/AuthService";
 import { selectTheme } from "../../../state/selectors";
 import {
@@ -109,7 +109,7 @@ export default function NavbarDesktopNew(props) {
   let dispatch = useDispatch();
 
   let theme = useSelector(selectTheme);
-  let history = useHistory();
+  let navigate = useNavigate();
 
   let onOpenOnboardingModal = () => {
     dispatch(openOnboardingModal());
@@ -125,7 +125,7 @@ export default function NavbarDesktopNew(props) {
     if (!AuthService.isLoggedIn()) {
       onOpenOnboardingModal();
     } else {
-      history.push(item.to);
+      navigate(item.to);
     }
   };
 

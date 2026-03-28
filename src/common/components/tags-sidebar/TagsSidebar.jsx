@@ -3,7 +3,7 @@ import {
   AddCircleOutlineOutlined,
   Label,
   LabelOutlined,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectNewLabelModal, selectTagsAsArr } from "../../state/selectors";

@@ -1,5 +1,5 @@
-import { ClickAwayListener } from "@material-ui/core";
-import { ArrowDropDown } from "@material-ui/icons";
+import { ClickAwayListener } from "@mui/material";
+import { ArrowDropDown } from "@mui/icons-material";
 import { Popper } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

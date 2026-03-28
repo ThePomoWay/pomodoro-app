@@ -1,4 +1,4 @@
-import { Add, Done, Label } from "@material-ui/icons";
+import { Add, Done, Label } from "@mui/icons-material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../API/network/AuthService";

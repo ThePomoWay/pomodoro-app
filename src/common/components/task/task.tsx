@@ -1,5 +1,5 @@
-import { Popover } from "@material-ui/core";
-import { MoreHorizRounded } from "@material-ui/icons";
+import { Popover } from "@mui/material";
+import { MoreHorizRounded } from "@mui/icons-material";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPomoState } from "../../state/selectors";

@@ -1,4 +1,3 @@
-import { findAllByDisplayValue } from "@testing-library/react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsTimerFullScreen } from "../../state/selectors";

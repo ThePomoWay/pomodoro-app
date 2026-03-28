@@ -1,4 +1,4 @@
-import { Flag, Label } from "@material-ui/icons";
+import { Flag, Label } from "@mui/icons-material";
 import styles from "./PriorityContainer.module.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,12 +1,14 @@
 .navbar {
   height: 40px;
   padding: 10px;
+  background-color: var(--bg-theme);
   border-bottom: var(--border-navbar-theme);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   box-sizing: border-box;
+  z-index: 10;
 
   .app {
     position: absolute;

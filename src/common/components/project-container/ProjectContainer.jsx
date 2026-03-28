@@ -12,7 +12,7 @@ import {
   selectFreeProjects,
 } from "../../state/selectors";
 
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { DraggableTaskItem } from "../draggable-task/DraggableTask";
@@ -41,8 +41,8 @@ import styles from "./ProjectContainer.module.scss";
 import { getObjFromArr } from "../../utils/common";
 import CompletedTasksList from "../completed-tasks-collapsible/CompletedTasksList";
 import { AddNewTask } from "../new-task-btn/AddNewTask";
-import { MoreHorizRounded } from "@material-ui/icons";
-import { ClickAwayListener, Popper } from "@material-ui/core";
+import { MoreHorizRounded } from "@mui/icons-material";
+import { ClickAwayListener, Popper } from "@mui/material";
 import { ProjectMoreOptions } from "../project-more-options/ProjectMoreOptions";
 import {
   setLastAllTaskUrl,
@@ -317,7 +317,7 @@ export function ProjectContainer(props) {
     setShowAlert(true);
   });
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const onDeleteProject = useCallback((e) => {
     dispatch(
@@ -326,7 +326,7 @@ export function ProjectContainer(props) {
     setShowAlert(false);
     setMoreAnchorEl(null);
     setTimeout(() => {
-      history.push("/all");
+      navigate("/all");
     }, 1000);
   });
 

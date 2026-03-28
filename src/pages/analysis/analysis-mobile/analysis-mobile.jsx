@@ -1,6 +1,7 @@
-import DateFnsUtils from "@date-io/date-fns";
-import { ArrowDownward } from "@material-ui/icons";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { ArrowDownward } from "@mui/icons-material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../../common/API/network/AuthService";
@@ -206,11 +207,11 @@ export function AnalysisMobile() {
           <DatePicker
             label="Date"
             value={date}
-            variant="outlined"
             onChange={(newValue) => {
               setDate(newValue);
               callStatsApi(selectedTabIndex, newValue);
             }}
+            slotProps={{ textField: { variant: 'outlined' } }}
           />
         </div>
       );
@@ -226,7 +227,7 @@ export function AnalysisMobile() {
   console.log(stats);
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className={styles["container"]}>
         {AuthService.isLoggedIn() && <Settings />}
         <Navbar selected="2" />
@@ -405,6 +406,6 @@ export function AnalysisMobile() {
           </div>
         </div>
       </div>
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 }

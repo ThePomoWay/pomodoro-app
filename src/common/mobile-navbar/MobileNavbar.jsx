@@ -1,14 +1,13 @@
-import { BarChartOutlined, HomeOutlined } from "@material-ui/icons";
+import { BarChartOutlined, HomeOutlined, SettingsOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthService from "../API/network/AuthService";
 import { openOnboardingModal } from "../state/slice/GlobalSlice";
-import { ReactComponent as SettingsIcon } from "../svgs/SettingsIcon.svg";
 import styles from "./MobileNavbar.module.scss";
 
 export function MobileNavbar() {
   let location = useLocation();
-  let history = useHistory();
+  let navigate = useNavigate();
   let dispatch = useDispatch();
   let navigateTo = (link) => {
     if (location.pathname === "/" && link === "/") {
@@ -18,7 +17,7 @@ export function MobileNavbar() {
     if (link === "/analysis" && !AuthService.isLoggedIn()) {
       dispatch(openOnboardingModal());
     } else {
-      history.push(link);
+      navigate(link);
     }
   };
   return (
@@ -38,7 +37,7 @@ export function MobileNavbar() {
         }`}
         onClick={() => navigateTo("/settings")}
       >
-        <SettingsIcon />
+        <SettingsOutlined />
       </div>
       <div
         className={`${styles["item"]} ${

@@ -2,7 +2,7 @@ import {
   ArrowUpwardRounded,
   PauseCircleFilledRounded,
   PlayCircleFilledRounded,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {

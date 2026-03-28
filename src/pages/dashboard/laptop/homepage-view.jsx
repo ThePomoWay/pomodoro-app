@@ -1,4 +1,4 @@
-import { SettingsApplicationsOutlined } from "@material-ui/icons";
+import { SettingsApplicationsOutlined } from "@mui/icons-material";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
@@ -28,7 +28,7 @@ import { ReactComponent as SettingsIcon } from "../../../common/svgs/SettingsIco
 import ClockSettingsModal from "../../../common/components/clock-settings-modal/ClockSettingsModal";
 import AuthService from "../../../common/API/network/AuthService";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MusicPlayer } from "../../../common/components/music-player/MusicPlayer";
 import { HideOnFullScreen } from "../../../common/components/hide-on-full-screen/HideOnFullScreen";
 import { useHideOnFullScreen } from "../../../common/components/hide-on-full-screen/useHideOnFullScreen";
@@ -69,7 +69,7 @@ export function HomepageLaptop() {
     }
   };
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (
@@ -77,7 +77,7 @@ export function HomepageLaptop() {
       window.location.pathname &&
       (window.location.pathname === "/" || window.location.pathname === "/app")
     ) {
-      history.push("/home" + window.location.search);
+      navigate("/home" + window.location.search);
     }
   }, []);
 

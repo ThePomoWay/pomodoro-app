@@ -1,4 +1,4 @@
-import { MusicNote, Person } from "@material-ui/icons";
+import { MusicNote, Person } from "@mui/icons-material";
 import styles from "./SettingsSideNav.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettingsTab } from "../../state/slice/GlobalSlice";

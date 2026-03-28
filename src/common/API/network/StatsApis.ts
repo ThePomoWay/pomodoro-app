@@ -1,4 +1,4 @@
-import { responsiveFontSizes } from "@material-ui/core";
+import { responsiveFontSizes } from "@mui/material";
 import { savePomoSummariesInOfflineStore } from "../../offlineSync/offlineSync";
 import { getFormattedDate } from "../../utils/date-utils";
 import AuthService from "./AuthService";

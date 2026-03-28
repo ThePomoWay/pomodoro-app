@@ -1,7 +1,7 @@
-import { Add } from "@material-ui/icons";
+import { Add } from "@mui/icons-material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthService from "../../API/network/AuthService";
 import { usePaymentStatus } from "../../hooks/PaymentHook";
 import { selectProjectOrder, selectProjectsObj } from "../../state/selectors";
@@ -16,8 +16,6 @@ import { ReactComponent as Lock } from "../../svgs/lock.svg";
 import styles from "./projectSidebar.module.scss";
 
 export default () => {
-  let { path } = useRouteMatch();
-
   let projectsObj = useSelector(selectProjectsObj);
   let projectsOrder = useSelector(selectProjectOrder);
 

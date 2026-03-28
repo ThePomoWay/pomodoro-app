@@ -1,4 +1,4 @@
-import { ExpandMoreOutlined } from "@material-ui/icons";
+import { ExpandMoreOutlined } from "@mui/icons-material";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Settings from "../../../pages/settings/Settings";

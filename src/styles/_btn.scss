@@ -3,7 +3,7 @@
 .btn {
   padding: 10px;
   min-height: 36px;
-  background-color: white;
+  background-color: var(--bg-theme);
 
   cursor: pointer;
 
@@ -16,11 +16,11 @@
     gap: 8px;
     font-size: 12px;
     line-height: 16px;
-    background: #ffffff;
+    background: var(--bg-theme);
     border: 1.0177px solid #cbcff7;
     box-sizing: border-box;
     border-radius: 8px;
-    color: #000000;
+    color: var(--text-theme);
     font-weight: 400;
   }
 
@@ -44,8 +44,8 @@
   }
 
   &-simple {
-    background: #ffffff;
-    border: 1px solid #000000;
+    background: var(--bg-theme);
+    border: 1px solid var(--text-theme);
     box-sizing: border-box;
     border-radius: 8px;
     min-width: 95px;
@@ -55,7 +55,7 @@
     font-size: 12px;
     line-height: 14px;
 
-    color: #000000;
+    color: var(--text-theme);
 
     &-light {
       border: 1px solid #b0b0b0;
@@ -229,6 +229,8 @@
   width: 212px;
   height: 52px;
 
+  background: transparent;
+  color: var(--text-theme);
   border: 1px solid #6885f6;
   border-radius: 40px;
 }

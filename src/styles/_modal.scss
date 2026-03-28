@@ -4,14 +4,14 @@
   position: relative;
   width: 95vw;
   max-height: 80vh;
-  background-color: white;
+  background-color: var(--bg-task-theme);
   outline: none;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
 
-  background: #ffffff;
+  background: var(--bg-task-theme);
   box-shadow: 2px 7px 32px rgba(54, 64, 120, 0.17);
   border-radius: 12px;
   position: relative;
@@ -30,14 +30,14 @@
   position: relative;
   width: 45vw;
   max-height: 68vh;
-  background-color: white;
+  background-color: var(--bg-task-theme);
   outline: none;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
 
-  background: #ffffff;
+  background: var(--bg-task-theme);
   box-shadow: 2px 7px 32px rgba(54, 64, 120, 0.17);
   border-radius: 12px;
   position: relative;
@@ -49,14 +49,14 @@
     position: relative;
     width: 95vw;
     max-height: 80vh;
-    background-color: white;
+    background-color: var(--bg-task-theme);
     outline: none;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
 
-    background: #ffffff;
+    background: var(--bg-task-theme);
     box-shadow: 2px 7px 32px rgba(54, 64, 120, 0.17);
     border-radius: 12px;
     position: relative;

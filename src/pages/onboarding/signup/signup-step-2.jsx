@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { LOGIN_REGISTER_STEP } from "../../../common/utils/constants";
 import { ChevronLeft } from "../../../common/svgs/ChevronLeft";
-import { SentimentSatisfied } from "@material-ui/icons";
+import { SentimentSatisfied } from "@mui/icons-material";
 import { register } from "../../../common/state/thunks/OnboardingThunk";
 import { setStep } from "../../../common/state/slice/OnboardingSlice";
 

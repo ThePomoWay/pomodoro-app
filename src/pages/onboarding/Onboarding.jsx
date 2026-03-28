@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
-import { Close } from "@material-ui/icons";
+import { Close } from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";

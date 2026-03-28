@@ -6,6 +6,9 @@ export const ACTIONS_ADD_TIME = [
 ];
 
 export function askPermission() {
+  if (!("Notification" in window)) {
+    return Promise.resolve();
+  }
   return new Promise(function (resolve, reject) {
     if (Notification.permission !== "denied") {
       const permissionResult = Notification.requestPermission(function (

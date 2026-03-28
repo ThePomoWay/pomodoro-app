@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { InboxSvg } from "../../svgs/InboxSvg";
 import { PrioritySidebar } from "../priority-sidebar/PrioritySidebar";
 import ProjectSidebar from "../project-sidebar/ProjectSidebar";
@@ -13,11 +13,11 @@ import { ReactComponent as CompletedTaskSvg } from "../../svgs/CompletedTaskSvg.
 export default () => {
   let path = window.location.pathname;
 
-  let history = useHistory();
+  let navigate = useNavigate();
   let dispatch = useDispatch();
   let navigateAfterLogin = (link) => {
     if (AuthService.isLoggedIn()) {
-      history.push(link);
+      navigate(link);
     } else {
       dispatch(openOnboardingModal());
     }
