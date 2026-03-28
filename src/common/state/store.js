@@ -24,3 +24,8 @@ export const store = configureStore({
     music: musicSlice.reducer,
   },
 });
+
+// Expose store for headless browser / screenshot tooling
+if (typeof window !== 'undefined') {
+  window.__store = store;
+}

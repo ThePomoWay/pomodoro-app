@@ -15,7 +15,7 @@
       color: var(--text-theme);
     }
     .line {
-      border-top: 1px solid #8d8bab;
+      border-top: 1px solid var(--divider-color);
       flex: 1;
     }
 
@@ -174,7 +174,7 @@
               color: var(--analysis-task-color);
 
               .view-completed {
-                color: #de5675;
+                color: var(--analysis-red);
                 text-decoration: underline;
               }
             }
