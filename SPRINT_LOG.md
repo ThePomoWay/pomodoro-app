@@ -10,6 +10,11 @@
 **Files changed:** src/common/components/session-complete/SessionCompleteModal.jsx, SessionCompleteModal.module.scss, SessionCompleteModal.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (integration + `completedPomos` selector)
 **Tests:** src/common/components/session-complete/SessionCompleteModal.test.jsx (11 tests)
 
+## 2026-03-29 — Flow State Heatmap
+**Description:** A 7-day × 16-hour focus intensity grid (GitHub contribution graph style) showing exactly when the user is most productive. Each completed pomodoro is recorded with a timestamp in localStorage via `recordPomoCompletion()`. The panel (triggered by pressing `H` or clicking the grid icon badge) renders a coloured cell grid where indigo intensity scales with pomodoro count. Hover tooltips show the exact count for any cell, the peak focus hour is outlined with a subtle ring, and a stats strip surfaces total pomodoros, peak focus hour, and top day at a glance. Includes a colour legend at the bottom.
+**Files changed:** src/common/components/flow-heatmap/FlowHeatmap.jsx, FlowHeatmap.module.scss, FlowHeatmap.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (integration: imports, H shortcut, recordPomoCompletion hook, badge button)
+**Tests:** src/common/components/flow-heatmap/FlowHeatmap.test.jsx (16 tests)
+
 ## 2026-03-29 — Mindful Breathing Break
 **Description:** Animated 4-7-8 breathing exercise guide that appears when a break starts, with a glowing pulsing orb and phase guidance.
 **Files changed:** src/common/components/breathing-exercise/BreathingExercise.jsx, BreathingExercise.module.scss, BreathingExercise.test.jsx; integrated into dashboard homepage-view.jsx

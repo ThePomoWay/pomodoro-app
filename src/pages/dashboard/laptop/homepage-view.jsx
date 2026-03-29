@@ -37,10 +37,15 @@ import { BreathingExercise } from "../../../common/components/breathing-exercise
 import { KeyboardShortcutOverlay } from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay";
 import { SessionCompleteModal } from "../../../common/components/session-complete/SessionCompleteModal";
 import {
+  FlowHeatmap,
+  recordPomoCompletion,
+} from "../../../common/components/flow-heatmap/FlowHeatmap";
+import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
 import kbdStyles from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay.module.scss";
+import heatmapStyles from "../../../common/components/flow-heatmap/FlowHeatmap.module.scss";
 
 export function HomepageLaptop() {
   let {
@@ -60,6 +65,7 @@ export function HomepageLaptop() {
   const [showBreathing, setShowBreathing] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showSessionComplete, setShowSessionComplete] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(false);
   const prevPomoStateRef = useRef(pomoState);
 
   useEffect(() => {
@@ -71,7 +77,8 @@ export function HomepageLaptop() {
         document.activeElement?.isContentEditable;
       if (isTyping) return;
       if (e.key === "?") setShowShortcuts((v) => !v);
-      if (e.key === "Escape") setShowShortcuts(false);
+      if (e.key === "h" || e.key === "H") setShowHeatmap((v) => !v);
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -92,9 +99,12 @@ export function HomepageLaptop() {
     prevPomoStateRef.current = pomoState;
   }, [pomoState]);
 
-  // Fire session-complete modal every 4 pomodoros.
+  // Fire session-complete modal every 4 pomodoros; record each completion in heatmap.
   useEffect(() => {
     const prev = prevCompletedPomosRef.current;
+    if (completedPomos > prev) {
+      recordPomoCompletion();
+    }
     if (
       completedPomos > 0 &&
       completedPomos % 4 === 0 &&
@@ -159,6 +169,10 @@ export function HomepageLaptop() {
         open={showShortcuts}
         onClose={() => setShowShortcuts(false)}
       />
+      <FlowHeatmap
+        open={showHeatmap}
+        onClose={() => setShowHeatmap(false)}
+      />
       <button
         className={kbdStyles.triggerBadge}
         onClick={() => setShowShortcuts((v) => !v)}
@@ -166,6 +180,24 @@ export function HomepageLaptop() {
         title="Keyboard shortcuts (?)"
       >
         ?
+      </button>
+      <button
+        className={heatmapStyles.heatmapBadge}
+        onClick={() => setShowHeatmap((v) => !v)}
+        aria-label="Show flow state heatmap"
+        title="Flow State Heatmap (H)"
+      >
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2"  y="2"  width="4" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+          <rect x="8"  y="2"  width="4" height="4" rx="1" fill="currentColor" opacity="0.7"/>
+          <rect x="14" y="2"  width="4" height="4" rx="1" fill="currentColor" opacity="0.5"/>
+          <rect x="2"  y="8"  width="4" height="4" rx="1" fill="currentColor" opacity="0.9"/>
+          <rect x="8"  y="8"  width="4" height="4" rx="1" fill="currentColor" opacity="1.0"/>
+          <rect x="14" y="8"  width="4" height="4" rx="1" fill="currentColor" opacity="0.6"/>
+          <rect x="2"  y="14" width="4" height="4" rx="1" fill="currentColor" opacity="0.4"/>
+          <rect x="8"  y="14" width="4" height="4" rx="1" fill="currentColor" opacity="0.7"/>
+          <rect x="14" y="14" width="4" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+        </svg>
       </button>
       <OnBoarding />
       <Settings />
