@@ -35,7 +35,7 @@ export let getStatsAsync = createAsyncThunk(
     });
 
     let completedTasks = [];
-    if (completedTasksResponse.status === 200) {
+    if (completedTasksResponse && completedTasksResponse.status === 200) {
       completedTasks = completedTasksResponse.data.tasks;
     }
     let defaultWorkTime = getState()["timer"].defaultWorkTime;
