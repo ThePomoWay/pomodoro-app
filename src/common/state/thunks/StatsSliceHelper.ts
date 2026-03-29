@@ -129,7 +129,7 @@ export function processStatsRange(
     },
   };
 
-  if (!statsArr.length) {
+  if (!statsArr || !statsArr.length) {
     return statsObj;
   }
 

@@ -43,7 +43,7 @@ export let getStatsAsync = createAsyncThunk(
     let [oldStatsProcessed, curStatsProcessed] = processStats(
       obj.from,
       obj.to,
-      response.data.stats,
+      response && response.data && response.data.stats,
       defaultWorkTime,
       completedTasks
     );
