@@ -1,6 +1,7 @@
 import { SettingsApplicationsOutlined } from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCompletedPomos } from "../../../common/state/selectors";
 import CurrentTask from "../../../common/components/current-task/currentTask";
 import Navbar from "../../../common/components/navbar/Navbar";
 import { TodaysTaskContainer } from "../../../common/components/tasklist/TodaysTaskContainer";
@@ -34,6 +35,7 @@ import { HideOnFullScreen } from "../../../common/components/hide-on-full-screen
 import { useHideOnFullScreen } from "../../../common/components/hide-on-full-screen/useHideOnFullScreen";
 import { BreathingExercise } from "../../../common/components/breathing-exercise/BreathingExercise";
 import { KeyboardShortcutOverlay } from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay";
+import { SessionCompleteModal } from "../../../common/components/session-complete/SessionCompleteModal";
 import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
@@ -52,8 +54,12 @@ export function HomepageLaptop() {
   let dispatch = useDispatch();
   let containerRef = useRef();
 
+  const completedPomos = useSelector(selectCompletedPomos);
+  const prevCompletedPomosRef = useRef(completedPomos);
+
   const [showBreathing, setShowBreathing] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [showSessionComplete, setShowSessionComplete] = useState(false);
   const prevPomoStateRef = useRef(pomoState);
 
   useEffect(() => {
@@ -85,6 +91,19 @@ export function HomepageLaptop() {
     }
     prevPomoStateRef.current = pomoState;
   }, [pomoState]);
+
+  // Fire session-complete modal every 4 pomodoros.
+  useEffect(() => {
+    const prev = prevCompletedPomosRef.current;
+    if (
+      completedPomos > 0 &&
+      completedPomos % 4 === 0 &&
+      completedPomos !== prev
+    ) {
+      setShowSessionComplete(true);
+    }
+    prevCompletedPomosRef.current = completedPomos;
+  }, [completedPomos]);
 
   let doFullScreen = () => {
     dispatch(setIsTimerFullScreen(true));
@@ -131,6 +150,11 @@ export function HomepageLaptop() {
       {showBreathing && (
         <BreathingExercise onDismiss={() => setShowBreathing(false)} />
       )}
+      <SessionCompleteModal
+        open={showSessionComplete}
+        onClose={() => setShowSessionComplete(false)}
+        completedPomos={completedPomos}
+      />
       <KeyboardShortcutOverlay
         open={showShortcuts}
         onClose={() => setShowShortcuts(false)}
