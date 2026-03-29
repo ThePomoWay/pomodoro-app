@@ -1,4 +1,5 @@
 import envJson from './env.json';
-let env = envJson[process.env.REACT_APP_API_ENV];
+const envKey = import.meta.env.MODE === 'development' ? 'development' : 'production';
+let env = envJson[envKey];
 
 export default env;
