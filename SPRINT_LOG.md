@@ -20,6 +20,11 @@
 **Files changed:** src/common/components/focus-score/FocusScoreDashboard.jsx, FocusScoreDashboard.module.scss, FocusScoreDashboard.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (integration: import, S shortcut, showScore state, FocusScoreDashboard component, scoreBadge button)
 **Tests:** src/common/components/focus-score/FocusScoreDashboard.test.jsx (15 tests)
 
+## 2026-03-29 — Ambient Sound Mixer with EQ Visualizer
+**Description:** A glassmorphic modal (triggered by pressing `M` or clicking the music-note badge at bottom-right) that lets users layer up to 6 real ambient sounds generated entirely via Web Audio API — no external files needed. Channels: Rain (white noise + lowpass), Ocean (brown noise + lowpass tremolo), Focus Noise (pure white noise), Binaural Focus (200 Hz + 208 Hz stereo oscillators → 8 Hz alpha-wave beat), Forest (bandpass white noise at 700 Hz), and Café (bandpass brown noise at 1800 Hz). Each channel has an on/off toggle, per-channel volume slider with dynamic thumb colour, and a live on/off indicator dot. An animated 20-bar rainbow EQ visualizer dances in sync with audio playback using CSS keyframes with pre-computed per-bar delays and heights. An "X playing" pill badge counts active channels, and the EQ label switches between "▶ Playing" and "■ Stopped".
+**Files changed:** src/common/components/ambient-sound-mixer/AmbientSoundMixer.jsx, AmbientSoundMixer.module.scss, AmbientSoundMixer.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (import, M shortcut, showMixer state, AmbientSoundMixer render, mixerBadge button)
+**Tests:** src/common/components/ambient-sound-mixer/AmbientSoundMixer.test.jsx (18 tests — all passing)
+
 ## 2026-03-29 — Mindful Breathing Break
 **Description:** Animated 4-7-8 breathing exercise guide that appears when a break starts, with a glowing pulsing orb and phase guidance.
 **Files changed:** src/common/components/breathing-exercise/BreathingExercise.jsx, BreathingExercise.module.scss, BreathingExercise.test.jsx; integrated into dashboard homepage-view.jsx
