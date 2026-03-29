@@ -1,0 +1,164 @@
+// BreathingExercise — Mindful 4-7-8 Breathing Guide
+// All colours via CSS variables — no hardcoded white/black.
+
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-theme);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 24px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-theme);
+  margin: 0 0 8px;
+}
+
+// ─── Orb ───────────────────────────────────────────────────────────────────
+
+.orb {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 20%,
+    #b2f5ea 0%,
+    #38bec9 35%,
+    #0d7a8a 70%,
+    #054a57 100%
+  );
+  box-shadow:
+    0 0 40px rgba(56, 190, 201, 0.4),
+    0 0 80px rgba(56, 190, 201, 0.15);
+  will-change: transform, box-shadow;
+}
+
+.orb--inhale {
+  animation: inhale 4s ease-in forwards;
+}
+
+.orb--hold {
+  animation: hold 7s ease-in-out forwards;
+}
+
+.orb--exhale {
+  animation: exhale 8s ease-out forwards;
+}
+
+// ─── Keyframes ─────────────────────────────────────────────────────────────
+
+@keyframes inhale {
+  0% {
+    transform: scale(0.6);
+    box-shadow:
+      0 0 24px rgba(56, 190, 201, 0.25),
+      0 0 48px rgba(56, 190, 201, 0.1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 60px rgba(56, 190, 201, 0.55),
+      0 0 120px rgba(56, 190, 201, 0.25);
+  }
+}
+
+@keyframes hold {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 60px rgba(56, 190, 201, 0.55),
+      0 0 120px rgba(56, 190, 201, 0.25);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 80px rgba(102, 214, 225, 0.65),
+      0 0 150px rgba(102, 214, 225, 0.3);
+  }
+}
+
+@keyframes exhale {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 60px rgba(56, 190, 201, 0.55),
+      0 0 120px rgba(56, 190, 201, 0.25);
+  }
+  100% {
+    transform: scale(0.6);
+    box-shadow:
+      0 0 24px rgba(56, 190, 201, 0.2),
+      0 0 48px rgba(56, 190, 201, 0.08);
+  }
+}
+
+// ─── Text ──────────────────────────────────────────────────────────────────
+
+.phaseText {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--text-theme);
+  margin: 0;
+  min-height: 38px;
+}
+
+.subText {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-theme-2);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.techniqueLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-theme-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0.65;
+}
+
+// ─── Skip button ───────────────────────────────────────────────────────────
+
+.skipBtn {
+  background: transparent;
+  border: var(--border-navbar-theme);
+  color: var(--text-theme-2);
+  padding: 8px 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(56, 190, 201, 0.6);
+    outline-offset: 2px;
+  }
+}

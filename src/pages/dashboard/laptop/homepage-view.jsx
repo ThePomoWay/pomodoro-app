@@ -1,5 +1,5 @@
 import { SettingsApplicationsOutlined } from "@mui/icons-material";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import CurrentTask from "../../../common/components/current-task/currentTask";
 import Navbar from "../../../common/components/navbar/Navbar";
@@ -32,6 +32,11 @@ import { useNavigate } from "react-router-dom";
 import { MusicPlayer } from "../../../common/components/music-player/MusicPlayer";
 import { HideOnFullScreen } from "../../../common/components/hide-on-full-screen/HideOnFullScreen";
 import { useHideOnFullScreen } from "../../../common/components/hide-on-full-screen/useHideOnFullScreen";
+import { BreathingExercise } from "../../../common/components/breathing-exercise/BreathingExercise";
+import {
+  POMO_BREAK_RUNNING_STATE,
+  POMO_LONG_BREAK_RUNNING_STATE,
+} from "../../../common/utils/constants";
 
 export function HomepageLaptop() {
   let {
@@ -44,6 +49,24 @@ export function HomepageLaptop() {
 
   let dispatch = useDispatch();
   let containerRef = useRef();
+
+  const [showBreathing, setShowBreathing] = useState(false);
+  const prevPomoStateRef = useRef(pomoState);
+
+  useEffect(() => {
+    const prev = prevPomoStateRef.current;
+    const isBreakNow =
+      pomoState === POMO_BREAK_RUNNING_STATE ||
+      pomoState === POMO_LONG_BREAK_RUNNING_STATE;
+    const wasBreakBefore =
+      prev === POMO_BREAK_RUNNING_STATE ||
+      prev === POMO_LONG_BREAK_RUNNING_STATE;
+
+    if (isBreakNow && !wasBreakBefore) {
+      setShowBreathing(true);
+    }
+    prevPomoStateRef.current = pomoState;
+  }, [pomoState]);
 
   let doFullScreen = () => {
     dispatch(setIsTimerFullScreen(true));
@@ -87,6 +110,9 @@ export function HomepageLaptop() {
         styles["container"] + " " + (isTimerFullScreen && styles[timerBgColor])
       }
     >
+      {showBreathing && (
+        <BreathingExercise onDismiss={() => setShowBreathing(false)} />
+      )}
       <OnBoarding />
       <Settings />
       <ClockSettingsModal />
