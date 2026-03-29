@@ -33,10 +33,12 @@ import { MusicPlayer } from "../../../common/components/music-player/MusicPlayer
 import { HideOnFullScreen } from "../../../common/components/hide-on-full-screen/HideOnFullScreen";
 import { useHideOnFullScreen } from "../../../common/components/hide-on-full-screen/useHideOnFullScreen";
 import { BreathingExercise } from "../../../common/components/breathing-exercise/BreathingExercise";
+import { KeyboardShortcutOverlay } from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay";
 import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
+import kbdStyles from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay.module.scss";
 
 export function HomepageLaptop() {
   let {
@@ -51,7 +53,23 @@ export function HomepageLaptop() {
   let containerRef = useRef();
 
   const [showBreathing, setShowBreathing] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
   const prevPomoStateRef = useRef(pomoState);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName?.toLowerCase();
+      const isTyping =
+        tag === "input" ||
+        tag === "textarea" ||
+        document.activeElement?.isContentEditable;
+      if (isTyping) return;
+      if (e.key === "?") setShowShortcuts((v) => !v);
+      if (e.key === "Escape") setShowShortcuts(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   useEffect(() => {
     const prev = prevPomoStateRef.current;
@@ -113,6 +131,18 @@ export function HomepageLaptop() {
       {showBreathing && (
         <BreathingExercise onDismiss={() => setShowBreathing(false)} />
       )}
+      <KeyboardShortcutOverlay
+        open={showShortcuts}
+        onClose={() => setShowShortcuts(false)}
+      />
+      <button
+        className={kbdStyles.triggerBadge}
+        onClick={() => setShowShortcuts((v) => !v)}
+        aria-label="Show keyboard shortcuts"
+        title="Keyboard shortcuts (?)"
+      >
+        ?
+      </button>
       <OnBoarding />
       <Settings />
       <ClockSettingsModal />
