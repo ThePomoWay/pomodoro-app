@@ -15,6 +15,11 @@
 **Files changed:** src/common/components/flow-heatmap/FlowHeatmap.jsx, FlowHeatmap.module.scss, FlowHeatmap.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (integration: imports, H shortcut, recordPomoCompletion hook, badge button)
 **Tests:** src/common/components/flow-heatmap/FlowHeatmap.test.jsx (16 tests)
 
+## 2026-03-29 — Focus Score Dashboard
+**Description:** A glassmorphic modal panel (triggered by pressing `S` or clicking the score badge at bottom-right) that computes and displays a real-time productivity score (0–100) with a circular SVG progress ring and animated counter. Score = weighted blend of: Pomodoros completed today vs 8-pomo daily goal (40%), task completion rate (30%), consecutive-day streak (20%), and recent momentum — last 2 hours of focus (10%). Each component is visualised as an animated progress bar. A trend badge shows ↑/↓ pomodoros vs yesterday. Score labels: Warming Up / Building / Focused / Deep Work / Flow State, each with its own accent colour. Score resets daily; all colours use CSS variables — no hardcoded white/black.
+**Files changed:** src/common/components/focus-score/FocusScoreDashboard.jsx, FocusScoreDashboard.module.scss, FocusScoreDashboard.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (integration: import, S shortcut, showScore state, FocusScoreDashboard component, scoreBadge button)
+**Tests:** src/common/components/focus-score/FocusScoreDashboard.test.jsx (15 tests)
+
 ## 2026-03-29 — Mindful Breathing Break
 **Description:** Animated 4-7-8 breathing exercise guide that appears when a break starts, with a glowing pulsing orb and phase guidance.
 **Files changed:** src/common/components/breathing-exercise/BreathingExercise.jsx, BreathingExercise.module.scss, BreathingExercise.test.jsx; integrated into dashboard homepage-view.jsx

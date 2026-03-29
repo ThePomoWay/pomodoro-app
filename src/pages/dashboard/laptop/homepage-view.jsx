@@ -40,12 +40,14 @@ import {
   FlowHeatmap,
   recordPomoCompletion,
 } from "../../../common/components/flow-heatmap/FlowHeatmap";
+import { FocusScoreDashboard } from "../../../common/components/focus-score/FocusScoreDashboard";
 import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
 import kbdStyles from "../../../common/components/keyboard-shortcut-overlay/KeyboardShortcutOverlay.module.scss";
 import heatmapStyles from "../../../common/components/flow-heatmap/FlowHeatmap.module.scss";
+import scoreStyles from "../../../common/components/focus-score/FocusScoreDashboard.module.scss";
 
 export function HomepageLaptop() {
   let {
@@ -66,6 +68,7 @@ export function HomepageLaptop() {
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showSessionComplete, setShowSessionComplete] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showScore, setShowScore] = useState(false);
   const prevPomoStateRef = useRef(pomoState);
 
   useEffect(() => {
@@ -78,7 +81,8 @@ export function HomepageLaptop() {
       if (isTyping) return;
       if (e.key === "?") setShowShortcuts((v) => !v);
       if (e.key === "h" || e.key === "H") setShowHeatmap((v) => !v);
-      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); }
+      if (e.key === "s" || e.key === "S") setShowScore((v) => !v);
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -173,6 +177,10 @@ export function HomepageLaptop() {
         open={showHeatmap}
         onClose={() => setShowHeatmap(false)}
       />
+      <FocusScoreDashboard
+        open={showScore}
+        onClose={() => setShowScore(false)}
+      />
       <button
         className={kbdStyles.triggerBadge}
         onClick={() => setShowShortcuts((v) => !v)}
@@ -180,6 +188,19 @@ export function HomepageLaptop() {
         title="Keyboard shortcuts (?)"
       >
         ?
+      </button>
+      <button
+        className={scoreStyles.scoreBadge}
+        onClick={() => setShowScore((v) => !v)}
+        aria-label="Show focus score"
+        title="Focus Score (S)"
+      >
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" opacity="0.35"/>
+          <path d="M10 10 L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M10 10 L14 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
+          <circle cx="10" cy="10" r="1.25" fill="currentColor"/>
+        </svg>
       </button>
       <button
         className={heatmapStyles.heatmapBadge}
