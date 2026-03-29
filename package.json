@@ -82,10 +82,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.3",
+    "jsdom": "^29.0.1",
     "less": "^4.2.0",
     "sass": "^1.80.6",
     "styled-components": "^6.1.13",
     "vite": "^5.4.11",
-    "vite-plugin-svgr": "^5.0.0"
+    "vite-plugin-svgr": "^5.0.0",
+    "vitest": "^4.1.2"
   }
 }
