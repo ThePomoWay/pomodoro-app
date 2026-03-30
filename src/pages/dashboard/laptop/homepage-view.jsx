@@ -54,6 +54,13 @@ import {
 } from "../../../common/components/focus-timeline/FocusTimeline";
 import timelineStyles from "../../../common/components/focus-timeline/FocusTimeline.module.scss";
 import {
+  FocusJournal,
+  JournalPrompt,
+  JournalBadge,
+} from "../../../common/components/focus-journal/FocusJournal";
+import { SmartSortPanel } from "../../../common/components/smart-sort/SmartSortPanel";
+import sortStyles from "../../../common/components/smart-sort/SmartSortPanel.module.scss";
+import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
@@ -89,6 +96,11 @@ export function HomepageLaptop() {
   const [showAchievements, setShowAchievements] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
   const [pendingAchievements, setPendingAchievements] = useState([]);
+  const [showJournal, setShowJournal] = useState(false);
+  const [showJournalPrompt, setShowJournalPrompt] = useState(false);
+  const [journalNewEntry, setJournalNewEntry] = useState(false);
+  const [showSmartSort, setShowSmartSort] = useState(false);
+  const currentTask = useSelector((state) => state.tasks.tasks[state.tasks.currentTaskRef]);
   const prevPomoStateRef = useRef(pomoState);
 
   useEffect(() => {
@@ -106,7 +118,9 @@ export function HomepageLaptop() {
       if (e.key === "a" || e.key === "A") setShowAchievements((v) => !v);
       if (e.key === "t" || e.key === "T") setShowTimeline((v) => !v);
       if (e.key === "q" || e.key === "Q") motivationalCycleRef.current?.();
-      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); setShowTimeline(false); }
+      if (e.key === "j" || e.key === "J") setShowJournal((v) => !v);
+      if (e.key === "n" || e.key === "N") setShowSmartSort((v) => !v);
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); setShowTimeline(false); setShowJournal(false); setShowJournalPrompt(false); setShowSmartSort(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -135,6 +149,7 @@ export function HomepageLaptop() {
       recordFocusSession();
       const newly = checkAndUnlockAchievements();
       if (newly.length > 0) setPendingAchievements(newly);
+      setShowJournalPrompt(true);
     }
     if (
       completedPomos > 0 &&
@@ -220,6 +235,22 @@ export function HomepageLaptop() {
         open={showTimeline}
         onClose={() => setShowTimeline(false)}
       />
+      <SmartSortPanel
+        open={showSmartSort}
+        onClose={() => setShowSmartSort(false)}
+      />
+      <FocusJournal
+        open={showJournal}
+        onClose={() => setShowJournal(false)}
+      />
+      {showJournalPrompt && (
+        <JournalPrompt
+          sessionNum={completedPomos}
+          taskName={currentTask?.title || ''}
+          onSave={() => { setShowJournalPrompt(false); setJournalNewEntry(true); }}
+          onDismiss={() => setShowJournalPrompt(false)}
+        />
+      )}
       {pendingAchievements.length > 0 && (
         <AchievementToast
           achievements={pendingAchievements}
@@ -227,6 +258,10 @@ export function HomepageLaptop() {
           onDismiss={() => setPendingAchievements([])}
         />
       )}
+      <JournalBadge
+        onClick={() => { setShowJournal((v) => !v); setJournalNewEntry(false); }}
+        hasNewEntry={journalNewEntry}
+      />
       <button
         className={timelineStyles.timelineBadge}
         onClick={() => setShowTimeline((v) => !v)}
@@ -241,6 +276,17 @@ export function HomepageLaptop() {
           <line x1="6"  y1="6" x2="6"  y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
           <line x1="10" y1="5" x2="10" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
           <line x1="14" y1="6" x2="14" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+        </svg>
+      </button>
+      <button
+        className={sortStyles.sortBadge}
+        onClick={() => setShowSmartSort((v) => !v)}
+        aria-label="Open Smart Sort"
+        title="Smart Sort (N)"
+      >
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 5h12M4 10h8M4 15h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M15 12l2 2 2-2M17 14V9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
       <button

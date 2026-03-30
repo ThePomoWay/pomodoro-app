@@ -1,0 +1,379 @@
+// SmartSortPanel — all colours via CSS variables, never hardcoded white/black.
+
+// ── Backdrop ──────────────────────────────────────────────────────────────────
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 550;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.18s ease;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────────
+.panel {
+  background: var(--bg-task-theme);
+  border: 1px solid var(--border-navbar-theme);
+  border-radius: 22px;
+  padding: 2rem 2rem 1.75rem;
+  width: min(500px, 96vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &::-webkit-scrollbar       { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: var(--border-navbar-theme); border-radius: 4px; }
+
+  @keyframes slideUp {
+    from { transform: translateY(28px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+}
+
+// ── Close button ──────────────────────────────────────────────────────────────
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-theme-4, #888);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: var(--text-theme);
+    background: var(--border-navbar-theme);
+  }
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+  padding-right: 2rem;
+}
+
+.headerEmoji {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-theme);
+  letter-spacing: -0.01em;
+}
+
+.headerSub {
+  font-size: 0.78rem;
+  color: var(--text-theme-4, #888);
+  margin-top: 0.1rem;
+}
+
+.phaseChip {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--phase-color, #fbbf24);
+  background: color-mix(in srgb, var(--phase-color, #fbbf24) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--phase-color, #fbbf24) 40%, transparent);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+// ── Energy meter ─────────────────────────────────────────────────────────────
+.energySection {
+  margin-bottom: 1.75rem;
+}
+
+.energyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.energyLabel {
+  font-size: 0.72rem;
+  color: var(--text-theme-4, #888);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.energyPct {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.energyTrack {
+  height: 6px;
+  background: var(--border-navbar-theme);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.energyFill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--phase-color, #fbbf24);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--phase-color, #fbbf24) 60%, transparent);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phaseDesc {
+  font-size: 0.78rem;
+  color: var(--text-theme-4, #888);
+  margin-top: 0.55rem;
+  font-style: italic;
+}
+
+// ── List header ───────────────────────────────────────────────────────────────
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--text-theme-4, #888);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.alreadyOptimal {
+  color: #10b981;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+// ── Task list ─────────────────────────────────────────────────────────────────
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.taskRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  background: color-mix(in srgb, var(--bg-theme) 60%, transparent);
+  border: 1px solid var(--border-navbar-theme);
+  border-radius: 12px;
+  transition: border-color 0.15s, background 0.15s;
+  animation: rowIn 0.25s ease both;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) { animation-delay: #{($i - 1) * 35}ms; }
+  }
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--text-theme-4, #888) 50%, transparent);
+    background: color-mix(in srgb, var(--bg-theme) 80%, transparent);
+  }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+.rankBubble {
+  flex-shrink: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--border-navbar-theme);
+  color: var(--text-theme-4, #888);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.05rem;
+}
+
+.taskContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.taskTitle {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-theme);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.3rem;
+}
+
+.taskMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.pomoPill {
+  font-size: 0.68rem;
+  color: var(--text-theme-4, #888);
+  background: var(--border-navbar-theme);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+.reasonBadge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--reason-color, #6366f1);
+  background: color-mix(in srgb, var(--reason-color, #6366f1) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--reason-color, #6366f1) 30%, transparent);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  flex: 1;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--phase-color, #fbbf24);
+  color: #0a0a0a;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
+
+  &:hover  { opacity: 0.88; transform: translateY(-1px); }
+  &:active { transform: translateY(0); }
+}
+
+.btnSecondary {
+  flex: 1;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-navbar-theme);
+  background: none;
+  color: var(--text-theme-4, #888);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text-theme);
+    border-color: color-mix(in srgb, var(--text-theme-4, #888) 60%, transparent);
+    background: color-mix(in srgb, var(--bg-theme) 50%, transparent);
+  }
+}
+
+.appliedMsg {
+  flex: 1;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #10b981;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.emptyEmoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-theme);
+  margin: 0 0 0.4rem;
+}
+
+.emptySub {
+  font-size: 0.8rem;
+  color: var(--text-theme-4, #888);
+  line-height: 1.5;
+  margin: 0;
+}
+
+// ── Floating trigger badge ────────────────────────────────────────────────────
+.sortBadge {
+  position: fixed;
+  bottom: 22rem;
+  right: 1.25rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--bg-task-theme);
+  border: 1px solid var(--border-navbar-theme);
+  color: var(--text-theme-4, #888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, transform 0.15s;
+  z-index: 400;
+
+  svg { width: 1rem; height: 1rem; }
+
+  &:hover {
+    color: var(--text-theme);
+    border-color: color-mix(in srgb, var(--text-theme-4, #888) 60%, transparent);
+    transform: scale(1.1);
+  }
+}
