@@ -44,6 +44,11 @@ import { FocusScoreDashboard } from "../../../common/components/focus-score/Focu
 import { AmbientSoundMixer } from "../../../common/components/ambient-sound-mixer/AmbientSoundMixer";
 import { MotivationalWidget } from "../../../common/components/motivational-widget/MotivationalWidget";
 import {
+  AchievementSystem,
+  AchievementToast,
+  checkAndUnlockAchievements,
+} from "../../../common/components/achievements/AchievementSystem";
+import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
@@ -51,6 +56,7 @@ import kbdStyles from "../../../common/components/keyboard-shortcut-overlay/Keyb
 import heatmapStyles from "../../../common/components/flow-heatmap/FlowHeatmap.module.scss";
 import scoreStyles from "../../../common/components/focus-score/FocusScoreDashboard.module.scss";
 import mixerStyles from "../../../common/components/ambient-sound-mixer/AmbientSoundMixer.module.scss";
+import achievementStyles from "../../../common/components/achievements/AchievementSystem.module.scss";
 
 export function HomepageLaptop() {
   let {
@@ -75,6 +81,8 @@ export function HomepageLaptop() {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [showMixer, setShowMixer] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [pendingAchievements, setPendingAchievements] = useState([]);
   const prevPomoStateRef = useRef(pomoState);
 
   useEffect(() => {
@@ -89,8 +97,9 @@ export function HomepageLaptop() {
       if (e.key === "h" || e.key === "H") setShowHeatmap((v) => !v);
       if (e.key === "s" || e.key === "S") setShowScore((v) => !v);
       if (e.key === "m" || e.key === "M") setShowMixer((v) => !v);
+      if (e.key === "a" || e.key === "A") setShowAchievements((v) => !v);
       if (e.key === "q" || e.key === "Q") motivationalCycleRef.current?.();
-      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); }
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -116,6 +125,8 @@ export function HomepageLaptop() {
     const prev = prevCompletedPomosRef.current;
     if (completedPomos > prev) {
       recordPomoCompletion();
+      const newly = checkAndUnlockAchievements();
+      if (newly.length > 0) setPendingAchievements(newly);
     }
     if (
       completedPomos > 0 &&
@@ -193,6 +204,28 @@ export function HomepageLaptop() {
         open={showMixer}
         onClose={() => setShowMixer(false)}
       />
+      <AchievementSystem
+        open={showAchievements}
+        onClose={() => setShowAchievements(false)}
+      />
+      {pendingAchievements.length > 0 && (
+        <AchievementToast
+          achievements={pendingAchievements}
+          onViewAll={() => { setPendingAchievements([]); setShowAchievements(true); }}
+          onDismiss={() => setPendingAchievements([])}
+        />
+      )}
+      <button
+        className={`${achievementStyles.achievementBadge} ${pendingAchievements.length > 0 ? achievementStyles.achievementBadgeNotify : ''}`}
+        onClick={() => setShowAchievements((v) => !v)}
+        aria-label="Show achievement trophy case"
+        title="Achievements (A)"
+      >
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 2L12.09 7.26L17.5 7.64L13.5 11.14L14.82 16.5L10 13.77L5.18 16.5L6.5 11.14L2.5 7.64L7.91 7.26L10 2Z"
+            stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+        </svg>
+      </button>
       <button
         className={kbdStyles.triggerBadge}
         onClick={() => setShowShortcuts((v) => !v)}
