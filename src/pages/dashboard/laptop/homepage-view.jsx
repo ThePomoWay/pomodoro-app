@@ -49,6 +49,11 @@ import {
   checkAndUnlockAchievements,
 } from "../../../common/components/achievements/AchievementSystem";
 import {
+  FocusTimeline,
+  recordFocusSession,
+} from "../../../common/components/focus-timeline/FocusTimeline";
+import timelineStyles from "../../../common/components/focus-timeline/FocusTimeline.module.scss";
+import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
@@ -82,6 +87,7 @@ export function HomepageLaptop() {
   const [showScore, setShowScore] = useState(false);
   const [showMixer, setShowMixer] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
+  const [showTimeline, setShowTimeline] = useState(false);
   const [pendingAchievements, setPendingAchievements] = useState([]);
   const prevPomoStateRef = useRef(pomoState);
 
@@ -98,8 +104,9 @@ export function HomepageLaptop() {
       if (e.key === "s" || e.key === "S") setShowScore((v) => !v);
       if (e.key === "m" || e.key === "M") setShowMixer((v) => !v);
       if (e.key === "a" || e.key === "A") setShowAchievements((v) => !v);
+      if (e.key === "t" || e.key === "T") setShowTimeline((v) => !v);
       if (e.key === "q" || e.key === "Q") motivationalCycleRef.current?.();
-      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); }
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); setShowTimeline(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -125,6 +132,7 @@ export function HomepageLaptop() {
     const prev = prevCompletedPomosRef.current;
     if (completedPomos > prev) {
       recordPomoCompletion();
+      recordFocusSession();
       const newly = checkAndUnlockAchievements();
       if (newly.length > 0) setPendingAchievements(newly);
     }
@@ -208,6 +216,10 @@ export function HomepageLaptop() {
         open={showAchievements}
         onClose={() => setShowAchievements(false)}
       />
+      <FocusTimeline
+        open={showTimeline}
+        onClose={() => setShowTimeline(false)}
+      />
       {pendingAchievements.length > 0 && (
         <AchievementToast
           achievements={pendingAchievements}
@@ -215,6 +227,22 @@ export function HomepageLaptop() {
           onDismiss={() => setPendingAchievements([])}
         />
       )}
+      <button
+        className={timelineStyles.timelineBadge}
+        onClick={() => setShowTimeline((v) => !v)}
+        aria-label="Show daily focus timeline"
+        title="Focus Timeline (T)"
+      >
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="3" y1="10" x2="17" y2="10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+          <circle cx="6"  cy="10" r="2" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+          <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+          <circle cx="14" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+          <line x1="6"  y1="6" x2="6"  y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+          <line x1="10" y1="5" x2="10" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+          <line x1="14" y1="6" x2="14" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+        </svg>
+      </button>
       <button
         className={`${achievementStyles.achievementBadge} ${pendingAchievements.length > 0 ? achievementStyles.achievementBadgeNotify : ''}`}
         onClick={() => setShowAchievements((v) => !v)}
