@@ -42,6 +42,7 @@ import {
 } from "../../../common/components/flow-heatmap/FlowHeatmap";
 import { FocusScoreDashboard } from "../../../common/components/focus-score/FocusScoreDashboard";
 import { AmbientSoundMixer } from "../../../common/components/ambient-sound-mixer/AmbientSoundMixer";
+import { MotivationalWidget } from "../../../common/components/motivational-widget/MotivationalWidget";
 import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
@@ -66,6 +67,8 @@ export function HomepageLaptop() {
   const completedPomos = useSelector(selectCompletedPomos);
   const prevCompletedPomosRef = useRef(completedPomos);
 
+  const motivationalCycleRef = useRef(null);
+
   const [showBreathing, setShowBreathing] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showSessionComplete, setShowSessionComplete] = useState(false);
@@ -86,6 +89,7 @@ export function HomepageLaptop() {
       if (e.key === "h" || e.key === "H") setShowHeatmap((v) => !v);
       if (e.key === "s" || e.key === "S") setShowScore((v) => !v);
       if (e.key === "m" || e.key === "M") setShowMixer((v) => !v);
+      if (e.key === "q" || e.key === "Q") motivationalCycleRef.current?.();
       if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -222,6 +226,7 @@ export function HomepageLaptop() {
           <circle cx="14" cy="12" r="2" stroke="currentColor" strokeWidth="1.4"/>
         </svg>
       </button>
+      <MotivationalWidget cycleRef={motivationalCycleRef} />
       <button
         className={heatmapStyles.heatmapBadge}
         onClick={() => setShowHeatmap((v) => !v)}

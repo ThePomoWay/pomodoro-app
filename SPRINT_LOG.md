@@ -25,6 +25,11 @@
 **Files changed:** src/common/components/ambient-sound-mixer/AmbientSoundMixer.jsx, AmbientSoundMixer.module.scss, AmbientSoundMixer.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (import, M shortcut, showMixer state, AmbientSoundMixer render, mixerBadge button)
 **Tests:** src/common/components/ambient-sound-mixer/AmbientSoundMixer.test.jsx (18 tests — all passing)
 
+## 2026-03-30 — Motivational Micro-Copy Engine
+**Description:** A floating glassmorphic card (bottom-left corner) that surfaces contextual, time-of-day-aware motivational messages with a live typewriter animation. The message bank has 6 time contexts (Dawn, Morning, Midday, Afternoon, Evening, Night) × 4 pomodoro-count tiers (Getting Started / Building / In Flow / Elite) × 3 messages each = 72 unique messages. A left-edge gradient accent bar reflects the current time context via colour. Messages auto-cycle every 40 seconds with a slide-out/in transition. Press `Q` or click "Next →" to cycle manually. Dismissing collapses to a minimal circular badge at the same position; clicking the badge or pressing `Q` while collapsed restores the widget. No modals — it's a persistent, always-visible productivity companion that doesn't interrupt flow.
+**Files changed:** src/common/components/motivational-widget/MotivationalWidget.jsx, MotivationalWidget.module.scss, MotivationalWidget.test.jsx; src/pages/dashboard/laptop/homepage-view.jsx (import, Q shortcut via cycleRef, MotivationalWidget render)
+**Tests:** src/common/components/motivational-widget/MotivationalWidget.test.jsx (55 tests — all passing)
+
 ## 2026-03-29 — Mindful Breathing Break
 **Description:** Animated 4-7-8 breathing exercise guide that appears when a break starts, with a glowing pulsing orb and phase guidance.
 **Files changed:** src/common/components/breathing-exercise/BreathingExercise.jsx, BreathingExercise.module.scss, BreathingExercise.test.jsx; integrated into dashboard homepage-view.jsx

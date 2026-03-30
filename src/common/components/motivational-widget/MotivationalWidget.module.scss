@@ -1,0 +1,236 @@
+// MotivationalWidget.module.scss
+// Floating contextual motivational card — bottom-left, glassmorphic
+
+// ─── Widget container ─────────────────────────────────────────────────────────
+.widget {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 400;
+  display: flex;
+  align-items: stretch;
+  width: 300px;
+  border-radius: 14px;
+  background: var(--bg-task-theme);
+  border: 1px solid var(--border-navbar-theme);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.18),
+    0 1px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  animation: slideIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  will-change: transform, opacity;
+  transition:
+    transform 0.28s cubic-bezier(0.55, 0, 1, 0.45),
+    opacity   0.28s ease;
+
+  &.exiting {
+    transform: translateX(-12px);
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px) translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+// ─── Left gradient accent bar ─────────────────────────────────────────────────
+.accentBar {
+  flex-shrink: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--w-from, #6366f1), var(--w-to, #8b5cf6));
+  border-radius: 14px 0 0 14px;
+}
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem 0.65rem;
+  min-width: 0;
+}
+
+// ─── Meta row ────────────────────────────────────────────────────────────────
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.ctxLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--w-from, #6366f1), var(--w-to, #8b5cf6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border-navbar-theme);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.tierLabel {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-theme);
+  opacity: 0.45;
+  line-height: 1;
+}
+
+// ─── Message text ─────────────────────────────────────────────────────────────
+.message {
+  margin: 0;
+  font-size: 0.825rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-theme);
+  opacity: 0.88;
+  letter-spacing: 0.01em;
+  min-height: 2.5rem; // prevent height jump while typing
+}
+
+// Typewriter cursor blink
+.cursor {
+  display: inline-block;
+  width: 1px;
+  color: var(--w-from, #6366f1);
+  font-weight: 200;
+  margin-left: 1px;
+  animation: cursorBlink 0.7s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+// ─── Action row ───────────────────────────────────────────────────────────────
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.1rem;
+}
+
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-navbar-theme);
+  background: transparent;
+  color: var(--text-theme);
+  opacity: 0.55;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    opacity   0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+    border-color: var(--w-from, #6366f1);
+    background: rgba(99, 102, 241, 0.08);
+    outline: none;
+  }
+}
+
+.dismissBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-theme);
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.7;
+    outline: none;
+  }
+}
+
+// ─── Reveal badge (shown when widget is dismissed) ────────────────────────────
+.revealBadge {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-navbar-theme);
+  background: var(--bg-task-theme);
+  color: var(--text-theme);
+  opacity: 0.55;
+  cursor: pointer;
+  transition:
+    opacity   0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform  0.18s ease;
+  animation: fadeInBadge 0.3s ease both;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+    border-color: var(--w-from, #6366f1);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.22);
+    transform: scale(1.06);
+    outline: none;
+  }
+}
+
+@keyframes fadeInBadge {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 0.55; transform: scale(1); }
+}
