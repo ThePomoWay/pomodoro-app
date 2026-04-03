@@ -1,0 +1,526 @@
+// DistractionTally styles — all colours via CSS variables, never hardcoded white/black.
+
+// ─── Floating counter widget ──────────────────────────────────────────────────
+
+.counterWrap {
+  position: fixed;
+  bottom: 10rem;
+  left: 1.5rem;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tallyBtn {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: var(--bg-task-theme);
+  color: rgba(239, 68, 68, 0.65);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    border-color: rgba(239, 68, 68, 0.75);
+    color: rgba(239, 68, 68, 1);
+    box-shadow: 0 2px 18px rgba(239, 68, 68, 0.3);
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.tallyIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tallyCount {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  background: rgba(239, 68, 68, 0.88);
+  color: var(--bg-task-theme);
+  font-size: 0.62rem;
+  font-weight: 700;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.2rem;
+  pointer-events: none;
+}
+
+@keyframes tallyPulse {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.28); box-shadow: 0 0 14px rgba(239, 68, 68, 0.55); }
+  65%  { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: tallyPulse 0.32s ease;
+}
+
+// ─── Category popover ─────────────────────────────────────────────────────────
+
+.catPopover {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 0;
+  background: var(--bg-task-theme);
+  border: 1px solid var(--border-navbar-theme);
+  border-radius: 12px;
+  padding: 0.75rem;
+  width: 13.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.84) translateY(10px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);    }
+  }
+}
+
+.catTitle {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-theme);
+  opacity: 0.45;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-navbar-theme);
+}
+
+.catGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.catItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.32rem 0.5rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-theme);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  text-align: left;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: rgba(239, 68, 68, 0.9);
+  }
+}
+
+.catSkip {
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.25rem;
+  border: none;
+  border-top: 1px solid var(--border-navbar-theme);
+  background: transparent;
+  color: var(--text-theme);
+  opacity: 0.38;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.12s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+// ─── Panel badge ──────────────────────────────────────────────────────────────
+
+.panelBadge {
+  position: fixed;
+  bottom: 4rem;
+  right: 1.25rem;
+  z-index: 400;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-navbar-theme);
+  background: var(--bg-task-theme);
+  color: var(--text-theme);
+  opacity: 0.6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  &:hover {
+    opacity: 1;
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 2px 16px rgba(239, 68, 68, 0.28);
+    transform: scale(1.08);
+  }
+}
+
+// ─── Backdrop & panel ─────────────────────────────────────────────────────────
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 550;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.18s ease;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+.panel {
+  background: var(--bg-task-theme);
+  border: 1px solid var(--border-navbar-theme);
+  border-radius: 20px;
+  padding: 2rem 2rem 1.5rem;
+  width: min(640px, 96vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &::-webkit-scrollbar        { width: 4px; }
+  &::-webkit-scrollbar-thumb  { background: var(--border-navbar-theme); border-radius: 4px; }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-theme);
+  opacity: 0.4;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem 0.35rem;
+  border-radius: 4px;
+  transition: opacity 0.12s;
+
+  &:hover { opacity: 1; }
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-theme);
+  margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.titleIcon {
+  color: rgba(239, 68, 68, 0.8);
+  font-size: 1.1rem;
+}
+
+// ─── Stats strip ──────────────────────────────────────────────────────────────
+
+.statsStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.16);
+  border-radius: 10px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+}
+
+.statVal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(239, 68, 68, 0.88);
+  line-height: 1;
+}
+
+.statLbl {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-theme);
+  opacity: 0.48;
+  margin-top: 0.28rem;
+}
+
+// ─── Section label ────────────────────────────────────────────────────────────
+
+.sectionLabel {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-theme);
+  opacity: 0.42;
+  margin-bottom: 0.65rem;
+}
+
+// ─── 7-day bar chart ──────────────────────────────────────────────────────────
+
+.barChart {
+  display: flex;
+  gap: 0.45rem;
+  height: 96px;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  padding: 0 0.2rem;
+}
+
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.barWrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  background: rgba(239, 68, 68, 0.28);
+  transition: height 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-height: 0;
+}
+
+.barToday .bar {
+  background: rgba(239, 68, 68, 0.72);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.32);
+}
+
+.barLabel {
+  font-size: 0.58rem;
+  color: var(--text-theme);
+  opacity: 0.45;
+  margin-top: 0.28rem;
+  white-space: nowrap;
+}
+
+.barCount {
+  font-size: 0.6rem;
+  color: rgba(239, 68, 68, 0.7);
+  font-weight: 600;
+  min-height: 0.85rem;
+  line-height: 0.85rem;
+}
+
+// ─── Session list ─────────────────────────────────────────────────────────────
+
+.sessionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+}
+
+.sessionRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sessionNum {
+  font-size: 0.68rem;
+  color: var(--text-theme);
+  opacity: 0.42;
+  width: 1.75rem;
+  flex-shrink: 0;
+}
+
+.sessionBar {
+  flex: 1;
+  height: 6px;
+  background: var(--border-navbar-theme);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sessionFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.session_perfect .sessionFill { background: rgba(52, 211, 153, 0.8); }
+.session_good    .sessionFill { background: rgba(96, 165, 250, 0.8); }
+.session_fair    .sessionFill { background: rgba(251, 191, 36, 0.8); }
+.session_tough   .sessionFill { background: rgba(239, 68, 68, 0.8);  }
+
+.sessionCount {
+  font-size: 0.68rem;
+  color: var(--text-theme);
+  opacity: 0.55;
+  width: 2.2rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.sessionBadge {
+  font-size: 0.6rem;
+  padding: 0.14rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.badge_perfect { background: rgba(52, 211, 153, 0.14); color: rgba(52, 211, 153, 0.9);  }
+.badge_good    { background: rgba(96, 165, 250, 0.14); color: rgba(96, 165, 250, 0.9);  }
+.badge_fair    { background: rgba(251, 191, 36, 0.14); color: rgba(251, 191, 36, 0.9);  }
+.badge_tough   { background: rgba(239, 68, 68, 0.14);  color: rgba(239, 68, 68, 0.9);   }
+
+// ─── Category breakdown ───────────────────────────────────────────────────────
+
+.catBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.catBreakRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.catBreakIcon {
+  font-size: 0.88rem;
+  width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.catBreakLabel {
+  font-size: 0.74rem;
+  color: var(--text-theme);
+  opacity: 0.68;
+  width: 5.5rem;
+  flex-shrink: 0;
+}
+
+.catBreakBar {
+  flex: 1;
+  height: 5px;
+  background: var(--border-navbar-theme);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.catBreakFill {
+  height: 100%;
+  border-radius: 3px;
+  background: rgba(239, 68, 68, 0.6);
+  transition: width 0.6s ease;
+}
+
+.catBreakCount {
+  font-size: 0.7rem;
+  color: rgba(239, 68, 68, 0.8);
+  font-weight: 600;
+  width: 1.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+.emptyState {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  color: rgba(52, 211, 153, 0.5);
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-theme);
+  opacity: 0.65;
+  margin-bottom: 0.5rem;
+}
+
+.emptyText {
+  font-size: 0.76rem;
+  color: var(--text-theme);
+  opacity: 0.42;
+  line-height: 1.65;
+}
+
+// ─── Insight tip ──────────────────────────────────────────────────────────────
+
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.14);
+  border-radius: 10px;
+  font-size: 0.74rem;
+  color: var(--text-theme);
+  opacity: 0.78;
+  line-height: 1.55;
+  margin-top: 0.25rem;
+}
+
+.tipIcon {
+  flex-shrink: 0;
+  font-size: 0.88rem;
+  margin-top: 0.05rem;
+}

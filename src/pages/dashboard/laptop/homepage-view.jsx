@@ -61,6 +61,11 @@ import {
 import { SmartSortPanel } from "../../../common/components/smart-sort/SmartSortPanel";
 import sortStyles from "../../../common/components/smart-sort/SmartSortPanel.module.scss";
 import {
+  DistractionCounter,
+  DistractionPanel,
+  distractionStyles,
+} from "../../../common/components/distraction-tally/DistractionTally";
+import {
   POMO_BREAK_RUNNING_STATE,
   POMO_LONG_BREAK_RUNNING_STATE,
 } from "../../../common/utils/constants";
@@ -100,6 +105,7 @@ export function HomepageLaptop() {
   const [showJournalPrompt, setShowJournalPrompt] = useState(false);
   const [journalNewEntry, setJournalNewEntry] = useState(false);
   const [showSmartSort, setShowSmartSort] = useState(false);
+  const [showDistraction, setShowDistraction] = useState(false);
   const currentTask = useSelector((state) => state.tasks.tasks[state.tasks.currentTaskRef]);
   const prevPomoStateRef = useRef(pomoState);
 
@@ -120,7 +126,8 @@ export function HomepageLaptop() {
       if (e.key === "q" || e.key === "Q") motivationalCycleRef.current?.();
       if (e.key === "j" || e.key === "J") setShowJournal((v) => !v);
       if (e.key === "n" || e.key === "N") setShowSmartSort((v) => !v);
-      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); setShowTimeline(false); setShowJournal(false); setShowJournalPrompt(false); setShowSmartSort(false); }
+      if (e.key === "d" || e.key === "D") setShowDistraction((v) => !v);
+      if (e.key === "Escape") { setShowShortcuts(false); setShowHeatmap(false); setShowScore(false); setShowMixer(false); setShowAchievements(false); setShowTimeline(false); setShowJournal(false); setShowJournalPrompt(false); setShowSmartSort(false); setShowDistraction(false); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -239,6 +246,19 @@ export function HomepageLaptop() {
         open={showSmartSort}
         onClose={() => setShowSmartSort(false)}
       />
+      <DistractionPanel
+        open={showDistraction}
+        onClose={() => setShowDistraction(false)}
+      />
+      <DistractionCounter sessionNum={completedPomos} />
+      <button
+        className={distractionStyles.panelBadge}
+        onClick={() => setShowDistraction((v) => !v)}
+        aria-label="Open distraction analytics"
+        title="Distraction Analytics (D)"
+      >
+        ✗
+      </button>
       <FocusJournal
         open={showJournal}
         onClose={() => setShowJournal(false)}
